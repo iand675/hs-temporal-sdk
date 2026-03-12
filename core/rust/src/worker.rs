@@ -5,13 +5,13 @@ use std::collections::{HashMap, HashSet};
 use std::str;
 use std::sync::Arc;
 use std::time::Duration;
-use temporal_sdk_core::replay::{HistoryForReplay, ReplayWorkerInput};
-use temporal_sdk_core_api::Worker;
-use temporal_sdk_core_api::errors::{PollError, WorkflowErrorType};
-use temporal_sdk_core_api::worker::{PollerBehavior, WorkerVersioningStrategy};
-use temporal_sdk_core_protos::coresdk::workflow_completion::WorkflowActivationCompletion;
-use temporal_sdk_core_protos::coresdk::{ActivityHeartbeat, ActivityTaskCompletion};
-use temporal_sdk_core_protos::temporal::api::history::v1::History;
+use temporalio_common::Worker;
+use temporalio_common::errors::{PollError, WorkflowErrorType};
+use temporalio_common::protos::coresdk::workflow_completion::WorkflowActivationCompletion;
+use temporalio_common::protos::coresdk::{ActivityHeartbeat, ActivityTaskCompletion};
+use temporalio_common::protos::temporal::api::history::v1::History;
+use temporalio_common::worker::{PollerBehavior, WorkerVersioningStrategy};
+use temporalio_sdk_core::replay::{HistoryForReplay, ReplayWorkerInput};
 use tokio::sync::mpsc::{Sender, channel};
 use tokio_stream::wrappers::ReceiverStream;
 
@@ -20,7 +20,7 @@ use crate::runtime::{self, Capability, HsCallback, MVar};
 use serde::{Deserialize, Serialize};
 
 pub struct WorkerRef {
-    worker: Option<Arc<temporal_sdk_core::Worker>>,
+    worker: Option<Arc<temporalio_sdk_core::Worker>>,
     runtime: runtime::Runtime,
 }
 
@@ -48,11 +48,11 @@ pub struct WorkerConfig {
     nondeterminism_as_workflow_fail_for_types: Vec<String>,
 }
 
-impl TryFrom<WorkerConfig> for temporal_sdk_core::WorkerConfig {
+impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
     type Error = WorkerError;
 
     fn try_from(conf: WorkerConfig) -> Result<Self, WorkerError> {
-        temporal_sdk_core::WorkerConfigBuilder::default()
+        temporalio_sdk_core::WorkerConfigBuilder::default()
             .namespace(conf.namespace)
             .task_queue(conf.task_queue)
             .versioning_strategy(WorkerVersioningStrategy::None {
@@ -211,8 +211,8 @@ pub unsafe extern "C" fn hs_temporal_drop_unit(unit: *mut CUnit) {
 
 fn new_worker(client: &client::ClientRef, config: WorkerConfig) -> Result<WorkerRef, WorkerError> {
     enter_sync!(&client.runtime);
-    let config: temporal_sdk_core::WorkerConfig = config.try_into()?;
-    let worker = temporal_sdk_core::init_worker(
+    let config: temporalio_sdk_core::WorkerConfig = config.try_into()?;
+    let worker = temporalio_sdk_core::init_worker(
         &client.runtime.core,
         config,
         client.retry_client.clone().into_inner(),
@@ -289,11 +289,11 @@ fn new_replay_worker(
     config: WorkerConfig,
 ) -> Result<(WorkerRef, HistoryPusher), WorkerError> {
     enter_sync!(runtime_ref.runtime);
-    let config: temporal_sdk_core::WorkerConfig = config.try_into()?;
+    let config: temporalio_sdk_core::WorkerConfig = config.try_into()?;
     let (history_pusher, stream) = HistoryPusher::new(runtime_ref.runtime.clone());
     let worker = WorkerRef {
         worker: Some(Arc::new(
-            temporal_sdk_core::init_replay_worker(ReplayWorkerInput::new(config, stream)).map_err(
+            temporalio_sdk_core::init_replay_worker(ReplayWorkerInput::new(config, stream)).map_err(
                 |err| WorkerError {
                     code: WorkerErrorCode::InitReplayWorkerFailed,
                     message: format!("Failed creating replay worker: {}", err),
