@@ -79,7 +79,10 @@ module Temporal.Worker (
   setMaxConcurrentWorkflowTaskPolls,
   setNonstickyToStickyPollRatio,
   setMaxConcurrentActivityTaskPolls,
-  setNoRemoteActivities,
+  setEnableWorkflows,
+  setEnableLocalActivities,
+  setEnableRemoteActivities,
+  setEnableNexus,
   setStickyQueueScheduleToStartTimeoutMillis,
   setMaxHeartbeatThrottleIntervalMillis,
   setDefaultHeartbeatThrottleIntervalMillis,
@@ -97,6 +100,7 @@ import Control.Monad.Catch
 import Control.Monad.Logger
 import Control.Monad.Reader
 import Control.Monad.State
+import qualified Data.ByteString as BS
 import Data.Either (lefts)
 import Data.Foldable
 import Data.HashMap.Strict (HashMap)
@@ -125,7 +129,6 @@ import Temporal.Common
 import Temporal.Common.Async
 import qualified Temporal.Common.Logging as Logging
 import Temporal.Core.Client
-import qualified Data.ByteString as BS
 import Temporal.Core.Worker (InactiveForReplay)
 import qualified Temporal.Core.Worker as Core
 import Temporal.Exception
@@ -371,10 +374,31 @@ setMaxConcurrentActivityTaskPolls n = modifyCore $ \conf ->
     }
 
 
-setNoRemoteActivities :: Bool -> ConfigM actEnv ()
-setNoRemoteActivities n = modifyCore $ \conf ->
+setEnableWorkflows :: Maybe Bool -> ConfigM actEnv ()
+setEnableWorkflows v = modifyCore $ \conf ->
   conf
-    { Core.noRemoteActivities = n
+    { Core.enableWorkflows = v
+    }
+
+
+setEnableLocalActivities :: Maybe Bool -> ConfigM actEnv ()
+setEnableLocalActivities v = modifyCore $ \conf ->
+  conf
+    { Core.enableLocalActivities = v
+    }
+
+
+setEnableRemoteActivities :: Maybe Bool -> ConfigM actEnv ()
+setEnableRemoteActivities v = modifyCore $ \conf ->
+  conf
+    { Core.enableRemoteActivities = v
+    }
+
+
+setEnableNexus :: Maybe Bool -> ConfigM actEnv ()
+setEnableNexus v = modifyCore $ \conf ->
+  conf
+    { Core.enableNexus = v
     }
 
 
