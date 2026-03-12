@@ -7729,8 +7729,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "5560b4a0d4ed94425fd7e4b96328e0b3654e9aee";
-          sha256 = "1200sxxmxk194rdmc09r7imzyy56zrmdjd178lyyzr1g1kdzszf1";
+          rev = "67c986aa4381c8c26a8d2bd275063d5a358b2dd7";
+          sha256 = "0j9smh536nz4bkindcapslqnfj6iig728vx00z574n35hkk2gb1c";
         };
         libName = "temporalio_client";
         authors = [
@@ -7800,6 +7800,10 @@ rec {
             packageId = "parking_lot";
           }
           {
+            name = "rand";
+            packageId = "rand 0.9.2";
+          }
+          {
             name = "slotmap";
             packageId = "slotmap";
           }
@@ -7850,8 +7854,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "5560b4a0d4ed94425fd7e4b96328e0b3654e9aee";
-          sha256 = "1200sxxmxk194rdmc09r7imzyy56zrmdjd178lyyzr1g1kdzszf1";
+          rev = "67c986aa4381c8c26a8d2bd275063d5a358b2dd7";
+          sha256 = "0j9smh536nz4bkindcapslqnfj6iig728vx00z574n35hkk2gb1c";
         };
         libName = "temporalio_common";
         authors = [
@@ -7964,8 +7968,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "5560b4a0d4ed94425fd7e4b96328e0b3654e9aee";
-          sha256 = "1200sxxmxk194rdmc09r7imzyy56zrmdjd178lyyzr1g1kdzszf1";
+          rev = "67c986aa4381c8c26a8d2bd275063d5a358b2dd7";
+          sha256 = "0j9smh536nz4bkindcapslqnfj6iig728vx00z574n35hkk2gb1c";
         };
         procMacro = true;
         libName = "temporalio_macros";
@@ -8002,8 +8006,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "5560b4a0d4ed94425fd7e4b96328e0b3654e9aee";
-          sha256 = "1200sxxmxk194rdmc09r7imzyy56zrmdjd178lyyzr1g1kdzszf1";
+          rev = "67c986aa4381c8c26a8d2bd275063d5a358b2dd7";
+          sha256 = "0j9smh536nz4bkindcapslqnfj6iig728vx00z574n35hkk2gb1c";
         };
         libName = "temporalio_sdk_core";
         authors = [
@@ -8266,6 +8270,7 @@ rec {
           }
         ];
         features = {
+          "antithesis_assertions" = [ "dep:antithesis_sdk" ];
           "console-subscriber" = [ "dep:console-subscriber" ];
           "debug-plugin" = [ "dep:reqwest" ];
           "default" = [ "otel" "prom" ];
