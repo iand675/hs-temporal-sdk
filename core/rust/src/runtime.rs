@@ -6,15 +6,14 @@ use std::net::SocketAddr;
 use std::os::raw::c_int;
 use std::sync::Arc;
 use std::time::{Duration, SystemTime};
-use temporal_sdk_core::telemetry::{
+use temporalio_common::telemetry::metrics::{CoreMeter, NoOpCoreMeter};
+use temporalio_common::telemetry::{
+    CoreTelemetry, Logger, OtelCollectorOptions, PrometheusExporterOptions, TelemetryOptions,
+};
+use temporalio_sdk_core::telemetry::{
     build_otlp_metric_exporter, construct_filter_string, start_prometheus_metric_exporter,
 };
-use temporal_sdk_core::{CoreRuntime, TokioRuntimeBuilder};
-use temporal_sdk_core_api::telemetry::metrics::{CoreMeter, NoOpCoreMeter};
-use temporal_sdk_core_api::telemetry::{
-    CoreTelemetry, Logger, OtelCollectorOptionsBuilder, PrometheusExporterOptionsBuilder,
-    TelemetryOptions, TelemetryOptionsBuilder,
-};
+use temporalio_sdk_core::{CoreRuntime, RuntimeOptions, TokioRuntimeBuilder};
 use tracing::Level;
 
 pub struct RuntimeRef {
@@ -32,7 +31,11 @@ fn init_runtime(
     late_telemetry_options: HsTelemetryOptions,
     try_put_mvar: extern "C" fn(capability: Capability, mvar: *mut MVar) -> (),
 ) -> Box<RuntimeRef> {
-    let mut runtime = CoreRuntime::new(telemetry_config, TokioRuntimeBuilder::default()).unwrap();
+    let runtime_options = RuntimeOptions::builder()
+        .telemetry_options(telemetry_config)
+        .build()
+        .unwrap();
+    let mut runtime = CoreRuntime::new(runtime_options, TokioRuntimeBuilder::default()).unwrap();
 
     let _guard = runtime.tokio_handle().enter();
     let core_meter: Arc<dyn CoreMeter> = match late_telemetry_options {
@@ -44,13 +47,12 @@ fn init_runtime(
             global_tags,
         } => Arc::new(
             build_otlp_metric_exporter(
-                OtelCollectorOptionsBuilder::default()
+                OtelCollectorOptions::builder()
                     .url(url.parse().expect("Invalid URL"))
                     .metric_periodicity(metric_periodicity.unwrap_or_else(|| Duration::new(1, 0)))
                     .headers(headers)
                     .global_tags(global_tags)
-                    .build()
-                    .expect("Invalid OTEl configuration"),
+                    .build(),
             )
             .expect("Otel Metric exporter"),
         ) as Arc<dyn CoreMeter>,
@@ -61,13 +63,12 @@ fn init_runtime(
             unit_suffix,
         } => {
             let srv = start_prometheus_metric_exporter(
-                PrometheusExporterOptionsBuilder::default()
+                PrometheusExporterOptions::builder()
                     .socket_addr(socket_addr)
                     .unit_suffix(unit_suffix)
                     .global_tags(global_tags)
                     .counters_total_suffix(counters_total_suffix)
-                    .build()
-                    .expect("Invalid Prometheus configuration"),
+                    .build(),
             )
             .expect("Failed to start prometheus exporter");
             srv.meter as Arc<dyn CoreMeter>
@@ -121,14 +122,12 @@ pub unsafe extern "C" fn hs_temporal_init_runtime(
     let telemetry_opts: HsTelemetryOptions =
         serde_json::from_slice(telemetry_opts.as_slice()).expect("Failed to parse");
 
-    let early_options = TelemetryOptionsBuilder::default()
+    let early_options = TelemetryOptions::builder()
         .logging(Logger::Forward {
             filter: construct_filter_string(Level::INFO, Level::ERROR),
         })
         .attach_service_name(true)
-        // .metrics(core_meter)
-        .build()
-        .expect("Invalid TelemetryOptions");
+        .build();
     let rt = init_runtime(early_options, telemetry_opts, try_put_mvar);
     Box::into_raw(rt)
 }
