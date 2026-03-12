@@ -80,6 +80,10 @@ module Temporal.Worker (
   setNonstickyToStickyPollRatio,
   setMaxConcurrentActivityTaskPolls,
   setNoRemoteActivities,
+  setEnableWorkflows,
+  setEnableLocalActivities,
+  setEnableRemoteActivities,
+  setEnableNexus,
   setStickyQueueScheduleToStartTimeoutMillis,
   setMaxHeartbeatThrottleIntervalMillis,
   setDefaultHeartbeatThrottleIntervalMillis,
@@ -97,6 +101,7 @@ import Control.Monad.Catch
 import Control.Monad.Logger
 import Control.Monad.Reader
 import Control.Monad.State
+import qualified Data.ByteString as BS
 import Data.Either (lefts)
 import Data.Foldable
 import Data.HashMap.Strict (HashMap)
@@ -125,7 +130,6 @@ import Temporal.Common
 import Temporal.Common.Async
 import qualified Temporal.Common.Logging as Logging
 import Temporal.Core.Client
-import qualified Data.ByteString as BS
 import Temporal.Core.Worker (InactiveForReplay)
 import qualified Temporal.Core.Worker as Core
 import Temporal.Exception
@@ -371,11 +375,32 @@ setMaxConcurrentActivityTaskPolls n = modifyCore $ \conf ->
     }
 
 
+{-# DEPRECATED setNoRemoteActivities "Use setEnableRemoteActivities instead" #-}
 setNoRemoteActivities :: Bool -> ConfigM actEnv ()
-setNoRemoteActivities n = modifyCore $ \conf ->
+setNoRemoteActivities no = modifyCore $ \conf ->
   conf
-    { Core.noRemoteActivities = n
+    { Core.enableRemoteActivities = not no
     }
+
+
+setEnableWorkflows :: Bool -> ConfigM actEnv ()
+setEnableWorkflows b = modifyCore $ \conf ->
+  conf {Core.enableWorkflows = b}
+
+
+setEnableLocalActivities :: Bool -> ConfigM actEnv ()
+setEnableLocalActivities b = modifyCore $ \conf ->
+  conf {Core.enableLocalActivities = b}
+
+
+setEnableRemoteActivities :: Bool -> ConfigM actEnv ()
+setEnableRemoteActivities b = modifyCore $ \conf ->
+  conf {Core.enableRemoteActivities = b}
+
+
+setEnableNexus :: Bool -> ConfigM actEnv ()
+setEnableNexus b = modifyCore $ \conf ->
+  conf {Core.enableNexus = b}
 
 
 -- | How long a workflow task is allowed to sit on the sticky queue before it is timed out and moved to the non-sticky queue where it may be picked up by any worker.
