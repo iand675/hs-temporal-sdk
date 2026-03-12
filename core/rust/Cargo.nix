@@ -7729,8 +7729,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "850db67c87ac9208da53df1cd82f8a36d71c5227";
-          sha256 = "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz";
+          rev = "45b1d7edf7138eb6e307a0acddccf970f19ee73e";
+          sha256 = "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067";
         };
         libName = "temporalio_client";
         authors = [
@@ -7854,8 +7854,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "850db67c87ac9208da53df1cd82f8a36d71c5227";
-          sha256 = "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz";
+          rev = "45b1d7edf7138eb6e307a0acddccf970f19ee73e";
+          sha256 = "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067";
         };
         libName = "temporalio_common";
         authors = [
@@ -7968,8 +7968,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "850db67c87ac9208da53df1cd82f8a36d71c5227";
-          sha256 = "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz";
+          rev = "45b1d7edf7138eb6e307a0acddccf970f19ee73e";
+          sha256 = "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067";
         };
         procMacro = true;
         libName = "temporalio_macros";
@@ -8006,8 +8006,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "850db67c87ac9208da53df1cd82f8a36d71c5227";
-          sha256 = "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz";
+          rev = "45b1d7edf7138eb6e307a0acddccf970f19ee73e";
+          sha256 = "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067";
         };
         libName = "temporalio_sdk_core";
         authors = [
@@ -8270,6 +8270,7 @@ rec {
           }
         ];
         features = {
+          "antithesis_assertions" = [ "dep:antithesis_sdk" ];
           "console-subscriber" = [ "dep:console-subscriber" ];
           "debug-plugin" = [ "dep:reqwest" ];
           "default" = [ "otel" "prom" ];

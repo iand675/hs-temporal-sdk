@@ -2371,7 +2371,7 @@ dependencies = [
 [[package]]
 name = "temporalio-client"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#850db67c87ac9208da53df1cd82f8a36d71c5227"
+source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -2403,7 +2403,7 @@ dependencies = [
 [[package]]
 name = "temporalio-common"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#850db67c87ac9208da53df1cd82f8a36d71c5227"
+source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -2430,7 +2430,7 @@ dependencies = [
 [[package]]
 name = "temporalio-macros"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#850db67c87ac9208da53df1cd82f8a36d71c5227"
+source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
 dependencies = [
  "derive_more",
  "proc-macro2",
@@ -2441,7 +2441,7 @@ dependencies = [
 [[package]]
 name = "temporalio-sdk-core"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#850db67c87ac9208da53df1cd82f8a36d71c5227"
+source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
 dependencies = [
  "anyhow",
  "async-trait",

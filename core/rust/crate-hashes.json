@@ -1,6 +1,6 @@
 {
-  "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#temporalio-client@0.1.0": "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz",
-  "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#temporalio-common@0.1.0": "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz",
-  "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#temporalio-macros@0.1.0": "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz",
-  "git+https://github.com/temporalio/sdk-core?rev=850db67c87ac9208da53df1cd82f8a36d71c5227#temporalio-sdk-core@0.1.0": "0hwyqkc3xyi712x47nvhm1qgy1px2pg1yz8s1kh675wjsyjs5lnz"
+  "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#temporalio-client@0.1.0": "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067",
+  "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#temporalio-common@0.1.0": "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067",
+  "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#temporalio-macros@0.1.0": "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067",
+  "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#temporalio-sdk-core@0.1.0": "0rs8vzfl0ggl12j1613v3af320c1qdp9kb2154xzvald2nkga067"
 }
