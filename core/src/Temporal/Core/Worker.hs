@@ -43,6 +43,7 @@ module Temporal.Core.Worker (
   historyProtoToJson,
   closeHistory,
   KnownWorkerType (..),
+
   -- * Resource-safe wrappers
   bracketWorker,
 ) where
@@ -157,7 +158,10 @@ data WorkerConfig = WorkerConfig
   , maxConcurrentWorkflowTaskPolls :: Word64
   , nonstickyToStickyPollRatio :: Float
   , maxConcurrentActivityTaskPolls :: Word64
-  , noRemoteActivities :: Bool
+  , enableWorkflows :: Bool
+  , enableLocalActivities :: Bool
+  , enableRemoteActivities :: Bool
+  , enableNexus :: Bool
   , stickyQueueScheduleToStartTimeoutMillis :: Word64
   , maxHeartbeatThrottleIntervalMillis :: Word64
   , defaultHeartbeatThrottleIntervalMillis :: Word64
@@ -189,7 +193,10 @@ defaultWorkerConfig =
     , maxConcurrentWorkflowTaskPolls = 5
     , nonstickyToStickyPollRatio = 0.85
     , maxConcurrentActivityTaskPolls = 5
-    , noRemoteActivities = False
+    , enableWorkflows = True
+    , enableLocalActivities = True
+    , enableRemoteActivities = True
+    , enableNexus = False
     , stickyQueueScheduleToStartTimeoutMillis = 60000
     , maxHeartbeatThrottleIntervalMillis = 300000
     , defaultHeartbeatThrottleIntervalMillis = 300000
@@ -213,7 +220,7 @@ validateWorker w = withWorker w $ \wp ->
     (raw_validateWorker wp)
     rust_dropWorkerValidationError
     rust_dropUnit
-    (\errPtr -> peek errPtr >>= peekWorkerValidationError)
+    (peek >=> peekWorkerValidationError)
     (\_ -> return ())
 
 
@@ -255,10 +262,11 @@ data WorkerAlreadyClosed = WorkerAlreadyClosed
 instance Exception WorkerAlreadyClosed
 
 
--- | Explicitly close a worker.
---
--- Explicitly close a worker, freeing its resources immediately.
--- After calling this, the worker must not be used again.
+{- | Explicitly close a worker.
+
+Explicitly close a worker, freeing its resources immediately.
+After calling this, the worker must not be used again.
+-}
 closeWorker :: Worker ty -> IO ()
 closeWorker (Worker w _ _ _) = mask_ $ do
   wp <- liftIO $ atomicModifyIORefCAS w $ \wp -> (throw WorkerAlreadyClosed, wp)
@@ -298,11 +306,12 @@ pollWorkflowActivation w = withWorker w $ \wp ->
     (raw_pollWorkflowActivation wp)
     rust_dropWorkerError
     rust_dropByteArray
-    (\errPtr -> peek errPtr >>= peekWorkerError)
-    (\resPtr -> do
-      arr <- peek resPtr
-      bs <- cArrayToByteString arr
-      return (decodeMessageOrDie bs))
+    (peek >=> peekWorkerError)
+    ( \resPtr -> do
+        arr <- peek resPtr
+        bs <- cArrayToByteString arr
+        return (decodeMessageOrDie bs)
+    )
 
 
 foreign import ccall "hs_temporal_worker_poll_activity_task" raw_pollActivityTask :: Ptr (Worker ty) -> TokioCall CWorkerError (CArray Word8)
@@ -314,11 +323,12 @@ pollActivityTask w = withWorker w $ \wp ->
     (raw_pollActivityTask wp)
     rust_dropWorkerError
     rust_dropByteArray
-    (\errPtr -> peek errPtr >>= peekWorkerError)
-    (\resPtr -> do
-      arr <- peek resPtr
-      bs <- cArrayToByteString arr
-      return (decodeMessageOrDie bs))
+    (peek >=> peekWorkerError)
+    ( \resPtr -> do
+        arr <- peek resPtr
+        bs <- cArrayToByteString arr
+        return (decodeMessageOrDie bs)
+    )
 
 
 foreign import ccall "hs_temporal_worker_complete_workflow_activation" raw_completeWorkflowActivation :: Ptr (Worker ty) -> Ptr (CArray Word8) -> TokioCall CWorkerError CUnit
@@ -331,7 +341,7 @@ completeWorkflowActivation w p = withWorker w $ \wp ->
       (raw_completeWorkflowActivation wp pPtr)
       rust_dropWorkerError
       rust_dropUnit
-      (\errPtr -> peek errPtr >>= peekWorkerError)
+      (peek >=> peekWorkerError)
       (\_ -> return ())
 
 
@@ -345,7 +355,7 @@ completeActivityTask w p = withWorker w $ \wp ->
       (raw_completeActivityTask wp pPtr)
       rust_dropWorkerError
       rust_dropUnit
-      (\errPtr -> peek errPtr >>= peekWorkerError)
+      (peek >=> peekWorkerError)
       (\_ -> return ())
 
 
@@ -402,7 +412,7 @@ finalizeShutdown w = withWorker w $ \wp ->
     (raw_finalizeShutdown wp)
     rust_dropWorkerError
     rust_dropUnit
-    (\errPtr -> peek errPtr >>= peekWorkerError)
+    (peek >=> peekWorkerError)
     (\_ -> return ())
 
 
@@ -417,16 +427,17 @@ pushHistory (HistoryPusher hp) wf p =
         (raw_pushHistory hp wfPtr pPtr)
         rust_dropWorkerError
         rust_dropUnit
-        (\errPtr -> peek errPtr >>= peekWorkerError)
+        (peek >=> peekWorkerError)
         (\_ -> return ())
 
 
 foreign import ccall "hs_temporal_history_pusher_push_history_json" raw_pushHistoryJson :: Ptr HistoryPusher -> Ptr (CArray Word8) -> Ptr (CArray Word8) -> TokioCall CWorkerError CUnit
 
 
--- | Push a workflow history in protobuf canonical JSON format to a replay worker.
--- The JSON is deserialized on the Rust side, bypassing proto-lens's incomplete
--- JSON support.
+{- | Push a workflow history in protobuf canonical JSON format to a replay worker.
+The JSON is deserialized on the Rust side, bypassing proto-lens's incomplete
+JSON support.
+-}
 pushHistoryJson :: HistoryPusher -> WorkflowId -> ByteString -> IO (Either WorkerError ())
 pushHistoryJson (HistoryPusher hp) wf jsonBytes =
   withCArrayBS wf $ \wfPtr ->
@@ -435,16 +446,17 @@ pushHistoryJson (HistoryPusher hp) wf jsonBytes =
         (raw_pushHistoryJson hp wfPtr jsonPtr)
         rust_dropWorkerError
         rust_dropUnit
-        (\errPtr -> peek errPtr >>= peekWorkerError)
+        (peek >=> peekWorkerError)
         (\_ -> return ())
 
 
 foreign import ccall "hs_temporal_history_proto_to_json" raw_historyProtoToJson :: Ptr (CArray Word8) -> Ptr (Ptr (CArray Word8)) -> Ptr (Ptr (CArray Word8)) -> IO ()
 
 
--- | Convert protobuf-encoded History bytes to canonical protobuf JSON.
--- The conversion is performed on the Rust side via prost + serde.
--- Useful for testing the JSON replay path.
+{- | Convert protobuf-encoded History bytes to canonical protobuf JSON.
+The conversion is performed on the Rust side via prost + serde.
+Useful for testing the JSON replay path.
+-}
 historyProtoToJson :: ByteString -> IO (Either String ByteString)
 historyProtoToJson protoBytes =
   withCArrayBS protoBytes $ \protoPtr ->
@@ -476,16 +488,17 @@ closeHistory (HistoryPusher hp) =
   raw_closeHistoryPusher hp
 
 
--- | Bracket-style wrapper for Worker that ensures proper cleanup.
---
--- Example:
---
--- @
--- result <- newWorker client workerConfig
--- case result of
---   Left err -> error $ show err
---   Right worker -> bracketWorker worker $ \\w -> do
---     ...
--- @
+{- | Bracket-style wrapper for Worker that ensures proper cleanup.
+
+Example:
+
+@
+result <- newWorker client workerConfig
+case result of
+  Left err -> error $ show err
+  Right worker -> bracketWorker worker $ \\w -> do
+    ...
+@
+-}
 bracketWorker :: Worker ty -> (Worker ty -> IO a) -> IO a
 bracketWorker worker = UnliftIO.bracket (return worker) closeWorker
