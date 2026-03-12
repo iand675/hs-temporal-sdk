@@ -10,7 +10,7 @@ use temporalio_common::errors::{PollError, WorkflowErrorType};
 use temporalio_common::protos::coresdk::workflow_completion::WorkflowActivationCompletion;
 use temporalio_common::protos::coresdk::{ActivityHeartbeat, ActivityTaskCompletion};
 use temporalio_common::protos::temporal::api::history::v1::History;
-use temporalio_common::worker::{PollerBehavior, WorkerVersioningStrategy};
+use temporalio_common::worker::{PollerBehavior, WorkerTaskTypes, WorkerVersioningStrategy};
 use temporalio_sdk_core::replay::{HistoryForReplay, ReplayWorkerInput};
 use tokio::sync::mpsc::{Sender, channel};
 use tokio_stream::wrappers::ReceiverStream;
@@ -37,7 +37,10 @@ pub struct WorkerConfig {
     max_concurrent_workflow_task_polls: usize,
     nonsticky_to_sticky_poll_ratio: f32,
     max_concurrent_activity_task_polls: usize,
-    no_remote_activities: bool,
+    enable_workflows: Option<bool>,
+    enable_local_activities: Option<bool>,
+    enable_remote_activities: Option<bool>,
+    enable_nexus: Option<bool>,
     sticky_queue_schedule_to_start_timeout_millis: u64,
     max_heartbeat_throttle_interval_millis: u64,
     default_heartbeat_throttle_interval_millis: u64,
@@ -70,7 +73,12 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
             .activity_task_poller_behavior(PollerBehavior::SimpleMaximum(
                 conf.max_concurrent_activity_task_polls,
             ))
-            .no_remote_activities(conf.no_remote_activities)
+            .task_types(WorkerTaskTypes {
+                enable_workflows: conf.enable_workflows.unwrap_or(true),
+                enable_local_activities: conf.enable_local_activities.unwrap_or(true),
+                enable_remote_activities: conf.enable_remote_activities.unwrap_or(true),
+                enable_nexus: conf.enable_nexus.unwrap_or(false),
+            })
             .sticky_queue_schedule_to_start_timeout(Duration::from_millis(
                 conf.sticky_queue_schedule_to_start_timeout_millis,
             ))
