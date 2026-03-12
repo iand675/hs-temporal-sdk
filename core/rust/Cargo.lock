@@ -134,6 +134,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "843867be96c8daad0d758b57df9392b6d8d271134fce549de6ce169ff98a92af"
 
 [[package]]
+name = "bon"
+version = "3.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2d13a61f2963b88eef9c1be03df65d42f6996dfeac1054870d950fcf66686f83"
+dependencies = [
+ "bon-macros",
+ "rustversion",
+]
+
+[[package]]
+name = "bon-macros"
+version = "3.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d314cc62af2b6b0c65780555abb4d02a03dd3b799cd42419044f0c38d99738c0"
+dependencies = [
+ "darling",
+ "ident_case",
+ "prettyplease",
+ "proc-macro2",
+ "quote",
+ "rustversion",
+ "syn 2.0.117",
+]
+
+[[package]]
 name = "bumpalo"
 version = "3.20.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -303,37 +328,6 @@ checksum = "1e567bd82dcff979e4b03460c307b3cdc9e96fde3d73bed1496d2bc75d9dd62a"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "derive_builder"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "507dfb09ea8b7fa618fcf76e953f4f5e192547945816d5358edffe39f6f94947"
-dependencies = [
- "derive_builder_macro",
-]
-
-[[package]]
-name = "derive_builder_core"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d5bcf7b024d6835cfb3d473887cd966994907effbe9227e8c8219824d06c4e8"
-dependencies = [
- "darling",
- "proc-macro2",
- "quote",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "derive_builder_macro"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab63b0e2bf4d5928aff72e83a7dace85d7bba5fe12dcc3c5a572d78caffd3f3c"
-dependencies = [
- "derive_builder_core",
  "syn 2.0.117",
 ]
 
@@ -2371,14 +2365,14 @@ dependencies = [
 [[package]]
 name = "temporalio-client"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
+source = "git+https://github.com/temporalio/sdk-core?rev=12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305#12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305"
 dependencies = [
  "anyhow",
  "async-trait",
  "backoff",
  "base64",
+ "bon",
  "bytes",
- "derive_builder",
  "derive_more",
  "dyn-clone",
  "futures-retry",
@@ -2403,12 +2397,12 @@ dependencies = [
 [[package]]
 name = "temporalio-common"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
+source = "git+https://github.com/temporalio/sdk-core?rev=12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305#12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305"
 dependencies = [
  "anyhow",
  "async-trait",
  "base64",
- "derive_builder",
+ "bon",
  "derive_more",
  "opentelemetry",
  "prost",
@@ -2430,7 +2424,7 @@ dependencies = [
 [[package]]
 name = "temporalio-macros"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
+source = "git+https://github.com/temporalio/sdk-core?rev=12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305#12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305"
 dependencies = [
  "derive_more",
  "proc-macro2",
@@ -2441,15 +2435,15 @@ dependencies = [
 [[package]]
 name = "temporalio-sdk-core"
 version = "0.1.0"
-source = "git+https://github.com/temporalio/sdk-core?rev=45b1d7edf7138eb6e307a0acddccf970f19ee73e#45b1d7edf7138eb6e307a0acddccf970f19ee73e"
+source = "git+https://github.com/temporalio/sdk-core?rev=12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305#12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305"
 dependencies = [
  "anyhow",
  "async-trait",
+ "bon",
  "crossbeam-channel",
  "crossbeam-queue",
  "crossbeam-utils",
  "dashmap",
- "derive_builder",
  "derive_more",
  "enum-iterator",
  "enum_dispatch",
