@@ -540,7 +540,7 @@ pub unsafe extern "C" fn hs_temporal_validate_worker(
     worker.runtime.future_result_into_hs(hs, async move {
         let result = w.validate().await;
         match result {
-            Ok(()) => Ok(CUnit {}),
+            Ok(_namespace_info) => Ok(CUnit {}),
             Err(err) => Err(CWorkerValidationError::c_repr_of(FormattedError {
                 message: format!("{}", err),
             })

@@ -682,7 +682,7 @@ rec {
           "winapi" = [ "windows-link" ];
           "windows-link" = [ "dep:windows-link" ];
         };
-        resolvedDefaultFeatures = [ "serde" ];
+        resolvedDefaultFeatures = [ "alloc" "serde" ];
       };
       "convert_case" = rec {
         crateName = "convert_case";
@@ -816,9 +816,9 @@ rec {
       };
       "darling" = rec {
         crateName = "darling";
-        version = "0.20.11";
+        version = "0.23.0";
         edition = "2021";
-        sha256 = "1vmlphlrlw4f50z16p4bc9p5qwdni1ba95qmxfrrmzs6dh8lczzw";
+        sha256 = "179fj6p6ajw4dnkrik51wjhifxwy02x5zhligyymcb905zd17bi5";
         authors = [
           "Ted Driggs <ted.driggs@outlook.com>"
         ];
@@ -835,23 +835,20 @@ rec {
         features = {
           "default" = [ "suggestions" ];
           "diagnostics" = [ "darling_core/diagnostics" ];
+          "serde" = [ "darling_core/serde" ];
           "suggestions" = [ "darling_core/suggestions" ];
         };
         resolvedDefaultFeatures = [ "default" "suggestions" ];
       };
       "darling_core" = rec {
         crateName = "darling_core";
-        version = "0.20.11";
+        version = "0.23.0";
         edition = "2021";
-        sha256 = "0bj1af6xl4ablnqbgn827m43b8fiicgv180749f5cphqdmcvj00d";
+        sha256 = "1c033vrks38vpw8kwgd5w088dsr511kfz55n9db56prkgh7sarcq";
         authors = [
           "Ted Driggs <ted.driggs@outlook.com>"
         ];
         dependencies = [
-          {
-            name = "fnv";
-            packageId = "fnv";
-          }
           {
             name = "ident_case";
             packageId = "ident_case";
@@ -876,6 +873,7 @@ rec {
           }
         ];
         features = {
+          "serde" = [ "dep:serde" ];
           "strsim" = [ "dep:strsim" ];
           "suggestions" = [ "strsim" ];
         };
@@ -883,9 +881,9 @@ rec {
       };
       "darling_macro" = rec {
         crateName = "darling_macro";
-        version = "0.20.11";
+        version = "0.23.0";
         edition = "2021";
-        sha256 = "1bbfbc2px6sj1pqqq97bgqn6c8xdnb2fmz66f7f40nrqrcybjd7w";
+        sha256 = "13fvzji9xyp304mgq720z5l0xgm54qj68jibwscagkynggn88fdc";
         procMacro = true;
         authors = [
           "Ted Driggs <ted.driggs@outlook.com>"
@@ -4554,6 +4552,93 @@ rec {
           "petgraph" = [ "dep:petgraph" ];
         };
       };
+      "pbjson" = rec {
+        crateName = "pbjson";
+        version = "0.9.0";
+        edition = "2024";
+        sha256 = "0v6g8lv23mji1fh4zxy9szan69m7hyckvklsrflkpclavppx3vg8";
+        dependencies = [
+          {
+            name = "base64";
+            packageId = "base64";
+          }
+          {
+            name = "serde";
+            packageId = "serde";
+            features = [ "derive" ];
+          }
+        ];
+
+      };
+      "pbjson-build" = rec {
+        crateName = "pbjson-build";
+        version = "0.9.0";
+        edition = "2024";
+        sha256 = "001jqq74zv6jscglwshxdr7fp38frw0q8g48d33qmq4mmv3dbm1f";
+        libName = "pbjson_build";
+        dependencies = [
+          {
+            name = "heck";
+            packageId = "heck";
+          }
+          {
+            name = "itertools";
+            packageId = "itertools";
+          }
+          {
+            name = "prost";
+            packageId = "prost";
+          }
+          {
+            name = "prost-types";
+            packageId = "prost-types";
+          }
+        ];
+
+      };
+      "pbjson-types" = rec {
+        crateName = "pbjson-types";
+        version = "0.9.0";
+        edition = "2024";
+        sha256 = "03imy1z1isjmxd95sv6nb7qp0hr21rbbiq9cm03zdh3pv1bjfkm1";
+        libName = "pbjson_types";
+        dependencies = [
+          {
+            name = "bytes";
+            packageId = "bytes";
+          }
+          {
+            name = "chrono";
+            packageId = "chrono";
+            usesDefaultFeatures = false;
+            features = [ "alloc" ];
+          }
+          {
+            name = "pbjson";
+            packageId = "pbjson";
+          }
+          {
+            name = "prost";
+            packageId = "prost";
+          }
+          {
+            name = "serde";
+            packageId = "serde";
+            features = [ "derive" ];
+          }
+        ];
+        buildDependencies = [
+          {
+            name = "pbjson-build";
+            packageId = "pbjson-build";
+          }
+          {
+            name = "prost-build";
+            packageId = "prost-build";
+          }
+        ];
+
+      };
       "percent-encoding" = rec {
         crateName = "percent-encoding";
         version = "2.3.2";
@@ -7707,8 +7792,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305";
-          sha256 = "1h7xchxczspxvgf1kr671j7yi01jcyd2h7i1ha0wh65c5xam5rr1";
+          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
+          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
         };
         libName = "temporalio_client";
         authors = [
@@ -7832,8 +7917,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305";
-          sha256 = "1h7xchxczspxvgf1kr671j7yi01jcyd2h7i1ha0wh65c5xam5rr1";
+          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
+          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
         };
         libName = "temporalio_common";
         authors = [
@@ -7867,6 +7952,14 @@ rec {
             packageId = "opentelemetry";
             optional = true;
             features = [ "metrics" ];
+          }
+          {
+            name = "pbjson";
+            packageId = "pbjson";
+          }
+          {
+            name = "pbjson-types";
+            packageId = "pbjson-types";
           }
           {
             name = "prost";
@@ -7927,6 +8020,10 @@ rec {
         ];
         buildDependencies = [
           {
+            name = "pbjson-build";
+            packageId = "pbjson-build";
+          }
+          {
             name = "tonic-prost-build";
             packageId = "tonic-prost-build";
           }
@@ -7947,8 +8044,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305";
-          sha256 = "1h7xchxczspxvgf1kr671j7yi01jcyd2h7i1ha0wh65c5xam5rr1";
+          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
+          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
         };
         procMacro = true;
         libName = "temporalio_macros";
@@ -7985,8 +8082,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305";
-          sha256 = "1h7xchxczspxvgf1kr671j7yi01jcyd2h7i1ha0wh65c5xam5rr1";
+          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
+          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
         };
         libName = "temporalio_sdk_core";
         authors = [
@@ -8000,6 +8097,10 @@ rec {
           {
             name = "async-trait";
             packageId = "async-trait";
+          }
+          {
+            name = "backoff";
+            packageId = "backoff";
           }
           {
             name = "bon";
