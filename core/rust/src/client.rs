@@ -6,13 +6,12 @@ use std::ffi::CStr;
 use std::str::{FromStr, from_utf8_unchecked};
 use std::time::Duration;
 use temporalio_client::{
-    ClientOptions, ClientTlsOptions, ConfiguredClient, RetryClient, RetryOptions,
-    TemporalServiceClient, TlsOptions,
+    ClientTlsOptions, ConnectionOptions, RetryOptions, TlsOptions,
 };
 use tonic::metadata::{MetadataKey, errors::InvalidMetadataValue};
 use url::Url;
 
-type Client = RetryClient<ConfiguredClient<TemporalServiceClient>>;
+type Client = temporalio_client::Connection;
 
 #[derive(Serialize, Deserialize)]
 pub struct ClientConfig {
@@ -44,7 +43,7 @@ struct ClientRetryConfig {
     pub max_retries: usize,
 }
 
-fn client_config_to_options(client_config: ClientConfig) -> ClientOptions {
+fn client_config_to_options(client_config: ClientConfig) -> ConnectionOptions {
     let tls_options = client_config.tls_config.map(|tls_config| TlsOptions {
         server_root_ca_cert: tls_config.server_root_ca_cert,
         domain: tls_config.domain,
@@ -69,8 +68,7 @@ fn client_config_to_options(client_config: ClientConfig) -> ClientOptions {
         None => RetryOptions::default(),
     };
 
-    ClientOptions::builder()
-        .target_url(Url::parse(&client_config.target_url).unwrap())
+    ConnectionOptions::new(Url::parse(&client_config.target_url).unwrap())
         .client_name(client_config.client_name)
         .client_version(client_config.client_version)
         .identity(client_config.identity)
@@ -185,18 +183,15 @@ pub fn connect_client(
     config: ClientConfig,
     hs_callback: HsCallback<ClientRef, CArray<u8>>,
 ) {
-    let opts: ClientOptions = client_config_to_options(config);
+    let mut opts: ConnectionOptions = client_config_to_options(config);
+    opts.metrics_meter = runtime_ref.runtime.core.telemetry().get_metric_meter();
     let runtime = runtime_ref.runtime.clone();
     runtime_ref
         .runtime
         .future_result_into_hs(hs_callback, async move {
-            let retry_client_result = opts
-                .connect_no_namespace(runtime.core.as_ref().telemetry().get_metric_meter())
-                .await;
-
-            match retry_client_result {
-                Ok(retry_client) => Ok(ClientRef {
-                    retry_client,
+            match temporalio_client::Connection::connect(opts).await {
+                Ok(connection) => Ok(ClientRef {
+                    retry_client: connection,
                     runtime,
                 }),
                 Err(e) => {
