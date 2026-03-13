@@ -8,8 +8,8 @@ use std::sync::Arc;
 use std::time::{Duration, SystemTime};
 use temporalio_common::telemetry::metrics::{CoreMeter, NoOpCoreMeter};
 use temporalio_common::telemetry::{
-    CoreTelemetry, Logger, OtelCollectorOptions, PrometheusExporterOptions, TelemetryInstance,
-    TelemetryOptions, build_otlp_metric_exporter, construct_filter_string,
+    CoreTelemetry, Logger, OtelCollectorOptions, PrometheusExporterOptions, TelemetryOptions,
+    build_otlp_metric_exporter, construct_filter_string,
     start_prometheus_metric_exporter,
 };
 use temporalio_sdk_core::{CoreRuntime, RuntimeOptions, TokioRuntimeBuilder};

@@ -1,7 +1,6 @@
 use crate::client::{rpc_req, rpc_resp, CRPCError, ClientRef, RPCError, RpcCall, TemporalCall};
 use crate::runtime::{Capability, HsCallback, MVar};
 use ffi_convert::{CArray, CReprOf};
-use temporalio_client::grpc::{OperatorService, TestService, WorkflowService};
 
 macro_rules! rpc_call {
     ($svc:ident, $call:ident, $call_name:ident) => {{
