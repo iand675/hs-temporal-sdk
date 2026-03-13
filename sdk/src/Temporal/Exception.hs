@@ -438,6 +438,10 @@ data ActivityCancelReason
     Timeout
   | -- | The worker the activity is running on is shutting down.
     WorkerShutdown
+  | -- | The activity was paused.
+    Paused
+  | -- | The activity was reset.
+    Reset
   | -- | We received a cancellation reason that we don't know how to handle.
     UnknownCancellationReason
   deriving stock (Show)
