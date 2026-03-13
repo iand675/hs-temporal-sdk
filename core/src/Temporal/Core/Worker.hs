@@ -43,6 +43,7 @@ module Temporal.Core.Worker (
   historyProtoToJson,
   closeHistory,
   KnownWorkerType (..),
+
   -- * Resource-safe wrappers
   bracketWorker,
 ) where
@@ -158,6 +159,10 @@ data WorkerConfig = WorkerConfig
   , nonstickyToStickyPollRatio :: Float
   , maxConcurrentActivityTaskPolls :: Word64
   , noRemoteActivities :: Bool
+  , enableWorkflows :: Maybe Bool
+  , enableLocalActivities :: Maybe Bool
+  , enableRemoteActivities :: Maybe Bool
+  , enableNexus :: Maybe Bool
   , stickyQueueScheduleToStartTimeoutMillis :: Word64
   , maxHeartbeatThrottleIntervalMillis :: Word64
   , defaultHeartbeatThrottleIntervalMillis :: Word64
@@ -190,6 +195,10 @@ defaultWorkerConfig =
     , nonstickyToStickyPollRatio = 0.85
     , maxConcurrentActivityTaskPolls = 5
     , noRemoteActivities = False
+    , enableWorkflows = Nothing
+    , enableLocalActivities = Nothing
+    , enableRemoteActivities = Nothing
+    , enableNexus = Nothing
     , stickyQueueScheduleToStartTimeoutMillis = 60000
     , maxHeartbeatThrottleIntervalMillis = 300000
     , defaultHeartbeatThrottleIntervalMillis = 300000
@@ -255,10 +264,11 @@ data WorkerAlreadyClosed = WorkerAlreadyClosed
 instance Exception WorkerAlreadyClosed
 
 
--- | Explicitly close a worker.
---
--- Explicitly close a worker, freeing its resources immediately.
--- After calling this, the worker must not be used again.
+{- | Explicitly close a worker.
+
+Explicitly close a worker, freeing its resources immediately.
+After calling this, the worker must not be used again.
+-}
 closeWorker :: Worker ty -> IO ()
 closeWorker (Worker w _ _ _) = mask_ $ do
   wp <- liftIO $ atomicModifyIORefCAS w $ \wp -> (throw WorkerAlreadyClosed, wp)
@@ -299,10 +309,11 @@ pollWorkflowActivation w = withWorker w $ \wp ->
     rust_dropWorkerError
     rust_dropByteArray
     (\errPtr -> peek errPtr >>= peekWorkerError)
-    (\resPtr -> do
-      arr <- peek resPtr
-      bs <- cArrayToByteString arr
-      return (decodeMessageOrDie bs))
+    ( \resPtr -> do
+        arr <- peek resPtr
+        bs <- cArrayToByteString arr
+        return (decodeMessageOrDie bs)
+    )
 
 
 foreign import ccall "hs_temporal_worker_poll_activity_task" raw_pollActivityTask :: Ptr (Worker ty) -> TokioCall CWorkerError (CArray Word8)
@@ -315,10 +326,11 @@ pollActivityTask w = withWorker w $ \wp ->
     rust_dropWorkerError
     rust_dropByteArray
     (\errPtr -> peek errPtr >>= peekWorkerError)
-    (\resPtr -> do
-      arr <- peek resPtr
-      bs <- cArrayToByteString arr
-      return (decodeMessageOrDie bs))
+    ( \resPtr -> do
+        arr <- peek resPtr
+        bs <- cArrayToByteString arr
+        return (decodeMessageOrDie bs)
+    )
 
 
 foreign import ccall "hs_temporal_worker_complete_workflow_activation" raw_completeWorkflowActivation :: Ptr (Worker ty) -> Ptr (CArray Word8) -> TokioCall CWorkerError CUnit
@@ -424,9 +436,10 @@ pushHistory (HistoryPusher hp) wf p =
 foreign import ccall "hs_temporal_history_pusher_push_history_json" raw_pushHistoryJson :: Ptr HistoryPusher -> Ptr (CArray Word8) -> Ptr (CArray Word8) -> TokioCall CWorkerError CUnit
 
 
--- | Push a workflow history in protobuf canonical JSON format to a replay worker.
--- The JSON is deserialized on the Rust side, bypassing proto-lens's incomplete
--- JSON support.
+{- | Push a workflow history in protobuf canonical JSON format to a replay worker.
+The JSON is deserialized on the Rust side, bypassing proto-lens's incomplete
+JSON support.
+-}
 pushHistoryJson :: HistoryPusher -> WorkflowId -> ByteString -> IO (Either WorkerError ())
 pushHistoryJson (HistoryPusher hp) wf jsonBytes =
   withCArrayBS wf $ \wfPtr ->
@@ -442,9 +455,10 @@ pushHistoryJson (HistoryPusher hp) wf jsonBytes =
 foreign import ccall "hs_temporal_history_proto_to_json" raw_historyProtoToJson :: Ptr (CArray Word8) -> Ptr (Ptr (CArray Word8)) -> Ptr (Ptr (CArray Word8)) -> IO ()
 
 
--- | Convert protobuf-encoded History bytes to canonical protobuf JSON.
--- The conversion is performed on the Rust side via prost + serde.
--- Useful for testing the JSON replay path.
+{- | Convert protobuf-encoded History bytes to canonical protobuf JSON.
+The conversion is performed on the Rust side via prost + serde.
+Useful for testing the JSON replay path.
+-}
 historyProtoToJson :: ByteString -> IO (Either String ByteString)
 historyProtoToJson protoBytes =
   withCArrayBS protoBytes $ \protoPtr ->
@@ -476,16 +490,17 @@ closeHistory (HistoryPusher hp) =
   raw_closeHistoryPusher hp
 
 
--- | Bracket-style wrapper for Worker that ensures proper cleanup.
---
--- Example:
---
--- @
--- result <- newWorker client workerConfig
--- case result of
---   Left err -> error $ show err
---   Right worker -> bracketWorker worker $ \\w -> do
---     ...
--- @
+{- | Bracket-style wrapper for Worker that ensures proper cleanup.
+
+Example:
+
+@
+result <- newWorker client workerConfig
+case result of
+  Left err -> error $ show err
+  Right worker -> bracketWorker worker $ \\w -> do
+    ...
+@
+-}
 bracketWorker :: Worker ty -> (Worker ty -> IO a) -> IO a
 bracketWorker worker = UnliftIO.bracket (return worker) closeWorker
