@@ -8,10 +8,9 @@ use std::sync::Arc;
 use std::time::{Duration, SystemTime};
 use temporalio_common::telemetry::metrics::{CoreMeter, NoOpCoreMeter};
 use temporalio_common::telemetry::{
-    CoreTelemetry, Logger, OtelCollectorOptions, PrometheusExporterOptions, TelemetryOptions,
-};
-use temporalio_sdk_core::telemetry::{
-    build_otlp_metric_exporter, construct_filter_string, start_prometheus_metric_exporter,
+    CoreTelemetry, Logger, OtelCollectorOptions, PrometheusExporterOptions, TelemetryInstance,
+    TelemetryOptions, build_otlp_metric_exporter, construct_filter_string,
+    start_prometheus_metric_exporter,
 };
 use temporalio_sdk_core::{CoreRuntime, RuntimeOptions, TokioRuntimeBuilder};
 use tracing::Level;
@@ -39,7 +38,7 @@ fn init_runtime(
 
     let _guard = runtime.tokio_handle().enter();
     let core_meter: Arc<dyn CoreMeter> = match late_telemetry_options {
-        HsTelemetryOptions::NoTelemetry => Arc::new(NoOpCoreMeter        ) as Arc<dyn CoreMeter>,
+        HsTelemetryOptions::NoTelemetry => Arc::new(NoOpCoreMeter) as Arc<dyn CoreMeter>,
         HsTelemetryOptions::OtelTelemetryOptions {
             url,
             headers,

@@ -5,13 +5,14 @@ use std::collections::{HashMap, HashSet};
 use std::str;
 use std::sync::Arc;
 use std::time::Duration;
-use temporalio_common::Worker;
-use temporalio_common::errors::{PollError, WorkflowErrorType};
 use temporalio_common::protos::coresdk::workflow_completion::WorkflowActivationCompletion;
 use temporalio_common::protos::coresdk::{ActivityHeartbeat, ActivityTaskCompletion};
 use temporalio_common::protos::temporal::api::history::v1::History;
-use temporalio_common::worker::{PollerBehavior, WorkerTaskTypes, WorkerVersioningStrategy};
+use temporalio_common::worker::WorkerTaskTypes;
 use temporalio_sdk_core::replay::{HistoryForReplay, ReplayWorkerInput};
+use temporalio_sdk_core::{
+    PollError, PollerBehavior, Worker, WorkerVersioningStrategy, WorkflowErrorType,
+};
 use tokio::sync::mpsc::{Sender, channel};
 use tokio_stream::wrappers::ReceiverStream;
 
@@ -20,7 +21,7 @@ use crate::runtime::{self, Capability, HsCallback, MVar};
 use serde::{Deserialize, Serialize};
 
 pub struct WorkerRef {
-    worker: Option<Arc<temporalio_sdk_core::Worker>>,
+    worker: Option<Arc<Worker>>,
     runtime: runtime::Runtime,
 }
 
@@ -223,7 +224,7 @@ fn new_worker(client: &client::ClientRef, config: WorkerConfig) -> Result<Worker
     let worker = temporalio_sdk_core::init_worker(
         &client.runtime.core,
         config,
-        client.retry_client.clone().into_inner(),
+        client.connection.clone(),
     )
     .map_err(|err| WorkerError {
         code: WorkerErrorCode::InitWorkerFailed,
