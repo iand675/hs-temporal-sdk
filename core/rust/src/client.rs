@@ -6,13 +6,10 @@ use std::ffi::CStr;
 use std::str::{FromStr, from_utf8_unchecked};
 use std::time::Duration;
 use temporalio_client::{
-    ClientOptions, ClientOptionsBuilder, ClientOptionsBuilderError, ConfiguredClient, RetryClient,
-    RetryConfig, TemporalServiceClient, TlsConfig,
+    ClientTlsOptions, Connection, ConnectionOptions, RetryOptions, TlsOptions,
 };
 use tonic::metadata::{MetadataKey, errors::InvalidMetadataValue};
 use url::Url;
-
-type Client = RetryClient<ConfiguredClient<TemporalServiceClient>>;
 
 #[derive(Serialize, Deserialize)]
 pub struct ClientConfig {
@@ -46,49 +43,47 @@ struct ClientRetryConfig {
 
 fn client_config_to_options(
     client_config: ClientConfig,
-) -> Result<ClientOptions, ClientOptionsBuilderError> {
-    let mut defaults = ClientOptionsBuilder::default();
-    let mut options_builder = defaults
-        .target_url(Url::parse(&client_config.target_url).unwrap())
+    metrics_meter: Option<temporalio_common::telemetry::metrics::TemporalMeter>,
+) -> ConnectionOptions {
+    let tls_options = client_config.tls_config.map(|tls_config| TlsOptions {
+        server_root_ca_cert: tls_config.server_root_ca_cert,
+        domain: tls_config.domain,
+        client_tls_options: match (tls_config.client_cert, tls_config.client_private_key) {
+            (Some(client_cert), Some(client_private_key)) => {
+                Some(ClientTlsOptions {
+                    client_cert,
+                    client_private_key,
+                })
+            }
+            _ => None,
+        },
+    });
+
+    let retry_options = client_config.retry_config.map(|rc| RetryOptions {
+        initial_interval: Duration::from_millis(rc.initial_interval_millis),
+        randomization_factor: rc.randomization_factor,
+        multiplier: rc.multiplier,
+        max_interval: Duration::from_millis(rc.max_interval_millis),
+        max_elapsed_time: rc.max_elapsed_time_millis.map(Duration::from_millis),
+        max_retries: rc.max_retries,
+    });
+
+    let headers = if client_config.metadata.is_empty() {
+        None
+    } else {
+        Some(client_config.metadata)
+    };
+
+    ConnectionOptions::new(Url::parse(&client_config.target_url).unwrap())
         .client_name(client_config.client_name)
         .client_version(client_config.client_version)
-        .identity(client_config.identity);
-
-    if let Some(tls_config) = client_config.tls_config {
-        let tls_config = TlsConfig {
-            server_root_ca_cert: tls_config.server_root_ca_cert,
-            domain: tls_config.domain,
-            client_tls_config: match (tls_config.client_cert, tls_config.client_private_key) {
-                (Some(client_cert), Some(client_private_key)) => {
-                    Some(temporalio_client::ClientTlsConfig {
-                        client_cert,
-                        client_private_key,
-                    })
-                }
-                _ => None,
-            },
-        };
-        options_builder = options_builder.tls_cfg(tls_config);
-    }
-
-    if let Some(retry_config) = client_config.retry_config {
-        options_builder = options_builder.retry_config(RetryConfig {
-            initial_interval: Duration::from_millis(retry_config.initial_interval_millis),
-            randomization_factor: retry_config.randomization_factor,
-            multiplier: retry_config.multiplier,
-            max_interval: Duration::from_millis(retry_config.max_interval_millis),
-            max_elapsed_time: retry_config
-                .max_elapsed_time_millis
-                .map(Duration::from_millis),
-            max_retries: retry_config.max_retries,
-        });
-    }
-
-    if client_config.api_key.is_some() {
-        options_builder = options_builder.api_key(client_config.api_key)
-    }
-
-    options_builder.build()
+        .identity(client_config.identity)
+        .maybe_tls_options(tls_options)
+        .maybe_retry_options(retry_options)
+        .maybe_api_key(client_config.api_key)
+        .maybe_metrics_meter(metrics_meter)
+        .maybe_headers(headers)
+        .build()
 }
 
 #[repr(C)]
@@ -142,6 +137,7 @@ pub struct RpcCall {
 
 pub(crate) struct TemporalCall {
     pub(crate) req: Vec<u8>,
+    #[allow(dead_code)]
     pub(crate) retry: bool,
     pub(crate) metadata: HashMap<String, String>,
     pub(crate) timeout_millis: Option<u64>,
@@ -167,7 +163,7 @@ impl From<&RpcCall> for TemporalCall {
 }
 
 pub struct ClientRef {
-    pub(crate) retry_client: Client,
+    pub(crate) connection: Connection,
     pub(crate) runtime: runtime::Runtime,
 }
 
@@ -196,18 +192,17 @@ pub fn connect_client(
     config: ClientConfig,
     hs_callback: HsCallback<ClientRef, CArray<u8>>,
 ) {
-    let opts: ClientOptions = client_config_to_options(config).unwrap();
+    let metrics_meter = runtime_ref.runtime.core.telemetry().get_temporal_metric_meter();
+    let opts = client_config_to_options(config, metrics_meter);
     let runtime = runtime_ref.runtime.clone();
     runtime_ref
         .runtime
         .future_result_into_hs(hs_callback, async move {
-            let retry_client_result = opts
-                .connect_no_namespace(runtime.core.as_ref().telemetry().get_metric_meter())
-                .await;
+            let connection_result = Connection::connect(opts).await;
 
-            match retry_client_result {
-                Ok(retry_client) => Ok(ClientRef {
-                    retry_client,
+            match connection_result {
+                Ok(connection) => Ok(ClientRef {
+                    connection,
                     runtime,
                 }),
                 Err(e) => {

@@ -35,7 +35,7 @@ module Proto.Temporal.Api.Workflow.V1.Message (
         WorkflowExecutionConfig(), WorkflowExecutionExtendedInfo(),
         WorkflowExecutionExtendedInfo'RequestIdInfosEntry(),
         WorkflowExecutionInfo(), WorkflowExecutionOptions(),
-        WorkflowExecutionVersioningInfo()
+        WorkflowExecutionPauseInfo(), WorkflowExecutionVersioningInfo()
     ) where
 import qualified Data.ProtoLens.Runtime.Control.DeepSeq as Control.DeepSeq
 import qualified Data.ProtoLens.Runtime.Data.ProtoLens.Prism as Data.ProtoLens.Prism
@@ -5374,7 +5374,11 @@ instance Control.DeepSeq.NFData PendingChildExecutionInfo where
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'cancellationInfo' @:: Lens' PendingNexusOperationInfo (Prelude.Maybe NexusOperationCancellationInfo)@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.scheduledEventId' @:: Lens' PendingNexusOperationInfo Data.Int.Int64@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.blockedReason' @:: Lens' PendingNexusOperationInfo Data.Text.Text@
-         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.operationToken' @:: Lens' PendingNexusOperationInfo Data.Text.Text@ -}
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.operationToken' @:: Lens' PendingNexusOperationInfo Data.Text.Text@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.scheduleToStartTimeout' @:: Lens' PendingNexusOperationInfo Proto.Google.Protobuf.Duration.Duration@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'scheduleToStartTimeout' @:: Lens' PendingNexusOperationInfo (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.startToCloseTimeout' @:: Lens' PendingNexusOperationInfo Proto.Google.Protobuf.Duration.Duration@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'startToCloseTimeout' @:: Lens' PendingNexusOperationInfo (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@ -}
 data PendingNexusOperationInfo
   = PendingNexusOperationInfo'_constructor {_PendingNexusOperationInfo'endpoint :: !Data.Text.Text,
                                             _PendingNexusOperationInfo'service :: !Data.Text.Text,
@@ -5391,6 +5395,8 @@ data PendingNexusOperationInfo
                                             _PendingNexusOperationInfo'scheduledEventId :: !Data.Int.Int64,
                                             _PendingNexusOperationInfo'blockedReason :: !Data.Text.Text,
                                             _PendingNexusOperationInfo'operationToken :: !Data.Text.Text,
+                                            _PendingNexusOperationInfo'scheduleToStartTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
+                                            _PendingNexusOperationInfo'startToCloseTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
                                             _PendingNexusOperationInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show PendingNexusOperationInfo where
@@ -5561,6 +5567,38 @@ instance Data.ProtoLens.Field.HasField PendingNexusOperationInfo "operationToken
            (\ x__ y__
               -> x__ {_PendingNexusOperationInfo'operationToken = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField PendingNexusOperationInfo "scheduleToStartTimeout" Proto.Google.Protobuf.Duration.Duration where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _PendingNexusOperationInfo'scheduleToStartTimeout
+           (\ x__ y__
+              -> x__ {_PendingNexusOperationInfo'scheduleToStartTimeout = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField PendingNexusOperationInfo "maybe'scheduleToStartTimeout" (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _PendingNexusOperationInfo'scheduleToStartTimeout
+           (\ x__ y__
+              -> x__ {_PendingNexusOperationInfo'scheduleToStartTimeout = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField PendingNexusOperationInfo "startToCloseTimeout" Proto.Google.Protobuf.Duration.Duration where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _PendingNexusOperationInfo'startToCloseTimeout
+           (\ x__ y__
+              -> x__ {_PendingNexusOperationInfo'startToCloseTimeout = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField PendingNexusOperationInfo "maybe'startToCloseTimeout" (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _PendingNexusOperationInfo'startToCloseTimeout
+           (\ x__ y__
+              -> x__ {_PendingNexusOperationInfo'startToCloseTimeout = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message PendingNexusOperationInfo where
   messageName _
     = Data.Text.pack
@@ -5583,7 +5621,9 @@ instance Data.ProtoLens.Message PendingNexusOperationInfo where
       \\DC1cancellation_info\CAN\f \SOH(\v28.temporal.api.workflow.v1.NexusOperationCancellationInfoR\DLEcancellationInfo\DC2,\n\
       \\DC2scheduled_event_id\CAN\r \SOH(\ETXR\DLEscheduledEventId\DC2%\n\
       \\SOblocked_reason\CAN\SO \SOH(\tR\rblockedReason\DC2'\n\
-      \\SIoperation_token\CAN\SI \SOH(\tR\SOoperationToken"
+      \\SIoperation_token\CAN\SI \SOH(\tR\SOoperationToken\DC2T\n\
+      \\EMschedule_to_start_timeout\CAN\DLE \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToStartTimeout\DC2N\n\
+      \\SYNstart_to_close_timeout\CAN\DC1 \SOH(\v2\EM.google.protobuf.DurationR\DC3startToCloseTimeout"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -5713,6 +5753,22 @@ instance Data.ProtoLens.Message PendingNexusOperationInfo where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"operationToken")) ::
               Data.ProtoLens.FieldDescriptor PendingNexusOperationInfo
+        scheduleToStartTimeout__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "schedule_to_start_timeout"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Duration.Duration)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'scheduleToStartTimeout")) ::
+              Data.ProtoLens.FieldDescriptor PendingNexusOperationInfo
+        startToCloseTimeout__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "start_to_close_timeout"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Duration.Duration)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'startToCloseTimeout")) ::
+              Data.ProtoLens.FieldDescriptor PendingNexusOperationInfo
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, endpoint__field_descriptor),
@@ -5729,7 +5785,9 @@ instance Data.ProtoLens.Message PendingNexusOperationInfo where
            (Data.ProtoLens.Tag 12, cancellationInfo__field_descriptor),
            (Data.ProtoLens.Tag 13, scheduledEventId__field_descriptor),
            (Data.ProtoLens.Tag 14, blockedReason__field_descriptor),
-           (Data.ProtoLens.Tag 15, operationToken__field_descriptor)]
+           (Data.ProtoLens.Tag 15, operationToken__field_descriptor),
+           (Data.ProtoLens.Tag 16, scheduleToStartTimeout__field_descriptor),
+           (Data.ProtoLens.Tag 17, startToCloseTimeout__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _PendingNexusOperationInfo'_unknownFields
@@ -5752,6 +5810,8 @@ instance Data.ProtoLens.Message PendingNexusOperationInfo where
          _PendingNexusOperationInfo'scheduledEventId = Data.ProtoLens.fieldDefault,
          _PendingNexusOperationInfo'blockedReason = Data.ProtoLens.fieldDefault,
          _PendingNexusOperationInfo'operationToken = Data.ProtoLens.fieldDefault,
+         _PendingNexusOperationInfo'scheduleToStartTimeout = Prelude.Nothing,
+         _PendingNexusOperationInfo'startToCloseTimeout = Prelude.Nothing,
          _PendingNexusOperationInfo'_unknownFields = []}
   parseMessage
     = let
@@ -5904,6 +5964,24 @@ instance Data.ProtoLens.Message PendingNexusOperationInfo where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"operationToken") y x)
+                        130
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "schedule_to_start_timeout"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"scheduleToStartTimeout") y x)
+                        138
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "start_to_close_timeout"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"startToCloseTimeout") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -6191,10 +6269,57 @@ instance Data.ProtoLens.Message PendingNexusOperationInfo where
                                                                               bs))
                                                                    Data.Text.Encoding.encodeUtf8
                                                                    _v))
-                                                       (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                                          (Lens.Family2.view
-                                                             Data.ProtoLens.unknownFields
-                                                             _x))))))))))))))))
+                                                       ((Data.Monoid.<>)
+                                                          (case
+                                                               Lens.Family2.view
+                                                                 (Data.ProtoLens.Field.field
+                                                                    @"maybe'scheduleToStartTimeout")
+                                                                 _x
+                                                           of
+                                                             Prelude.Nothing -> Data.Monoid.mempty
+                                                             (Prelude.Just _v)
+                                                               -> (Data.Monoid.<>)
+                                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                       130)
+                                                                    ((Prelude..)
+                                                                       (\ bs
+                                                                          -> (Data.Monoid.<>)
+                                                                               (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                  (Prelude.fromIntegral
+                                                                                     (Data.ByteString.length
+                                                                                        bs)))
+                                                                               (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                                  bs))
+                                                                       Data.ProtoLens.encodeMessage
+                                                                       _v))
+                                                          ((Data.Monoid.<>)
+                                                             (case
+                                                                  Lens.Family2.view
+                                                                    (Data.ProtoLens.Field.field
+                                                                       @"maybe'startToCloseTimeout")
+                                                                    _x
+                                                              of
+                                                                Prelude.Nothing
+                                                                  -> Data.Monoid.mempty
+                                                                (Prelude.Just _v)
+                                                                  -> (Data.Monoid.<>)
+                                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                          138)
+                                                                       ((Prelude..)
+                                                                          (\ bs
+                                                                             -> (Data.Monoid.<>)
+                                                                                  (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                     (Prelude.fromIntegral
+                                                                                        (Data.ByteString.length
+                                                                                           bs)))
+                                                                                  (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                                     bs))
+                                                                          Data.ProtoLens.encodeMessage
+                                                                          _v))
+                                                             (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                                                (Lens.Family2.view
+                                                                   Data.ProtoLens.unknownFields
+                                                                   _x))))))))))))))))))
 instance Control.DeepSeq.NFData PendingNexusOperationInfo where
   rnf
     = \ x__
@@ -6234,7 +6359,13 @@ instance Control.DeepSeq.NFData PendingNexusOperationInfo where
                                                        (Control.DeepSeq.deepseq
                                                           (_PendingNexusOperationInfo'operationToken
                                                              x__)
-                                                          ())))))))))))))))
+                                                          (Control.DeepSeq.deepseq
+                                                             (_PendingNexusOperationInfo'scheduleToStartTimeout
+                                                                x__)
+                                                             (Control.DeepSeq.deepseq
+                                                                (_PendingNexusOperationInfo'startToCloseTimeout
+                                                                   x__)
+                                                                ())))))))))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.state' @:: Lens' PendingWorkflowTaskInfo Proto.Temporal.Api.Enums.V1.Workflow.PendingWorkflowTaskState@
@@ -9031,7 +9162,9 @@ instance Control.DeepSeq.NFData WorkflowExecutionConfig where
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.originalStartTime' @:: Lens' WorkflowExecutionExtendedInfo Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'originalStartTime' @:: Lens' WorkflowExecutionExtendedInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.resetRunId' @:: Lens' WorkflowExecutionExtendedInfo Data.Text.Text@
-         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.requestIdInfos' @:: Lens' WorkflowExecutionExtendedInfo (Data.Map.Map Data.Text.Text RequestIdInfo)@ -}
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.requestIdInfos' @:: Lens' WorkflowExecutionExtendedInfo (Data.Map.Map Data.Text.Text RequestIdInfo)@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.pauseInfo' @:: Lens' WorkflowExecutionExtendedInfo WorkflowExecutionPauseInfo@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'pauseInfo' @:: Lens' WorkflowExecutionExtendedInfo (Prelude.Maybe WorkflowExecutionPauseInfo)@ -}
 data WorkflowExecutionExtendedInfo
   = WorkflowExecutionExtendedInfo'_constructor {_WorkflowExecutionExtendedInfo'executionExpirationTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                                 _WorkflowExecutionExtendedInfo'runExpirationTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
@@ -9040,6 +9173,7 @@ data WorkflowExecutionExtendedInfo
                                                 _WorkflowExecutionExtendedInfo'originalStartTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                                 _WorkflowExecutionExtendedInfo'resetRunId :: !Data.Text.Text,
                                                 _WorkflowExecutionExtendedInfo'requestIdInfos :: !(Data.Map.Map Data.Text.Text RequestIdInfo),
+                                                _WorkflowExecutionExtendedInfo'pauseInfo :: !(Prelude.Maybe WorkflowExecutionPauseInfo),
                                                 _WorkflowExecutionExtendedInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show WorkflowExecutionExtendedInfo where
@@ -9138,6 +9272,22 @@ instance Data.ProtoLens.Field.HasField WorkflowExecutionExtendedInfo "requestIdI
            (\ x__ y__
               -> x__ {_WorkflowExecutionExtendedInfo'requestIdInfos = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionExtendedInfo "pauseInfo" WorkflowExecutionPauseInfo where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionExtendedInfo'pauseInfo
+           (\ x__ y__
+              -> x__ {_WorkflowExecutionExtendedInfo'pauseInfo = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField WorkflowExecutionExtendedInfo "maybe'pauseInfo" (Prelude.Maybe WorkflowExecutionPauseInfo) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionExtendedInfo'pauseInfo
+           (\ x__ y__
+              -> x__ {_WorkflowExecutionExtendedInfo'pauseInfo = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
   messageName _
     = Data.Text.pack
@@ -9152,7 +9302,9 @@ instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
       \\DC3original_start_time\CAN\ENQ \SOH(\v2\SUB.google.protobuf.TimestampR\DC1originalStartTime\DC2 \n\
       \\freset_run_id\CAN\ACK \SOH(\tR\n\
       \resetRunId\DC2u\n\
-      \\DLErequest_id_infos\CAN\a \ETX(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\SOrequestIdInfos\SUBj\n\
+      \\DLErequest_id_infos\CAN\a \ETX(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\SOrequestIdInfos\DC2S\n\
+      \\n\
+      \pause_info\CAN\b \SOH(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\SUBj\n\
       \\DC3RequestIdInfosEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2=\n\
       \\ENQvalue\CAN\STX \SOH(\v2'.temporal.api.workflow.v1.RequestIdInfoR\ENQvalue:\STX8\SOH"
@@ -9219,6 +9371,14 @@ instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
                  (Data.ProtoLens.Field.field @"value")
                  (Data.ProtoLens.Field.field @"requestIdInfos")) ::
               Data.ProtoLens.FieldDescriptor WorkflowExecutionExtendedInfo
+        pauseInfo__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "pause_info"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor WorkflowExecutionPauseInfo)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'pauseInfo")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionExtendedInfo
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, executionExpirationTime__field_descriptor),
@@ -9227,7 +9387,8 @@ instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
            (Data.ProtoLens.Tag 4, lastResetTime__field_descriptor),
            (Data.ProtoLens.Tag 5, originalStartTime__field_descriptor),
            (Data.ProtoLens.Tag 6, resetRunId__field_descriptor),
-           (Data.ProtoLens.Tag 7, requestIdInfos__field_descriptor)]
+           (Data.ProtoLens.Tag 7, requestIdInfos__field_descriptor),
+           (Data.ProtoLens.Tag 8, pauseInfo__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _WorkflowExecutionExtendedInfo'_unknownFields
@@ -9242,6 +9403,7 @@ instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
          _WorkflowExecutionExtendedInfo'originalStartTime = Prelude.Nothing,
          _WorkflowExecutionExtendedInfo'resetRunId = Data.ProtoLens.fieldDefault,
          _WorkflowExecutionExtendedInfo'requestIdInfos = Data.Map.empty,
+         _WorkflowExecutionExtendedInfo'pauseInfo = Prelude.Nothing,
          _WorkflowExecutionExtendedInfo'_unknownFields = []}
   parseMessage
     = let
@@ -9335,6 +9497,14 @@ instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
                                      (Lens.Family2.over
                                         (Data.ProtoLens.Field.field @"requestIdInfos")
                                         (\ !t -> Data.Map.insert key value t) x))
+                        66
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "pause_info"
+                                loop
+                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"pauseInfo") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -9467,8 +9637,25 @@ instance Data.ProtoLens.Message WorkflowExecutionExtendedInfo where
                                      (Data.Map.toList
                                         (Lens.Family2.view
                                            (Data.ProtoLens.Field.field @"requestIdInfos") _x))))
-                               (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                  (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))))
+                               ((Data.Monoid.<>)
+                                  (case
+                                       Lens.Family2.view
+                                         (Data.ProtoLens.Field.field @"maybe'pauseInfo") _x
+                                   of
+                                     Prelude.Nothing -> Data.Monoid.mempty
+                                     (Prelude.Just _v)
+                                       -> (Data.Monoid.<>)
+                                            (Data.ProtoLens.Encoding.Bytes.putVarInt 66)
+                                            ((Prelude..)
+                                               (\ bs
+                                                  -> (Data.Monoid.<>)
+                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                          (Prelude.fromIntegral
+                                                             (Data.ByteString.length bs)))
+                                                       (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                               Data.ProtoLens.encodeMessage _v))
+                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                     (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))))
 instance Control.DeepSeq.NFData WorkflowExecutionExtendedInfo where
   rnf
     = \ x__
@@ -9487,7 +9674,9 @@ instance Control.DeepSeq.NFData WorkflowExecutionExtendedInfo where
                             (Control.DeepSeq.deepseq
                                (_WorkflowExecutionExtendedInfo'resetRunId x__)
                                (Control.DeepSeq.deepseq
-                                  (_WorkflowExecutionExtendedInfo'requestIdInfos x__) ())))))))
+                                  (_WorkflowExecutionExtendedInfo'requestIdInfos x__)
+                                  (Control.DeepSeq.deepseq
+                                     (_WorkflowExecutionExtendedInfo'pauseInfo x__) ()))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.key' @:: Lens' WorkflowExecutionExtendedInfo'RequestIdInfosEntry Data.Text.Text@
@@ -9703,7 +9892,9 @@ instance Control.DeepSeq.NFData WorkflowExecutionExtendedInfo'RequestIdInfosEntr
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'versioningInfo' @:: Lens' WorkflowExecutionInfo (Prelude.Maybe WorkflowExecutionVersioningInfo)@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.workerDeploymentName' @:: Lens' WorkflowExecutionInfo Data.Text.Text@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.priority' @:: Lens' WorkflowExecutionInfo Proto.Temporal.Api.Common.V1.Message.Priority@
-         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'priority' @:: Lens' WorkflowExecutionInfo (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority)@ -}
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'priority' @:: Lens' WorkflowExecutionInfo (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority)@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.externalPayloadSizeBytes' @:: Lens' WorkflowExecutionInfo Data.Int.Int64@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.externalPayloadCount' @:: Lens' WorkflowExecutionInfo Data.Int.Int64@ -}
 data WorkflowExecutionInfo
   = WorkflowExecutionInfo'_constructor {_WorkflowExecutionInfo'execution :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.WorkflowExecution),
                                         _WorkflowExecutionInfo'type' :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.WorkflowType),
@@ -9729,6 +9920,8 @@ data WorkflowExecutionInfo
                                         _WorkflowExecutionInfo'versioningInfo :: !(Prelude.Maybe WorkflowExecutionVersioningInfo),
                                         _WorkflowExecutionInfo'workerDeploymentName :: !Data.Text.Text,
                                         _WorkflowExecutionInfo'priority :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority),
+                                        _WorkflowExecutionInfo'externalPayloadSizeBytes :: !Data.Int.Int64,
+                                        _WorkflowExecutionInfo'externalPayloadCount :: !Data.Int.Int64,
                                         _WorkflowExecutionInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show WorkflowExecutionInfo where
@@ -10012,6 +10205,22 @@ instance Data.ProtoLens.Field.HasField WorkflowExecutionInfo "maybe'priority" (P
            _WorkflowExecutionInfo'priority
            (\ x__ y__ -> x__ {_WorkflowExecutionInfo'priority = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionInfo "externalPayloadSizeBytes" Data.Int.Int64 where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionInfo'externalPayloadSizeBytes
+           (\ x__ y__
+              -> x__ {_WorkflowExecutionInfo'externalPayloadSizeBytes = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionInfo "externalPayloadCount" Data.Int.Int64 where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionInfo'externalPayloadCount
+           (\ x__ y__
+              -> x__ {_WorkflowExecutionInfo'externalPayloadCount = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message WorkflowExecutionInfo where
   messageName _
     = Data.Text.pack "temporal.api.workflow.v1.WorkflowExecutionInfo"
@@ -10046,7 +10255,9 @@ instance Data.ProtoLens.Message WorkflowExecutionInfo where
       \firstRunId\DC2b\n\
       \\SIversioning_info\CAN\SYN \SOH(\v29.temporal.api.workflow.v1.WorkflowExecutionVersioningInfoR\SOversioningInfo\DC24\n\
       \\SYNworker_deployment_name\CAN\ETB \SOH(\tR\DC4workerDeploymentName\DC2<\n\
-      \\bpriority\CAN\CAN \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority"
+      \\bpriority\CAN\CAN \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\DC2=\n\
+      \\ESCexternal_payload_size_bytes\CAN\EM \SOH(\ETXR\CANexternalPayloadSizeBytes\DC24\n\
+      \\SYNexternal_payload_count\CAN\SUB \SOH(\ETXR\DC4externalPayloadCount"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -10252,6 +10463,24 @@ instance Data.ProtoLens.Message WorkflowExecutionInfo where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'priority")) ::
               Data.ProtoLens.FieldDescriptor WorkflowExecutionInfo
+        externalPayloadSizeBytes__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "external_payload_size_bytes"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.Int64Field ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Int.Int64)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"externalPayloadSizeBytes")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionInfo
+        externalPayloadCount__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "external_payload_count"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.Int64Field ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Int.Int64)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"externalPayloadCount")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionInfo
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, execution__field_descriptor),
@@ -10278,7 +10507,10 @@ instance Data.ProtoLens.Message WorkflowExecutionInfo where
            (Data.ProtoLens.Tag 21, firstRunId__field_descriptor),
            (Data.ProtoLens.Tag 22, versioningInfo__field_descriptor),
            (Data.ProtoLens.Tag 23, workerDeploymentName__field_descriptor),
-           (Data.ProtoLens.Tag 24, priority__field_descriptor)]
+           (Data.ProtoLens.Tag 24, priority__field_descriptor),
+           (Data.ProtoLens.Tag 25, 
+            externalPayloadSizeBytes__field_descriptor),
+           (Data.ProtoLens.Tag 26, externalPayloadCount__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _WorkflowExecutionInfo'_unknownFields
@@ -10309,6 +10541,8 @@ instance Data.ProtoLens.Message WorkflowExecutionInfo where
          _WorkflowExecutionInfo'versioningInfo = Prelude.Nothing,
          _WorkflowExecutionInfo'workerDeploymentName = Data.ProtoLens.fieldDefault,
          _WorkflowExecutionInfo'priority = Prelude.Nothing,
+         _WorkflowExecutionInfo'externalPayloadSizeBytes = Data.ProtoLens.fieldDefault,
+         _WorkflowExecutionInfo'externalPayloadCount = Data.ProtoLens.fieldDefault,
          _WorkflowExecutionInfo'_unknownFields = []}
   parseMessage
     = let
@@ -10540,6 +10774,24 @@ instance Data.ProtoLens.Message WorkflowExecutionInfo where
                                        "priority"
                                 loop
                                   (Lens.Family2.set (Data.ProtoLens.Field.field @"priority") y x)
+                        200
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.fromIntegral
+                                          Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "external_payload_size_bytes"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"externalPayloadSizeBytes") y x)
+                        208
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.fromIntegral
+                                          Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "external_payload_count"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"externalPayloadCount") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -11042,10 +11294,50 @@ instance Data.ProtoLens.Message WorkflowExecutionInfo where
                                                                                                           bs))
                                                                                                Data.ProtoLens.encodeMessage
                                                                                                _v))
-                                                                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                                                                     (Lens.Family2.view
-                                                                                        Data.ProtoLens.unknownFields
-                                                                                        _x)))))))))))))))))))))))))
+                                                                                  ((Data.Monoid.<>)
+                                                                                     (let
+                                                                                        _v
+                                                                                          = Lens.Family2.view
+                                                                                              (Data.ProtoLens.Field.field
+                                                                                                 @"externalPayloadSizeBytes")
+                                                                                              _x
+                                                                                      in
+                                                                                        if (Prelude.==)
+                                                                                             _v
+                                                                                             Data.ProtoLens.fieldDefault then
+                                                                                            Data.Monoid.mempty
+                                                                                        else
+                                                                                            (Data.Monoid.<>)
+                                                                                              (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                                 200)
+                                                                                              ((Prelude..)
+                                                                                                 Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                                 Prelude.fromIntegral
+                                                                                                 _v))
+                                                                                     ((Data.Monoid.<>)
+                                                                                        (let
+                                                                                           _v
+                                                                                             = Lens.Family2.view
+                                                                                                 (Data.ProtoLens.Field.field
+                                                                                                    @"externalPayloadCount")
+                                                                                                 _x
+                                                                                         in
+                                                                                           if (Prelude.==)
+                                                                                                _v
+                                                                                                Data.ProtoLens.fieldDefault then
+                                                                                               Data.Monoid.mempty
+                                                                                           else
+                                                                                               (Data.Monoid.<>)
+                                                                                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                                    208)
+                                                                                                 ((Prelude..)
+                                                                                                    Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                                    Prelude.fromIntegral
+                                                                                                    _v))
+                                                                                        (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                                                                           (Lens.Family2.view
+                                                                                              Data.ProtoLens.unknownFields
+                                                                                              _x)))))))))))))))))))))))))))
 instance Control.DeepSeq.NFData WorkflowExecutionInfo where
   rnf
     = \ x__
@@ -11110,13 +11402,22 @@ instance Control.DeepSeq.NFData WorkflowExecutionInfo where
                                                                                   (Control.DeepSeq.deepseq
                                                                                      (_WorkflowExecutionInfo'priority
                                                                                         x__)
-                                                                                     ()))))))))))))))))))))))))
+                                                                                     (Control.DeepSeq.deepseq
+                                                                                        (_WorkflowExecutionInfo'externalPayloadSizeBytes
+                                                                                           x__)
+                                                                                        (Control.DeepSeq.deepseq
+                                                                                           (_WorkflowExecutionInfo'externalPayloadCount
+                                                                                              x__)
+                                                                                           ()))))))))))))))))))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.versioningOverride' @:: Lens' WorkflowExecutionOptions VersioningOverride@
-         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'versioningOverride' @:: Lens' WorkflowExecutionOptions (Prelude.Maybe VersioningOverride)@ -}
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'versioningOverride' @:: Lens' WorkflowExecutionOptions (Prelude.Maybe VersioningOverride)@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.priority' @:: Lens' WorkflowExecutionOptions Proto.Temporal.Api.Common.V1.Message.Priority@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'priority' @:: Lens' WorkflowExecutionOptions (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority)@ -}
 data WorkflowExecutionOptions
   = WorkflowExecutionOptions'_constructor {_WorkflowExecutionOptions'versioningOverride :: !(Prelude.Maybe VersioningOverride),
+                                           _WorkflowExecutionOptions'priority :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority),
                                            _WorkflowExecutionOptions'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show WorkflowExecutionOptions where
@@ -11141,6 +11442,20 @@ instance Data.ProtoLens.Field.HasField WorkflowExecutionOptions "maybe'versionin
            (\ x__ y__
               -> x__ {_WorkflowExecutionOptions'versioningOverride = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionOptions "priority" Proto.Temporal.Api.Common.V1.Message.Priority where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionOptions'priority
+           (\ x__ y__ -> x__ {_WorkflowExecutionOptions'priority = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField WorkflowExecutionOptions "maybe'priority" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionOptions'priority
+           (\ x__ y__ -> x__ {_WorkflowExecutionOptions'priority = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message WorkflowExecutionOptions where
   messageName _
     = Data.Text.pack
@@ -11148,7 +11463,8 @@ instance Data.ProtoLens.Message WorkflowExecutionOptions where
   packedMessageDescriptor _
     = "\n\
       \\CANWorkflowExecutionOptions\DC2]\n\
-      \\DC3versioning_override\CAN\SOH \SOH(\v2,.temporal.api.workflow.v1.VersioningOverrideR\DC2versioningOverride"
+      \\DC3versioning_override\CAN\SOH \SOH(\v2,.temporal.api.workflow.v1.VersioningOverrideR\DC2versioningOverride\DC2<\n\
+      \\bpriority\CAN\STX \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -11160,9 +11476,18 @@ instance Data.ProtoLens.Message WorkflowExecutionOptions where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'versioningOverride")) ::
               Data.ProtoLens.FieldDescriptor WorkflowExecutionOptions
+        priority__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "priority"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.Priority)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'priority")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionOptions
       in
         Data.Map.fromList
-          [(Data.ProtoLens.Tag 1, versioningOverride__field_descriptor)]
+          [(Data.ProtoLens.Tag 1, versioningOverride__field_descriptor),
+           (Data.ProtoLens.Tag 2, priority__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _WorkflowExecutionOptions'_unknownFields
@@ -11170,6 +11495,7 @@ instance Data.ProtoLens.Message WorkflowExecutionOptions where
   defMessage
     = WorkflowExecutionOptions'_constructor
         {_WorkflowExecutionOptions'versioningOverride = Prelude.Nothing,
+         _WorkflowExecutionOptions'priority = Prelude.Nothing,
          _WorkflowExecutionOptions'_unknownFields = []}
   parseMessage
     = let
@@ -11203,6 +11529,14 @@ instance Data.ProtoLens.Message WorkflowExecutionOptions where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"versioningOverride") y x)
+                        18
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "priority"
+                                loop
+                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"priority") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -11230,15 +11564,251 @@ instance Data.ProtoLens.Message WorkflowExecutionOptions where
                                      (Prelude.fromIntegral (Data.ByteString.length bs)))
                                   (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                           Data.ProtoLens.encodeMessage _v))
-             (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                (Lens.Family2.view Data.ProtoLens.unknownFields _x))
+             ((Data.Monoid.<>)
+                (case
+                     Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'priority") _x
+                 of
+                   Prelude.Nothing -> Data.Monoid.mempty
+                   (Prelude.Just _v)
+                     -> (Data.Monoid.<>)
+                          (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
+                          ((Prelude..)
+                             (\ bs
+                                -> (Data.Monoid.<>)
+                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                             Data.ProtoLens.encodeMessage _v))
+                (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
 instance Control.DeepSeq.NFData WorkflowExecutionOptions where
   rnf
     = \ x__
         -> Control.DeepSeq.deepseq
              (_WorkflowExecutionOptions'_unknownFields x__)
              (Control.DeepSeq.deepseq
-                (_WorkflowExecutionOptions'versioningOverride x__) ())
+                (_WorkflowExecutionOptions'versioningOverride x__)
+                (Control.DeepSeq.deepseq
+                   (_WorkflowExecutionOptions'priority x__) ()))
+{- | Fields :
+     
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.identity' @:: Lens' WorkflowExecutionPauseInfo Data.Text.Text@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.pausedTime' @:: Lens' WorkflowExecutionPauseInfo Proto.Google.Protobuf.Timestamp.Timestamp@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'pausedTime' @:: Lens' WorkflowExecutionPauseInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.reason' @:: Lens' WorkflowExecutionPauseInfo Data.Text.Text@ -}
+data WorkflowExecutionPauseInfo
+  = WorkflowExecutionPauseInfo'_constructor {_WorkflowExecutionPauseInfo'identity :: !Data.Text.Text,
+                                             _WorkflowExecutionPauseInfo'pausedTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
+                                             _WorkflowExecutionPauseInfo'reason :: !Data.Text.Text,
+                                             _WorkflowExecutionPauseInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
+  deriving stock (Prelude.Eq, Prelude.Ord)
+instance Prelude.Show WorkflowExecutionPauseInfo where
+  showsPrec _ __x __s
+    = Prelude.showChar
+        '{'
+        (Prelude.showString
+           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
+instance Data.ProtoLens.Field.HasField WorkflowExecutionPauseInfo "identity" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionPauseInfo'identity
+           (\ x__ y__ -> x__ {_WorkflowExecutionPauseInfo'identity = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionPauseInfo "pausedTime" Proto.Google.Protobuf.Timestamp.Timestamp where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionPauseInfo'pausedTime
+           (\ x__ y__ -> x__ {_WorkflowExecutionPauseInfo'pausedTime = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField WorkflowExecutionPauseInfo "maybe'pausedTime" (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionPauseInfo'pausedTime
+           (\ x__ y__ -> x__ {_WorkflowExecutionPauseInfo'pausedTime = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionPauseInfo "reason" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionPauseInfo'reason
+           (\ x__ y__ -> x__ {_WorkflowExecutionPauseInfo'reason = y__}))
+        Prelude.id
+instance Data.ProtoLens.Message WorkflowExecutionPauseInfo where
+  messageName _
+    = Data.Text.pack
+        "temporal.api.workflow.v1.WorkflowExecutionPauseInfo"
+  packedMessageDescriptor _
+    = "\n\
+      \\SUBWorkflowExecutionPauseInfo\DC2\SUB\n\
+      \\bidentity\CAN\SOH \SOH(\tR\bidentity\DC2;\n\
+      \\vpaused_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\n\
+      \pausedTime\DC2\SYN\n\
+      \\ACKreason\CAN\ETX \SOH(\tR\ACKreason"
+  packedFileDescriptor _ = packedFileDescriptor
+  fieldsByTag
+    = let
+        identity__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "identity"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"identity")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionPauseInfo
+        pausedTime__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "paused_time"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Timestamp.Timestamp)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'pausedTime")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionPauseInfo
+        reason__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "reason"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"reason")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionPauseInfo
+      in
+        Data.Map.fromList
+          [(Data.ProtoLens.Tag 1, identity__field_descriptor),
+           (Data.ProtoLens.Tag 2, pausedTime__field_descriptor),
+           (Data.ProtoLens.Tag 3, reason__field_descriptor)]
+  unknownFields
+    = Lens.Family2.Unchecked.lens
+        _WorkflowExecutionPauseInfo'_unknownFields
+        (\ x__ y__
+           -> x__ {_WorkflowExecutionPauseInfo'_unknownFields = y__})
+  defMessage
+    = WorkflowExecutionPauseInfo'_constructor
+        {_WorkflowExecutionPauseInfo'identity = Data.ProtoLens.fieldDefault,
+         _WorkflowExecutionPauseInfo'pausedTime = Prelude.Nothing,
+         _WorkflowExecutionPauseInfo'reason = Data.ProtoLens.fieldDefault,
+         _WorkflowExecutionPauseInfo'_unknownFields = []}
+  parseMessage
+    = let
+        loop ::
+          WorkflowExecutionPauseInfo
+          -> Data.ProtoLens.Encoding.Bytes.Parser WorkflowExecutionPauseInfo
+        loop x
+          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
+               if end then
+                   do (let missing = []
+                       in
+                         if Prelude.null missing then
+                             Prelude.return ()
+                         else
+                             Prelude.fail
+                               ((Prelude.++)
+                                  "Missing required fields: "
+                                  (Prelude.show (missing :: [Prelude.String]))))
+                      Prelude.return
+                        (Lens.Family2.over
+                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
+               else
+                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                      case tag of
+                        10
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "identity"
+                                loop
+                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"identity") y x)
+                        18
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "paused_time"
+                                loop
+                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"pausedTime") y x)
+                        26
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "reason"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"reason") y x)
+                        wire
+                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
+                                        wire
+                                loop
+                                  (Lens.Family2.over
+                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
+      in
+        (Data.ProtoLens.Encoding.Bytes.<?>)
+          (do loop Data.ProtoLens.defMessage) "WorkflowExecutionPauseInfo"
+  buildMessage
+    = \ _x
+        -> (Data.Monoid.<>)
+             (let
+                _v = Lens.Family2.view (Data.ProtoLens.Field.field @"identity") _x
+              in
+                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                    Data.Monoid.mempty
+                else
+                    (Data.Monoid.<>)
+                      (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                      ((Prelude..)
+                         (\ bs
+                            -> (Data.Monoid.<>)
+                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                    (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                 (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                         Data.Text.Encoding.encodeUtf8 _v))
+             ((Data.Monoid.<>)
+                (case
+                     Lens.Family2.view
+                       (Data.ProtoLens.Field.field @"maybe'pausedTime") _x
+                 of
+                   Prelude.Nothing -> Data.Monoid.mempty
+                   (Prelude.Just _v)
+                     -> (Data.Monoid.<>)
+                          (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
+                          ((Prelude..)
+                             (\ bs
+                                -> (Data.Monoid.<>)
+                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                             Data.ProtoLens.encodeMessage _v))
+                ((Data.Monoid.<>)
+                   (let
+                      _v = Lens.Family2.view (Data.ProtoLens.Field.field @"reason") _x
+                    in
+                      if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                          Data.Monoid.mempty
+                      else
+                          (Data.Monoid.<>)
+                            (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
+                            ((Prelude..)
+                               (\ bs
+                                  -> (Data.Monoid.<>)
+                                       (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                          (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                       (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                               Data.Text.Encoding.encodeUtf8 _v))
+                   (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                      (Lens.Family2.view Data.ProtoLens.unknownFields _x))))
+instance Control.DeepSeq.NFData WorkflowExecutionPauseInfo where
+  rnf
+    = \ x__
+        -> Control.DeepSeq.deepseq
+             (_WorkflowExecutionPauseInfo'_unknownFields x__)
+             (Control.DeepSeq.deepseq
+                (_WorkflowExecutionPauseInfo'identity x__)
+                (Control.DeepSeq.deepseq
+                   (_WorkflowExecutionPauseInfo'pausedTime x__)
+                   (Control.DeepSeq.deepseq
+                      (_WorkflowExecutionPauseInfo'reason x__) ())))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.behavior' @:: Lens' WorkflowExecutionVersioningInfo Proto.Temporal.Api.Enums.V1.Workflow.VersioningBehavior@
@@ -11252,7 +11822,8 @@ instance Control.DeepSeq.NFData WorkflowExecutionOptions where
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.deploymentTransition' @:: Lens' WorkflowExecutionVersioningInfo DeploymentTransition@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'deploymentTransition' @:: Lens' WorkflowExecutionVersioningInfo (Prelude.Maybe DeploymentTransition)@
          * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.versionTransition' @:: Lens' WorkflowExecutionVersioningInfo DeploymentVersionTransition@
-         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'versionTransition' @:: Lens' WorkflowExecutionVersioningInfo (Prelude.Maybe DeploymentVersionTransition)@ -}
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.maybe'versionTransition' @:: Lens' WorkflowExecutionVersioningInfo (Prelude.Maybe DeploymentVersionTransition)@
+         * 'Proto.Temporal.Api.Workflow.V1.Message_Fields.revisionNumber' @:: Lens' WorkflowExecutionVersioningInfo Data.Int.Int64@ -}
 data WorkflowExecutionVersioningInfo
   = WorkflowExecutionVersioningInfo'_constructor {_WorkflowExecutionVersioningInfo'behavior :: !Proto.Temporal.Api.Enums.V1.Workflow.VersioningBehavior,
                                                   _WorkflowExecutionVersioningInfo'deployment :: !(Prelude.Maybe Proto.Temporal.Api.Deployment.V1.Message.Deployment),
@@ -11261,6 +11832,7 @@ data WorkflowExecutionVersioningInfo
                                                   _WorkflowExecutionVersioningInfo'versioningOverride :: !(Prelude.Maybe VersioningOverride),
                                                   _WorkflowExecutionVersioningInfo'deploymentTransition :: !(Prelude.Maybe DeploymentTransition),
                                                   _WorkflowExecutionVersioningInfo'versionTransition :: !(Prelude.Maybe DeploymentVersionTransition),
+                                                  _WorkflowExecutionVersioningInfo'revisionNumber :: !Data.Int.Int64,
                                                   _WorkflowExecutionVersioningInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show WorkflowExecutionVersioningInfo where
@@ -11369,6 +11941,14 @@ instance Data.ProtoLens.Field.HasField WorkflowExecutionVersioningInfo "maybe've
            (\ x__ y__
               -> x__ {_WorkflowExecutionVersioningInfo'versionTransition = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowExecutionVersioningInfo "revisionNumber" Data.Int.Int64 where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowExecutionVersioningInfo'revisionNumber
+           (\ x__ y__
+              -> x__ {_WorkflowExecutionVersioningInfo'revisionNumber = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
   messageName _
     = Data.Text.pack
@@ -11384,7 +11964,8 @@ instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
       \\DC2deployment_version\CAN\a \SOH(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\DC1deploymentVersion\DC2]\n\
       \\DC3versioning_override\CAN\ETX \SOH(\v2,.temporal.api.workflow.v1.VersioningOverrideR\DC2versioningOverride\DC2g\n\
       \\NAKdeployment_transition\CAN\EOT \SOH(\v2..temporal.api.workflow.v1.DeploymentTransitionR\DC4deploymentTransitionB\STX\CAN\SOH\DC2d\n\
-      \\DC2version_transition\CAN\ACK \SOH(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\DC1versionTransition"
+      \\DC2version_transition\CAN\ACK \SOH(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\DC1versionTransition\DC2'\n\
+      \\SIrevision_number\CAN\b \SOH(\ETXR\SOrevisionNumber"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -11445,6 +12026,15 @@ instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'versionTransition")) ::
               Data.ProtoLens.FieldDescriptor WorkflowExecutionVersioningInfo
+        revisionNumber__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "revision_number"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.Int64Field ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Int.Int64)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"revisionNumber")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowExecutionVersioningInfo
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, behavior__field_descriptor),
@@ -11453,7 +12043,8 @@ instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
            (Data.ProtoLens.Tag 7, deploymentVersion__field_descriptor),
            (Data.ProtoLens.Tag 3, versioningOverride__field_descriptor),
            (Data.ProtoLens.Tag 4, deploymentTransition__field_descriptor),
-           (Data.ProtoLens.Tag 6, versionTransition__field_descriptor)]
+           (Data.ProtoLens.Tag 6, versionTransition__field_descriptor),
+           (Data.ProtoLens.Tag 8, revisionNumber__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _WorkflowExecutionVersioningInfo'_unknownFields
@@ -11468,6 +12059,7 @@ instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
          _WorkflowExecutionVersioningInfo'versioningOverride = Prelude.Nothing,
          _WorkflowExecutionVersioningInfo'deploymentTransition = Prelude.Nothing,
          _WorkflowExecutionVersioningInfo'versionTransition = Prelude.Nothing,
+         _WorkflowExecutionVersioningInfo'revisionNumber = Data.ProtoLens.fieldDefault,
          _WorkflowExecutionVersioningInfo'_unknownFields = []}
   parseMessage
     = let
@@ -11552,6 +12144,15 @@ instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"versionTransition") y x)
+                        64
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.fromIntegral
+                                          Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "revision_number"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"revisionNumber") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -11675,8 +12276,22 @@ instance Data.ProtoLens.Message WorkflowExecutionVersioningInfo where
                                                           (Data.ByteString.length bs)))
                                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                                             Data.ProtoLens.encodeMessage _v))
-                               (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                  (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))))
+                               ((Data.Monoid.<>)
+                                  (let
+                                     _v
+                                       = Lens.Family2.view
+                                           (Data.ProtoLens.Field.field @"revisionNumber") _x
+                                   in
+                                     if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                         Data.Monoid.mempty
+                                     else
+                                         (Data.Monoid.<>)
+                                           (Data.ProtoLens.Encoding.Bytes.putVarInt 64)
+                                           ((Prelude..)
+                                              Data.ProtoLens.Encoding.Bytes.putVarInt
+                                              Prelude.fromIntegral _v))
+                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                     (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))))
 instance Control.DeepSeq.NFData WorkflowExecutionVersioningInfo where
   rnf
     = \ x__
@@ -11695,11 +12310,14 @@ instance Control.DeepSeq.NFData WorkflowExecutionVersioningInfo where
                             (Control.DeepSeq.deepseq
                                (_WorkflowExecutionVersioningInfo'deploymentTransition x__)
                                (Control.DeepSeq.deepseq
-                                  (_WorkflowExecutionVersioningInfo'versionTransition x__) ())))))))
+                                  (_WorkflowExecutionVersioningInfo'versionTransition x__)
+                                  (Control.DeepSeq.deepseq
+                                     (_WorkflowExecutionVersioningInfo'revisionNumber x__)
+                                     ()))))))))
 packedFileDescriptor :: Data.ByteString.ByteString
 packedFileDescriptor
   = "\n\
-    \&temporal/api/workflow/v1/message.proto\DC2\CANtemporal.api.workflow.v1\SUB\RSgoogle/protobuf/duration.proto\SUB\ESCgoogle/protobuf/empty.proto\SUB\USgoogle/protobuf/timestamp.proto\SUB google/protobuf/field_mask.proto\SUB&temporal/api/activity/v1/message.proto\SUB\"temporal/api/enums/v1/common.proto\SUB&temporal/api/enums/v1/event_type.proto\SUB$temporal/api/enums/v1/workflow.proto\SUB$temporal/api/common/v1/message.proto\SUB(temporal/api/deployment/v1/message.proto\SUB%temporal/api/failure/v1/message.proto\SUB'temporal/api/taskqueue/v1/message.proto\SUB'temporal/api/sdk/v1/user_metadata.proto\"\151\f\n\
+    \&temporal/api/workflow/v1/message.proto\DC2\CANtemporal.api.workflow.v1\SUB\RSgoogle/protobuf/duration.proto\SUB\ESCgoogle/protobuf/empty.proto\SUB\USgoogle/protobuf/timestamp.proto\SUB google/protobuf/field_mask.proto\SUB&temporal/api/activity/v1/message.proto\SUB\"temporal/api/enums/v1/common.proto\SUB&temporal/api/enums/v1/event_type.proto\SUB$temporal/api/enums/v1/workflow.proto\SUB$temporal/api/common/v1/message.proto\SUB(temporal/api/deployment/v1/message.proto\SUB%temporal/api/failure/v1/message.proto\SUB'temporal/api/taskqueue/v1/message.proto\SUB'temporal/api/sdk/v1/user_metadata.proto\"\140\r\n\
     \\NAKWorkflowExecutionInfo\DC2G\n\
     \\texecution\CAN\SOH \SOH(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\DC28\n\
     \\EOTtype\CAN\STX \SOH(\v2$.temporal.api.common.v1.WorkflowTypeR\EOTtype\DC29\n\
@@ -11729,7 +12347,9 @@ packedFileDescriptor
     \firstRunId\DC2b\n\
     \\SIversioning_info\CAN\SYN \SOH(\v29.temporal.api.workflow.v1.WorkflowExecutionVersioningInfoR\SOversioningInfo\DC24\n\
     \\SYNworker_deployment_name\CAN\ETB \SOH(\tR\DC4workerDeploymentName\DC2<\n\
-    \\bpriority\CAN\CAN \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\131\ENQ\n\
+    \\bpriority\CAN\CAN \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\DC2=\n\
+    \\ESCexternal_payload_size_bytes\CAN\EM \SOH(\ETXR\CANexternalPayloadSizeBytes\DC24\n\
+    \\SYNexternal_payload_count\CAN\SUB \SOH(\ETXR\DC4externalPayloadCount\"\216\ENQ\n\
     \\GSWorkflowExecutionExtendedInfo\DC2V\n\
     \\EMexecution_expiration_time\CAN\SOH \SOH(\v2\SUB.google.protobuf.TimestampR\ETBexecutionExpirationTime\DC2J\n\
     \\DC3run_expiration_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\DC1runExpirationTime\DC2)\n\
@@ -11738,10 +12358,12 @@ packedFileDescriptor
     \\DC3original_start_time\CAN\ENQ \SOH(\v2\SUB.google.protobuf.TimestampR\DC1originalStartTime\DC2 \n\
     \\freset_run_id\CAN\ACK \SOH(\tR\n\
     \resetRunId\DC2u\n\
-    \\DLErequest_id_infos\CAN\a \ETX(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\SOrequestIdInfos\SUBj\n\
+    \\DLErequest_id_infos\CAN\a \ETX(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\SOrequestIdInfos\DC2S\n\
+    \\n\
+    \pause_info\CAN\b \SOH(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\SUBj\n\
     \\DC3RequestIdInfosEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2=\n\
-    \\ENQvalue\CAN\STX \SOH(\v2'.temporal.api.workflow.v1.RequestIdInfoR\ENQvalue:\STX8\SOH\"\228\EOT\n\
+    \\ENQvalue\CAN\STX \SOH(\v2'.temporal.api.workflow.v1.RequestIdInfoR\ENQvalue:\STX8\SOH\"\141\ENQ\n\
     \\USWorkflowExecutionVersioningInfo\DC2E\n\
     \\bbehavior\CAN\SOH \SOH(\SO2).temporal.api.enums.v1.VersioningBehaviorR\bbehavior\DC2J\n\
     \\n\
@@ -11751,7 +12373,8 @@ packedFileDescriptor
     \\DC2deployment_version\CAN\a \SOH(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\DC1deploymentVersion\DC2]\n\
     \\DC3versioning_override\CAN\ETX \SOH(\v2,.temporal.api.workflow.v1.VersioningOverrideR\DC2versioningOverride\DC2g\n\
     \\NAKdeployment_transition\CAN\EOT \SOH(\v2..temporal.api.workflow.v1.DeploymentTransitionR\DC4deploymentTransitionB\STX\CAN\SOH\DC2d\n\
-    \\DC2version_transition\CAN\ACK \SOH(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\DC1versionTransition\"^\n\
+    \\DC2version_transition\CAN\ACK \SOH(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\DC1versionTransition\DC2'\n\
+    \\SIrevision_number\CAN\b \SOH(\ETXR\SOrevisionNumber\"^\n\
     \\DC4DeploymentTransition\DC2F\n\
     \\n\
     \deployment\CAN\SOH \SOH(\v2&.temporal.api.deployment.v1.DeploymentR\n\
@@ -11869,7 +12492,7 @@ packedFileDescriptor
     \\SOWorkflowClosed\SUBv\n\
     \\aTrigger\DC2`\n\
     \\SIworkflow_closed\CAN\SOH \SOH(\v25.temporal.api.workflow.v1.CallbackInfo.WorkflowClosedH\NULR\SOworkflowClosedB\t\n\
-    \\avariant\"\253\ACK\n\
+    \\avariant\"\163\b\n\
     \\EMPendingNexusOperationInfo\DC2\SUB\n\
     \\bendpoint\CAN\SOH \SOH(\tR\bendpoint\DC2\CAN\n\
     \\aservice\CAN\STX \SOH(\tR\aservice\DC2\FS\n\
@@ -11886,7 +12509,9 @@ packedFileDescriptor
     \\DC1cancellation_info\CAN\f \SOH(\v28.temporal.api.workflow.v1.NexusOperationCancellationInfoR\DLEcancellationInfo\DC2,\n\
     \\DC2scheduled_event_id\CAN\r \SOH(\ETXR\DLEscheduledEventId\DC2%\n\
     \\SOblocked_reason\CAN\SO \SOH(\tR\rblockedReason\DC2'\n\
-    \\SIoperation_token\CAN\SI \SOH(\tR\SOoperationToken\"\248\ETX\n\
+    \\SIoperation_token\CAN\SI \SOH(\tR\SOoperationToken\DC2T\n\
+    \\EMschedule_to_start_timeout\CAN\DLE \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToStartTimeout\DC2N\n\
+    \\SYNstart_to_close_timeout\CAN\DC1 \SOH(\v2\EM.google.protobuf.DurationR\DC3startToCloseTimeout\"\248\ETX\n\
     \\RSNexusOperationCancellationInfo\DC2A\n\
     \\SOrequested_time\CAN\SOH \SOH(\v2\SUB.google.protobuf.TimestampR\rrequestedTime\DC2L\n\
     \\ENQstate\CAN\STX \SOH(\SO26.temporal.api.enums.v1.NexusOperationCancellationStateR\ENQstate\DC2\CAN\n\
@@ -11894,9 +12519,10 @@ packedFileDescriptor
     \\SUBlast_attempt_complete_time\CAN\EOT \SOH(\v2\SUB.google.protobuf.TimestampR\ETBlastAttemptCompleteTime\DC2R\n\
     \\DC4last_attempt_failure\CAN\ENQ \SOH(\v2 .temporal.api.failure.v1.FailureR\DC2lastAttemptFailure\DC2W\n\
     \\SUBnext_attempt_schedule_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR\ETBnextAttemptScheduleTime\DC2%\n\
-    \\SOblocked_reason\CAN\a \SOH(\tR\rblockedReason\"y\n\
+    \\SOblocked_reason\CAN\a \SOH(\tR\rblockedReason\"\183\SOH\n\
     \\CANWorkflowExecutionOptions\DC2]\n\
-    \\DC3versioning_override\CAN\SOH \SOH(\v2,.temporal.api.workflow.v1.VersioningOverrideR\DC2versioningOverride\"\138\ENQ\n\
+    \\DC3versioning_override\CAN\SOH \SOH(\v2,.temporal.api.workflow.v1.VersioningOverrideR\DC2versioningOverride\DC2<\n\
+    \\bpriority\CAN\STX \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\138\ENQ\n\
     \\DC2VersioningOverride\DC2U\n\
     \\ACKpinned\CAN\ETX \SOH(\v2;.temporal.api.workflow.v1.VersioningOverride.PinnedOverrideH\NULR\ACKpinned\DC2#\n\
     \\fauto_upgrade\CAN\EOT \SOH(\bH\NULR\vautoUpgrade\DC2I\n\
@@ -11935,9 +12561,14 @@ packedFileDescriptor
     \\SUBworkflow_execution_options\CAN\SOH \SOH(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\CANworkflowExecutionOptions\DC2;\n\
     \\vupdate_mask\CAN\STX \SOH(\v2\SUB.google.protobuf.FieldMaskR\n\
     \updateMaskB\t\n\
-    \\avariantB\147\SOH\n\
-    \\ESCio.temporal.api.workflow.v1B\fMessageProtoP\SOHZ'go.temporal.io/api/workflow/v1;workflow\170\STX\SUBTemporalio.Api.Workflow.V1\234\STX\GSTemporalio::Api::Workflow::V1J\248\129\STX\n\
-    \\a\DC2\ENQ\NUL\NUL\252\EOT\SOH\n\
+    \\avariant\"\141\SOH\n\
+    \\SUBWorkflowExecutionPauseInfo\DC2\SUB\n\
+    \\bidentity\CAN\SOH \SOH(\tR\bidentity\DC2;\n\
+    \\vpaused_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\n\
+    \pausedTime\DC2\SYN\n\
+    \\ACKreason\CAN\ETX \SOH(\tR\ACKreasonB\147\SOH\n\
+    \\ESCio.temporal.api.workflow.v1B\fMessageProtoP\SOHZ'go.temporal.io/api/workflow/v1;workflow\170\STX\SUBTemporalio.Api.Workflow.V1\234\STX\GSTemporalio::Api::Workflow::V1J\222\151\STX\n\
+    \\a\DC2\ENQ\NUL\NUL\182\ENQ\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -11995,7 +12626,7 @@ packedFileDescriptor
     \\t\n\
     \\STX\ETX\f\DC2\ETX\CAN\NUL1\n\
     \\156\SOH\n\
-    \\STX\EOT\NUL\DC2\EOT\GS\NULd\SOH\SUB\143\SOH Hold basic information about a workflow execution.\n\
+    \\STX\EOT\NUL\DC2\EOT\GS\NULj\SOH\SUB\143\SOH Hold basic information about a workflow execution.\n\
     \ This structure is a part of visibility, and thus contain a limited subset of information.\n\
     \\n\
     \\n\
@@ -12261,107 +12892,138 @@ packedFileDescriptor
     \\ENQ\EOT\NUL\STX\ETB\SOH\DC2\ETXc$,\n\
     \\f\n\
     \\ENQ\EOT\NUL\STX\ETB\ETX\DC2\ETXc/1\n\
+    \[\n\
+    \\EOT\EOT\NUL\STX\CAN\DC2\ETXf\EOT+\SUBN Total size in bytes of all external payloads referenced in workflow history.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\CAN\ENQ\DC2\ETXf\EOT\t\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\CAN\SOH\DC2\ETXf\n\
+    \%\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\CAN\ETX\DC2\ETXf(*\n\
+    \I\n\
+    \\EOT\EOT\NUL\STX\EM\DC2\ETXi\EOT&\SUB< Count of external payloads referenced in workflow history.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\EM\ENQ\DC2\ETXi\EOT\t\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\EM\SOH\DC2\ETXi\n\
+    \ \n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\EM\ETX\DC2\ETXi#%\n\
     \g\n\
-    \\STX\EOT\SOH\DC2\ENQg\NUL\128\SOH\SOH\SUBZ Holds all the extra information about workflow execution that is not part of Visibility.\n\
+    \\STX\EOT\SOH\DC2\ENQm\NUL\137\SOH\SOH\SUBZ Holds all the extra information about workflow execution that is not part of Visibility.\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\SOH\SOH\DC2\ETXg\b%\n\
+    \\ETX\EOT\SOH\SOH\DC2\ETXm\b%\n\
     \\163\SOH\n\
-    \\EOT\EOT\SOH\STX\NUL\DC2\ETXj\EOT<\SUB\149\SOH Workflow execution expiration time is defined as workflow start time plus expiration timeout.\n\
+    \\EOT\EOT\SOH\STX\NUL\DC2\ETXp\EOT<\SUB\149\SOH Workflow execution expiration time is defined as workflow start time plus expiration timeout.\n\
     \ Workflow start time may change after workflow reset.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ACK\DC2\ETXj\EOT\GS\n\
+    \\ENQ\EOT\SOH\STX\NUL\ACK\DC2\ETXp\EOT\GS\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETXj\RS7\n\
+    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETXp\RS7\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETXj:;\n\
+    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETXp:;\n\
     \t\n\
-    \\EOT\EOT\SOH\STX\SOH\DC2\ETXm\EOT6\SUBg Workflow run expiration time is defined as current workflow run start time plus workflow run timeout.\n\
+    \\EOT\EOT\SOH\STX\SOH\DC2\ETXs\EOT6\SUBg Workflow run expiration time is defined as current workflow run start time plus workflow run timeout.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETXm\EOT\GS\n\
+    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETXs\EOT\GS\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETXm\RS1\n\
+    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETXs\RS1\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETXm45\n\
+    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETXs45\n\
     \B\n\
-    \\EOT\EOT\SOH\STX\STX\DC2\ETXp\EOT\RS\SUB5 indicates if the workflow received a cancel request\n\
+    \\EOT\EOT\SOH\STX\STX\DC2\ETXv\EOT\RS\SUB5 indicates if the workflow received a cancel request\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ENQ\DC2\ETXp\EOT\b\n\
+    \\ENQ\EOT\SOH\STX\STX\ENQ\DC2\ETXv\EOT\b\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETXp\t\EM\n\
+    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETXv\t\EM\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETXp\FS\GS\n\
+    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETXv\FS\GS\n\
     \M\n\
-    \\EOT\EOT\SOH\STX\ETX\DC2\ETXs\EOT2\SUB@ Last workflow reset time. Nil if the workflow was never reset.\n\
+    \\EOT\EOT\SOH\STX\ETX\DC2\ETXy\EOT2\SUB@ Last workflow reset time. Nil if the workflow was never reset.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\ACK\DC2\ETXs\EOT\GS\n\
+    \\ENQ\EOT\SOH\STX\ETX\ACK\DC2\ETXy\EOT\GS\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\SOH\DC2\ETXs\RS-\n\
+    \\ENQ\EOT\SOH\STX\ETX\SOH\DC2\ETXy\RS-\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\ETX\DC2\ETXs01\n\
+    \\ENQ\EOT\SOH\STX\ETX\ETX\DC2\ETXy01\n\
     \,\n\
-    \\EOT\EOT\SOH\STX\EOT\DC2\ETXv\EOT6\SUB\US Original workflow start time.\n\
+    \\EOT\EOT\SOH\STX\EOT\DC2\ETX|\EOT6\SUB\US Original workflow start time.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\EOT\ACK\DC2\ETXv\EOT\GS\n\
+    \\ENQ\EOT\SOH\STX\EOT\ACK\DC2\ETX|\EOT\GS\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\EOT\SOH\DC2\ETXv\RS1\n\
+    \\ENQ\EOT\SOH\STX\EOT\SOH\DC2\ETX|\RS1\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\EOT\ETX\DC2\ETXv45\n\
+    \\ENQ\EOT\SOH\STX\EOT\ETX\DC2\ETX|45\n\
     \\151\SOH\n\
-    \\EOT\EOT\SOH\STX\ENQ\DC2\ETXy\EOT\FS\SUB\137\SOH Reset Run ID points to the new run when this execution is reset. If the execution is reset multiple times, it points to the latest run.\n\
+    \\EOT\EOT\SOH\STX\ENQ\DC2\ETX\DEL\EOT\FS\SUB\137\SOH Reset Run ID points to the new run when this execution is reset. If the execution is reset multiple times, it points to the latest run.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ENQ\ENQ\DC2\ETXy\EOT\n\
+    \\ENQ\EOT\SOH\STX\ENQ\ENQ\DC2\ETX\DEL\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ENQ\SOH\DC2\ETXy\v\ETB\n\
+    \\ENQ\EOT\SOH\STX\ENQ\SOH\DC2\ETX\DEL\v\ETB\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ENQ\ETX\DC2\ETXy\SUB\ESC\n\
-    \\207\STX\n\
-    \\EOT\EOT\SOH\STX\ACK\DC2\ETX\DEL\EOT4\SUB\193\STX Request ID information (eg: history event information associated with the request ID).\n\
+    \\ENQ\EOT\SOH\STX\ENQ\ETX\DC2\ETX\DEL\SUB\ESC\n\
+    \\208\STX\n\
+    \\EOT\EOT\SOH\STX\ACK\DC2\EOT\133\SOH\EOT4\SUB\193\STX Request ID information (eg: history event information associated with the request ID).\n\
     \ Note: It only contains request IDs from StartWorkflowExecution requests, including indirect\n\
     \ calls (eg: if SignalWithStartWorkflowExecution starts a new workflow, then the request ID is\n\
     \ used in the StartWorkflowExecution request).\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\ACK\ACK\DC2\ETX\DEL\EOT\RS\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\ACK\SOH\DC2\ETX\DEL\US/\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\ACK\ETX\DC2\ETX\DEL23\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\ACK\ACK\DC2\EOT\133\SOH\EOT\RS\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\ACK\SOH\DC2\EOT\133\SOH\US/\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\ACK\ETX\DC2\EOT\133\SOH23\n\
+    \I\n\
+    \\EOT\EOT\SOH\STX\a\DC2\EOT\136\SOH\EOT.\SUB; Information about the workflow execution pause operation.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\a\ACK\DC2\EOT\136\SOH\EOT\RS\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\a\SOH\DC2\EOT\136\SOH\US)\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\a\ETX\DC2\EOT\136\SOH,-\n\
     \\182\SOH\n\
-    \\STX\EOT\STX\DC2\ACK\132\SOH\NUL\210\SOH\SOH\SUB\167\SOH Holds all the information about worker versioning for a particular workflow execution.\n\
+    \\STX\EOT\STX\DC2\ACK\141\SOH\NUL\234\SOH\SOH\SUB\167\SOH Holds all the information about worker versioning for a particular workflow execution.\n\
     \ Experimental. Versioning info is experimental and might change in the future.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\STX\SOH\DC2\EOT\132\SOH\b'\n\
-    \\159\a\n\
-    \\EOT\EOT\STX\STX\NUL\DC2\EOT\144\SOH\EOT:\SUB\144\a Versioning behavior determines how the server should treat this execution when workers are\n\
+    \\ETX\EOT\STX\SOH\DC2\EOT\141\SOH\b'\n\
+    \\204\a\n\
+    \\EOT\EOT\STX\STX\NUL\DC2\EOT\155\SOH\EOT:\SUB\189\a Versioning behavior determines how the server should treat this execution when workers are\n\
     \ upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means\n\
     \ unversioned. See the comments in `VersioningBehavior` enum for more info about different\n\
     \ behaviors.\n\
-    \ This field is first set after an execution completes its first workflow task on a versioned\n\
-    \ worker, and set again on completion of every subsequent workflow task.\n\
-    \ For child workflows of Pinned parents, this will be set to Pinned (along with `deployment_version`) when\n\
-    \ the the child starts so that child's first workflow task goes to the same Version as the\n\
-    \ parent. After the first workflow task, it depends on the child workflow itself if it wants\n\
-    \ to stay pinned or become unpinned (according to Versioning Behavior set in the worker).\n\
+    \\n\
+    \ Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning \n\
+    \ Behavior and Version (except when the new execution runs on a task queue not belonging to the \n\
+    \ same deployment version as the parent/previous run's task queue). The first workflow task will\n\
+    \ be dispatched according to the inherited behavior (or to the current version of the task-queue's \n\
+    \ deployment in the case of AutoUpgrade.) After completion of their first workflow task the \n\
+    \ Deployment Version and Behavior of the execution will update according to configuration on the worker.\n\
+    \ \n\
     \ Note that `behavior` is overridden by `versioning_override` if the latter is present.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NUL\ACK\DC2\EOT\144\SOH\EOT,\n\
+    \\ENQ\EOT\STX\STX\NUL\ACK\DC2\EOT\155\SOH\EOT,\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\EOT\144\SOH-5\n\
+    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\EOT\155\SOH-5\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\EOT\144\SOH89\n\
+    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\EOT\155\SOH89\n\
     \\207\EOT\n\
-    \\EOT\EOT\STX\STX\SOH\DC2\EOT\152\SOH\EOTM\SUB\192\EOT The worker deployment that completed the last workflow task of this workflow execution. Must\n\
+    \\EOT\EOT\STX\STX\SOH\DC2\EOT\163\SOH\EOTM\SUB\192\EOT The worker deployment that completed the last workflow task of this workflow execution. Must\n\
     \ be present if `behavior` is set. Absent value means no workflow task is completed, or the\n\
     \ last workflow task was completed by an unversioned worker. Unversioned workers may still send\n\
     \ a deployment value which will be stored here, so the right way to check if an execution is\n\
@@ -12370,48 +13032,53 @@ packedFileDescriptor
     \ Deprecated. Use `deployment_version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\ACK\DC2\EOT\152\SOH\EOT)\n\
+    \\ENQ\EOT\STX\STX\SOH\ACK\DC2\EOT\163\SOH\EOT)\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\EOT\152\SOH*4\n\
+    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\EOT\163\SOH*4\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\EOT\152\SOH78\n\
+    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\EOT\163\SOH78\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\b\DC2\EOT\152\SOH9L\n\
+    \\ENQ\EOT\STX\STX\SOH\b\DC2\EOT\163\SOH9L\n\
     \\SO\n\
-    \\ACK\EOT\STX\STX\SOH\b\ETX\DC2\EOT\152\SOH:K\n\
+    \\ACK\EOT\STX\STX\SOH\b\ETX\DC2\EOT\163\SOH:K\n\
     \5\n\
-    \\EOT\EOT\STX\STX\STX\DC2\EOT\154\SOH\EOT+\SUB' Deprecated. Use `deployment_version`.\n\
+    \\EOT\EOT\STX\STX\STX\DC2\EOT\165\SOH\EOT+\SUB' Deprecated. Use `deployment_version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\ENQ\DC2\EOT\154\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\STX\ENQ\DC2\EOT\165\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\SOH\DC2\EOT\154\SOH\v\DC2\n\
+    \\ENQ\EOT\STX\STX\STX\SOH\DC2\EOT\165\SOH\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\ETX\DC2\EOT\154\SOH\NAK\SYN\n\
+    \\ENQ\EOT\STX\STX\STX\ETX\DC2\EOT\165\SOH\NAK\SYN\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\b\DC2\EOT\154\SOH\ETB*\n\
+    \\ENQ\EOT\STX\STX\STX\b\DC2\EOT\165\SOH\ETB*\n\
     \\SO\n\
-    \\ACK\EOT\STX\STX\STX\b\ETX\DC2\EOT\154\SOH\CAN)\n\
-    \\191\ENQ\n\
-    \\EOT\EOT\STX\STX\ETX\DC2\EOT\164\SOH\EOTN\SUB\176\ENQ The Worker Deployment Version that completed the last workflow task of this workflow execution.\n\
+    \\ACK\EOT\STX\STX\STX\b\ETX\DC2\EOT\165\SOH\CAN)\n\
+    \\201\b\n\
+    \\EOT\EOT\STX\STX\ETX\DC2\EOT\180\SOH\EOTN\SUB\186\b The Worker Deployment Version that completed the last workflow task of this workflow execution.\n\
     \ An absent value means no workflow task is completed, or the workflow is unversioned.\n\
     \ If present, and `behavior` is UNSPECIFIED, the last task of this workflow execution was completed\n\
     \ by a worker that is not using versioning but _is_ passing Deployment Name and Build ID.\n\
     \\n\
-    \ For child workflows of Pinned parents, this will be set to the parent's Pinned Version when\n\
-    \ the child starts, so that the child's first workflow task goes to the same Version as the parent.\n\
+    \ Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning \n\
+    \ Behavior and Version (except when the new execution runs on a task queue not belonging to the \n\
+    \ same deployment version as the parent/previous run's task queue). The first workflow task will\n\
+    \ be dispatched according to the inherited behavior (or to the current version of the task-queue's \n\
+    \ deployment in the case of AutoUpgrade.) After completion of their first workflow task the \n\
+    \ Deployment Version and Behavior of the execution will update according to configuration on the worker.\n\
+    \\n\
     \ Note that if `versioning_override.behavior` is PINNED then `versioning_override.pinned_version`\n\
-    \ will override this value.\n\
+    \ will override this value. \n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETX\ACK\DC2\EOT\164\SOH\EOT6\n\
+    \\ENQ\EOT\STX\STX\ETX\ACK\DC2\EOT\180\SOH\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETX\SOH\DC2\EOT\164\SOH7I\n\
+    \\ENQ\EOT\STX\STX\ETX\SOH\DC2\EOT\180\SOH7I\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETX\ETX\DC2\EOT\164\SOHLM\n\
+    \\ENQ\EOT\STX\STX\ETX\ETX\DC2\EOT\180\SOHLM\n\
     \\188\ETX\n\
-    \\EOT\EOT\STX\STX\EOT\DC2\EOT\171\SOH\EOT/\SUB\173\ETX Present if user has set an execution-specific versioning override. This override takes\n\
+    \\EOT\EOT\STX\STX\EOT\DC2\EOT\187\SOH\EOT/\SUB\173\ETX Present if user has set an execution-specific versioning override. This override takes\n\
     \ precedence over SDK-sent `behavior` (and `version` when override is PINNED). An\n\
     \ override can be set when starting a new execution, as well as afterwards by calling the\n\
     \ `UpdateWorkflowExecutionOptions` API.\n\
@@ -12419,14 +13086,14 @@ packedFileDescriptor
     \ workflow retries, and cron workflows.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\EOT\ACK\DC2\EOT\171\SOH\EOT\SYN\n\
+    \\ENQ\EOT\STX\STX\EOT\ACK\DC2\EOT\187\SOH\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\EOT\SOH\DC2\EOT\171\SOH\ETB*\n\
+    \\ENQ\EOT\STX\STX\EOT\SOH\DC2\EOT\187\SOH\ETB*\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\EOT\ETX\DC2\EOT\171\SOH-.\n\
+    \\ENQ\EOT\STX\STX\EOT\ETX\DC2\EOT\187\SOH-.\n\
     \\244\n\
     \\n\
-    \\EOT\EOT\STX\STX\ENQ\DC2\EOT\190\SOH\EOTG\SUB\229\n\
+    \\EOT\EOT\STX\STX\ENQ\DC2\EOT\206\SOH\EOTG\SUB\229\n\
     \ When present, indicates the workflow is transitioning to a different deployment. Can\n\
     \ indicate one of the following transitions: unversioned -> versioned, versioned -> versioned\n\
     \ on a different deployment, or versioned -> unversioned.\n\
@@ -12447,17 +13114,17 @@ packedFileDescriptor
     \ Deprecated. Use version_transition.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\ACK\DC2\EOT\190\SOH\EOT\CAN\n\
+    \\ENQ\EOT\STX\STX\ENQ\ACK\DC2\EOT\206\SOH\EOT\CAN\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\SOH\DC2\EOT\190\SOH\EM.\n\
+    \\ENQ\EOT\STX\STX\ENQ\SOH\DC2\EOT\206\SOH\EM.\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\ETX\DC2\EOT\190\SOH12\n\
+    \\ENQ\EOT\STX\STX\ENQ\ETX\DC2\EOT\206\SOH12\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\b\DC2\EOT\190\SOH3F\n\
+    \\ENQ\EOT\STX\STX\ENQ\b\DC2\EOT\206\SOH3F\n\
     \\SO\n\
-    \\ACK\EOT\STX\STX\ENQ\b\ETX\DC2\EOT\190\SOH4E\n\
+    \\ACK\EOT\STX\STX\ENQ\b\ETX\DC2\EOT\206\SOH4E\n\
     \\166\v\n\
-    \\EOT\EOT\STX\STX\ACK\DC2\EOT\209\SOH\EOT7\SUB\151\v When present, indicates the workflow is transitioning to a different deployment version\n\
+    \\EOT\EOT\STX\STX\ACK\DC2\EOT\225\SOH\EOT7\SUB\151\v When present, indicates the workflow is transitioning to a different deployment version\n\
     \ (which may belong to the same deployment name or another). Can indicate one of the following\n\
     \ transitions: unversioned -> versioned, versioned -> versioned\n\
     \ on a different deployment version, or versioned -> unversioned.\n\
@@ -12477,1474 +13144,1563 @@ packedFileDescriptor
     \ completed, pending activities will start their next attempt on the new version.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ACK\ACK\DC2\EOT\209\SOH\EOT\US\n\
+    \\ENQ\EOT\STX\STX\ACK\ACK\DC2\EOT\225\SOH\EOT\US\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ACK\SOH\DC2\EOT\209\SOH 2\n\
+    \\ENQ\EOT\STX\STX\ACK\SOH\DC2\EOT\225\SOH 2\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ACK\ETX\DC2\EOT\209\SOH56\n\
+    \\ENQ\EOT\STX\STX\ACK\ETX\DC2\EOT\225\SOH56\n\
+    \\195\EOT\n\
+    \\EOT\EOT\STX\STX\a\DC2\EOT\233\SOH\EOT\RS\SUB\180\EOT Monotonic counter reflecting the latest routing decision for this workflow execution.\n\
+    \ Used for staleness detection between history and matching when dispatching tasks to workers.\n\
+    \ Incremented when a workflow execution routes to a new deployment version, which happens\n\
+    \ when a worker of the new deployment version completes a workflow task.\n\
+    \ Note: Pinned tasks and sticky tasks send a value of 0 for this field since these tasks do not\n\
+    \ face the problem of inconsistent dispatching that arises from eventual consistency between\n\
+    \ task queues and their partitions.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\STX\STX\a\ENQ\DC2\EOT\233\SOH\EOT\t\n\
+    \\r\n\
+    \\ENQ\EOT\STX\STX\a\SOH\DC2\EOT\233\SOH\n\
+    \\EM\n\
+    \\r\n\
+    \\ENQ\EOT\STX\STX\a\ETX\DC2\EOT\233\SOH\FS\GS\n\
     \\161\SOH\n\
-    \\STX\EOT\ETX\DC2\ACK\214\SOH\NUL\220\SOH\SOH\SUB\146\SOH Holds information about ongoing transition of a workflow execution from one deployment to another.\n\
+    \\STX\EOT\ETX\DC2\ACK\238\SOH\NUL\244\SOH\SOH\SUB\146\SOH Holds information about ongoing transition of a workflow execution from one deployment to another.\n\
     \ Deprecated. Use DeploymentVersionTransition.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\ETX\SOH\DC2\EOT\214\SOH\b\FS\n\
+    \\ETX\EOT\ETX\SOH\DC2\EOT\238\SOH\b\FS\n\
     \\137\SOH\n\
-    \\EOT\EOT\ETX\STX\NUL\DC2\EOT\217\SOH\EOT9\SUB{ The target deployment of the transition. Null means a so-far-versioned workflow is\n\
+    \\EOT\EOT\ETX\STX\NUL\DC2\EOT\241\SOH\EOT9\SUB{ The target deployment of the transition. Null means a so-far-versioned workflow is\n\
     \ transitioning to unversioned workers.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\NUL\ACK\DC2\EOT\217\SOH\EOT)\n\
+    \\ENQ\EOT\ETX\STX\NUL\ACK\DC2\EOT\241\SOH\EOT)\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\EOT\217\SOH*4\n\
+    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\EOT\241\SOH*4\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\EOT\217\SOH78\n\
+    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\EOT\241\SOH78\n\
     \\174\SOH\n\
-    \\STX\EOT\EOT\DC2\ACK\225\SOH\NUL\234\SOH\SOH\SUB\159\SOH Holds information about ongoing transition of a workflow execution from one worker\n\
+    \\STX\EOT\EOT\DC2\ACK\249\SOH\NUL\130\STX\SOH\SUB\159\SOH Holds information about ongoing transition of a workflow execution from one worker\n\
     \ deployment version to another.\n\
     \ Experimental. Might change in the future.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\EOT\SOH\DC2\EOT\225\SOH\b#\n\
+    \\ETX\EOT\EOT\SOH\DC2\EOT\249\SOH\b#\n\
     \5\n\
-    \\EOT\EOT\EOT\STX\NUL\DC2\EOT\227\SOH\EOT+\SUB' Deprecated. Use `deployment_version`.\n\
+    \\EOT\EOT\EOT\STX\NUL\DC2\EOT\251\SOH\EOT+\SUB' Deprecated. Use `deployment_version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\ENQ\DC2\EOT\227\SOH\EOT\n\
+    \\ENQ\EOT\EOT\STX\NUL\ENQ\DC2\EOT\251\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\EOT\227\SOH\v\DC2\n\
+    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\EOT\251\SOH\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\EOT\227\SOH\NAK\SYN\n\
+    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\EOT\251\SOH\NAK\SYN\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\b\DC2\EOT\227\SOH\ETB*\n\
+    \\ENQ\EOT\EOT\STX\NUL\b\DC2\EOT\251\SOH\ETB*\n\
     \\SO\n\
-    \\ACK\EOT\EOT\STX\NUL\b\ETX\DC2\EOT\227\SOH\CAN)\n\
+    \\ACK\EOT\EOT\STX\NUL\b\ETX\DC2\EOT\251\SOH\CAN)\n\
     \\131\SOH\n\
-    \\EOT\EOT\EOT\STX\SOH\DC2\EOT\231\SOH\EOTN\SUBu The target Version of the transition.\n\
+    \\EOT\EOT\EOT\STX\SOH\DC2\EOT\255\SOH\EOTN\SUBu The target Version of the transition.\n\
     \ If nil, a so-far-versioned workflow is transitioning to unversioned workers.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\SOH\ACK\DC2\EOT\231\SOH\EOT6\n\
+    \\ENQ\EOT\EOT\STX\SOH\ACK\DC2\EOT\255\SOH\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\SOH\SOH\DC2\EOT\231\SOH7I\n\
+    \\ENQ\EOT\EOT\STX\SOH\SOH\DC2\EOT\255\SOH7I\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\SOH\ETX\DC2\EOT\231\SOHLM\n\
+    \\ENQ\EOT\EOT\STX\SOH\ETX\DC2\EOT\255\SOHLM\n\
     \\f\n\
-    \\STX\EOT\ENQ\DC2\ACK\236\SOH\NUL\243\SOH\SOH\n\
+    \\STX\EOT\ENQ\DC2\ACK\132\STX\NUL\139\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\ENQ\SOH\DC2\EOT\236\SOH\b\US\n\
+    \\ETX\EOT\ENQ\SOH\DC2\EOT\132\STX\b\US\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\NUL\DC2\EOT\237\SOH\EOT7\n\
+    \\EOT\EOT\ENQ\STX\NUL\DC2\EOT\133\STX\EOT7\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ACK\DC2\EOT\237\SOH\EOT'\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ACK\DC2\EOT\133\STX\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\EOT\237\SOH(2\n\
+    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\EOT\133\STX(2\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\EOT\237\SOH56\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\EOT\133\STX56\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\SOH\DC2\EOT\238\SOH\EOT<\n\
+    \\EOT\EOT\ENQ\STX\SOH\DC2\EOT\134\STX\EOT<\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ACK\DC2\EOT\238\SOH\EOT\FS\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ACK\DC2\EOT\134\STX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\EOT\238\SOH\GS7\n\
+    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\EOT\134\STX\GS7\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\EOT\238\SOH:;\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\EOT\134\STX:;\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\STX\DC2\EOT\239\SOH\EOT6\n\
+    \\EOT\EOT\ENQ\STX\STX\DC2\EOT\135\STX\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\STX\ACK\DC2\EOT\239\SOH\EOT\FS\n\
+    \\ENQ\EOT\ENQ\STX\STX\ACK\DC2\EOT\135\STX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\STX\SOH\DC2\EOT\239\SOH\GS1\n\
+    \\ENQ\EOT\ENQ\STX\STX\SOH\DC2\EOT\135\STX\GS1\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\STX\ETX\DC2\EOT\239\SOH45\n\
+    \\ENQ\EOT\ENQ\STX\STX\ETX\DC2\EOT\135\STX45\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\ETX\DC2\EOT\240\SOH\EOT?\n\
+    \\EOT\EOT\ENQ\STX\ETX\DC2\EOT\136\STX\EOT?\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\ETX\ACK\DC2\EOT\240\SOH\EOT\FS\n\
+    \\ENQ\EOT\ENQ\STX\ETX\ACK\DC2\EOT\136\STX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\ETX\SOH\DC2\EOT\240\SOH\GS:\n\
+    \\ENQ\EOT\ENQ\STX\ETX\SOH\DC2\EOT\136\STX\GS:\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\ETX\ETX\DC2\EOT\240\SOH=>\n\
+    \\ENQ\EOT\ENQ\STX\ETX\ETX\DC2\EOT\136\STX=>\n\
     \9\n\
-    \\EOT\EOT\ENQ\STX\EOT\DC2\EOT\242\SOH\EOT7\SUB+ User metadata provided on start workflow.\n\
+    \\EOT\EOT\ENQ\STX\EOT\DC2\EOT\138\STX\EOT7\SUB+ User metadata provided on start workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\EOT\ACK\DC2\EOT\242\SOH\EOT$\n\
+    \\ENQ\EOT\ENQ\STX\EOT\ACK\DC2\EOT\138\STX\EOT$\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\EOT\SOH\DC2\EOT\242\SOH%2\n\
+    \\ENQ\EOT\ENQ\STX\EOT\SOH\DC2\EOT\138\STX%2\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\EOT\ETX\DC2\EOT\242\SOH56\n\
+    \\ENQ\EOT\ENQ\STX\EOT\ETX\DC2\EOT\138\STX56\n\
     \\f\n\
-    \\STX\EOT\ACK\DC2\ACK\245\SOH\NUL\212\STX\SOH\n\
+    \\STX\EOT\ACK\DC2\ACK\141\STX\NUL\236\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\ACK\SOH\DC2\EOT\245\SOH\b\ESC\n\
+    \\ETX\EOT\ACK\SOH\DC2\EOT\141\STX\b\ESC\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\NUL\DC2\EOT\246\SOH\EOT\ESC\n\
+    \\EOT\EOT\ACK\STX\NUL\DC2\EOT\142\STX\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\ENQ\DC2\EOT\246\SOH\EOT\n\
+    \\ENQ\EOT\ACK\STX\NUL\ENQ\DC2\EOT\142\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\EOT\246\SOH\v\SYN\n\
+    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\EOT\142\STX\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\EOT\246\SOH\EM\SUB\n\
+    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\EOT\142\STX\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\SOH\DC2\EOT\247\SOH\EOT:\n\
+    \\EOT\EOT\ACK\STX\SOH\DC2\EOT\143\STX\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SOH\ACK\DC2\EOT\247\SOH\EOT'\n\
+    \\ENQ\EOT\ACK\STX\SOH\ACK\DC2\EOT\143\STX\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SOH\SOH\DC2\EOT\247\SOH(5\n\
+    \\ENQ\EOT\ACK\STX\SOH\SOH\DC2\EOT\143\STX(5\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SOH\ETX\DC2\EOT\247\SOH89\n\
+    \\ENQ\EOT\ACK\STX\SOH\ETX\DC2\EOT\143\STX89\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\STX\DC2\EOT\248\SOH\EOT9\n\
+    \\EOT\EOT\ACK\STX\STX\DC2\EOT\144\STX\EOT9\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\STX\ACK\DC2\EOT\248\SOH\EOT.\n\
+    \\ENQ\EOT\ACK\STX\STX\ACK\DC2\EOT\144\STX\EOT.\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\STX\SOH\DC2\EOT\248\SOH/4\n\
+    \\ENQ\EOT\ACK\STX\STX\SOH\DC2\EOT\144\STX/4\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\STX\ETX\DC2\EOT\248\SOH78\n\
+    \\ENQ\EOT\ACK\STX\STX\ETX\DC2\EOT\144\STX78\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\ETX\DC2\EOT\249\SOH\EOT:\n\
+    \\EOT\EOT\ACK\STX\ETX\DC2\EOT\145\STX\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ETX\ACK\DC2\EOT\249\SOH\EOT#\n\
+    \\ENQ\EOT\ACK\STX\ETX\ACK\DC2\EOT\145\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ETX\SOH\DC2\EOT\249\SOH$5\n\
+    \\ENQ\EOT\ACK\STX\ETX\SOH\DC2\EOT\145\STX$5\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ETX\ETX\DC2\EOT\249\SOH89\n\
+    \\ENQ\EOT\ACK\STX\ETX\ETX\DC2\EOT\145\STX89\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\EOT\DC2\EOT\250\SOH\EOT6\n\
+    \\EOT\EOT\ACK\STX\EOT\DC2\EOT\146\STX\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\EOT\ACK\DC2\EOT\250\SOH\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\EOT\ACK\DC2\EOT\146\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\EOT\SOH\DC2\EOT\250\SOH\RS1\n\
+    \\ENQ\EOT\ACK\STX\EOT\SOH\DC2\EOT\146\STX\RS1\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\EOT\ETX\DC2\EOT\250\SOH45\n\
+    \\ENQ\EOT\ACK\STX\EOT\ETX\DC2\EOT\146\STX45\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\ENQ\DC2\EOT\251\SOH\EOT4\n\
+    \\EOT\EOT\ACK\STX\ENQ\DC2\EOT\147\STX\EOT4\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ENQ\ACK\DC2\EOT\251\SOH\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\ENQ\ACK\DC2\EOT\147\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ENQ\SOH\DC2\EOT\251\SOH\RS/\n\
+    \\ENQ\EOT\ACK\STX\ENQ\SOH\DC2\EOT\147\STX\RS/\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ENQ\ETX\DC2\EOT\251\SOH23\n\
+    \\ENQ\EOT\ACK\STX\ENQ\ETX\DC2\EOT\147\STX23\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\ACK\DC2\EOT\252\SOH\EOT\SYN\n\
+    \\EOT\EOT\ACK\STX\ACK\DC2\EOT\148\STX\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ACK\ENQ\DC2\EOT\252\SOH\EOT\t\n\
+    \\ENQ\EOT\ACK\STX\ACK\ENQ\DC2\EOT\148\STX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ACK\SOH\DC2\EOT\252\SOH\n\
+    \\ENQ\EOT\ACK\STX\ACK\SOH\DC2\EOT\148\STX\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ACK\ETX\DC2\EOT\252\SOH\DC4\NAK\n\
+    \\ENQ\EOT\ACK\STX\ACK\ETX\DC2\EOT\148\STX\DC4\NAK\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\a\DC2\EOT\253\SOH\EOT\US\n\
+    \\EOT\EOT\ACK\STX\a\DC2\EOT\149\STX\EOT\US\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\a\ENQ\DC2\EOT\253\SOH\EOT\t\n\
+    \\ENQ\EOT\ACK\STX\a\ENQ\DC2\EOT\149\STX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\a\SOH\DC2\EOT\253\SOH\n\
+    \\ENQ\EOT\ACK\STX\a\SOH\DC2\EOT\149\STX\n\
     \\SUB\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\a\ETX\DC2\EOT\253\SOH\GS\RS\n\
+    \\ENQ\EOT\ACK\STX\a\ETX\DC2\EOT\149\STX\GS\RS\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\b\DC2\EOT\254\SOH\EOT1\n\
+    \\EOT\EOT\ACK\STX\b\DC2\EOT\150\STX\EOT1\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\b\ACK\DC2\EOT\254\SOH\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\b\ACK\DC2\EOT\150\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\b\SOH\DC2\EOT\254\SOH\RS,\n\
+    \\ENQ\EOT\ACK\STX\b\SOH\DC2\EOT\150\STX\RS,\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\b\ETX\DC2\EOT\254\SOH/0\n\
+    \\ENQ\EOT\ACK\STX\b\ETX\DC2\EOT\150\STX/0\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\t\DC2\EOT\255\SOH\EOT3\n\
+    \\EOT\EOT\ACK\STX\t\DC2\EOT\151\STX\EOT3\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\t\ACK\DC2\EOT\255\SOH\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\t\ACK\DC2\EOT\151\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\t\SOH\DC2\EOT\255\SOH\RS-\n\
+    \\ENQ\EOT\ACK\STX\t\SOH\DC2\EOT\151\STX\RS-\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\t\ETX\DC2\EOT\255\SOH02\n\
+    \\ENQ\EOT\ACK\STX\t\ETX\DC2\EOT\151\STX02\n\
     \\f\n\
     \\EOT\EOT\ACK\STX\n\
-    \\DC2\EOT\128\STX\EOT6\n\
+    \\DC2\EOT\152\STX\EOT6\n\
     \\r\n\
     \\ENQ\EOT\ACK\STX\n\
-    \\ACK\DC2\EOT\128\STX\EOT#\n\
+    \\ACK\DC2\EOT\152\STX\EOT#\n\
     \\r\n\
     \\ENQ\EOT\ACK\STX\n\
-    \\SOH\DC2\EOT\128\STX$0\n\
+    \\SOH\DC2\EOT\152\STX$0\n\
     \\r\n\
     \\ENQ\EOT\ACK\STX\n\
-    \\ETX\DC2\EOT\128\STX35\n\
+    \\ETX\DC2\EOT\152\STX35\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\v\DC2\EOT\129\STX\EOT%\n\
+    \\EOT\EOT\ACK\STX\v\DC2\EOT\153\STX\EOT%\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\v\ENQ\DC2\EOT\129\STX\EOT\n\
+    \\ENQ\EOT\ACK\STX\v\ENQ\DC2\EOT\153\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\v\SOH\DC2\EOT\129\STX\v\US\n\
+    \\ENQ\EOT\ACK\STX\v\SOH\DC2\EOT\153\STX\v\US\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\v\ETX\DC2\EOT\129\STX\"$\n\
+    \\ENQ\EOT\ACK\STX\v\ETX\DC2\EOT\153\STX\"$\n\
     \\168\ETX\n\
-    \\EOT\EOT\ACK\b\NUL\DC2\ACK\134\STX\EOT\142\STX\ENQ\SUB\151\ETX Absence of `assigned_build_id` generally means this task is on an \"unversioned\" task queue.\n\
+    \\EOT\EOT\ACK\b\NUL\DC2\ACK\158\STX\EOT\166\STX\ENQ\SUB\151\ETX Absence of `assigned_build_id` generally means this task is on an \"unversioned\" task queue.\n\
     \ In rare cases, it can also mean that the task queue is versioned but we failed to write activity's\n\
     \ independently-assigned build ID to the database. This case heals automatically once the task is dispatched.\n\
     \ Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\b\NUL\SOH\DC2\EOT\134\STX\n\
+    \\ENQ\EOT\ACK\b\NUL\SOH\DC2\EOT\158\STX\n\
     \\ESC\n\
     \m\n\
-    \\EOT\EOT\ACK\STX\f\DC2\EOT\136\STX\bM\SUB_ Deprecated. When present, it means this activity is assigned to the build ID of its workflow.\n\
+    \\EOT\EOT\ACK\STX\f\DC2\EOT\160\STX\bM\SUB_ Deprecated. When present, it means this activity is assigned to the build ID of its workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\f\ACK\DC2\EOT\136\STX\b\GS\n\
+    \\ENQ\EOT\ACK\STX\f\ACK\DC2\EOT\160\STX\b\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\f\SOH\DC2\EOT\136\STX\RS3\n\
+    \\ENQ\EOT\ACK\STX\f\SOH\DC2\EOT\160\STX\RS3\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\f\ETX\DC2\EOT\136\STX68\n\
+    \\ENQ\EOT\ACK\STX\f\ETX\DC2\EOT\160\STX68\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\f\b\DC2\EOT\136\STX9L\n\
+    \\ENQ\EOT\ACK\STX\f\b\DC2\EOT\160\STX9L\n\
     \\SO\n\
-    \\ACK\EOT\ACK\STX\f\b\ETX\DC2\EOT\136\STX:K\n\
+    \\ACK\EOT\ACK\STX\f\b\ETX\DC2\EOT\160\STX:K\n\
     \\176\STX\n\
-    \\EOT\EOT\ACK\STX\r\DC2\EOT\141\STX\bM\SUB\161\STX Deprecated. This means the activity is independently versioned and not bound to the build ID of its workflow.\n\
+    \\EOT\EOT\ACK\STX\r\DC2\EOT\165\STX\bM\SUB\161\STX Deprecated. This means the activity is independently versioned and not bound to the build ID of its workflow.\n\
     \ The activity will use the build id in this field instead.\n\
     \ If the task fails and is scheduled again, the assigned build ID may change according to the latest versioning\n\
     \ rules.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\r\ENQ\DC2\EOT\141\STX\b\SO\n\
+    \\ENQ\EOT\ACK\STX\r\ENQ\DC2\EOT\165\STX\b\SO\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\r\SOH\DC2\EOT\141\STX\SI3\n\
+    \\ENQ\EOT\ACK\STX\r\SOH\DC2\EOT\165\STX\SI3\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\r\ETX\DC2\EOT\141\STX68\n\
+    \\ENQ\EOT\ACK\STX\r\ETX\DC2\EOT\165\STX68\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\r\b\DC2\EOT\141\STX9L\n\
+    \\ENQ\EOT\ACK\STX\r\b\DC2\EOT\165\STX9L\n\
     \\SO\n\
-    \\ACK\EOT\ACK\STX\r\b\ETX\DC2\EOT\141\STX:K\n\
+    \\ACK\EOT\ACK\STX\r\b\ETX\DC2\EOT\165\STX:K\n\
     \\204\SOH\n\
-    \\EOT\EOT\ACK\STX\SO\DC2\EOT\145\STX\EOTa\SUB\189\SOH Deprecated. The version stamp of the worker to whom this activity was most recently dispatched\n\
+    \\EOT\EOT\ACK\STX\SO\DC2\EOT\169\STX\EOTa\SUB\189\SOH Deprecated. The version stamp of the worker to whom this activity was most recently dispatched\n\
     \ This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SO\ACK\DC2\EOT\145\STX\EOT-\n\
+    \\ENQ\EOT\ACK\STX\SO\ACK\DC2\EOT\169\STX\EOT-\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SO\SOH\DC2\EOT\145\STX.G\n\
+    \\ENQ\EOT\ACK\STX\SO\SOH\DC2\EOT\169\STX.G\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SO\ETX\DC2\EOT\145\STXJL\n\
+    \\ENQ\EOT\ACK\STX\SO\ETX\DC2\EOT\169\STXJL\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SO\b\DC2\EOT\145\STXM`\n\
+    \\ENQ\EOT\ACK\STX\SO\b\DC2\EOT\169\STXM`\n\
     \\SO\n\
-    \\ACK\EOT\ACK\STX\SO\b\ETX\DC2\EOT\145\STXN_\n\
+    \\ACK\EOT\ACK\STX\SO\b\ETX\DC2\EOT\169\STXN_\n\
     \\136\STX\n\
-    \\EOT\EOT\ACK\STX\SI\DC2\EOT\151\STX\EOT9\SUB\249\SOH The time activity will wait until the next retry.\n\
+    \\EOT\EOT\ACK\STX\SI\DC2\EOT\175\STX\EOT9\SUB\249\SOH The time activity will wait until the next retry.\n\
     \ If activity is currently running it will be next retry interval if activity failed.\n\
     \ If activity is currently waiting it will be current retry interval.\n\
     \ If there will be no retry it will be null.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SI\ACK\DC2\EOT\151\STX\EOT\FS\n\
+    \\ENQ\EOT\ACK\STX\SI\ACK\DC2\EOT\175\STX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SI\SOH\DC2\EOT\151\STX\GS3\n\
+    \\ENQ\EOT\ACK\STX\SI\SOH\DC2\EOT\175\STX\GS3\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SI\ETX\DC2\EOT\151\STX68\n\
+    \\ENQ\EOT\ACK\STX\SI\ETX\DC2\EOT\175\STX68\n\
     \\131\SOH\n\
-    \\EOT\EOT\ACK\STX\DLE\DC2\EOT\154\STX\EOT>\SUBu The time when the last activity attempt was completed. If activity has not been completed yet then it will be null.\n\
+    \\EOT\EOT\ACK\STX\DLE\DC2\EOT\178\STX\EOT>\SUBu The time when the last activity attempt was completed. If activity has not been completed yet then it will be null.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DLE\ACK\DC2\EOT\154\STX\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\DLE\ACK\DC2\EOT\178\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DLE\SOH\DC2\EOT\154\STX\RS8\n\
+    \\ENQ\EOT\ACK\STX\DLE\SOH\DC2\EOT\178\STX\RS8\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DLE\ETX\DC2\EOT\154\STX;=\n\
+    \\ENQ\EOT\ACK\STX\DLE\ETX\DC2\EOT\178\STX;=\n\
     \z\n\
-    \\EOT\EOT\ACK\STX\DC1\DC2\EOT\158\STX\EOT>\SUBl Next time when activity will be scheduled.\n\
+    \\EOT\EOT\ACK\STX\DC1\DC2\EOT\182\STX\EOT>\SUBl Next time when activity will be scheduled.\n\
     \ If activity is currently scheduled or started it will be null.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC1\ACK\DC2\EOT\158\STX\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\DC1\ACK\DC2\EOT\182\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC1\SOH\DC2\EOT\158\STX\RS8\n\
+    \\ENQ\EOT\ACK\STX\DC1\SOH\DC2\EOT\182\STX\RS8\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC1\ETX\DC2\EOT\158\STX;=\n\
+    \\ENQ\EOT\ACK\STX\DC1\ETX\DC2\EOT\182\STX;=\n\
     \0\n\
-    \\EOT\EOT\ACK\STX\DC2\DC2\EOT\161\STX\EOT\NAK\SUB\" Indicates if activity is paused.\n\
+    \\EOT\EOT\ACK\STX\DC2\DC2\EOT\185\STX\EOT\NAK\SUB\" Indicates if activity is paused.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC2\ENQ\DC2\EOT\161\STX\EOT\b\n\
+    \\ENQ\EOT\ACK\STX\DC2\ENQ\DC2\EOT\185\STX\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC2\SOH\DC2\EOT\161\STX\t\SI\n\
+    \\ENQ\EOT\ACK\STX\DC2\SOH\DC2\EOT\185\STX\t\SI\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC2\ETX\DC2\EOT\161\STX\DC2\DC4\n\
+    \\ENQ\EOT\ACK\STX\DC2\ETX\DC2\EOT\185\STX\DC2\DC4\n\
     \\190\SOH\n\
-    \\EOT\EOT\ACK\STX\DC3\DC2\EOT\166\STX\EOTS\SUB\175\SOH The deployment this activity was dispatched to most recently. Present only if the activity\n\
+    \\EOT\EOT\ACK\STX\DC3\DC2\EOT\190\STX\EOTS\SUB\175\SOH The deployment this activity was dispatched to most recently. Present only if the activity\n\
     \ was dispatched to a versioned worker.\n\
     \ Deprecated. Use `last_deployment_version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC3\ACK\DC2\EOT\166\STX\EOT)\n\
+    \\ENQ\EOT\ACK\STX\DC3\ACK\DC2\EOT\190\STX\EOT)\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC3\SOH\DC2\EOT\166\STX*9\n\
+    \\ENQ\EOT\ACK\STX\DC3\SOH\DC2\EOT\190\STX*9\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC3\ETX\DC2\EOT\166\STX<>\n\
+    \\ENQ\EOT\ACK\STX\DC3\ETX\DC2\EOT\190\STX<>\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC3\b\DC2\EOT\166\STX?R\n\
+    \\ENQ\EOT\ACK\STX\DC3\b\DC2\EOT\190\STX?R\n\
     \\SO\n\
-    \\ACK\EOT\ACK\STX\DC3\b\ETX\DC2\EOT\166\STX@Q\n\
+    \\ACK\EOT\ACK\STX\DC3\b\ETX\DC2\EOT\190\STX@Q\n\
     \\136\SOH\n\
-    \\EOT\EOT\ACK\STX\DC4\DC2\EOT\169\STX\EOTC\SUBz The Worker Deployment Version this activity was dispatched to most recently.\n\
+    \\EOT\EOT\ACK\STX\DC4\DC2\EOT\193\STX\EOTC\SUBz The Worker Deployment Version this activity was dispatched to most recently.\n\
     \ Deprecated. Use `last_deployment_version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC4\ENQ\DC2\EOT\169\STX\EOT\n\
+    \\ENQ\EOT\ACK\STX\DC4\ENQ\DC2\EOT\193\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC4\SOH\DC2\EOT\169\STX\v)\n\
+    \\ENQ\EOT\ACK\STX\DC4\SOH\DC2\EOT\193\STX\v)\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC4\ETX\DC2\EOT\169\STX,.\n\
+    \\ENQ\EOT\ACK\STX\DC4\ETX\DC2\EOT\193\STX,.\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\DC4\b\DC2\EOT\169\STX/B\n\
+    \\ENQ\EOT\ACK\STX\DC4\b\DC2\EOT\193\STX/B\n\
     \\SO\n\
-    \\ACK\EOT\ACK\STX\DC4\b\ETX\DC2\EOT\169\STX0A\n\
+    \\ACK\EOT\ACK\STX\DC4\b\ETX\DC2\EOT\193\STX0A\n\
     \\192\SOH\n\
-    \\EOT\EOT\ACK\STX\NAK\DC2\EOT\172\STX\EOTT\SUB\177\SOH The Worker Deployment Version this activity was dispatched to most recently.\n\
+    \\EOT\EOT\ACK\STX\NAK\DC2\EOT\196\STX\EOTT\SUB\177\SOH The Worker Deployment Version this activity was dispatched to most recently.\n\
     \ If nil, the activity has not yet been dispatched or was last dispatched to an unversioned worker.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NAK\ACK\DC2\EOT\172\STX\EOT6\n\
+    \\ENQ\EOT\ACK\STX\NAK\ACK\DC2\EOT\196\STX\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NAK\SOH\DC2\EOT\172\STX7N\n\
+    \\ENQ\EOT\ACK\STX\NAK\SOH\DC2\EOT\196\STX7N\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NAK\ETX\DC2\EOT\172\STXQS\n\
-    \!\n\
-    \\EOT\EOT\ACK\STX\SYN\DC2\EOT\176\STX\EOT2\SUB\DC3 Priority metadata\n\
+    \\ENQ\EOT\ACK\STX\NAK\ETX\DC2\EOT\196\STXQS\n\
+    \\141\SOH\n\
+    \\EOT\EOT\ACK\STX\SYN\DC2\EOT\200\STX\EOT2\SUB\DEL Priority metadata. If this message is not present, or any fields are not\n\
+    \ present, they inherit the values from the workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SYN\ACK\DC2\EOT\176\STX\EOT#\n\
+    \\ENQ\EOT\ACK\STX\SYN\ACK\DC2\EOT\200\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SYN\SOH\DC2\EOT\176\STX$,\n\
+    \\ENQ\EOT\ACK\STX\SYN\SOH\DC2\EOT\200\STX$,\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SYN\ETX\DC2\EOT\176\STX/1\n\
+    \\ENQ\EOT\ACK\STX\SYN\ETX\DC2\EOT\200\STX/1\n\
     \\SO\n\
-    \\EOT\EOT\ACK\ETX\NUL\DC2\ACK\178\STX\EOT\206\STX\ENQ\n\
+    \\EOT\EOT\ACK\ETX\NUL\DC2\ACK\202\STX\EOT\230\STX\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\ACK\ETX\NUL\SOH\DC2\EOT\178\STX\f\NAK\n\
+    \\ENQ\EOT\ACK\ETX\NUL\SOH\DC2\EOT\202\STX\f\NAK\n\
     \8\n\
-    \\ACK\EOT\ACK\ETX\NUL\STX\NUL\DC2\EOT\180\STX\b1\SUB( The time when the activity was paused.\n\
+    \\ACK\EOT\ACK\ETX\NUL\STX\NUL\DC2\EOT\204\STX\b1\SUB( The time when the activity was paused.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\NUL\ACK\DC2\EOT\180\STX\b!\n\
+    \\a\EOT\ACK\ETX\NUL\STX\NUL\ACK\DC2\EOT\204\STX\b!\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\NUL\SOH\DC2\EOT\180\STX\",\n\
+    \\a\EOT\ACK\ETX\NUL\STX\NUL\SOH\DC2\EOT\204\STX\",\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\NUL\ETX\DC2\EOT\180\STX/0\n\
+    \\a\EOT\ACK\ETX\NUL\STX\NUL\ETX\DC2\EOT\204\STX/0\n\
     \\DLE\n\
-    \\ACK\EOT\ACK\ETX\NUL\ETX\NUL\DC2\ACK\182\STX\b\187\STX\t\n\
+    \\ACK\EOT\ACK\ETX\NUL\ETX\NUL\DC2\ACK\206\STX\b\211\STX\t\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\ETX\NUL\SOH\DC2\EOT\182\STX\DLE\SYN\n\
+    \\a\EOT\ACK\ETX\NUL\ETX\NUL\SOH\DC2\EOT\206\STX\DLE\SYN\n\
     \G\n\
-    \\b\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\DC2\EOT\184\STX\f \SUB5 The identity of the actor that paused the activity.\n\
+    \\b\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\DC2\EOT\208\STX\f \SUB5 The identity of the actor that paused the activity.\n\
     \\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\ENQ\DC2\EOT\184\STX\f\DC2\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\ENQ\DC2\EOT\208\STX\f\DC2\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\SOH\DC2\EOT\184\STX\DC3\ESC\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\SOH\DC2\EOT\208\STX\DC3\ESC\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\ETX\DC2\EOT\184\STX\RS\US\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\NUL\ETX\DC2\EOT\208\STX\RS\US\n\
     \4\n\
-    \\b\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\DC2\EOT\186\STX\f\RS\SUB\" Reason for pausing the activity.\n\
+    \\b\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\DC2\EOT\210\STX\f\RS\SUB\" Reason for pausing the activity.\n\
     \\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\ENQ\DC2\EOT\186\STX\f\DC2\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\ENQ\DC2\EOT\210\STX\f\DC2\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\SOH\DC2\EOT\186\STX\DC3\EM\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\SOH\DC2\EOT\210\STX\DC3\EM\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\ETX\DC2\EOT\186\STX\FS\GS\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\NUL\STX\SOH\ETX\DC2\EOT\210\STX\FS\GS\n\
     \\DLE\n\
-    \\ACK\EOT\ACK\ETX\NUL\ETX\SOH\DC2\ACK\189\STX\b\196\STX\t\n\
+    \\ACK\EOT\ACK\ETX\NUL\ETX\SOH\DC2\ACK\213\STX\b\220\STX\t\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\ETX\SOH\SOH\DC2\EOT\189\STX\DLE\DC4\n\
+    \\a\EOT\ACK\ETX\NUL\ETX\SOH\SOH\DC2\EOT\213\STX\DLE\DC4\n\
     \6\n\
-    \\b\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\DC2\EOT\191\STX\f\US\SUB$ The rule that paused the activity.\n\
+    \\b\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\DC2\EOT\215\STX\f\US\SUB$ The rule that paused the activity.\n\
     \\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\ENQ\DC2\EOT\191\STX\f\DC2\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\ENQ\DC2\EOT\215\STX\f\DC2\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\SOH\DC2\EOT\191\STX\DC3\SUB\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\SOH\DC2\EOT\215\STX\DC3\SUB\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\ETX\DC2\EOT\191\STX\GS\RS\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\NUL\ETX\DC2\EOT\215\STX\GS\RS\n\
     \D\n\
-    \\b\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\DC2\EOT\193\STX\f \SUB2 The identity of the actor that created the rule.\n\
+    \\b\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\DC2\EOT\217\STX\f \SUB2 The identity of the actor that created the rule.\n\
     \\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\ENQ\DC2\EOT\193\STX\f\DC2\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\ENQ\DC2\EOT\217\STX\f\DC2\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\SOH\DC2\EOT\193\STX\DC3\ESC\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\SOH\DC2\EOT\217\STX\DC3\ESC\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\ETX\DC2\EOT\193\STX\RS\US\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\SOH\ETX\DC2\EOT\217\STX\RS\US\n\
     \Q\n\
-    \\b\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\DC2\EOT\195\STX\f\RS\SUB? Reason why rule was created. Populated from rule description.\n\
+    \\b\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\DC2\EOT\219\STX\f\RS\SUB? Reason why rule was created. Populated from rule description.\n\
     \\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\ENQ\DC2\EOT\195\STX\f\DC2\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\ENQ\DC2\EOT\219\STX\f\DC2\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\SOH\DC2\EOT\195\STX\DC3\EM\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\SOH\DC2\EOT\219\STX\DC3\EM\n\
     \\DC1\n\
-    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\ETX\DC2\EOT\195\STX\FS\GS\n\
+    \\t\EOT\ACK\ETX\NUL\ETX\SOH\STX\STX\ETX\DC2\EOT\219\STX\FS\GS\n\
     \\DLE\n\
-    \\ACK\EOT\ACK\ETX\NUL\b\NUL\DC2\ACK\198\STX\b\205\STX\t\n\
+    \\ACK\EOT\ACK\ETX\NUL\b\NUL\DC2\ACK\222\STX\b\229\STX\t\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\b\NUL\SOH\DC2\EOT\198\STX\SO\ETB\n\
+    \\a\EOT\ACK\ETX\NUL\b\NUL\SOH\DC2\EOT\222\STX\SO\ETB\n\
     \@\n\
-    \\ACK\EOT\ACK\ETX\NUL\STX\SOH\DC2\EOT\200\STX\f\RS\SUB0 activity was paused by the manual intervention\n\
+    \\ACK\EOT\ACK\ETX\NUL\STX\SOH\DC2\EOT\224\STX\f\RS\SUB0 activity was paused by the manual intervention\n\
     \\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\SOH\ACK\DC2\EOT\200\STX\f\DC2\n\
+    \\a\EOT\ACK\ETX\NUL\STX\SOH\ACK\DC2\EOT\224\STX\f\DC2\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\SOH\SOH\DC2\EOT\200\STX\DC3\EM\n\
+    \\a\EOT\ACK\ETX\NUL\STX\SOH\SOH\DC2\EOT\224\STX\DC3\EM\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\SOH\ETX\DC2\EOT\200\STX\FS\GS\n\
+    \\a\EOT\ACK\ETX\NUL\STX\SOH\ETX\DC2\EOT\224\STX\FS\GS\n\
     \1\n\
-    \\ACK\EOT\ACK\ETX\NUL\STX\STX\DC2\EOT\204\STX\f\SUB\SUB! activity was paused by the rule\n\
+    \\ACK\EOT\ACK\ETX\NUL\STX\STX\DC2\EOT\228\STX\f\SUB\SUB! activity was paused by the rule\n\
     \\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\STX\ACK\DC2\EOT\204\STX\f\DLE\n\
+    \\a\EOT\ACK\ETX\NUL\STX\STX\ACK\DC2\EOT\228\STX\f\DLE\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\STX\SOH\DC2\EOT\204\STX\DC1\NAK\n\
+    \\a\EOT\ACK\ETX\NUL\STX\STX\SOH\DC2\EOT\228\STX\DC1\NAK\n\
     \\SI\n\
-    \\a\EOT\ACK\ETX\NUL\STX\STX\ETX\DC2\EOT\204\STX\CAN\EM\n\
+    \\a\EOT\ACK\ETX\NUL\STX\STX\ETX\DC2\EOT\228\STX\CAN\EM\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\ETB\DC2\EOT\208\STX\EOT\RS\n\
+    \\EOT\EOT\ACK\STX\ETB\DC2\EOT\232\STX\EOT\RS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ETB\ACK\DC2\EOT\208\STX\EOT\r\n\
+    \\ENQ\EOT\ACK\STX\ETB\ACK\DC2\EOT\232\STX\EOT\r\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ETB\SOH\DC2\EOT\208\STX\SO\CAN\n\
+    \\ENQ\EOT\ACK\STX\ETB\SOH\DC2\EOT\232\STX\SO\CAN\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\ETB\ETX\DC2\EOT\208\STX\ESC\GS\n\
+    \\ENQ\EOT\ACK\STX\ETB\ETX\DC2\EOT\232\STX\ESC\GS\n\
     \c\n\
-    \\EOT\EOT\ACK\STX\CAN\DC2\EOT\211\STX\EOTC\SUBU Current activity options. May be different from the one used to start the activity.\n\
+    \\EOT\EOT\ACK\STX\CAN\DC2\EOT\235\STX\EOTC\SUBU Current activity options. May be different from the one used to start the activity.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\CAN\ACK\DC2\EOT\211\STX\EOT,\n\
+    \\ENQ\EOT\ACK\STX\CAN\ACK\DC2\EOT\235\STX\EOT,\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\CAN\SOH\DC2\EOT\211\STX-=\n\
+    \\ENQ\EOT\ACK\STX\CAN\SOH\DC2\EOT\235\STX-=\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\CAN\ETX\DC2\EOT\211\STX@B\n\
+    \\ENQ\EOT\ACK\STX\CAN\ETX\DC2\EOT\235\STX@B\n\
     \\f\n\
-    \\STX\EOT\a\DC2\ACK\214\STX\NUL\221\STX\SOH\n\
+    \\STX\EOT\a\DC2\ACK\238\STX\NUL\245\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\a\SOH\DC2\EOT\214\STX\b!\n\
+    \\ETX\EOT\a\SOH\DC2\EOT\238\STX\b!\n\
     \\f\n\
-    \\EOT\EOT\a\STX\NUL\DC2\EOT\215\STX\EOT\ESC\n\
+    \\EOT\EOT\a\STX\NUL\DC2\EOT\239\STX\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\ENQ\DC2\EOT\215\STX\EOT\n\
+    \\ENQ\EOT\a\STX\NUL\ENQ\DC2\EOT\239\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\SOH\DC2\EOT\215\STX\v\SYN\n\
+    \\ENQ\EOT\a\STX\NUL\SOH\DC2\EOT\239\STX\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\ETX\DC2\EOT\215\STX\EM\SUB\n\
+    \\ENQ\EOT\a\STX\NUL\ETX\DC2\EOT\239\STX\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\a\STX\SOH\DC2\EOT\216\STX\EOT\SYN\n\
+    \\EOT\EOT\a\STX\SOH\DC2\EOT\240\STX\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\ENQ\DC2\EOT\216\STX\EOT\n\
+    \\ENQ\EOT\a\STX\SOH\ENQ\DC2\EOT\240\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\216\STX\v\DC1\n\
+    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\240\STX\v\DC1\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\216\STX\DC4\NAK\n\
+    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\240\STX\DC4\NAK\n\
     \\f\n\
-    \\EOT\EOT\a\STX\STX\DC2\EOT\217\STX\EOT\"\n\
+    \\EOT\EOT\a\STX\STX\DC2\EOT\241\STX\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\ENQ\DC2\EOT\217\STX\EOT\n\
+    \\ENQ\EOT\a\STX\STX\ENQ\DC2\EOT\241\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\217\STX\v\GS\n\
+    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\241\STX\v\GS\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\217\STX !\n\
+    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\241\STX !\n\
     \\f\n\
-    \\EOT\EOT\a\STX\ETX\DC2\EOT\218\STX\EOT\ESC\n\
+    \\EOT\EOT\a\STX\ETX\DC2\EOT\242\STX\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\ETX\ENQ\DC2\EOT\218\STX\EOT\t\n\
+    \\ENQ\EOT\a\STX\ETX\ENQ\DC2\EOT\242\STX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\ETX\SOH\DC2\EOT\218\STX\n\
+    \\ENQ\EOT\a\STX\ETX\SOH\DC2\EOT\242\STX\n\
     \\SYN\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\ETX\ETX\DC2\EOT\218\STX\EM\SUB\n\
+    \\ENQ\EOT\a\STX\ETX\ETX\DC2\EOT\242\STX\EM\SUB\n\
     \7\n\
-    \\EOT\EOT\a\STX\EOT\DC2\EOT\220\STX\EOTD\SUB) Default: PARENT_CLOSE_POLICY_TERMINATE.\n\
+    \\EOT\EOT\a\STX\EOT\DC2\EOT\244\STX\EOTD\SUB) Default: PARENT_CLOSE_POLICY_TERMINATE.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\EOT\ACK\DC2\EOT\220\STX\EOT+\n\
+    \\ENQ\EOT\a\STX\EOT\ACK\DC2\EOT\244\STX\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\EOT\SOH\DC2\EOT\220\STX,?\n\
+    \\ENQ\EOT\a\STX\EOT\SOH\DC2\EOT\244\STX,?\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\EOT\ETX\DC2\EOT\220\STXBC\n\
+    \\ENQ\EOT\a\STX\EOT\ETX\DC2\EOT\244\STXBC\n\
     \\f\n\
-    \\STX\EOT\b\DC2\ACK\223\STX\NUL\233\STX\SOH\n\
+    \\STX\EOT\b\DC2\ACK\247\STX\NUL\129\ETX\SOH\n\
     \\v\n\
-    \\ETX\EOT\b\SOH\DC2\EOT\223\STX\b\US\n\
+    \\ETX\EOT\b\SOH\DC2\EOT\247\STX\b\US\n\
     \\f\n\
-    \\EOT\EOT\b\STX\NUL\DC2\EOT\224\STX\EOT=\n\
+    \\EOT\EOT\b\STX\NUL\DC2\EOT\248\STX\EOT=\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\ACK\DC2\EOT\224\STX\EOT2\n\
+    \\ENQ\EOT\b\STX\NUL\ACK\DC2\EOT\248\STX\EOT2\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\SOH\DC2\EOT\224\STX38\n\
+    \\ENQ\EOT\b\STX\NUL\SOH\DC2\EOT\248\STX38\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\ETX\DC2\EOT\224\STX;<\n\
+    \\ENQ\EOT\b\STX\NUL\ETX\DC2\EOT\248\STX;<\n\
     \\f\n\
-    \\EOT\EOT\b\STX\SOH\DC2\EOT\225\STX\EOT1\n\
+    \\EOT\EOT\b\STX\SOH\DC2\EOT\249\STX\EOT1\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\SOH\ACK\DC2\EOT\225\STX\EOT\GS\n\
+    \\ENQ\EOT\b\STX\SOH\ACK\DC2\EOT\249\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\SOH\SOH\DC2\EOT\225\STX\RS,\n\
+    \\ENQ\EOT\b\STX\SOH\SOH\DC2\EOT\249\STX\RS,\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\SOH\ETX\DC2\EOT\225\STX/0\n\
+    \\ENQ\EOT\b\STX\SOH\ETX\DC2\EOT\249\STX/0\n\
     \\151\ETX\n\
-    \\EOT\EOT\b\STX\STX\DC2\EOT\230\STX\EOT:\SUB\136\ETX original_scheduled_time is the scheduled time of the first workflow task during workflow task heartbeat.\n\
+    \\EOT\EOT\b\STX\STX\DC2\EOT\254\STX\EOT:\SUB\136\ETX original_scheduled_time is the scheduled time of the first workflow task during workflow task heartbeat.\n\
     \ Heartbeat workflow task is done by RespondWorkflowTaskComplete with ForceCreateNewWorkflowTask == true and no command\n\
     \ In this case, OriginalScheduledTime won't change. Then when current time - original_scheduled_time exceeds\n\
     \ some threshold, the workflow task will be forced timeout.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\STX\ACK\DC2\EOT\230\STX\EOT\GS\n\
+    \\ENQ\EOT\b\STX\STX\ACK\DC2\EOT\254\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\STX\SOH\DC2\EOT\230\STX\RS5\n\
+    \\ENQ\EOT\b\STX\STX\SOH\DC2\EOT\254\STX\RS5\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\STX\ETX\DC2\EOT\230\STX89\n\
+    \\ENQ\EOT\b\STX\STX\ETX\DC2\EOT\254\STX89\n\
     \\f\n\
-    \\EOT\EOT\b\STX\ETX\DC2\EOT\231\STX\EOT/\n\
+    \\EOT\EOT\b\STX\ETX\DC2\EOT\255\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\ETX\ACK\DC2\EOT\231\STX\EOT\GS\n\
+    \\ENQ\EOT\b\STX\ETX\ACK\DC2\EOT\255\STX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\ETX\SOH\DC2\EOT\231\STX\RS*\n\
+    \\ENQ\EOT\b\STX\ETX\SOH\DC2\EOT\255\STX\RS*\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\ETX\ETX\DC2\EOT\231\STX-.\n\
+    \\ENQ\EOT\b\STX\ETX\ETX\DC2\EOT\255\STX-.\n\
     \\f\n\
-    \\EOT\EOT\b\STX\EOT\DC2\EOT\232\STX\EOT\SYN\n\
+    \\EOT\EOT\b\STX\EOT\DC2\EOT\128\ETX\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\EOT\ENQ\DC2\EOT\232\STX\EOT\t\n\
+    \\ENQ\EOT\b\STX\EOT\ENQ\DC2\EOT\128\ETX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\EOT\SOH\DC2\EOT\232\STX\n\
+    \\ENQ\EOT\b\STX\EOT\SOH\DC2\EOT\128\ETX\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\EOT\ETX\DC2\EOT\232\STX\DC4\NAK\n\
+    \\ENQ\EOT\b\STX\EOT\ETX\DC2\EOT\128\ETX\DC4\NAK\n\
     \\f\n\
-    \\STX\EOT\t\DC2\ACK\235\STX\NUL\237\STX\SOH\n\
+    \\STX\EOT\t\DC2\ACK\131\ETX\NUL\133\ETX\SOH\n\
     \\v\n\
-    \\ETX\EOT\t\SOH\DC2\EOT\235\STX\b\DC3\n\
+    \\ETX\EOT\t\SOH\DC2\EOT\131\ETX\b\DC3\n\
     \\f\n\
-    \\EOT\EOT\t\STX\NUL\DC2\EOT\236\STX\EOT'\n\
+    \\EOT\EOT\t\STX\NUL\DC2\EOT\132\ETX\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\EOT\DC2\EOT\236\STX\EOT\f\n\
+    \\ENQ\EOT\t\STX\NUL\EOT\DC2\EOT\132\ETX\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\ACK\DC2\EOT\236\STX\r\ESC\n\
+    \\ENQ\EOT\t\STX\NUL\ACK\DC2\EOT\132\ETX\r\ESC\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\236\STX\FS\"\n\
+    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\132\ETX\FS\"\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\236\STX%&\n\
+    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\132\ETX%&\n\
     \\155\STX\n\
     \\STX\EOT\n\
-    \\DC2\ACK\242\STX\NUL\130\ETX\SOH\SUB\140\STX ResetPointInfo records the workflow event id that is the first one processed by a given\n\
+    \\DC2\ACK\138\ETX\NUL\154\ETX\SOH\SUB\140\STX ResetPointInfo records the workflow event id that is the first one processed by a given\n\
     \ build id or binary checksum. A new reset point will be created if either build id or binary\n\
     \ checksum changes (although in general only one or the other will be used at a time).\n\
     \\n\
     \\v\n\
     \\ETX\EOT\n\
-    \\SOH\DC2\EOT\242\STX\b\SYN\n\
+    \\SOH\DC2\EOT\138\ETX\b\SYN\n\
     \ \n\
     \\EOT\EOT\n\
-    \\STX\NUL\DC2\EOT\244\STX\EOT\CAN\SUB\DC2 Worker build id.\n\
+    \\STX\NUL\DC2\EOT\140\ETX\EOT\CAN\SUB\DC2 Worker build id.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ENQ\DC2\EOT\244\STX\EOT\n\
+    \\STX\NUL\ENQ\DC2\EOT\140\ETX\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\SOH\DC2\EOT\244\STX\v\DC3\n\
+    \\STX\NUL\SOH\DC2\EOT\140\ETX\v\DC3\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ETX\DC2\EOT\244\STX\SYN\ETB\n\
+    \\STX\NUL\ETX\DC2\EOT\140\ETX\SYN\ETB\n\
     \?\n\
     \\EOT\EOT\n\
-    \\STX\SOH\DC2\EOT\246\STX\EOT3\SUB1 Deprecated. A worker binary version identifier.\n\
+    \\STX\SOH\DC2\EOT\142\ETX\EOT3\SUB1 Deprecated. A worker binary version identifier.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ENQ\DC2\EOT\246\STX\EOT\n\
+    \\STX\SOH\ENQ\DC2\EOT\142\ETX\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\SOH\DC2\EOT\246\STX\v\SUB\n\
+    \\STX\SOH\SOH\DC2\EOT\142\ETX\v\SUB\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ETX\DC2\EOT\246\STX\GS\RS\n\
+    \\STX\SOH\ETX\DC2\EOT\142\ETX\GS\RS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\b\DC2\EOT\246\STX\US2\n\
+    \\STX\SOH\b\DC2\EOT\142\ETX\US2\n\
     \\SO\n\
     \\ACK\EOT\n\
-    \\STX\SOH\b\ETX\DC2\EOT\246\STX 1\n\
+    \\STX\SOH\b\ETX\DC2\EOT\142\ETX 1\n\
     \^\n\
     \\EOT\EOT\n\
-    \\STX\STX\DC2\EOT\248\STX\EOT\SYN\SUBP The first run ID in the execution chain that was touched by this worker build.\n\
+    \\STX\STX\DC2\EOT\144\ETX\EOT\SYN\SUBP The first run ID in the execution chain that was touched by this worker build.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ENQ\DC2\EOT\248\STX\EOT\n\
+    \\STX\STX\ENQ\DC2\EOT\144\ETX\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\SOH\DC2\EOT\248\STX\v\DC1\n\
+    \\STX\STX\SOH\DC2\EOT\144\ETX\v\DC1\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ETX\DC2\EOT\248\STX\DC4\NAK\n\
+    \\STX\STX\ETX\DC2\EOT\144\ETX\DC4\NAK\n\
     \a\n\
     \\EOT\EOT\n\
-    \\STX\ETX\DC2\EOT\250\STX\EOT/\SUBS Event ID of the first WorkflowTaskCompleted event processed by this worker build.\n\
+    \\STX\ETX\DC2\EOT\146\ETX\EOT/\SUBS Event ID of the first WorkflowTaskCompleted event processed by this worker build.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ENQ\DC2\EOT\250\STX\EOT\t\n\
+    \\STX\ETX\ENQ\DC2\EOT\146\ETX\EOT\t\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\SOH\DC2\EOT\250\STX\n\
+    \\STX\ETX\SOH\DC2\EOT\146\ETX\n\
     \*\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ETX\DC2\EOT\250\STX-.\n\
+    \\STX\ETX\ETX\DC2\EOT\146\ETX-.\n\
     \\f\n\
     \\EOT\EOT\n\
-    \\STX\EOT\DC2\EOT\251\STX\EOT.\n\
+    \\STX\EOT\DC2\EOT\147\ETX\EOT.\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ACK\DC2\EOT\251\STX\EOT\GS\n\
+    \\STX\EOT\ACK\DC2\EOT\147\ETX\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\SOH\DC2\EOT\251\STX\RS)\n\
+    \\STX\EOT\SOH\DC2\EOT\147\ETX\RS)\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ETX\DC2\EOT\251\STX,-\n\
+    \\STX\EOT\ETX\DC2\EOT\147\ETX,-\n\
     \\192\SOH\n\
     \\EOT\EOT\n\
-    \\STX\ENQ\DC2\EOT\255\STX\EOT.\SUB\177\SOH (-- api-linter: core::0214::resource-expiry=disabled\n\
+    \\STX\ENQ\DC2\EOT\151\ETX\EOT.\SUB\177\SOH (-- api-linter: core::0214::resource-expiry=disabled\n\
     \     aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)\n\
     \ The time that the run is deleted due to retention.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ACK\DC2\EOT\255\STX\EOT\GS\n\
+    \\STX\ENQ\ACK\DC2\EOT\151\ETX\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\SOH\DC2\EOT\255\STX\RS)\n\
+    \\STX\ENQ\SOH\DC2\EOT\151\ETX\RS)\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ETX\DC2\EOT\255\STX,-\n\
+    \\STX\ENQ\ETX\DC2\EOT\151\ETX,-\n\
     \Y\n\
     \\EOT\EOT\n\
-    \\STX\ACK\DC2\EOT\129\ETX\EOT\CAN\SUBK false if the reset point has pending childWFs/reqCancels/signalExternals.\n\
+    \\STX\ACK\DC2\EOT\153\ETX\EOT\CAN\SUBK false if the reset point has pending childWFs/reqCancels/signalExternals.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\ENQ\DC2\EOT\129\ETX\EOT\b\n\
+    \\STX\ACK\ENQ\DC2\EOT\153\ETX\EOT\b\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\SOH\DC2\EOT\129\ETX\t\DC3\n\
+    \\STX\ACK\SOH\DC2\EOT\153\ETX\t\DC3\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\ETX\DC2\EOT\129\ETX\SYN\ETB\n\
+    \\STX\ACK\ETX\DC2\EOT\153\ETX\SYN\ETB\n\
     \\153\SOH\n\
-    \\STX\EOT\v\DC2\ACK\134\ETX\NUL\164\ETX\SOH\SUB\138\SOH NewWorkflowExecutionInfo is a shared message that encapsulates all the\n\
+    \\STX\EOT\v\DC2\ACK\158\ETX\NUL\188\ETX\SOH\SUB\138\SOH NewWorkflowExecutionInfo is a shared message that encapsulates all the\n\
     \ required arguments to starting a workflow in different contexts.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\v\SOH\DC2\EOT\134\ETX\b \n\
+    \\ETX\EOT\v\SOH\DC2\EOT\158\ETX\b \n\
     \\f\n\
-    \\EOT\EOT\v\STX\NUL\DC2\EOT\135\ETX\EOT\ESC\n\
+    \\EOT\EOT\v\STX\NUL\DC2\EOT\159\ETX\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\ENQ\DC2\EOT\135\ETX\EOT\n\
+    \\ENQ\EOT\v\STX\NUL\ENQ\DC2\EOT\159\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\135\ETX\v\SYN\n\
+    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\159\ETX\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\135\ETX\EM\SUB\n\
+    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\159\ETX\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\v\STX\SOH\DC2\EOT\136\ETX\EOT:\n\
+    \\EOT\EOT\v\STX\SOH\DC2\EOT\160\ETX\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\ACK\DC2\EOT\136\ETX\EOT'\n\
+    \\ENQ\EOT\v\STX\SOH\ACK\DC2\EOT\160\ETX\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\136\ETX(5\n\
+    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\160\ETX(5\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\136\ETX89\n\
+    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\160\ETX89\n\
     \\f\n\
-    \\EOT\EOT\v\STX\STX\DC2\EOT\137\ETX\EOT7\n\
+    \\EOT\EOT\v\STX\STX\DC2\EOT\161\ETX\EOT7\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\ACK\DC2\EOT\137\ETX\EOT'\n\
+    \\ENQ\EOT\v\STX\STX\ACK\DC2\EOT\161\ETX\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\SOH\DC2\EOT\137\ETX(2\n\
+    \\ENQ\EOT\v\STX\STX\SOH\DC2\EOT\161\ETX(2\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\ETX\DC2\EOT\137\ETX56\n\
+    \\ENQ\EOT\v\STX\STX\ETX\DC2\EOT\161\ETX56\n\
     \5\n\
-    \\EOT\EOT\v\STX\ETX\DC2\EOT\139\ETX\EOT.\SUB' Serialized arguments to the workflow.\n\
+    \\EOT\EOT\v\STX\ETX\DC2\EOT\163\ETX\EOT.\SUB' Serialized arguments to the workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ETX\ACK\DC2\EOT\139\ETX\EOT#\n\
+    \\ENQ\EOT\v\STX\ETX\ACK\DC2\EOT\163\ETX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ETX\SOH\DC2\EOT\139\ETX$)\n\
+    \\ENQ\EOT\v\STX\ETX\SOH\DC2\EOT\163\ETX$)\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ETX\ETX\DC2\EOT\139\ETX,-\n\
+    \\ENQ\EOT\v\STX\ETX\ETX\DC2\EOT\163\ETX,-\n\
     \W\n\
-    \\EOT\EOT\v\STX\EOT\DC2\EOT\141\ETX\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
+    \\EOT\EOT\v\STX\EOT\DC2\EOT\165\ETX\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\EOT\ACK\DC2\EOT\141\ETX\EOT\FS\n\
+    \\ENQ\EOT\v\STX\EOT\ACK\DC2\EOT\165\ETX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\EOT\SOH\DC2\EOT\141\ETX\GS7\n\
+    \\ENQ\EOT\v\STX\EOT\SOH\DC2\EOT\165\ETX\GS7\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\EOT\ETX\DC2\EOT\141\ETX:;\n\
+    \\ENQ\EOT\v\STX\EOT\ETX\DC2\EOT\165\ETX:;\n\
     \1\n\
-    \\EOT\EOT\v\STX\ENQ\DC2\EOT\143\ETX\EOT6\SUB# Timeout of a single workflow run.\n\
+    \\EOT\EOT\v\STX\ENQ\DC2\EOT\167\ETX\EOT6\SUB# Timeout of a single workflow run.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ENQ\ACK\DC2\EOT\143\ETX\EOT\FS\n\
+    \\ENQ\EOT\v\STX\ENQ\ACK\DC2\EOT\167\ETX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ENQ\SOH\DC2\EOT\143\ETX\GS1\n\
+    \\ENQ\EOT\v\STX\ENQ\SOH\DC2\EOT\167\ETX\GS1\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ENQ\ETX\DC2\EOT\143\ETX45\n\
+    \\ENQ\EOT\v\STX\ENQ\ETX\DC2\EOT\167\ETX45\n\
     \2\n\
-    \\EOT\EOT\v\STX\ACK\DC2\EOT\145\ETX\EOT7\SUB$ Timeout of a single workflow task.\n\
+    \\EOT\EOT\v\STX\ACK\DC2\EOT\169\ETX\EOT7\SUB$ Timeout of a single workflow task.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ACK\ACK\DC2\EOT\145\ETX\EOT\FS\n\
+    \\ENQ\EOT\v\STX\ACK\ACK\DC2\EOT\169\ETX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ACK\SOH\DC2\EOT\145\ETX\GS2\n\
+    \\ENQ\EOT\v\STX\ACK\SOH\DC2\EOT\169\ETX\GS2\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ACK\ETX\DC2\EOT\145\ETX56\n\
+    \\ENQ\EOT\v\STX\ACK\ETX\DC2\EOT\169\ETX56\n\
     \B\n\
-    \\EOT\EOT\v\STX\a\DC2\EOT\147\ETX\EOTM\SUB4 Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.\n\
+    \\EOT\EOT\v\STX\a\DC2\EOT\171\ETX\EOTM\SUB4 Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\a\ACK\DC2\EOT\147\ETX\EOT/\n\
+    \\ENQ\EOT\v\STX\a\ACK\DC2\EOT\171\ETX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\a\SOH\DC2\EOT\147\ETX0H\n\
+    \\ENQ\EOT\v\STX\a\SOH\DC2\EOT\171\ETX0H\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\a\ETX\DC2\EOT\147\ETXKL\n\
+    \\ENQ\EOT\v\STX\a\ETX\DC2\EOT\171\ETXKL\n\
     \b\n\
-    \\EOT\EOT\v\STX\b\DC2\EOT\149\ETX\EOT8\SUBT The retry policy for the workflow. Will never exceed `workflow_execution_timeout`.\n\
+    \\EOT\EOT\v\STX\b\DC2\EOT\173\ETX\EOT8\SUBT The retry policy for the workflow. Will never exceed `workflow_execution_timeout`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\b\ACK\DC2\EOT\149\ETX\EOT&\n\
+    \\ENQ\EOT\v\STX\b\ACK\DC2\EOT\173\ETX\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\b\SOH\DC2\EOT\149\ETX'3\n\
+    \\ENQ\EOT\v\STX\b\SOH\DC2\EOT\173\ETX'3\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\b\ETX\DC2\EOT\149\ETX67\n\
+    \\ENQ\EOT\v\STX\b\ETX\DC2\EOT\173\ETX67\n\
     \V\n\
-    \\EOT\EOT\v\STX\t\DC2\EOT\151\ETX\EOT\RS\SUBH See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/\n\
+    \\EOT\EOT\v\STX\t\DC2\EOT\175\ETX\EOT\RS\SUBH See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\t\ENQ\DC2\EOT\151\ETX\EOT\n\
+    \\ENQ\EOT\v\STX\t\ENQ\DC2\EOT\175\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\t\SOH\DC2\EOT\151\ETX\v\CAN\n\
+    \\ENQ\EOT\v\STX\t\SOH\DC2\EOT\175\ETX\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\t\ETX\DC2\EOT\151\ETX\ESC\GS\n\
+    \\ENQ\EOT\v\STX\t\ETX\DC2\EOT\175\ETX\ESC\GS\n\
     \\f\n\
     \\EOT\EOT\v\STX\n\
-    \\DC2\EOT\152\ETX\EOT*\n\
+    \\DC2\EOT\176\ETX\EOT*\n\
     \\r\n\
     \\ENQ\EOT\v\STX\n\
-    \\ACK\DC2\EOT\152\ETX\EOT\US\n\
+    \\ACK\DC2\EOT\176\ETX\EOT\US\n\
     \\r\n\
     \\ENQ\EOT\v\STX\n\
-    \\SOH\DC2\EOT\152\ETX $\n\
+    \\SOH\DC2\EOT\176\ETX $\n\
     \\r\n\
     \\ENQ\EOT\v\STX\n\
-    \\ETX\DC2\EOT\152\ETX')\n\
+    \\ETX\DC2\EOT\176\ETX')\n\
     \\f\n\
-    \\EOT\EOT\v\STX\v\DC2\EOT\153\ETX\EOTC\n\
+    \\EOT\EOT\v\STX\v\DC2\EOT\177\ETX\EOTC\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\v\ACK\DC2\EOT\153\ETX\EOT+\n\
+    \\ENQ\EOT\v\STX\v\ACK\DC2\EOT\177\ETX\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\v\SOH\DC2\EOT\153\ETX,=\n\
+    \\ENQ\EOT\v\STX\v\SOH\DC2\EOT\177\ETX,=\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\v\ETX\DC2\EOT\153\ETX@B\n\
+    \\ENQ\EOT\v\STX\v\ETX\DC2\EOT\177\ETX@B\n\
     \\f\n\
-    \\EOT\EOT\v\STX\f\DC2\EOT\154\ETX\EOT.\n\
+    \\EOT\EOT\v\STX\f\DC2\EOT\178\ETX\EOT.\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\f\ACK\DC2\EOT\154\ETX\EOT!\n\
+    \\ENQ\EOT\v\STX\f\ACK\DC2\EOT\178\ETX\EOT!\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\f\SOH\DC2\EOT\154\ETX\"(\n\
+    \\ENQ\EOT\v\STX\f\SOH\DC2\EOT\178\ETX\"(\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\f\ETX\DC2\EOT\154\ETX+-\n\
+    \\ENQ\EOT\v\STX\f\ETX\DC2\EOT\178\ETX+-\n\
     \\210\SOH\n\
-    \\EOT\EOT\v\STX\r\DC2\EOT\158\ETX\EOT8\SUB\195\SOH Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionConfig\n\
+    \\EOT\EOT\v\STX\r\DC2\EOT\182\ETX\EOT8\SUB\195\SOH Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionConfig\n\
     \ for use by user interfaces to display the fixed as-of-start summary and details of the\n\
     \ workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\r\ACK\DC2\EOT\158\ETX\EOT$\n\
+    \\ENQ\EOT\v\STX\r\ACK\DC2\EOT\182\ETX\EOT$\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\r\SOH\DC2\EOT\158\ETX%2\n\
+    \\ENQ\EOT\v\STX\r\SOH\DC2\EOT\182\ETX%2\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\r\ETX\DC2\EOT\158\ETX57\n\
+    \\ENQ\EOT\v\STX\r\ETX\DC2\EOT\182\ETX57\n\
     \\205\SOH\n\
-    \\EOT\EOT\v\STX\SO\DC2\EOT\161\ETX\EOT0\SUB\190\SOH If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.\n\
+    \\EOT\EOT\v\STX\SO\DC2\EOT\185\ETX\EOT0\SUB\190\SOH If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.\n\
     \ To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SO\ACK\DC2\EOT\161\ETX\EOT\SYN\n\
+    \\ENQ\EOT\v\STX\SO\ACK\DC2\EOT\185\ETX\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SO\SOH\DC2\EOT\161\ETX\ETB*\n\
+    \\ENQ\EOT\v\STX\SO\SOH\DC2\EOT\185\ETX\ETB*\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SO\ETX\DC2\EOT\161\ETX-/\n\
+    \\ENQ\EOT\v\STX\SO\ETX\DC2\EOT\185\ETX-/\n\
     \!\n\
-    \\EOT\EOT\v\STX\SI\DC2\EOT\163\ETX\EOT2\SUB\DC3 Priority metadata\n\
+    \\EOT\EOT\v\STX\SI\DC2\EOT\187\ETX\EOT2\SUB\DC3 Priority metadata\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SI\ACK\DC2\EOT\163\ETX\EOT#\n\
+    \\ENQ\EOT\v\STX\SI\ACK\DC2\EOT\187\ETX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SI\SOH\DC2\EOT\163\ETX$,\n\
+    \\ENQ\EOT\v\STX\SI\SOH\DC2\EOT\187\ETX$,\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SI\ETX\DC2\EOT\163\ETX/1\n\
+    \\ENQ\EOT\v\STX\SI\ETX\DC2\EOT\187\ETX/1\n\
     \Q\n\
-    \\STX\EOT\f\DC2\ACK\167\ETX\NUL\198\ETX\SOH\SUBC CallbackInfo contains the state of an attached workflow callback.\n\
+    \\STX\EOT\f\DC2\ACK\191\ETX\NUL\222\ETX\SOH\SUBC CallbackInfo contains the state of an attached workflow callback.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\f\SOH\DC2\EOT\167\ETX\b\DC4\n\
+    \\ETX\EOT\f\SOH\DC2\EOT\191\ETX\b\DC4\n\
     \8\n\
-    \\EOT\EOT\f\ETX\NUL\DC2\EOT\169\ETX\EOT\GS\SUB* Trigger for when the workflow is closed.\n\
+    \\EOT\EOT\f\ETX\NUL\DC2\EOT\193\ETX\EOT\GS\SUB* Trigger for when the workflow is closed.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\ETX\NUL\SOH\DC2\EOT\169\ETX\f\SUB\n\
+    \\ENQ\EOT\f\ETX\NUL\SOH\DC2\EOT\193\ETX\f\SUB\n\
     \\SO\n\
-    \\EOT\EOT\f\ETX\SOH\DC2\ACK\171\ETX\EOT\175\ETX\ENQ\n\
+    \\EOT\EOT\f\ETX\SOH\DC2\ACK\195\ETX\EOT\199\ETX\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\f\ETX\SOH\SOH\DC2\EOT\171\ETX\f\DC3\n\
+    \\ENQ\EOT\f\ETX\SOH\SOH\DC2\EOT\195\ETX\f\DC3\n\
     \\DLE\n\
-    \\ACK\EOT\f\ETX\SOH\b\NUL\DC2\ACK\172\ETX\b\174\ETX\t\n\
+    \\ACK\EOT\f\ETX\SOH\b\NUL\DC2\ACK\196\ETX\b\198\ETX\t\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\b\NUL\SOH\DC2\EOT\172\ETX\SO\NAK\n\
+    \\a\EOT\f\ETX\SOH\b\NUL\SOH\DC2\EOT\196\ETX\SO\NAK\n\
     \\SO\n\
-    \\ACK\EOT\f\ETX\SOH\STX\NUL\DC2\EOT\173\ETX\f/\n\
+    \\ACK\EOT\f\ETX\SOH\STX\NUL\DC2\EOT\197\ETX\f/\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\STX\NUL\ACK\DC2\EOT\173\ETX\f\SUB\n\
+    \\a\EOT\f\ETX\SOH\STX\NUL\ACK\DC2\EOT\197\ETX\f\SUB\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\STX\NUL\SOH\DC2\EOT\173\ETX\ESC*\n\
+    \\a\EOT\f\ETX\SOH\STX\NUL\SOH\DC2\EOT\197\ETX\ESC*\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\STX\NUL\ETX\DC2\EOT\173\ETX-.\n\
+    \\a\EOT\f\ETX\SOH\STX\NUL\ETX\DC2\EOT\197\ETX-.\n\
     \[\n\
-    \\EOT\EOT\f\STX\NUL\DC2\EOT\178\ETX\EOT1\SUBM Information on how this callback should be invoked (e.g. its URL and type).\n\
+    \\EOT\EOT\f\STX\NUL\DC2\EOT\202\ETX\EOT1\SUBM Information on how this callback should be invoked (e.g. its URL and type).\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\ACK\DC2\EOT\178\ETX\EOT#\n\
+    \\ENQ\EOT\f\STX\NUL\ACK\DC2\EOT\202\ETX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\SOH\DC2\EOT\178\ETX$,\n\
+    \\ENQ\EOT\f\STX\NUL\SOH\DC2\EOT\202\ETX$,\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\ETX\DC2\EOT\178\ETX/0\n\
+    \\ENQ\EOT\f\STX\NUL\ETX\DC2\EOT\202\ETX/0\n\
     \*\n\
-    \\EOT\EOT\f\STX\SOH\DC2\EOT\180\ETX\EOT\CAN\SUB\FS Trigger for this callback.\n\
+    \\EOT\EOT\f\STX\SOH\DC2\EOT\204\ETX\EOT\CAN\SUB\FS Trigger for this callback.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\SOH\ACK\DC2\EOT\180\ETX\EOT\v\n\
+    \\ENQ\EOT\f\STX\SOH\ACK\DC2\EOT\204\ETX\EOT\v\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\SOH\SOH\DC2\EOT\180\ETX\f\DC3\n\
+    \\ENQ\EOT\f\STX\SOH\SOH\DC2\EOT\204\ETX\f\DC3\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\SOH\ETX\DC2\EOT\180\ETX\SYN\ETB\n\
+    \\ENQ\EOT\f\STX\SOH\ETX\DC2\EOT\204\ETX\SYN\ETB\n\
     \:\n\
-    \\EOT\EOT\f\STX\STX\DC2\EOT\182\ETX\EOT4\SUB, The time when the callback was registered.\n\
+    \\EOT\EOT\f\STX\STX\DC2\EOT\206\ETX\EOT4\SUB, The time when the callback was registered.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\STX\ACK\DC2\EOT\182\ETX\EOT\GS\n\
+    \\ENQ\EOT\f\STX\STX\ACK\DC2\EOT\206\ETX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\STX\SOH\DC2\EOT\182\ETX\RS/\n\
+    \\ENQ\EOT\f\STX\STX\SOH\DC2\EOT\206\ETX\RS/\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\STX\ETX\DC2\EOT\182\ETX23\n\
+    \\ENQ\EOT\f\STX\STX\ETX\DC2\EOT\206\ETX23\n\
     \\f\n\
-    \\EOT\EOT\f\STX\ETX\DC2\EOT\184\ETX\EOT2\n\
+    \\EOT\EOT\f\STX\ETX\DC2\EOT\208\ETX\EOT2\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ETX\ACK\DC2\EOT\184\ETX\EOT'\n\
+    \\ENQ\EOT\f\STX\ETX\ACK\DC2\EOT\208\ETX\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ETX\SOH\DC2\EOT\184\ETX(-\n\
+    \\ENQ\EOT\f\STX\ETX\SOH\DC2\EOT\208\ETX(-\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ETX\ETX\DC2\EOT\184\ETX01\n\
+    \\ENQ\EOT\f\STX\ETX\ETX\DC2\EOT\208\ETX01\n\
     \\180\SOH\n\
-    \\EOT\EOT\f\STX\EOT\DC2\EOT\187\ETX\EOT\SYN\SUB\165\SOH The number of attempts made to deliver the callback.\n\
+    \\EOT\EOT\f\STX\EOT\DC2\EOT\211\ETX\EOT\SYN\SUB\165\SOH The number of attempts made to deliver the callback.\n\
     \ This number represents a minimum bound since the attempt is incremented after the callback request completes.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\EOT\ENQ\DC2\EOT\187\ETX\EOT\t\n\
+    \\ENQ\EOT\f\STX\EOT\ENQ\DC2\EOT\211\ETX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\EOT\SOH\DC2\EOT\187\ETX\n\
+    \\ENQ\EOT\f\STX\EOT\SOH\DC2\EOT\211\ETX\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\EOT\ETX\DC2\EOT\187\ETX\DC4\NAK\n\
+    \\ENQ\EOT\f\STX\EOT\ETX\DC2\EOT\211\ETX\DC4\NAK\n\
     \9\n\
-    \\EOT\EOT\f\STX\ENQ\DC2\EOT\190\ETX\EOT=\SUB+ The time when the last attempt completed.\n\
+    \\EOT\EOT\f\STX\ENQ\DC2\EOT\214\ETX\EOT=\SUB+ The time when the last attempt completed.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ENQ\ACK\DC2\EOT\190\ETX\EOT\GS\n\
+    \\ENQ\EOT\f\STX\ENQ\ACK\DC2\EOT\214\ETX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ENQ\SOH\DC2\EOT\190\ETX\RS8\n\
+    \\ENQ\EOT\f\STX\ENQ\SOH\DC2\EOT\214\ETX\RS8\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ENQ\ETX\DC2\EOT\190\ETX;<\n\
+    \\ENQ\EOT\f\STX\ENQ\ETX\DC2\EOT\214\ETX;<\n\
     \3\n\
-    \\EOT\EOT\f\STX\ACK\DC2\EOT\192\ETX\EOT=\SUB% The last attempt's failure, if any.\n\
+    \\EOT\EOT\f\STX\ACK\DC2\EOT\216\ETX\EOT=\SUB% The last attempt's failure, if any.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ACK\ACK\DC2\EOT\192\ETX\EOT#\n\
+    \\ENQ\EOT\f\STX\ACK\ACK\DC2\EOT\216\ETX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ACK\SOH\DC2\EOT\192\ETX$8\n\
+    \\ENQ\EOT\f\STX\ACK\SOH\DC2\EOT\216\ETX$8\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\ACK\ETX\DC2\EOT\192\ETX;<\n\
+    \\ENQ\EOT\f\STX\ACK\ETX\DC2\EOT\216\ETX;<\n\
     \<\n\
-    \\EOT\EOT\f\STX\a\DC2\EOT\194\ETX\EOT=\SUB. The time when the next attempt is scheduled.\n\
+    \\EOT\EOT\f\STX\a\DC2\EOT\218\ETX\EOT=\SUB. The time when the next attempt is scheduled.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\a\ACK\DC2\EOT\194\ETX\EOT\GS\n\
+    \\ENQ\EOT\f\STX\a\ACK\DC2\EOT\218\ETX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\a\SOH\DC2\EOT\194\ETX\RS8\n\
+    \\ENQ\EOT\f\STX\a\SOH\DC2\EOT\218\ETX\RS8\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\a\ETX\DC2\EOT\194\ETX;<\n\
+    \\ENQ\EOT\f\STX\a\ETX\DC2\EOT\218\ETX;<\n\
     \X\n\
-    \\EOT\EOT\f\STX\b\DC2\EOT\197\ETX\EOT\RS\SUBJ If the state is BLOCKED, blocked reason provides additional information.\n\
+    \\EOT\EOT\f\STX\b\DC2\EOT\221\ETX\EOT\RS\SUBJ If the state is BLOCKED, blocked reason provides additional information.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\b\ENQ\DC2\EOT\197\ETX\EOT\n\
+    \\ENQ\EOT\f\STX\b\ENQ\DC2\EOT\221\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\b\SOH\DC2\EOT\197\ETX\v\EM\n\
+    \\ENQ\EOT\f\STX\b\SOH\DC2\EOT\221\ETX\v\EM\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\b\ETX\DC2\EOT\197\ETX\FS\GS\n\
+    \\ENQ\EOT\f\STX\b\ETX\DC2\EOT\221\ETX\FS\GS\n\
     \Z\n\
-    \\STX\EOT\r\DC2\ACK\201\ETX\NUL\248\ETX\SOH\SUBL PendingNexusOperationInfo contains the state of a pending Nexus operation.\n\
+    \\STX\EOT\r\DC2\ACK\225\ETX\NUL\154\EOT\SOH\SUBL PendingNexusOperationInfo contains the state of a pending Nexus operation.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\r\SOH\DC2\EOT\201\ETX\b!\n\
+    \\ETX\EOT\r\SOH\DC2\EOT\225\ETX\b!\n\
     \V\n\
-    \\EOT\EOT\r\STX\NUL\DC2\EOT\204\ETX\EOT\CAN\SUBH Endpoint name.\n\
+    \\EOT\EOT\r\STX\NUL\DC2\EOT\228\ETX\EOT\CAN\SUBH Endpoint name.\n\
     \ Resolved to a URL via the cluster's endpoint registry.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\204\ETX\EOT\n\
+    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\228\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\204\ETX\v\DC3\n\
+    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\228\ETX\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\204\ETX\SYN\ETB\n\
+    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\228\ETX\SYN\ETB\n\
     \\GS\n\
-    \\EOT\EOT\r\STX\SOH\DC2\EOT\206\ETX\EOT\ETB\SUB\SI Service name.\n\
+    \\EOT\EOT\r\STX\SOH\DC2\EOT\230\ETX\EOT\ETB\SUB\SI Service name.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\EOT\206\ETX\EOT\n\
+    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\EOT\230\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\206\ETX\v\DC2\n\
+    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\230\ETX\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\206\ETX\NAK\SYN\n\
+    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\230\ETX\NAK\SYN\n\
     \\US\n\
-    \\EOT\EOT\r\STX\STX\DC2\EOT\208\ETX\EOT\EM\SUB\DC1 Operation name.\n\
+    \\EOT\EOT\r\STX\STX\DC2\EOT\232\ETX\EOT\EM\SUB\DC1 Operation name.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\ENQ\DC2\EOT\208\ETX\EOT\n\
+    \\ENQ\EOT\r\STX\STX\ENQ\DC2\EOT\232\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\SOH\DC2\EOT\208\ETX\v\DC4\n\
+    \\ENQ\EOT\r\STX\STX\SOH\DC2\EOT\232\ETX\v\DC4\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\ETX\DC2\EOT\208\ETX\ETB\CAN\n\
+    \\ENQ\EOT\r\STX\STX\ETX\DC2\EOT\232\ETX\ETB\CAN\n\
     \\149\SOH\n\
-    \\EOT\EOT\r\STX\ETX\DC2\EOT\213\ETX\EOT0\SUB\134\SOH Operation ID. Only set for asynchronous operations after a successful StartOperation call.\n\
+    \\EOT\EOT\r\STX\ETX\DC2\EOT\237\ETX\EOT0\SUB\134\SOH Operation ID. Only set for asynchronous operations after a successful StartOperation call.\n\
     \\n\
     \ Deprecated. Renamed to operation_token.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\ENQ\DC2\EOT\213\ETX\EOT\n\
+    \\ENQ\EOT\r\STX\ETX\ENQ\DC2\EOT\237\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\SOH\DC2\EOT\213\ETX\v\ETB\n\
+    \\ENQ\EOT\r\STX\ETX\SOH\DC2\EOT\237\ETX\v\ETB\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\ETX\DC2\EOT\213\ETX\SUB\ESC\n\
+    \\ENQ\EOT\r\STX\ETX\ETX\DC2\EOT\237\ETX\SUB\ESC\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\b\DC2\EOT\213\ETX\FS/\n\
+    \\ENQ\EOT\r\STX\ETX\b\DC2\EOT\237\ETX\FS/\n\
     \\SO\n\
-    \\ACK\EOT\r\STX\ETX\b\ETX\DC2\EOT\213\ETX\GS.\n\
+    \\ACK\EOT\r\STX\ETX\b\ETX\DC2\EOT\237\ETX\GS.\n\
     \\230\SOH\n\
-    \\EOT\EOT\r\STX\EOT\DC2\EOT\219\ETX\EOT;\SUB\215\SOH Schedule-to-close timeout for this operation.\n\
+    \\EOT\EOT\r\STX\EOT\DC2\EOT\243\ETX\EOT;\SUB\215\SOH Schedule-to-close timeout for this operation.\n\
     \ This is the only timeout settable by a workflow.\n\
     \ (-- api-linter: core::0140::prepositions=disabled\n\
     \     aip.dev/not-precedent: \"to\" is used to indicate interval. --)\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\EOT\ACK\DC2\EOT\219\ETX\EOT\FS\n\
+    \\ENQ\EOT\r\STX\EOT\ACK\DC2\EOT\243\ETX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\EOT\SOH\DC2\EOT\219\ETX\GS6\n\
+    \\ENQ\EOT\r\STX\EOT\SOH\DC2\EOT\243\ETX\GS6\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\EOT\ETX\DC2\EOT\219\ETX9:\n\
+    \\ENQ\EOT\r\STX\EOT\ETX\DC2\EOT\243\ETX9:\n\
     \:\n\
-    \\EOT\EOT\r\STX\ENQ\DC2\EOT\222\ETX\EOT1\SUB, The time when the operation was scheduled.\n\
+    \\EOT\EOT\r\STX\ENQ\DC2\EOT\246\ETX\EOT1\SUB, The time when the operation was scheduled.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ENQ\ACK\DC2\EOT\222\ETX\EOT\GS\n\
+    \\ENQ\EOT\r\STX\ENQ\ACK\DC2\EOT\246\ETX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ENQ\SOH\DC2\EOT\222\ETX\RS,\n\
+    \\ENQ\EOT\r\STX\ENQ\SOH\DC2\EOT\246\ETX\RS,\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ENQ\ETX\DC2\EOT\222\ETX/0\n\
+    \\ENQ\EOT\r\STX\ENQ\ETX\DC2\EOT\246\ETX/0\n\
     \\f\n\
-    \\EOT\EOT\r\STX\ACK\DC2\EOT\224\ETX\EOT?\n\
+    \\EOT\EOT\r\STX\ACK\DC2\EOT\248\ETX\EOT?\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ACK\ACK\DC2\EOT\224\ETX\EOT4\n\
+    \\ENQ\EOT\r\STX\ACK\ACK\DC2\EOT\248\ETX\EOT4\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ACK\SOH\DC2\EOT\224\ETX5:\n\
+    \\ENQ\EOT\r\STX\ACK\SOH\DC2\EOT\248\ETX5:\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ACK\ETX\DC2\EOT\224\ETX=>\n\
+    \\ENQ\EOT\r\STX\ACK\ETX\DC2\EOT\248\ETX=>\n\
     \\186\SOH\n\
-    \\EOT\EOT\r\STX\a\DC2\EOT\228\ETX\EOT\SYN\SUB\171\SOH The number of attempts made to deliver the start operation request.\n\
+    \\EOT\EOT\r\STX\a\DC2\EOT\252\ETX\EOT\SYN\SUB\171\SOH The number of attempts made to deliver the start operation request.\n\
     \ This number represents a minimum bound since the attempt is incremented after the request completes.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\a\ENQ\DC2\EOT\228\ETX\EOT\t\n\
+    \\ENQ\EOT\r\STX\a\ENQ\DC2\EOT\252\ETX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\a\SOH\DC2\EOT\228\ETX\n\
+    \\ENQ\EOT\r\STX\a\SOH\DC2\EOT\252\ETX\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\a\ETX\DC2\EOT\228\ETX\DC4\NAK\n\
+    \\ENQ\EOT\r\STX\a\ETX\DC2\EOT\252\ETX\DC4\NAK\n\
     \9\n\
-    \\EOT\EOT\r\STX\b\DC2\EOT\231\ETX\EOT=\SUB+ The time when the last attempt completed.\n\
+    \\EOT\EOT\r\STX\b\DC2\EOT\255\ETX\EOT=\SUB+ The time when the last attempt completed.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\b\ACK\DC2\EOT\231\ETX\EOT\GS\n\
+    \\ENQ\EOT\r\STX\b\ACK\DC2\EOT\255\ETX\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\b\SOH\DC2\EOT\231\ETX\RS8\n\
+    \\ENQ\EOT\r\STX\b\SOH\DC2\EOT\255\ETX\RS8\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\b\ETX\DC2\EOT\231\ETX;<\n\
+    \\ENQ\EOT\r\STX\b\ETX\DC2\EOT\255\ETX;<\n\
     \3\n\
-    \\EOT\EOT\r\STX\t\DC2\EOT\233\ETX\EOT>\SUB% The last attempt's failure, if any.\n\
+    \\EOT\EOT\r\STX\t\DC2\EOT\129\EOT\EOT>\SUB% The last attempt's failure, if any.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\t\ACK\DC2\EOT\233\ETX\EOT#\n\
+    \\ENQ\EOT\r\STX\t\ACK\DC2\EOT\129\EOT\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\t\SOH\DC2\EOT\233\ETX$8\n\
+    \\ENQ\EOT\r\STX\t\SOH\DC2\EOT\129\EOT$8\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\t\ETX\DC2\EOT\233\ETX;=\n\
+    \\ENQ\EOT\r\STX\t\ETX\DC2\EOT\129\EOT;=\n\
     \<\n\
     \\EOT\EOT\r\STX\n\
-    \\DC2\EOT\235\ETX\EOT>\SUB. The time when the next attempt is scheduled.\n\
+    \\DC2\EOT\131\EOT\EOT>\SUB. The time when the next attempt is scheduled.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\r\STX\n\
-    \\ACK\DC2\EOT\235\ETX\EOT\GS\n\
+    \\ACK\DC2\EOT\131\EOT\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\r\STX\n\
-    \\SOH\DC2\EOT\235\ETX\RS8\n\
+    \\SOH\DC2\EOT\131\EOT\RS8\n\
     \\r\n\
     \\ENQ\EOT\r\STX\n\
-    \\ETX\DC2\EOT\235\ETX;=\n\
+    \\ETX\DC2\EOT\131\EOT;=\n\
     \\f\n\
-    \\EOT\EOT\r\STX\v\DC2\EOT\237\ETX\EOT:\n\
+    \\EOT\EOT\r\STX\v\DC2\EOT\133\EOT\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\v\ACK\DC2\EOT\237\ETX\EOT\"\n\
+    \\ENQ\EOT\r\STX\v\ACK\DC2\EOT\133\EOT\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\v\SOH\DC2\EOT\237\ETX#4\n\
+    \\ENQ\EOT\r\STX\v\SOH\DC2\EOT\133\EOT#4\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\v\ETX\DC2\EOT\237\ETX79\n\
+    \\ENQ\EOT\r\STX\v\ETX\DC2\EOT\133\EOT79\n\
     \\171\SOH\n\
-    \\EOT\EOT\r\STX\f\DC2\EOT\241\ETX\EOT\"\SUB\156\SOH The event ID of the NexusOperationScheduled event. Can be used to correlate an operation in the\n\
+    \\EOT\EOT\r\STX\f\DC2\EOT\137\EOT\EOT\"\SUB\156\SOH The event ID of the NexusOperationScheduled event. Can be used to correlate an operation in the\n\
     \ DescribeWorkflowExecution response with workflow history.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\f\ENQ\DC2\EOT\241\ETX\EOT\t\n\
+    \\ENQ\EOT\r\STX\f\ENQ\DC2\EOT\137\EOT\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\f\SOH\DC2\EOT\241\ETX\n\
+    \\ENQ\EOT\r\STX\f\SOH\DC2\EOT\137\EOT\n\
     \\FS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\f\ETX\DC2\EOT\241\ETX\US!\n\
+    \\ENQ\EOT\r\STX\f\ETX\DC2\EOT\137\EOT\US!\n\
     \X\n\
-    \\EOT\EOT\r\STX\r\DC2\EOT\244\ETX\EOT\US\SUBJ If the state is BLOCKED, blocked reason provides additional information.\n\
+    \\EOT\EOT\r\STX\r\DC2\EOT\140\EOT\EOT\US\SUBJ If the state is BLOCKED, blocked reason provides additional information.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\r\ENQ\DC2\EOT\244\ETX\EOT\n\
+    \\ENQ\EOT\r\STX\r\ENQ\DC2\EOT\140\EOT\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\r\SOH\DC2\EOT\244\ETX\v\EM\n\
+    \\ENQ\EOT\r\STX\r\SOH\DC2\EOT\140\EOT\v\EM\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\r\ETX\DC2\EOT\244\ETX\FS\RS\n\
+    \\ENQ\EOT\r\STX\r\ETX\DC2\EOT\140\EOT\FS\RS\n\
     \m\n\
-    \\EOT\EOT\r\STX\SO\DC2\EOT\247\ETX\EOT \SUB_ Operation token. Only set for asynchronous operations after a successful StartOperation call.\n\
+    \\EOT\EOT\r\STX\SO\DC2\EOT\143\EOT\EOT \SUB_ Operation token. Only set for asynchronous operations after a successful StartOperation call.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SO\ENQ\DC2\EOT\247\ETX\EOT\n\
+    \\ENQ\EOT\r\STX\SO\ENQ\DC2\EOT\143\EOT\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SO\SOH\DC2\EOT\247\ETX\v\SUB\n\
+    \\ENQ\EOT\r\STX\SO\SOH\DC2\EOT\143\EOT\v\SUB\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SO\ETX\DC2\EOT\247\ETX\GS\US\n\
+    \\ENQ\EOT\r\STX\SO\ETX\DC2\EOT\143\EOT\GS\US\n\
+    \\180\SOH\n\
+    \\EOT\EOT\r\STX\SI\DC2\EOT\148\EOT\EOT<\SUB\165\SOH Schedule-to-start timeout for this operation.\n\
+    \ (-- api-linter: core::0140::prepositions=disabled\n\
+    \     aip.dev/not-precedent: \"to\" is used to indicate interval. --)\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\r\STX\SI\ACK\DC2\EOT\148\EOT\EOT\FS\n\
+    \\r\n\
+    \\ENQ\EOT\r\STX\SI\SOH\DC2\EOT\148\EOT\GS6\n\
+    \\r\n\
+    \\ENQ\EOT\r\STX\SI\ETX\DC2\EOT\148\EOT9;\n\
+    \\177\SOH\n\
+    \\EOT\EOT\r\STX\DLE\DC2\EOT\153\EOT\EOT9\SUB\162\SOH Start-to-close timeout for this operation.\n\
+    \ (-- api-linter: core::0140::prepositions=disabled\n\
+    \     aip.dev/not-precedent: \"to\" is used to indicate interval. --)\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\r\STX\DLE\ACK\DC2\EOT\153\EOT\EOT\FS\n\
+    \\r\n\
+    \\ENQ\EOT\r\STX\DLE\SOH\DC2\EOT\153\EOT\GS3\n\
+    \\r\n\
+    \\ENQ\EOT\r\STX\DLE\ETX\DC2\EOT\153\EOT68\n\
     \d\n\
-    \\STX\EOT\SO\DC2\ACK\251\ETX\NUL\142\EOT\SOH\SUBV NexusOperationCancellationInfo contains the state of a nexus operation cancellation.\n\
+    \\STX\EOT\SO\DC2\ACK\157\EOT\NUL\176\EOT\SOH\SUBV NexusOperationCancellationInfo contains the state of a nexus operation cancellation.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\SO\SOH\DC2\EOT\251\ETX\b&\n\
+    \\ETX\EOT\SO\SOH\DC2\EOT\157\EOT\b&\n\
     \9\n\
-    \\EOT\EOT\SO\STX\NUL\DC2\EOT\253\ETX\EOT1\SUB+ The time when cancellation was requested.\n\
+    \\EOT\EOT\SO\STX\NUL\DC2\EOT\159\EOT\EOT1\SUB+ The time when cancellation was requested.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ACK\DC2\EOT\253\ETX\EOT\GS\n\
+    \\ENQ\EOT\SO\STX\NUL\ACK\DC2\EOT\159\EOT\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\253\ETX\RS,\n\
+    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\159\EOT\RS,\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\253\ETX/0\n\
+    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\159\EOT/0\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\SOH\DC2\EOT\255\ETX\EOTD\n\
+    \\EOT\EOT\SO\STX\SOH\DC2\EOT\161\EOT\EOTD\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SOH\ACK\DC2\EOT\255\ETX\EOT9\n\
+    \\ENQ\EOT\SO\STX\SOH\ACK\DC2\EOT\161\EOT\EOT9\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SOH\SOH\DC2\EOT\255\ETX:?\n\
+    \\ENQ\EOT\SO\STX\SOH\SOH\DC2\EOT\161\EOT:?\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SOH\ETX\DC2\EOT\255\ETXBC\n\
+    \\ENQ\EOT\SO\STX\SOH\ETX\DC2\EOT\161\EOTBC\n\
     \\187\SOH\n\
-    \\EOT\EOT\SO\STX\STX\DC2\EOT\131\EOT\EOT\SYN\SUB\172\SOH The number of attempts made to deliver the cancel operation request.\n\
+    \\EOT\EOT\SO\STX\STX\DC2\EOT\165\EOT\EOT\SYN\SUB\172\SOH The number of attempts made to deliver the cancel operation request.\n\
     \ This number represents a minimum bound since the attempt is incremented after the request completes.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\STX\ENQ\DC2\EOT\131\EOT\EOT\t\n\
+    \\ENQ\EOT\SO\STX\STX\ENQ\DC2\EOT\165\EOT\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\STX\SOH\DC2\EOT\131\EOT\n\
+    \\ENQ\EOT\SO\STX\STX\SOH\DC2\EOT\165\EOT\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\STX\ETX\DC2\EOT\131\EOT\DC4\NAK\n\
+    \\ENQ\EOT\SO\STX\STX\ETX\DC2\EOT\165\EOT\DC4\NAK\n\
     \9\n\
-    \\EOT\EOT\SO\STX\ETX\DC2\EOT\134\EOT\EOT=\SUB+ The time when the last attempt completed.\n\
+    \\EOT\EOT\SO\STX\ETX\DC2\EOT\168\EOT\EOT=\SUB+ The time when the last attempt completed.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ETX\ACK\DC2\EOT\134\EOT\EOT\GS\n\
+    \\ENQ\EOT\SO\STX\ETX\ACK\DC2\EOT\168\EOT\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ETX\SOH\DC2\EOT\134\EOT\RS8\n\
+    \\ENQ\EOT\SO\STX\ETX\SOH\DC2\EOT\168\EOT\RS8\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ETX\ETX\DC2\EOT\134\EOT;<\n\
+    \\ENQ\EOT\SO\STX\ETX\ETX\DC2\EOT\168\EOT;<\n\
     \3\n\
-    \\EOT\EOT\SO\STX\EOT\DC2\EOT\136\EOT\EOT=\SUB% The last attempt's failure, if any.\n\
+    \\EOT\EOT\SO\STX\EOT\DC2\EOT\170\EOT\EOT=\SUB% The last attempt's failure, if any.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\EOT\ACK\DC2\EOT\136\EOT\EOT#\n\
+    \\ENQ\EOT\SO\STX\EOT\ACK\DC2\EOT\170\EOT\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\EOT\SOH\DC2\EOT\136\EOT$8\n\
+    \\ENQ\EOT\SO\STX\EOT\SOH\DC2\EOT\170\EOT$8\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\EOT\ETX\DC2\EOT\136\EOT;<\n\
+    \\ENQ\EOT\SO\STX\EOT\ETX\DC2\EOT\170\EOT;<\n\
     \<\n\
-    \\EOT\EOT\SO\STX\ENQ\DC2\EOT\138\EOT\EOT=\SUB. The time when the next attempt is scheduled.\n\
+    \\EOT\EOT\SO\STX\ENQ\DC2\EOT\172\EOT\EOT=\SUB. The time when the next attempt is scheduled.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\ACK\DC2\EOT\138\EOT\EOT\GS\n\
+    \\ENQ\EOT\SO\STX\ENQ\ACK\DC2\EOT\172\EOT\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\SOH\DC2\EOT\138\EOT\RS8\n\
+    \\ENQ\EOT\SO\STX\ENQ\SOH\DC2\EOT\172\EOT\RS8\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\ETX\DC2\EOT\138\EOT;<\n\
+    \\ENQ\EOT\SO\STX\ENQ\ETX\DC2\EOT\172\EOT;<\n\
     \X\n\
-    \\EOT\EOT\SO\STX\ACK\DC2\EOT\141\EOT\EOT\RS\SUBJ If the state is BLOCKED, blocked reason provides additional information.\n\
+    \\EOT\EOT\SO\STX\ACK\DC2\EOT\175\EOT\EOT\RS\SUBJ If the state is BLOCKED, blocked reason provides additional information.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ACK\ENQ\DC2\EOT\141\EOT\EOT\n\
+    \\ENQ\EOT\SO\STX\ACK\ENQ\DC2\EOT\175\EOT\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ACK\SOH\DC2\EOT\141\EOT\v\EM\n\
+    \\ENQ\EOT\SO\STX\ACK\SOH\DC2\EOT\175\EOT\v\EM\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ACK\ETX\DC2\EOT\141\EOT\FS\GS\n\
+    \\ENQ\EOT\SO\STX\ACK\ETX\DC2\EOT\175\EOT\FS\GS\n\
     \\f\n\
-    \\STX\EOT\SI\DC2\ACK\144\EOT\NUL\147\EOT\SOH\n\
+    \\STX\EOT\SI\DC2\ACK\178\EOT\NUL\184\EOT\SOH\n\
     \\v\n\
-    \\ETX\EOT\SI\SOH\DC2\EOT\144\EOT\b \n\
+    \\ETX\EOT\SI\SOH\DC2\EOT\178\EOT\b \n\
     \r\n\
-    \\EOT\EOT\SI\STX\NUL\DC2\EOT\146\EOT\EOT/\SUBd If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.\n\
+    \\EOT\EOT\SI\STX\NUL\DC2\EOT\180\EOT\EOT/\SUBd If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ACK\DC2\EOT\146\EOT\EOT\SYN\n\
+    \\ENQ\EOT\SI\STX\NUL\ACK\DC2\EOT\180\EOT\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\146\EOT\ETB*\n\
+    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\180\EOT\ETB*\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\146\EOT-.\n\
-    \\170\EOT\n\
-    \\STX\EOT\DLE\DC2\ACK\156\EOT\NUL\195\EOT\SOH\SUB\155\EOT Used to override the versioning behavior (and pinned deployment version, if applicable) of a\n\
-    \ specific workflow execution. If set, takes precedence over the worker-sent values. See\n\
-    \ `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call\n\
-    \ `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask`\n\
-    \ to indicate that it should be mutated.\n\
-    \ Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,\n\
-    \ workflow retries, and cron workflows.\n\
+    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\180\EOT-.\n\
+    \J\n\
+    \\EOT\EOT\SI\STX\SOH\DC2\EOT\183\EOT\EOT1\SUB< If set, overrides the workflow's priority sent by the SDK.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\SOH\ACK\DC2\EOT\183\EOT\EOT#\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\183\EOT$,\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\183\EOT/0\n\
+    \\191\EOT\n\
+    \\STX\EOT\DLE\DC2\ACK\195\EOT\NUL\243\EOT\SOH\SUB\176\EOT Used to override the versioning behavior (and pinned deployment version, if applicable) of a\n\
+    \ specific workflow execution. If set, this override takes precedence over worker-sent values.\n\
+    \ See `WorkflowExecutionInfo.VersioningInfo` for more information.\n\
+    \\n\
+    \ To remove the override, call `UpdateWorkflowExecutionOptions` with a null\n\
+    \ `VersioningOverride`, and use the `update_mask` to indicate that it should be mutated.\n\
+    \\n\
+    \ Pinned behavior overrides are automatically inherited by child workflows, workflow retries, continue-as-new\n\
+    \ workflows, and cron workflows.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DLE\SOH\DC2\EOT\156\EOT\b\SUB\n\
+    \\ETX\EOT\DLE\SOH\DC2\EOT\195\EOT\b\SUB\n\
     \Y\n\
-    \\EOT\EOT\DLE\b\NUL\DC2\ACK\158\EOT\EOT\164\EOT\ENQ\SUBI Indicates whether to override the workflow to be AutoUpgrade or Pinned.\n\
+    \\EOT\EOT\DLE\b\NUL\DC2\ACK\197\EOT\EOT\203\EOT\ENQ\SUBI Indicates whether to override the workflow to be AutoUpgrade or Pinned.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\b\NUL\SOH\DC2\EOT\158\EOT\n\
+    \\ENQ\EOT\DLE\b\NUL\SOH\DC2\EOT\197\EOT\n\
     \\DC2\n\
-    \U\n\
-    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\160\EOT\b\"\SUBG Send the next workflow task to the Version specified in the override.\n\
+    \>\n\
+    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\199\EOT\b\"\SUB0 Override the workflow to have Pinned behavior.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ACK\DC2\EOT\160\EOT\b\SYN\n\
+    \\ENQ\EOT\DLE\STX\NUL\ACK\DC2\EOT\199\EOT\b\SYN\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\160\EOT\ETB\GS\n\
+    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\199\EOT\ETB\GS\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\160\EOT !\n\
-    \\139\SOH\n\
-    \\EOT\EOT\DLE\STX\SOH\DC2\EOT\163\EOT\b\RS\SUB} Send the next workflow task to the Current Deployment Version\n\
-    \ of its Task Queue when the next workflow task is dispatched.\n\
+    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\199\EOT !\n\
+    \C\n\
+    \\EOT\EOT\DLE\STX\SOH\DC2\EOT\202\EOT\b\RS\SUB5 Override the workflow to have AutoUpgrade behavior.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\ENQ\DC2\EOT\163\EOT\b\f\n\
+    \\ENQ\EOT\DLE\STX\SOH\ENQ\DC2\EOT\202\EOT\b\f\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\SOH\DC2\EOT\163\EOT\r\EM\n\
+    \\ENQ\EOT\DLE\STX\SOH\SOH\DC2\EOT\202\EOT\r\EM\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\ETX\DC2\EOT\163\EOT\FS\GS\n\
+    \\ENQ\EOT\DLE\STX\SOH\ETX\DC2\EOT\202\EOT\FS\GS\n\
     \6\n\
-    \\EOT\EOT\DLE\STX\STX\DC2\EOT\167\EOT\EOTN\SUB( Required.\n\
+    \\EOT\EOT\DLE\STX\STX\DC2\EOT\207\EOT\EOTN\SUB( Required.\n\
     \ Deprecated. Use `override`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\ACK\DC2\EOT\167\EOT\EOT,\n\
+    \\ENQ\EOT\DLE\STX\STX\ACK\DC2\EOT\207\EOT\EOT,\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\SOH\DC2\EOT\167\EOT-5\n\
+    \\ENQ\EOT\DLE\STX\STX\SOH\DC2\EOT\207\EOT-5\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\ETX\DC2\EOT\167\EOT89\n\
+    \\ENQ\EOT\DLE\STX\STX\ETX\DC2\EOT\207\EOT89\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\b\DC2\EOT\167\EOT:M\n\
+    \\ENQ\EOT\DLE\STX\STX\b\DC2\EOT\207\EOT:M\n\
     \\SO\n\
-    \\ACK\EOT\DLE\STX\STX\b\ETX\DC2\EOT\167\EOT;L\n\
+    \\ACK\EOT\DLE\STX\STX\b\ETX\DC2\EOT\207\EOT;L\n\
     \\196\SOH\n\
-    \\EOT\EOT\DLE\STX\ETX\DC2\EOT\172\EOT\EOTM\SUB\181\SOH Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.\n\
+    \\EOT\EOT\DLE\STX\ETX\DC2\EOT\212\EOT\EOTM\SUB\181\SOH Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.\n\
     \ Identifies the worker deployment to pin the workflow to.\n\
     \ Deprecated. Use `override.pinned.version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\ETX\ACK\DC2\EOT\172\EOT\EOT)\n\
+    \\ENQ\EOT\DLE\STX\ETX\ACK\DC2\EOT\212\EOT\EOT)\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\ETX\SOH\DC2\EOT\172\EOT*4\n\
+    \\ENQ\EOT\DLE\STX\ETX\SOH\DC2\EOT\212\EOT*4\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\ETX\ETX\DC2\EOT\172\EOT78\n\
+    \\ENQ\EOT\DLE\STX\ETX\ETX\DC2\EOT\212\EOT78\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\ETX\b\DC2\EOT\172\EOT9L\n\
+    \\ENQ\EOT\DLE\STX\ETX\b\DC2\EOT\212\EOT9L\n\
     \\SO\n\
-    \\ACK\EOT\DLE\STX\ETX\b\ETX\DC2\EOT\172\EOT:K\n\
+    \\ACK\EOT\DLE\STX\ETX\b\ETX\DC2\EOT\212\EOT:K\n\
     \\251\SOH\n\
-    \\EOT\EOT\DLE\STX\EOT\DC2\EOT\178\EOT\EOT2\SUB\236\SOH Required if behavior is `PINNED`. Must be absent if behavior is not `PINNED`.\n\
+    \\EOT\EOT\DLE\STX\EOT\DC2\EOT\218\EOT\EOT2\SUB\236\SOH Required if behavior is `PINNED`. Must be absent if behavior is not `PINNED`.\n\
     \ Identifies the worker deployment version to pin the workflow to, in the format\n\
     \ \"<deployment_name>.<build_id>\".\n\
     \ Deprecated. Use `override.pinned.version`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\EOT\ENQ\DC2\EOT\178\EOT\EOT\n\
+    \\ENQ\EOT\DLE\STX\EOT\ENQ\DC2\EOT\218\EOT\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\EOT\SOH\DC2\EOT\178\EOT\v\EM\n\
+    \\ENQ\EOT\DLE\STX\EOT\SOH\DC2\EOT\218\EOT\v\EM\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\EOT\ETX\DC2\EOT\178\EOT\FS\GS\n\
+    \\ENQ\EOT\DLE\STX\EOT\ETX\DC2\EOT\218\EOT\FS\GS\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\EOT\b\DC2\EOT\178\EOT\RS1\n\
+    \\ENQ\EOT\DLE\STX\EOT\b\DC2\EOT\218\EOT\RS1\n\
     \\SO\n\
-    \\ACK\EOT\DLE\STX\EOT\b\ETX\DC2\EOT\178\EOT\US0\n\
+    \\ACK\EOT\DLE\STX\EOT\b\ETX\DC2\EOT\218\EOT\US0\n\
     \\SO\n\
-    \\EOT\EOT\DLE\ETX\NUL\DC2\ACK\180\EOT\EOT\186\EOT\ENQ\n\
+    \\EOT\EOT\DLE\ETX\NUL\DC2\ACK\220\EOT\EOT\234\EOT\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\DLE\ETX\NUL\SOH\DC2\EOT\180\EOT\f\SUB\n\
+    \\ENQ\EOT\DLE\ETX\NUL\SOH\DC2\EOT\220\EOT\f\SUB\n\
     \n\n\
-    \\ACK\EOT\DLE\ETX\NUL\STX\NUL\DC2\EOT\183\EOT\b,\SUB^ Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.\n\
+    \\ACK\EOT\DLE\ETX\NUL\STX\NUL\DC2\EOT\223\EOT\b,\SUB^ Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.\n\
     \ See `PinnedOverrideBehavior` for details.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DLE\ETX\NUL\STX\NUL\ACK\DC2\EOT\183\EOT\b\RS\n\
+    \\a\EOT\DLE\ETX\NUL\STX\NUL\ACK\DC2\EOT\223\EOT\b\RS\n\
     \\SI\n\
-    \\a\EOT\DLE\ETX\NUL\STX\NUL\SOH\DC2\EOT\183\EOT\US'\n\
+    \\a\EOT\DLE\ETX\NUL\STX\NUL\SOH\DC2\EOT\223\EOT\US'\n\
     \\SI\n\
-    \\a\EOT\DLE\ETX\NUL\STX\NUL\ETX\DC2\EOT\183\EOT*+\n\
-    \\ESC\n\
-    \\ACK\EOT\DLE\ETX\NUL\STX\SOH\DC2\EOT\185\EOT\bG\SUB\v Required.\n\
+    \\a\EOT\DLE\ETX\NUL\STX\NUL\ETX\DC2\EOT\223\EOT*+\n\
+    \\143\ETX\n\
+    \\ACK\EOT\DLE\ETX\NUL\STX\SOH\DC2\EOT\233\EOT\bG\SUB\254\STX Specifies the Worker Deployment Version to pin this workflow to.\n\
+    \ Required if the target workflow is not already pinned to a version.\n\
+    \\n\
+    \ If omitted and the target workflow is already pinned, the effective\n\
+    \ pinned version will be the existing pinned version.\n\
+    \\n\
+    \ If omitted and the target workflow is not pinned, the override request\n\
+    \ will be rejected with a PreconditionFailed error.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DLE\ETX\NUL\STX\SOH\ACK\DC2\EOT\185\EOT\b:\n\
+    \\a\EOT\DLE\ETX\NUL\STX\SOH\ACK\DC2\EOT\233\EOT\b:\n\
     \\SI\n\
-    \\a\EOT\DLE\ETX\NUL\STX\SOH\SOH\DC2\EOT\185\EOT;B\n\
+    \\a\EOT\DLE\ETX\NUL\STX\SOH\SOH\DC2\EOT\233\EOT;B\n\
     \\SI\n\
-    \\a\EOT\DLE\ETX\NUL\STX\SOH\ETX\DC2\EOT\185\EOTEF\n\
-    \k\n\
-    \\EOT\EOT\DLE\EOT\NUL\DC2\ACK\189\EOT\EOT\194\EOT\ENQ\SUB[ Used to specify different sub-types of Pinned override that we plan to add in the future.\n\
-    \\n\
+    \\a\EOT\DLE\ETX\NUL\STX\SOH\ETX\DC2\EOT\233\EOTEF\n\
+    \\SO\n\
+    \\EOT\EOT\DLE\EOT\NUL\DC2\ACK\236\EOT\EOT\242\EOT\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\DLE\EOT\NUL\SOH\DC2\EOT\189\EOT\t\US\n\
+    \\ENQ\EOT\DLE\EOT\NUL\SOH\DC2\EOT\236\EOT\t\US\n\
     \\RS\n\
-    \\ACK\EOT\DLE\EOT\NUL\STX\NUL\DC2\EOT\191\EOT\b1\SUB\SO Unspecified.\n\
+    \\ACK\EOT\DLE\EOT\NUL\STX\NUL\DC2\EOT\238\EOT\b1\SUB\SO Unspecified.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DLE\EOT\NUL\STX\NUL\SOH\DC2\EOT\191\EOT\b,\n\
+    \\a\EOT\DLE\EOT\NUL\STX\NUL\SOH\DC2\EOT\238\EOT\b,\n\
     \\SI\n\
-    \\a\EOT\DLE\EOT\NUL\STX\NUL\STX\DC2\EOT\191\EOT/0\n\
+    \\a\EOT\DLE\EOT\NUL\STX\NUL\STX\DC2\EOT\238\EOT/0\n\
     \:\n\
-    \\ACK\EOT\DLE\EOT\NUL\STX\SOH\DC2\EOT\193\EOT\b,\SUB* Override workflow behavior to be Pinned.\n\
+    \\ACK\EOT\DLE\EOT\NUL\STX\SOH\DC2\EOT\241\EOT\b,\SUB* Override workflow behavior to be Pinned.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DLE\EOT\NUL\STX\SOH\SOH\DC2\EOT\193\EOT\b'\n\
+    \\a\EOT\DLE\EOT\NUL\STX\SOH\SOH\DC2\EOT\241\EOT\b'\n\
     \\SI\n\
-    \\a\EOT\DLE\EOT\NUL\STX\SOH\STX\DC2\EOT\193\EOT*+\n\
+    \\a\EOT\DLE\EOT\NUL\STX\SOH\STX\DC2\EOT\241\EOT*+\n\
     \\137\ETX\n\
-    \\STX\EOT\DC1\DC2\ACK\201\EOT\NUL\208\EOT\SOH\SUB\250\STX When StartWorkflowExecution uses the conflict policy WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING and\n\
+    \\STX\EOT\DC1\DC2\ACK\249\EOT\NUL\128\ENQ\SOH\SUB\250\STX When StartWorkflowExecution uses the conflict policy WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING and\n\
     \ there is already an existing running workflow, OnConflictOptions defines actions to be taken on\n\
     \ the existing running workflow. In this case, it will create a WorkflowExecutionOptionsUpdatedEvent\n\
     \ history event in the running workflow with the changes requested in this object.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DC1\SOH\DC2\EOT\201\EOT\b\EM\n\
+    \\ETX\EOT\DC1\SOH\DC2\EOT\249\EOT\b\EM\n\
     \@\n\
-    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\203\EOT\EOT\US\SUB2 Attaches the request ID to the running workflow.\n\
+    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\251\EOT\EOT\US\SUB2 Attaches the request ID to the running workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\203\EOT\EOT\b\n\
+    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\251\EOT\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\203\EOT\t\SUB\n\
+    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\251\EOT\t\SUB\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\203\EOT\GS\RS\n\
+    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\251\EOT\GS\RS\n\
     \J\n\
-    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\205\EOT\EOT)\SUB< Attaches the completion callbacks to the running workflow.\n\
+    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\253\EOT\EOT)\SUB< Attaches the completion callbacks to the running workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ENQ\DC2\EOT\205\EOT\EOT\b\n\
+    \\ENQ\EOT\DC1\STX\SOH\ENQ\DC2\EOT\253\EOT\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\205\EOT\t$\n\
+    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\253\EOT\t$\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\205\EOT'(\n\
+    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\253\EOT'(\n\
     \]\n\
-    \\EOT\EOT\DC1\STX\STX\DC2\EOT\207\EOT\EOT\SUB\SUBO Attaches the links to the WorkflowExecutionOptionsUpdatedEvent history event.\n\
+    \\EOT\EOT\DC1\STX\STX\DC2\EOT\255\EOT\EOT\SUB\SUBO Attaches the links to the WorkflowExecutionOptionsUpdatedEvent history event.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ENQ\DC2\EOT\207\EOT\EOT\b\n\
+    \\ENQ\EOT\DC1\STX\STX\ENQ\DC2\EOT\255\EOT\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\207\EOT\t\NAK\n\
+    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\255\EOT\t\NAK\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\207\EOT\CAN\EM\n\
+    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\255\EOT\CAN\EM\n\
     \?\n\
-    \\STX\EOT\DC2\DC2\ACK\211\EOT\NUL\221\EOT\SOH\SUB1 RequestIdInfo contains details of a request ID.\n\
+    \\STX\EOT\DC2\DC2\ACK\131\ENQ\NUL\141\ENQ\SOH\SUB1 RequestIdInfo contains details of a request ID.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DC2\SOH\DC2\EOT\211\EOT\b\NAK\n\
+    \\ETX\EOT\DC2\SOH\DC2\EOT\131\ENQ\b\NAK\n\
     \M\n\
-    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\213\EOT\EOT3\SUB? The event type of the history event generated by the request.\n\
+    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\133\ENQ\EOT3\SUB? The event type of the history event generated by the request.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\ACK\DC2\EOT\213\EOT\EOT#\n\
+    \\ENQ\EOT\DC2\STX\NUL\ACK\DC2\EOT\133\ENQ\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\213\EOT$.\n\
+    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\133\ENQ$.\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\213\EOT12\n\
+    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\133\ENQ12\n\
     \\232\SOH\n\
-    \\EOT\EOT\DC2\STX\SOH\DC2\EOT\217\EOT\EOT\ETB\SUB\217\SOH The event id of the history event generated by the request. It's possible the event ID is not\n\
+    \\EOT\EOT\DC2\STX\SOH\DC2\EOT\137\ENQ\EOT\ETB\SUB\217\SOH The event id of the history event generated by the request. It's possible the event ID is not\n\
     \ known (unflushed buffered event). In this case, the value will be zero or a negative value,\n\
     \ representing an invalid ID.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\SOH\ENQ\DC2\EOT\217\EOT\EOT\t\n\
+    \\ENQ\EOT\DC2\STX\SOH\ENQ\DC2\EOT\137\ENQ\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\SOH\SOH\DC2\EOT\217\EOT\n\
+    \\ENQ\EOT\DC2\STX\SOH\SOH\DC2\EOT\137\ENQ\n\
     \\DC2\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\SOH\ETX\DC2\EOT\217\EOT\NAK\SYN\n\
+    \\ENQ\EOT\DC2\STX\SOH\ETX\DC2\EOT\137\ENQ\NAK\SYN\n\
     \\135\SOH\n\
-    \\EOT\EOT\DC2\STX\STX\DC2\EOT\220\EOT\EOT\SYN\SUBy Indicate if the request is still buffered. If so, the event ID is not known and its value\n\
+    \\EOT\EOT\DC2\STX\STX\DC2\EOT\140\ENQ\EOT\SYN\SUBy Indicate if the request is still buffered. If so, the event ID is not known and its value\n\
     \ will be an invalid event ID.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\STX\ENQ\DC2\EOT\220\EOT\EOT\b\n\
+    \\ENQ\EOT\DC2\STX\STX\ENQ\DC2\EOT\140\ENQ\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\STX\SOH\DC2\EOT\220\EOT\t\DC1\n\
+    \\ENQ\EOT\DC2\STX\STX\SOH\DC2\EOT\140\ENQ\t\DC1\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\STX\ETX\DC2\EOT\220\EOT\DC4\NAK\n\
+    \\ENQ\EOT\DC2\STX\STX\ETX\DC2\EOT\140\ENQ\DC4\NAK\n\
     \\128\SOH\n\
-    \\STX\EOT\DC3\DC2\ACK\224\EOT\NUL\252\EOT\SOH\SUBr PostResetOperation represents an operation to be performed on the new workflow execution after a workflow reset.\n\
+    \\STX\EOT\DC3\DC2\ACK\144\ENQ\NUL\172\ENQ\SOH\SUBr PostResetOperation represents an operation to be performed on the new workflow execution after a workflow reset.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DC3\SOH\DC2\EOT\224\EOT\b\SUB\n\
+    \\ETX\EOT\DC3\SOH\DC2\EOT\144\ENQ\b\SUB\n\
     \\182\SOH\n\
-    \\EOT\EOT\DC3\ETX\NUL\DC2\ACK\227\EOT\EOT\236\EOT\ENQ\SUB\165\SOH SignalWorkflow represents sending a signal after a workflow reset.\n\
+    \\EOT\EOT\DC3\ETX\NUL\DC2\ACK\147\ENQ\EOT\156\ENQ\ENQ\SUB\165\SOH SignalWorkflow represents sending a signal after a workflow reset.\n\
     \ Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC3\ETX\NUL\SOH\DC2\EOT\227\EOT\f\SUB\n\
+    \\ENQ\EOT\DC3\ETX\NUL\SOH\DC2\EOT\147\ENQ\f\SUB\n\
     \Y\n\
-    \\ACK\EOT\DC3\ETX\NUL\STX\NUL\DC2\EOT\229\EOT\b\US\SUBI The workflow author-defined name of the signal to send to the workflow.\n\
+    \\ACK\EOT\DC3\ETX\NUL\STX\NUL\DC2\EOT\149\ENQ\b\US\SUBI The workflow author-defined name of the signal to send to the workflow.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\NUL\ENQ\DC2\EOT\229\EOT\b\SO\n\
+    \\a\EOT\DC3\ETX\NUL\STX\NUL\ENQ\DC2\EOT\149\ENQ\b\SO\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\NUL\SOH\DC2\EOT\229\EOT\SI\SUB\n\
+    \\a\EOT\DC3\ETX\NUL\STX\NUL\SOH\DC2\EOT\149\ENQ\SI\SUB\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\NUL\ETX\DC2\EOT\229\EOT\GS\RS\n\
+    \\a\EOT\DC3\ETX\NUL\STX\NUL\ETX\DC2\EOT\149\ENQ\GS\RS\n\
     \A\n\
-    \\ACK\EOT\DC3\ETX\NUL\STX\SOH\DC2\EOT\231\EOT\b2\SUB1 Serialized value(s) to provide with the signal.\n\
+    \\ACK\EOT\DC3\ETX\NUL\STX\SOH\DC2\EOT\151\ENQ\b2\SUB1 Serialized value(s) to provide with the signal.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\SOH\ACK\DC2\EOT\231\EOT\b'\n\
+    \\a\EOT\DC3\ETX\NUL\STX\SOH\ACK\DC2\EOT\151\ENQ\b'\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\SOH\SOH\DC2\EOT\231\EOT(-\n\
+    \\a\EOT\DC3\ETX\NUL\STX\SOH\SOH\DC2\EOT\151\ENQ(-\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\SOH\ETX\DC2\EOT\231\EOT01\n\
+    \\a\EOT\DC3\ETX\NUL\STX\SOH\ETX\DC2\EOT\151\ENQ01\n\
     \U\n\
-    \\ACK\EOT\DC3\ETX\NUL\STX\STX\DC2\EOT\233\EOT\b1\SUBE Headers that are passed with the signal to the processing workflow.\n\
+    \\ACK\EOT\DC3\ETX\NUL\STX\STX\DC2\EOT\153\ENQ\b1\SUBE Headers that are passed with the signal to the processing workflow.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\STX\ACK\DC2\EOT\233\EOT\b%\n\
+    \\a\EOT\DC3\ETX\NUL\STX\STX\ACK\DC2\EOT\153\ENQ\b%\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\STX\SOH\DC2\EOT\233\EOT&,\n\
+    \\a\EOT\DC3\ETX\NUL\STX\STX\SOH\DC2\EOT\153\ENQ&,\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\STX\ETX\DC2\EOT\233\EOT/0\n\
+    \\a\EOT\DC3\ETX\NUL\STX\STX\ETX\DC2\EOT\153\ENQ/0\n\
     \R\n\
-    \\ACK\EOT\DC3\ETX\NUL\STX\ETX\DC2\EOT\235\EOT\b7\SUBB Links to be associated with the WorkflowExecutionSignaled event.\n\
+    \\ACK\EOT\DC3\ETX\NUL\STX\ETX\DC2\EOT\155\ENQ\b7\SUBB Links to be associated with the WorkflowExecutionSignaled event.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\ETX\EOT\DC2\EOT\235\EOT\b\DLE\n\
+    \\a\EOT\DC3\ETX\NUL\STX\ETX\EOT\DC2\EOT\155\ENQ\b\DLE\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\ETX\ACK\DC2\EOT\235\EOT\DC1,\n\
+    \\a\EOT\DC3\ETX\NUL\STX\ETX\ACK\DC2\EOT\155\ENQ\DC1,\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\ETX\SOH\DC2\EOT\235\EOT-2\n\
+    \\a\EOT\DC3\ETX\NUL\STX\ETX\SOH\DC2\EOT\155\ENQ-2\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\NUL\STX\ETX\ETX\DC2\EOT\235\EOT56\n\
+    \\a\EOT\DC3\ETX\NUL\STX\ETX\ETX\DC2\EOT\155\ENQ56\n\
     \\216\SOH\n\
-    \\EOT\EOT\DC3\ETX\SOH\DC2\ACK\240\EOT\EOT\246\EOT\ENQ\SUB\199\SOH UpdateWorkflowOptions represents updating workflow execution options after a workflow reset.\n\
+    \\EOT\EOT\DC3\ETX\SOH\DC2\ACK\160\ENQ\EOT\166\ENQ\ENQ\SUB\199\SOH UpdateWorkflowOptions represents updating workflow execution options after a workflow reset.\n\
     \ Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC3\ETX\SOH\SOH\DC2\EOT\240\EOT\f!\n\
+    \\ENQ\EOT\DC3\ETX\SOH\SOH\DC2\EOT\160\ENQ\f!\n\
     \\161\SOH\n\
-    \\ACK\EOT\DC3\ETX\SOH\STX\NUL\DC2\EOT\242\EOT\bY\SUB\144\SOH Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask.\n\
+    \\ACK\EOT\DC3\ETX\SOH\STX\NUL\DC2\EOT\162\ENQ\bY\SUB\144\SOH Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\SOH\STX\NUL\ACK\DC2\EOT\242\EOT\b9\n\
+    \\a\EOT\DC3\ETX\SOH\STX\NUL\ACK\DC2\EOT\162\ENQ\b9\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\SOH\STX\NUL\SOH\DC2\EOT\242\EOT:T\n\
+    \\a\EOT\DC3\ETX\SOH\STX\NUL\SOH\DC2\EOT\162\ENQ:T\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\SOH\STX\NUL\ETX\DC2\EOT\242\EOTWX\n\
+    \\a\EOT\DC3\ETX\SOH\STX\NUL\ETX\DC2\EOT\162\ENQWX\n\
     \\188\SOH\n\
-    \\ACK\EOT\DC3\ETX\SOH\STX\SOH\DC2\EOT\245\EOT\b2\SUB\171\SOH Controls which fields from `workflow_execution_options` will be applied.\n\
+    \\ACK\EOT\DC3\ETX\SOH\STX\SOH\DC2\EOT\165\ENQ\b2\SUB\171\SOH Controls which fields from `workflow_execution_options` will be applied.\n\
     \ To unset a field, set it to null and use the update mask to indicate that it should be mutated.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\SOH\STX\SOH\ACK\DC2\EOT\245\EOT\b!\n\
+    \\a\EOT\DC3\ETX\SOH\STX\SOH\ACK\DC2\EOT\165\ENQ\b!\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\SOH\STX\SOH\SOH\DC2\EOT\245\EOT\"-\n\
+    \\a\EOT\DC3\ETX\SOH\STX\SOH\SOH\DC2\EOT\165\ENQ\"-\n\
     \\SI\n\
-    \\a\EOT\DC3\ETX\SOH\STX\SOH\ETX\DC2\EOT\245\EOT01\n\
+    \\a\EOT\DC3\ETX\SOH\STX\SOH\ETX\DC2\EOT\165\ENQ01\n\
     \\SO\n\
-    \\EOT\EOT\DC3\b\NUL\DC2\ACK\248\EOT\EOT\251\EOT\ENQ\n\
+    \\EOT\EOT\DC3\b\NUL\DC2\ACK\168\ENQ\EOT\171\ENQ\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\DC3\b\NUL\SOH\DC2\EOT\248\EOT\n\
+    \\ENQ\EOT\DC3\b\NUL\SOH\DC2\EOT\168\ENQ\n\
     \\DC1\n\
     \\f\n\
-    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\249\EOT\b+\n\
+    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\169\ENQ\b+\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ACK\DC2\EOT\249\EOT\b\SYN\n\
+    \\ENQ\EOT\DC3\STX\NUL\ACK\DC2\EOT\169\ENQ\b\SYN\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\249\EOT\ETB&\n\
+    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\169\ENQ\ETB&\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\249\EOT)*\n\
+    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\169\ENQ)*\n\
     \\f\n\
-    \\EOT\EOT\DC3\STX\SOH\DC2\EOT\250\EOT\b:\n\
+    \\EOT\EOT\DC3\STX\SOH\DC2\EOT\170\ENQ\b:\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\ACK\DC2\EOT\250\EOT\b\GS\n\
+    \\ENQ\EOT\DC3\STX\SOH\ACK\DC2\EOT\170\ENQ\b\GS\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\SOH\DC2\EOT\250\EOT\RS5\n\
+    \\ENQ\EOT\DC3\STX\SOH\SOH\DC2\EOT\170\ENQ\RS5\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\ETX\DC2\EOT\250\EOT89b\ACKproto3"
+    \\ENQ\EOT\DC3\STX\SOH\ETX\DC2\EOT\170\ENQ89\n\
+    \e\n\
+    \\STX\EOT\DC4\DC2\ACK\175\ENQ\NUL\182\ENQ\SOH\SUBW WorkflowExecutionPauseInfo contains the information about a workflow execution pause.\n\
+    \\n\
+    \\v\n\
+    \\ETX\EOT\DC4\SOH\DC2\EOT\175\ENQ\b\"\n\
+    \M\n\
+    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\177\ENQ\EOT\CAN\SUB? The identity of the client who paused the workflow execution.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\NUL\ENQ\DC2\EOT\177\ENQ\EOT\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\177\ENQ\v\DC3\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\177\ENQ\SYN\ETB\n\
+    \@\n\
+    \\EOT\EOT\DC4\STX\SOH\DC2\EOT\179\ENQ\EOT.\SUB2 The time when the workflow execution was paused.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\SOH\ACK\DC2\EOT\179\ENQ\EOT\GS\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\SOH\SOH\DC2\EOT\179\ENQ\RS)\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\SOH\ETX\DC2\EOT\179\ENQ,-\n\
+    \>\n\
+    \\EOT\EOT\DC4\STX\STX\DC2\EOT\181\ENQ\EOT\SYN\SUB0 The reason for pausing the workflow execution.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\STX\ENQ\DC2\EOT\181\ENQ\EOT\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\STX\SOH\DC2\EOT\181\ENQ\v\DC1\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\STX\ETX\DC2\EOT\181\ENQ\DC4\NAKb\ACKproto3"

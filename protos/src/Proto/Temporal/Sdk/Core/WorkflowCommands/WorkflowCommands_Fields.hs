@@ -189,6 +189,13 @@ heartbeatTimeout ::
    Data.ProtoLens.Field.HasField s "heartbeatTimeout" a) =>
   Lens.Family2.LensLike' f s a
 heartbeatTimeout = Data.ProtoLens.Field.field @"heartbeatTimeout"
+initialVersioningBehavior ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "initialVersioningBehavior" a) =>
+  Lens.Family2.LensLike' f s a
+initialVersioningBehavior
+  = Data.ProtoLens.Field.field @"initialVersioningBehavior"
 input ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "input" a) =>
@@ -421,6 +428,13 @@ maybe'scheduleToStartTimeout ::
   Lens.Family2.LensLike' f s a
 maybe'scheduleToStartTimeout
   = Data.ProtoLens.Field.field @"maybe'scheduleToStartTimeout"
+maybe'searchAttributes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'searchAttributes" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'searchAttributes
+  = Data.ProtoLens.Field.field @"maybe'searchAttributes"
 maybe'setPatchMarker ::
   forall f s a.
   (Prelude.Functor f,

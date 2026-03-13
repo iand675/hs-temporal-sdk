@@ -31,6 +31,8 @@ library
       Proto.Temporal.Api.Common.V1.Message_Fields
       Proto.Temporal.Api.Deployment.V1.Message
       Proto.Temporal.Api.Deployment.V1.Message_Fields
+      Proto.Temporal.Api.Enums.V1.Activity
+      Proto.Temporal.Api.Enums.V1.Activity_Fields
       Proto.Temporal.Api.Enums.V1.BatchOperation
       Proto.Temporal.Api.Enums.V1.BatchOperation_Fields
       Proto.Temporal.Api.Enums.V1.CommandType

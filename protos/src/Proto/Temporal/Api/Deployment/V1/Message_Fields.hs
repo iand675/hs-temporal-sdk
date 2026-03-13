@@ -139,6 +139,12 @@ lastCheckedTime ::
    Data.ProtoLens.Field.HasField s "lastCheckedTime" a) =>
   Lens.Family2.LensLike' f s a
 lastCheckedTime = Data.ProtoLens.Field.field @"lastCheckedTime"
+lastCurrentTime ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "lastCurrentTime" a) =>
+  Lens.Family2.LensLike' f s a
+lastCurrentTime = Data.ProtoLens.Field.field @"lastCurrentTime"
 lastDeactivationTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -153,6 +159,12 @@ lastModifierIdentity ::
   Lens.Family2.LensLike' f s a
 lastModifierIdentity
   = Data.ProtoLens.Field.field @"lastModifierIdentity"
+managerIdentity ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "managerIdentity" a) =>
+  Lens.Family2.LensLike' f s a
+managerIdentity = Data.ProtoLens.Field.field @"managerIdentity"
 maybe'createTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -228,6 +240,13 @@ maybe'lastCheckedTime ::
   Lens.Family2.LensLike' f s a
 maybe'lastCheckedTime
   = Data.ProtoLens.Field.field @"maybe'lastCheckedTime"
+maybe'lastCurrentTime ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'lastCurrentTime" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'lastCurrentTime
+  = Data.ProtoLens.Field.field @"maybe'lastCurrentTime"
 maybe'lastDeactivationTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -291,6 +310,13 @@ maybe'routingUpdateTime ::
   Lens.Family2.LensLike' f s a
 maybe'routingUpdateTime
   = Data.ProtoLens.Field.field @"maybe'routingUpdateTime"
+maybe'sourceDeploymentVersion ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'sourceDeploymentVersion" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'sourceDeploymentVersion
+  = Data.ProtoLens.Field.field @"maybe'sourceDeploymentVersion"
 maybe'value ::
   forall f s a.
   (Prelude.Functor f,
@@ -360,6 +386,12 @@ removeEntries ::
    Data.ProtoLens.Field.HasField s "removeEntries" a) =>
   Lens.Family2.LensLike' f s a
 removeEntries = Data.ProtoLens.Field.field @"removeEntries"
+revisionNumber ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "revisionNumber" a) =>
+  Lens.Family2.LensLike' f s a
+revisionNumber = Data.ProtoLens.Field.field @"revisionNumber"
 routingChangedTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -373,6 +405,13 @@ routingConfig ::
    Data.ProtoLens.Field.HasField s "routingConfig" a) =>
   Lens.Family2.LensLike' f s a
 routingConfig = Data.ProtoLens.Field.field @"routingConfig"
+routingConfigUpdateState ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "routingConfigUpdateState" a) =>
+  Lens.Family2.LensLike' f s a
+routingConfigUpdateState
+  = Data.ProtoLens.Field.field @"routingConfigUpdateState"
 routingUpdateTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -385,6 +424,20 @@ seriesName ::
    Data.ProtoLens.Field.HasField s "seriesName" a) =>
   Lens.Family2.LensLike' f s a
 seriesName = Data.ProtoLens.Field.field @"seriesName"
+sourceDeploymentRevisionNumber ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "sourceDeploymentRevisionNumber" a) =>
+  Lens.Family2.LensLike' f s a
+sourceDeploymentRevisionNumber
+  = Data.ProtoLens.Field.field @"sourceDeploymentRevisionNumber"
+sourceDeploymentVersion ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "sourceDeploymentVersion" a) =>
+  Lens.Family2.LensLike' f s a
+sourceDeploymentVersion
+  = Data.ProtoLens.Field.field @"sourceDeploymentVersion"
 status ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "status" a) =>

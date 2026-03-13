@@ -3417,8 +3417,8 @@ packedFileDescriptor
     \\SUBnexus_handler_failure_info\CAN\SO \SOH(\v20.temporal.api.failure.v1.NexusHandlerFailureInfoH\NULR\ETBnexusHandlerFailureInfoB\SO\n\
     \\ffailure_info\" \n\
     \\RSMultiOperationExecutionAbortedB\142\SOH\n\
-    \\SUBio.temporal.api.failure.v1B\fMessageProtoP\SOHZ%go.temporal.io/api/failure/v1;failure\170\STX\EMTemporalio.Api.Failure.V1\234\STX\FSTemporalio::Api::Failure::V1J\199&\n\
-    \\a\DC2\ENQ\NUL\NUL\130\SOH)\n\
+    \\SUBio.temporal.api.failure.v1B\fMessageProtoP\SOHZ%go.temporal.io/api/failure/v1;failure\170\STX\EMTemporalio.Api.Failure.V1\234\STX\FSTemporalio::Api::Failure::V1J\175'\n\
+    \\a\DC2\ENQ\NUL\NUL\131\SOH)\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -3694,155 +3694,155 @@ packedFileDescriptor
     \\ENQ\EOT\a\STX\ENQ\SOH\DC2\ETXA%0\n\
     \\f\n\
     \\ENQ\EOT\a\STX\ENQ\ETX\DC2\ETXA34\n\
+    \q\n\
+    \\STX\EOT\b\DC2\EOTE\NULT\SOH\SUBe Representation of the Temporal SDK NexusOperationError object that is returned to workflow callers.\n\
     \\n\
     \\n\
-    \\STX\EOT\b\DC2\EOTD\NULS\SOH\n\
     \\n\
-    \\n\
-    \\ETX\EOT\b\SOH\DC2\ETXD\b!\n\
+    \\ETX\EOT\b\SOH\DC2\ETXE\b!\n\
     \4\n\
-    \\EOT\EOT\b\STX\NUL\DC2\ETXF\EOT!\SUB' The NexusOperationScheduled event ID.\n\
+    \\EOT\EOT\b\STX\NUL\DC2\ETXG\EOT!\SUB' The NexusOperationScheduled event ID.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\NUL\ENQ\DC2\ETXF\EOT\t\n\
+    \\ENQ\EOT\b\STX\NUL\ENQ\DC2\ETXG\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\NUL\SOH\DC2\ETXF\n\
+    \\ENQ\EOT\b\STX\NUL\SOH\DC2\ETXG\n\
     \\FS\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\NUL\ETX\DC2\ETXF\US \n\
+    \\ENQ\EOT\b\STX\NUL\ETX\DC2\ETXG\US \n\
     \\GS\n\
-    \\EOT\EOT\b\STX\SOH\DC2\ETXH\EOT\CAN\SUB\DLE Endpoint name.\n\
+    \\EOT\EOT\b\STX\SOH\DC2\ETXI\EOT\CAN\SUB\DLE Endpoint name.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\SOH\ENQ\DC2\ETXH\EOT\n\
+    \\ENQ\EOT\b\STX\SOH\ENQ\DC2\ETXI\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\SOH\SOH\DC2\ETXH\v\DC3\n\
+    \\ENQ\EOT\b\STX\SOH\SOH\DC2\ETXI\v\DC3\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\SOH\ETX\DC2\ETXH\SYN\ETB\n\
+    \\ENQ\EOT\b\STX\SOH\ETX\DC2\ETXI\SYN\ETB\n\
     \\FS\n\
-    \\EOT\EOT\b\STX\STX\DC2\ETXJ\EOT\ETB\SUB\SI Service name.\n\
+    \\EOT\EOT\b\STX\STX\DC2\ETXK\EOT\ETB\SUB\SI Service name.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\STX\ENQ\DC2\ETXJ\EOT\n\
+    \\ENQ\EOT\b\STX\STX\ENQ\DC2\ETXK\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\STX\SOH\DC2\ETXJ\v\DC2\n\
+    \\ENQ\EOT\b\STX\STX\SOH\DC2\ETXK\v\DC2\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\STX\ETX\DC2\ETXJ\NAK\SYN\n\
+    \\ENQ\EOT\b\STX\STX\ETX\DC2\ETXK\NAK\SYN\n\
     \\RS\n\
-    \\EOT\EOT\b\STX\ETX\DC2\ETXL\EOT\EM\SUB\DC1 Operation name.\n\
+    \\EOT\EOT\b\STX\ETX\DC2\ETXM\EOT\EM\SUB\DC1 Operation name.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\ETX\ENQ\DC2\ETXL\EOT\n\
+    \\ENQ\EOT\b\STX\ETX\ENQ\DC2\ETXM\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\ETX\SOH\DC2\ETXL\v\DC4\n\
+    \\ENQ\EOT\b\STX\ETX\SOH\DC2\ETXM\v\DC4\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\ETX\ETX\DC2\ETXL\ETB\CAN\n\
+    \\ENQ\EOT\b\STX\ETX\ETX\DC2\ETXM\ETB\CAN\n\
     \~\n\
-    \\EOT\EOT\b\STX\EOT\DC2\ETXP\EOT0\SUBq Operation ID - may be empty if the operation completed synchronously.\n\
+    \\EOT\EOT\b\STX\EOT\DC2\ETXQ\EOT0\SUBq Operation ID - may be empty if the operation completed synchronously.\n\
     \\n\
     \ Deprecated. Renamed to operation_token.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\EOT\ENQ\DC2\ETXP\EOT\n\
+    \\ENQ\EOT\b\STX\EOT\ENQ\DC2\ETXQ\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\EOT\SOH\DC2\ETXP\v\ETB\n\
+    \\ENQ\EOT\b\STX\EOT\SOH\DC2\ETXQ\v\ETB\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\EOT\ETX\DC2\ETXP\SUB\ESC\n\
+    \\ENQ\EOT\b\STX\EOT\ETX\DC2\ETXQ\SUB\ESC\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\EOT\b\DC2\ETXP\FS/\n\
+    \\ENQ\EOT\b\STX\EOT\b\DC2\ETXQ\FS/\n\
     \\r\n\
-    \\ACK\EOT\b\STX\EOT\b\ETX\DC2\ETXP\GS.\n\
+    \\ACK\EOT\b\STX\EOT\b\ETX\DC2\ETXQ\GS.\n\
     \W\n\
-    \\EOT\EOT\b\STX\ENQ\DC2\ETXR\EOT\US\SUBJ Operation token - may be empty if the operation completed synchronously.\n\
+    \\EOT\EOT\b\STX\ENQ\DC2\ETXS\EOT\US\SUBJ Operation token - may be empty if the operation completed synchronously.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\ENQ\ENQ\DC2\ETXR\EOT\n\
+    \\ENQ\EOT\b\STX\ENQ\ENQ\DC2\ETXS\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\ENQ\SOH\DC2\ETXR\v\SUB\n\
+    \\ENQ\EOT\b\STX\ENQ\SOH\DC2\ETXS\v\SUB\n\
     \\f\n\
-    \\ENQ\EOT\b\STX\ENQ\ETX\DC2\ETXR\GS\RS\n\
+    \\ENQ\EOT\b\STX\ENQ\ETX\DC2\ETXS\GS\RS\n\
     \\n\
     \\n\
-    \\STX\EOT\t\DC2\EOTU\NUL[\SOH\n\
+    \\STX\EOT\t\DC2\EOTV\NUL\\\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\t\SOH\DC2\ETXU\b\US\n\
+    \\ETX\EOT\t\SOH\DC2\ETXV\b\US\n\
     \\138\SOH\n\
-    \\EOT\EOT\t\STX\NUL\DC2\ETXX\EOT\DC4\SUB} The Nexus error type as defined in the spec:\n\
+    \\EOT\EOT\t\STX\NUL\DC2\ETXY\EOT\DC4\SUB} The Nexus error type as defined in the spec:\n\
     \ https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\NUL\ENQ\DC2\ETXX\EOT\n\
+    \\ENQ\EOT\t\STX\NUL\ENQ\DC2\ETXY\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\NUL\SOH\DC2\ETXX\v\SI\n\
+    \\ENQ\EOT\t\STX\NUL\SOH\DC2\ETXY\v\SI\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\NUL\ETX\DC2\ETXX\DC2\DC3\n\
+    \\ENQ\EOT\t\STX\NUL\ETX\DC2\ETXY\DC2\DC3\n\
     \g\n\
-    \\EOT\EOT\t\STX\SOH\DC2\ETXZ\EOTL\SUBZ Retry behavior, defaults to the retry behavior of the error type as defined in the spec.\n\
+    \\EOT\EOT\t\STX\SOH\DC2\ETX[\EOTL\SUBZ Retry behavior, defaults to the retry behavior of the error type as defined in the spec.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\SOH\ACK\DC2\ETXZ\EOT8\n\
+    \\ENQ\EOT\t\STX\SOH\ACK\DC2\ETX[\EOT8\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\SOH\SOH\DC2\ETXZ9G\n\
+    \\ENQ\EOT\t\STX\SOH\SOH\DC2\ETX[9G\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\SOH\ETX\DC2\ETXZJK\n\
+    \\ENQ\EOT\t\STX\SOH\ETX\DC2\ETX[JK\n\
     \\v\n\
     \\STX\EOT\n\
-    \\DC2\ENQ]\NUL\128\SOH\SOH\n\
+    \\DC2\ENQ^\NUL\129\SOH\SOH\n\
     \\n\
     \\n\
     \\ETX\EOT\n\
-    \\SOH\DC2\ETX]\b\SI\n\
+    \\SOH\DC2\ETX^\b\SI\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\NUL\DC2\ETX^\EOT\ETB\n\
+    \\STX\NUL\DC2\ETX_\EOT\ETB\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ENQ\DC2\ETX^\EOT\n\
+    \\STX\NUL\ENQ\DC2\ETX_\EOT\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\SOH\DC2\ETX^\v\DC2\n\
+    \\STX\NUL\SOH\DC2\ETX_\v\DC2\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ETX\DC2\ETX^\NAK\SYN\n\
+    \\STX\NUL\ETX\DC2\ETX_\NAK\SYN\n\
     \\165\SOH\n\
     \\EOT\EOT\n\
-    \\STX\SOH\DC2\ETXa\EOT\SYN\SUB\151\SOH The source this Failure originated in, e.g. TypeScriptSDK / JavaSDK\n\
+    \\STX\SOH\DC2\ETXb\EOT\SYN\SUB\151\SOH The source this Failure originated in, e.g. TypeScriptSDK / JavaSDK\n\
     \ In some SDKs this is used to rehydrate the stack trace into an exception object.\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ENQ\DC2\ETXa\EOT\n\
+    \\STX\SOH\ENQ\DC2\ETXb\EOT\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\SOH\DC2\ETXa\v\DC1\n\
+    \\STX\SOH\SOH\DC2\ETXb\v\DC1\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ETX\DC2\ETXa\DC4\NAK\n\
+    \\STX\SOH\ETX\DC2\ETXb\DC4\NAK\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\STX\DC2\ETXb\EOT\ESC\n\
+    \\STX\STX\DC2\ETXc\EOT\ESC\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ENQ\DC2\ETXb\EOT\n\
+    \\STX\STX\ENQ\DC2\ETXc\EOT\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\STX\SOH\DC2\ETXb\v\SYN\n\
+    \\STX\STX\SOH\DC2\ETXc\v\SYN\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ETX\DC2\ETXb\EM\SUB\n\
+    \\STX\STX\ETX\DC2\ETXc\EM\SUB\n\
     \\251\a\n\
     \\EOT\EOT\n\
-    \\STX\ETX\DC2\ETXr\EOT;\SUB\237\a Alternative way to supply `message` and `stack_trace` and possibly other attributes, used for encryption of\n\
+    \\STX\ETX\DC2\ETXs\EOT;\SUB\237\a Alternative way to supply `message` and `stack_trace` and possibly other attributes, used for encryption of\n\
     \ errors originating in user code which might contain sensitive information.\n\
     \ The `encoded_attributes` Payload could represent any serializable object, e.g. JSON object or a `Failure` proto\n\
     \ message.\n\
@@ -3860,158 +3860,158 @@ packedFileDescriptor
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ACK\DC2\ETXr\EOT\"\n\
+    \\STX\ETX\ACK\DC2\ETXs\EOT\"\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\SOH\DC2\ETXr#5\n\
+    \\STX\ETX\SOH\DC2\ETXs#5\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ETX\DC2\ETXr8:\n\
+    \\STX\ETX\ETX\DC2\ETXs8:\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\EOT\DC2\ETXs\EOT\SYN\n\
+    \\STX\EOT\DC2\ETXt\EOT\SYN\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ACK\DC2\ETXs\EOT\v\n\
+    \\STX\EOT\ACK\DC2\ETXt\EOT\v\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\SOH\DC2\ETXs\f\DC1\n\
+    \\STX\EOT\SOH\DC2\ETXt\f\DC1\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ETX\DC2\ETXs\DC4\NAK\n\
-    \\f\n\
+    \\STX\EOT\ETX\DC2\ETXt\DC4\NAK\n\
+    \\r\n\
     \\EOT\EOT\n\
-    \\b\NUL\DC2\EOTt\EOT\DEL\ENQ\n\
+    \\b\NUL\DC2\ENQu\EOT\128\SOH\ENQ\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\b\NUL\SOH\DC2\ETXt\n\
+    \\b\NUL\SOH\DC2\ETXu\n\
     \\SYN\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\ENQ\DC2\ETXu\b<\n\
+    \\STX\ENQ\DC2\ETXv\b<\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ACK\DC2\ETXu\b\RS\n\
+    \\STX\ENQ\ACK\DC2\ETXv\b\RS\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\SOH\DC2\ETXu\US7\n\
+    \\STX\ENQ\SOH\DC2\ETXv\US7\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ETX\DC2\ETXu:;\n\
+    \\STX\ENQ\ETX\DC2\ETXv:;\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\ACK\DC2\ETXv\b4\n\
+    \\STX\ACK\DC2\ETXw\b4\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\ACK\DC2\ETXv\b\SUB\n\
+    \\STX\ACK\ACK\DC2\ETXw\b\SUB\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\SOH\DC2\ETXv\ESC/\n\
+    \\STX\ACK\SOH\DC2\ETXw\ESC/\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\ETX\DC2\ETXv23\n\
+    \\STX\ACK\ETX\DC2\ETXw23\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\a\DC2\ETXw\b6\n\
+    \\STX\a\DC2\ETXx\b6\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\a\ACK\DC2\ETXw\b\ESC\n\
+    \\STX\a\ACK\DC2\ETXx\b\ESC\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\a\SOH\DC2\ETXw\FS1\n\
+    \\STX\a\SOH\DC2\ETXx\FS1\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\a\ETX\DC2\ETXw45\n\
+    \\STX\a\ETX\DC2\ETXx45\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\b\DC2\ETXx\b:\n\
+    \\STX\b\DC2\ETXy\b:\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\b\ACK\DC2\ETXx\b\GS\n\
+    \\STX\b\ACK\DC2\ETXy\b\GS\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\b\SOH\DC2\ETXx\RS5\n\
+    \\STX\b\SOH\DC2\ETXy\RS5\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\b\ETX\DC2\ETXx89\n\
+    \\STX\b\ETX\DC2\ETXy89\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\t\DC2\ETXy\b2\n\
+    \\STX\t\DC2\ETXz\b2\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\t\ACK\DC2\ETXy\b\EM\n\
+    \\STX\t\ACK\DC2\ETXz\b\EM\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\t\SOH\DC2\ETXy\SUB-\n\
+    \\STX\t\SOH\DC2\ETXz\SUB-\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\t\ETX\DC2\ETXy01\n\
+    \\STX\t\ETX\DC2\ETXz01\n\
     \\v\n\
     \\EOT\EOT\n\
     \\STX\n\
-    \\DC2\ETXz\bB\n\
+    \\DC2\ETX{\bB\n\
     \\f\n\
     \\ENQ\EOT\n\
     \\STX\n\
-    \\ACK\DC2\ETXz\b \n\
+    \\ACK\DC2\ETX{\b \n\
     \\f\n\
     \\ENQ\EOT\n\
     \\STX\n\
-    \\SOH\DC2\ETXz!<\n\
+    \\SOH\DC2\ETX{!<\n\
     \\f\n\
     \\ENQ\EOT\n\
     \\STX\n\
-    \\ETX\DC2\ETXz?A\n\
+    \\ETX\DC2\ETX{?A\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\v\DC2\ETX{\b7\n\
+    \\STX\v\DC2\ETX|\b7\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\v\ACK\DC2\ETX{\b\ESC\n\
+    \\STX\v\ACK\DC2\ETX|\b\ESC\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\v\SOH\DC2\ETX{\FS1\n\
+    \\STX\v\SOH\DC2\ETX|\FS1\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\v\ETX\DC2\ETX{46\n\
+    \\STX\v\ETX\DC2\ETX|46\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\f\DC2\ETX|\bU\n\
+    \\STX\f\DC2\ETX}\bU\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\f\ACK\DC2\ETX|\b)\n\
+    \\STX\f\ACK\DC2\ETX}\b)\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\f\SOH\DC2\ETX|*O\n\
+    \\STX\f\SOH\DC2\ETX}*O\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\f\ETX\DC2\ETX|RT\n\
+    \\STX\f\ETX\DC2\ETX}RT\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\r\DC2\ETX}\bN\n\
+    \\STX\r\DC2\ETX~\bN\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\r\ACK\DC2\ETX}\b!\n\
+    \\STX\r\ACK\DC2\ETX~\b!\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\r\SOH\DC2\ETX}\"H\n\
+    \\STX\r\SOH\DC2\ETX~\"H\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\r\ETX\DC2\ETX}KM\n\
+    \\STX\r\ETX\DC2\ETX~KM\n\
     \\v\n\
     \\EOT\EOT\n\
-    \\STX\SO\DC2\ETX~\b@\n\
+    \\STX\SO\DC2\ETX\DEL\b@\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\SO\ACK\DC2\ETX~\b\US\n\
+    \\STX\SO\ACK\DC2\ETX\DEL\b\US\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\SO\SOH\DC2\ETX~ :\n\
+    \\STX\SO\SOH\DC2\ETX\DEL :\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\SO\ETX\DC2\ETX~=?\n\
+    \\STX\SO\ETX\DC2\ETX\DEL=?\n\
     \\n\
     \\n\
-    \\STX\EOT\v\DC2\EOT\130\SOH\NUL)\n\
+    \\STX\EOT\v\DC2\EOT\131\SOH\NUL)\n\
     \\v\n\
-    \\ETX\EOT\v\SOH\DC2\EOT\130\SOH\b&b\ACKproto3"
+    \\ETX\EOT\v\SOH\DC2\EOT\131\SOH\b&b\ACKproto3"

@@ -5,13 +5,14 @@ use std::collections::{HashMap, HashSet};
 use std::str;
 use std::sync::Arc;
 use std::time::Duration;
-use temporalio_common::Worker;
-use temporalio_common::errors::{PollError, WorkflowErrorType};
 use temporalio_common::protos::coresdk::workflow_completion::WorkflowActivationCompletion;
 use temporalio_common::protos::coresdk::{ActivityHeartbeat, ActivityTaskCompletion};
 use temporalio_common::protos::temporal::api::history::v1::History;
-use temporalio_common::worker::{PollerBehavior, WorkerVersioningStrategy};
+use temporalio_common::worker::WorkerTaskTypes;
 use temporalio_sdk_core::replay::{HistoryForReplay, ReplayWorkerInput};
+use temporalio_sdk_core::{
+    PollError, PollerBehavior, Worker, WorkerVersioningStrategy, WorkflowErrorType,
+};
 use tokio::sync::mpsc::{Sender, channel};
 use tokio_stream::wrappers::ReceiverStream;
 
@@ -20,7 +21,7 @@ use crate::runtime::{self, Capability, HsCallback, MVar};
 use serde::{Deserialize, Serialize};
 
 pub struct WorkerRef {
-    worker: Option<Arc<temporalio_sdk_core::Worker>>,
+    worker: Option<Arc<Worker>>,
     runtime: runtime::Runtime,
 }
 
@@ -37,7 +38,10 @@ pub struct WorkerConfig {
     max_concurrent_workflow_task_polls: usize,
     nonsticky_to_sticky_poll_ratio: f32,
     max_concurrent_activity_task_polls: usize,
-    no_remote_activities: bool,
+    enable_workflows: Option<bool>,
+    enable_local_activities: Option<bool>,
+    enable_remote_activities: Option<bool>,
+    enable_nexus: Option<bool>,
     sticky_queue_schedule_to_start_timeout_millis: u64,
     max_heartbeat_throttle_interval_millis: u64,
     default_heartbeat_throttle_interval_millis: u64,
@@ -52,13 +56,13 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
     type Error = WorkerError;
 
     fn try_from(conf: WorkerConfig) -> Result<Self, WorkerError> {
-        temporalio_sdk_core::WorkerConfigBuilder::default()
+        temporalio_sdk_core::WorkerConfig::builder()
             .namespace(conf.namespace)
             .task_queue(conf.task_queue)
             .versioning_strategy(WorkerVersioningStrategy::None {
                 build_id: conf.build_id,
             })
-            .client_identity_override(conf.identity_override)
+            .maybe_client_identity_override(conf.identity_override)
             .max_cached_workflows(conf.max_cached_workflows)
             .max_outstanding_workflow_tasks(conf.max_outstanding_workflow_tasks)
             .max_outstanding_activities(conf.max_outstanding_activities)
@@ -70,7 +74,12 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
             .activity_task_poller_behavior(PollerBehavior::SimpleMaximum(
                 conf.max_concurrent_activity_task_polls,
             ))
-            .no_remote_activities(conf.no_remote_activities)
+            .task_types(WorkerTaskTypes {
+                enable_workflows: conf.enable_workflows.unwrap_or(true),
+                enable_local_activities: conf.enable_local_activities.unwrap_or(true),
+                enable_remote_activities: conf.enable_remote_activities.unwrap_or(true),
+                enable_nexus: conf.enable_nexus.unwrap_or(true),
+            })
             .sticky_queue_schedule_to_start_timeout(Duration::from_millis(
                 conf.sticky_queue_schedule_to_start_timeout_millis,
             ))
@@ -80,8 +89,8 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
             .default_heartbeat_throttle_interval(Duration::from_millis(
                 conf.default_heartbeat_throttle_interval_millis,
             ))
-            .max_worker_activities_per_second(conf.max_activities_per_second)
-            .max_task_queue_activities_per_second(conf.max_task_queue_activities_per_second)
+            .maybe_max_worker_activities_per_second(conf.max_activities_per_second)
+            .maybe_max_task_queue_activities_per_second(conf.max_task_queue_activities_per_second)
             // Even though grace period is optional, if it is not set then the
             // auto-cancel-activity behavior of shutdown will not occur, so we
             // always set it even if 0.
@@ -105,7 +114,7 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
             .build()
             .map_err(|err| WorkerError {
                 code: WorkerErrorCode::InvalidWorkerConfig,
-                message: format!("{}", err),
+                message: err,
             })
     }
 }
@@ -215,7 +224,7 @@ fn new_worker(client: &client::ClientRef, config: WorkerConfig) -> Result<Worker
     let worker = temporalio_sdk_core::init_worker(
         &client.runtime.core,
         config,
-        client.retry_client.clone().into_inner(),
+        client.connection.clone(),
     )
     .map_err(|err| WorkerError {
         code: WorkerErrorCode::InitWorkerFailed,
@@ -523,7 +532,7 @@ pub unsafe extern "C" fn hs_temporal_validate_worker(
     worker.runtime.future_result_into_hs(hs, async move {
         let result = w.validate().await;
         match result {
-            Ok(()) => Ok(CUnit {}),
+            Ok(_namespace_info) => Ok(CUnit {}),
             Err(err) => Err(CWorkerValidationError::c_repr_of(FormattedError {
                 message: format!("{}", err),
             })

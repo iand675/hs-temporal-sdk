@@ -10,12 +10,12 @@ module Proto.Temporal.Api.Taskqueue.V1.Message (
         ConfigMetadata(), PollerInfo(), PollerScalingDecision(),
         RampByPercentage(), RateLimit(), RateLimitConfig(),
         StickyExecutionAttributes(), TaskIdBlock(), TaskQueue(),
-        TaskQueueConfig(), TaskQueueMetadata(),
-        TaskQueuePartitionMetadata(), TaskQueueReachability(),
-        TaskQueueStats(), TaskQueueStatus(), TaskQueueTypeInfo(),
-        TaskQueueVersionInfo(), TaskQueueVersionInfo'TypesInfoEntry(),
-        TaskQueueVersionSelection(), TaskQueueVersioningInfo(),
-        TimestampedBuildIdAssignmentRule(),
+        TaskQueueConfig(), TaskQueueConfig'FairnessWeightOverridesEntry(),
+        TaskQueueMetadata(), TaskQueuePartitionMetadata(),
+        TaskQueueReachability(), TaskQueueStats(), TaskQueueStatus(),
+        TaskQueueTypeInfo(), TaskQueueVersionInfo(),
+        TaskQueueVersionInfo'TypesInfoEntry(), TaskQueueVersionSelection(),
+        TaskQueueVersioningInfo(), TimestampedBuildIdAssignmentRule(),
         TimestampedCompatibleBuildIdRedirectRule()
     ) where
 import qualified Data.ProtoLens.Runtime.Control.DeepSeq as Control.DeepSeq
@@ -2364,10 +2364,12 @@ instance Control.DeepSeq.NFData TaskQueue where
          * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.queueRateLimit' @:: Lens' TaskQueueConfig RateLimitConfig@
          * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.maybe'queueRateLimit' @:: Lens' TaskQueueConfig (Prelude.Maybe RateLimitConfig)@
          * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.fairnessKeysRateLimitDefault' @:: Lens' TaskQueueConfig RateLimitConfig@
-         * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.maybe'fairnessKeysRateLimitDefault' @:: Lens' TaskQueueConfig (Prelude.Maybe RateLimitConfig)@ -}
+         * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.maybe'fairnessKeysRateLimitDefault' @:: Lens' TaskQueueConfig (Prelude.Maybe RateLimitConfig)@
+         * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.fairnessWeightOverrides' @:: Lens' TaskQueueConfig (Data.Map.Map Data.Text.Text Prelude.Float)@ -}
 data TaskQueueConfig
   = TaskQueueConfig'_constructor {_TaskQueueConfig'queueRateLimit :: !(Prelude.Maybe RateLimitConfig),
                                   _TaskQueueConfig'fairnessKeysRateLimitDefault :: !(Prelude.Maybe RateLimitConfig),
+                                  _TaskQueueConfig'fairnessWeightOverrides :: !(Data.Map.Map Data.Text.Text Prelude.Float),
                                   _TaskQueueConfig'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show TaskQueueConfig where
@@ -2406,6 +2408,14 @@ instance Data.ProtoLens.Field.HasField TaskQueueConfig "maybe'fairnessKeysRateLi
            (\ x__ y__
               -> x__ {_TaskQueueConfig'fairnessKeysRateLimitDefault = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField TaskQueueConfig "fairnessWeightOverrides" (Data.Map.Map Data.Text.Text Prelude.Float) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _TaskQueueConfig'fairnessWeightOverrides
+           (\ x__ y__
+              -> x__ {_TaskQueueConfig'fairnessWeightOverrides = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message TaskQueueConfig where
   messageName _
     = Data.Text.pack "temporal.api.taskqueue.v1.TaskQueueConfig"
@@ -2413,7 +2423,11 @@ instance Data.ProtoLens.Message TaskQueueConfig where
     = "\n\
       \\SITaskQueueConfig\DC2T\n\
       \\DLEqueue_rate_limit\CAN\SOH \SOH(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\SOqueueRateLimit\DC2r\n\
-      \ fairness_keys_rate_limit_default\CAN\STX \SOH(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\FSfairnessKeysRateLimitDefault"
+      \ fairness_keys_rate_limit_default\CAN\STX \SOH(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\FSfairnessKeysRateLimitDefault\DC2\131\SOH\n\
+      \\EMfairness_weight_overrides\CAN\ETX \ETX(\v2G.temporal.api.taskqueue.v1.TaskQueueConfig.FairnessWeightOverridesEntryR\ETBfairnessWeightOverrides\SUBJ\n\
+      \\FSFairnessWeightOverridesEntry\DC2\DLE\n\
+      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
+      \\ENQvalue\CAN\STX \SOH(\STXR\ENQvalue:\STX8\SOH"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -2434,11 +2448,22 @@ instance Data.ProtoLens.Message TaskQueueConfig where
                  (Data.ProtoLens.Field.field
                     @"maybe'fairnessKeysRateLimitDefault")) ::
               Data.ProtoLens.FieldDescriptor TaskQueueConfig
+        fairnessWeightOverrides__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "fairness_weight_overrides"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor TaskQueueConfig'FairnessWeightOverridesEntry)
+              (Data.ProtoLens.MapField
+                 (Data.ProtoLens.Field.field @"key")
+                 (Data.ProtoLens.Field.field @"value")
+                 (Data.ProtoLens.Field.field @"fairnessWeightOverrides")) ::
+              Data.ProtoLens.FieldDescriptor TaskQueueConfig
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, queueRateLimit__field_descriptor),
            (Data.ProtoLens.Tag 2, 
-            fairnessKeysRateLimitDefault__field_descriptor)]
+            fairnessKeysRateLimitDefault__field_descriptor),
+           (Data.ProtoLens.Tag 3, fairnessWeightOverrides__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _TaskQueueConfig'_unknownFields
@@ -2447,6 +2472,7 @@ instance Data.ProtoLens.Message TaskQueueConfig where
     = TaskQueueConfig'_constructor
         {_TaskQueueConfig'queueRateLimit = Prelude.Nothing,
          _TaskQueueConfig'fairnessKeysRateLimitDefault = Prelude.Nothing,
+         _TaskQueueConfig'fairnessWeightOverrides = Data.Map.empty,
          _TaskQueueConfig'_unknownFields = []}
   parseMessage
     = let
@@ -2490,6 +2516,23 @@ instance Data.ProtoLens.Message TaskQueueConfig where
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"fairnessKeysRateLimitDefault") y
                                      x)
+                        26
+                          -> do !(entry :: TaskQueueConfig'FairnessWeightOverridesEntry) <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                                                                              (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                                                                                  Data.ProtoLens.Encoding.Bytes.isolate
+                                                                                                    (Prelude.fromIntegral
+                                                                                                       len)
+                                                                                                    Data.ProtoLens.parseMessage)
+                                                                                              "fairness_weight_overrides"
+                                (let
+                                   key = Lens.Family2.view (Data.ProtoLens.Field.field @"key") entry
+                                   value
+                                     = Lens.Family2.view (Data.ProtoLens.Field.field @"value") entry
+                                 in
+                                   loop
+                                     (Lens.Family2.over
+                                        (Data.ProtoLens.Field.field @"fairnessWeightOverrides")
+                                        (\ !t -> Data.Map.insert key value t) x))
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -2534,8 +2577,30 @@ instance Data.ProtoLens.Message TaskQueueConfig where
                                         (Prelude.fromIntegral (Data.ByteString.length bs)))
                                      (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                              Data.ProtoLens.encodeMessage _v))
-                (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
+                ((Data.Monoid.<>)
+                   (Data.Monoid.mconcat
+                      (Prelude.map
+                         (\ _v
+                            -> (Data.Monoid.<>)
+                                 (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
+                                 ((Prelude..)
+                                    (\ bs
+                                       -> (Data.Monoid.<>)
+                                            (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                               (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                            (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                    Data.ProtoLens.encodeMessage
+                                    (Lens.Family2.set
+                                       (Data.ProtoLens.Field.field @"key") (Prelude.fst _v)
+                                       (Lens.Family2.set
+                                          (Data.ProtoLens.Field.field @"value") (Prelude.snd _v)
+                                          (Data.ProtoLens.defMessage ::
+                                             TaskQueueConfig'FairnessWeightOverridesEntry)))))
+                         (Data.Map.toList
+                            (Lens.Family2.view
+                               (Data.ProtoLens.Field.field @"fairnessWeightOverrides") _x))))
+                   (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                      (Lens.Family2.view Data.ProtoLens.unknownFields _x))))
 instance Control.DeepSeq.NFData TaskQueueConfig where
   rnf
     = \ x__
@@ -2544,7 +2609,170 @@ instance Control.DeepSeq.NFData TaskQueueConfig where
              (Control.DeepSeq.deepseq
                 (_TaskQueueConfig'queueRateLimit x__)
                 (Control.DeepSeq.deepseq
-                   (_TaskQueueConfig'fairnessKeysRateLimitDefault x__) ()))
+                   (_TaskQueueConfig'fairnessKeysRateLimitDefault x__)
+                   (Control.DeepSeq.deepseq
+                      (_TaskQueueConfig'fairnessWeightOverrides x__) ())))
+{- | Fields :
+     
+         * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.key' @:: Lens' TaskQueueConfig'FairnessWeightOverridesEntry Data.Text.Text@
+         * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.value' @:: Lens' TaskQueueConfig'FairnessWeightOverridesEntry Prelude.Float@ -}
+data TaskQueueConfig'FairnessWeightOverridesEntry
+  = TaskQueueConfig'FairnessWeightOverridesEntry'_constructor {_TaskQueueConfig'FairnessWeightOverridesEntry'key :: !Data.Text.Text,
+                                                               _TaskQueueConfig'FairnessWeightOverridesEntry'value :: !Prelude.Float,
+                                                               _TaskQueueConfig'FairnessWeightOverridesEntry'_unknownFields :: !Data.ProtoLens.FieldSet}
+  deriving stock (Prelude.Eq, Prelude.Ord)
+instance Prelude.Show TaskQueueConfig'FairnessWeightOverridesEntry where
+  showsPrec _ __x __s
+    = Prelude.showChar
+        '{'
+        (Prelude.showString
+           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
+instance Data.ProtoLens.Field.HasField TaskQueueConfig'FairnessWeightOverridesEntry "key" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _TaskQueueConfig'FairnessWeightOverridesEntry'key
+           (\ x__ y__
+              -> x__ {_TaskQueueConfig'FairnessWeightOverridesEntry'key = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField TaskQueueConfig'FairnessWeightOverridesEntry "value" Prelude.Float where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _TaskQueueConfig'FairnessWeightOverridesEntry'value
+           (\ x__ y__
+              -> x__
+                   {_TaskQueueConfig'FairnessWeightOverridesEntry'value = y__}))
+        Prelude.id
+instance Data.ProtoLens.Message TaskQueueConfig'FairnessWeightOverridesEntry where
+  messageName _
+    = Data.Text.pack
+        "temporal.api.taskqueue.v1.TaskQueueConfig.FairnessWeightOverridesEntry"
+  packedMessageDescriptor _
+    = "\n\
+      \\FSFairnessWeightOverridesEntry\DC2\DLE\n\
+      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
+      \\ENQvalue\CAN\STX \SOH(\STXR\ENQvalue:\STX8\SOH"
+  packedFileDescriptor _ = packedFileDescriptor
+  fieldsByTag
+    = let
+        key__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "key"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"key")) ::
+              Data.ProtoLens.FieldDescriptor TaskQueueConfig'FairnessWeightOverridesEntry
+        value__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "value"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.FloatField ::
+                 Data.ProtoLens.FieldTypeDescriptor Prelude.Float)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"value")) ::
+              Data.ProtoLens.FieldDescriptor TaskQueueConfig'FairnessWeightOverridesEntry
+      in
+        Data.Map.fromList
+          [(Data.ProtoLens.Tag 1, key__field_descriptor),
+           (Data.ProtoLens.Tag 2, value__field_descriptor)]
+  unknownFields
+    = Lens.Family2.Unchecked.lens
+        _TaskQueueConfig'FairnessWeightOverridesEntry'_unknownFields
+        (\ x__ y__
+           -> x__
+                {_TaskQueueConfig'FairnessWeightOverridesEntry'_unknownFields = y__})
+  defMessage
+    = TaskQueueConfig'FairnessWeightOverridesEntry'_constructor
+        {_TaskQueueConfig'FairnessWeightOverridesEntry'key = Data.ProtoLens.fieldDefault,
+         _TaskQueueConfig'FairnessWeightOverridesEntry'value = Data.ProtoLens.fieldDefault,
+         _TaskQueueConfig'FairnessWeightOverridesEntry'_unknownFields = []}
+  parseMessage
+    = let
+        loop ::
+          TaskQueueConfig'FairnessWeightOverridesEntry
+          -> Data.ProtoLens.Encoding.Bytes.Parser TaskQueueConfig'FairnessWeightOverridesEntry
+        loop x
+          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
+               if end then
+                   do (let missing = []
+                       in
+                         if Prelude.null missing then
+                             Prelude.return ()
+                         else
+                             Prelude.fail
+                               ((Prelude.++)
+                                  "Missing required fields: "
+                                  (Prelude.show (missing :: [Prelude.String]))))
+                      Prelude.return
+                        (Lens.Family2.over
+                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
+               else
+                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                      case tag of
+                        10
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "key"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"key") y x)
+                        21
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Data.ProtoLens.Encoding.Bytes.wordToFloat
+                                          Data.ProtoLens.Encoding.Bytes.getFixed32)
+                                       "value"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"value") y x)
+                        wire
+                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
+                                        wire
+                                loop
+                                  (Lens.Family2.over
+                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
+      in
+        (Data.ProtoLens.Encoding.Bytes.<?>)
+          (do loop Data.ProtoLens.defMessage) "FairnessWeightOverridesEntry"
+  buildMessage
+    = \ _x
+        -> (Data.Monoid.<>)
+             (let _v = Lens.Family2.view (Data.ProtoLens.Field.field @"key") _x
+              in
+                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                    Data.Monoid.mempty
+                else
+                    (Data.Monoid.<>)
+                      (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                      ((Prelude..)
+                         (\ bs
+                            -> (Data.Monoid.<>)
+                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                    (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                 (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                         Data.Text.Encoding.encodeUtf8 _v))
+             ((Data.Monoid.<>)
+                (let
+                   _v = Lens.Family2.view (Data.ProtoLens.Field.field @"value") _x
+                 in
+                   if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                       Data.Monoid.mempty
+                   else
+                       (Data.Monoid.<>)
+                         (Data.ProtoLens.Encoding.Bytes.putVarInt 21)
+                         ((Prelude..)
+                            Data.ProtoLens.Encoding.Bytes.putFixed32
+                            Data.ProtoLens.Encoding.Bytes.floatToWord _v))
+                (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
+instance Control.DeepSeq.NFData TaskQueueConfig'FairnessWeightOverridesEntry where
+  rnf
+    = \ x__
+        -> Control.DeepSeq.deepseq
+             (_TaskQueueConfig'FairnessWeightOverridesEntry'_unknownFields x__)
+             (Control.DeepSeq.deepseq
+                (_TaskQueueConfig'FairnessWeightOverridesEntry'key x__)
+                (Control.DeepSeq.deepseq
+                   (_TaskQueueConfig'FairnessWeightOverridesEntry'value x__) ()))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Taskqueue.V1.Message_Fields.maxTasksPerSecond' @:: Lens' TaskQueueMetadata Proto.Google.Protobuf.Wrappers.DoubleValue@
@@ -5239,12 +5467,16 @@ packedFileDescriptor
     \\SIRateLimitConfig\DC2C\n\
     \\n\
     \rate_limit\CAN\SOH \SOH(\v2$.temporal.api.taskqueue.v1.RateLimitR\trateLimit\DC2E\n\
-    \\bmetadata\CAN\STX \SOH(\v2).temporal.api.taskqueue.v1.ConfigMetadataR\bmetadata\"\219\SOH\n\
+    \\bmetadata\CAN\STX \SOH(\v2).temporal.api.taskqueue.v1.ConfigMetadataR\bmetadata\"\173\ETX\n\
     \\SITaskQueueConfig\DC2T\n\
     \\DLEqueue_rate_limit\CAN\SOH \SOH(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\SOqueueRateLimit\DC2r\n\
-    \ fairness_keys_rate_limit_default\CAN\STX \SOH(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\FSfairnessKeysRateLimitDefaultB\152\SOH\n\
-    \\FSio.temporal.api.taskqueue.v1B\fMessageProtoP\SOHZ)go.temporal.io/api/taskqueue/v1;taskqueue\170\STX\ESCTemporalio.Api.TaskQueue.V1\234\STX\RSTemporalio::Api::TaskQueue::V1J\166~\n\
-    \\a\DC2\ENQ\NUL\NUL\217\STX\SOH\n\
+    \ fairness_keys_rate_limit_default\CAN\STX \SOH(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\FSfairnessKeysRateLimitDefault\DC2\131\SOH\n\
+    \\EMfairness_weight_overrides\CAN\ETX \ETX(\v2G.temporal.api.taskqueue.v1.TaskQueueConfig.FairnessWeightOverridesEntryR\ETBfairnessWeightOverrides\SUBJ\n\
+    \\FSFairnessWeightOverridesEntry\DC2\DLE\n\
+    \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
+    \\ENQvalue\CAN\STX \SOH(\STXR\ENQvalue:\STX8\SOHB\152\SOH\n\
+    \\FSio.temporal.api.taskqueue.v1B\fMessageProtoP\SOHZ)go.temporal.io/api/taskqueue/v1;taskqueue\170\STX\ESCTemporalio.Api.TaskQueue.V1\234\STX\RSTemporalio::Api::TaskQueue::V1J\176\DEL\n\
+    \\a\DC2\ENQ\NUL\NUL\219\STX\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -6117,7 +6349,7 @@ packedFileDescriptor
     \\r\n\
     \\ENQ\EOT\ETB\STX\SOH\ETX\DC2\EOT\209\STX\RS\US\n\
     \\f\n\
-    \\STX\EOT\CAN\DC2\ACK\212\STX\NUL\217\STX\SOH\n\
+    \\STX\EOT\CAN\DC2\ACK\212\STX\NUL\219\STX\SOH\n\
     \\v\n\
     \\ETX\EOT\CAN\SOH\DC2\EOT\212\STX\b\ETB\n\
     \G\n\
@@ -6137,4 +6369,13 @@ packedFileDescriptor
     \\r\n\
     \\ENQ\EOT\CAN\STX\SOH\SOH\DC2\EOT\216\STX\DC44\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\SOH\ETX\DC2\EOT\216\STX78b\ACKproto3"
+    \\ENQ\EOT\CAN\STX\SOH\ETX\DC2\EOT\216\STX78\n\
+    \[\n\
+    \\EOT\EOT\CAN\STX\STX\DC2\EOT\218\STX\EOT5\SUBM If set, overrides the fairness weights for the corresponding fairness keys.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\CAN\STX\STX\ACK\DC2\EOT\218\STX\EOT\SYN\n\
+    \\r\n\
+    \\ENQ\EOT\CAN\STX\STX\SOH\DC2\EOT\218\STX\ETB0\n\
+    \\r\n\
+    \\ENQ\EOT\CAN\STX\STX\ETX\DC2\EOT\218\STX34b\ACKproto3"

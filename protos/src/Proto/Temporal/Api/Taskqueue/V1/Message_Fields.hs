@@ -113,6 +113,13 @@ fairnessKeysRateLimitDefault ::
   Lens.Family2.LensLike' f s a
 fairnessKeysRateLimitDefault
   = Data.ProtoLens.Field.field @"fairnessKeysRateLimitDefault"
+fairnessWeightOverrides ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "fairnessWeightOverrides" a) =>
+  Lens.Family2.LensLike' f s a
+fairnessWeightOverrides
+  = Data.ProtoLens.Field.field @"fairnessWeightOverrides"
 identity ::
   forall f s a.
   (Prelude.Functor f,
