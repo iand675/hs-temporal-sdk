@@ -1087,6 +1087,56 @@ rec {
         };
         resolvedDefaultFeatures = [ "constructor" "debug" "default" "display" "from" "into" "try_into" ];
       };
+      "dirs" = rec {
+        crateName = "dirs";
+        version = "6.0.0";
+        edition = "2015";
+        sha256 = "0knfikii29761g22pwfrb8d0nqpbgw77sni9h2224haisyaams63";
+        authors = [
+          "Simon Ochsenreither <simon@ochsenreither.de>"
+        ];
+        dependencies = [
+          {
+            name = "dirs-sys";
+            packageId = "dirs-sys";
+          }
+        ];
+
+      };
+      "dirs-sys" = rec {
+        crateName = "dirs-sys";
+        version = "0.5.0";
+        edition = "2015";
+        sha256 = "1aqzpgq6ampza6v012gm2dppx9k35cdycbj54808ksbys9k366p0";
+        libName = "dirs_sys";
+        authors = [
+          "Simon Ochsenreither <simon@ochsenreither.de>"
+        ];
+        dependencies = [
+          {
+            name = "libc";
+            packageId = "libc";
+            target = { target, features }: (target."unix" or false);
+          }
+          {
+            name = "option-ext";
+            packageId = "option-ext";
+          }
+          {
+            name = "redox_users";
+            packageId = "redox_users";
+            usesDefaultFeatures = false;
+            target = { target, features }: ("redox" == target."os" or null);
+          }
+          {
+            name = "windows-sys";
+            packageId = "windows-sys 0.61.2";
+            target = { target, features }: (target."windows" or false);
+            features = [ "Win32_UI_Shell" "Win32_Foundation" "Win32_Globalization" "Win32_System_Com" ];
+          }
+        ];
+
+      };
       "displaydoc" = rec {
         crateName = "displaydoc";
         version = "0.2.5";
@@ -1271,7 +1321,7 @@ rec {
           "default" = [ "std" ];
           "std" = [ "alloc" "serde_core/std" ];
         };
-        resolvedDefaultFeatures = [ "alloc" ];
+        resolvedDefaultFeatures = [ "alloc" "default" "std" ];
       };
       "errno" = rec {
         crateName = "errno";
@@ -4486,6 +4536,17 @@ rec {
         };
         resolvedDefaultFeatures = [ "default" "experimental_async_runtime" "internal-logs" "logs" "metrics" "percent-encoding" "rand" "rt-tokio" "spec_unstable_metrics_views" "tokio" "tokio-stream" "trace" ];
       };
+      "option-ext" = rec {
+        crateName = "option-ext";
+        version = "0.2.0";
+        edition = "2015";
+        sha256 = "0zbf7cx8ib99frnlanpyikm1bx8qn8x602sw1n7bg6p9x94lyx04";
+        libName = "option_ext";
+        authors = [
+          "Simon Ochsenreither <simon@ochsenreither.de>"
+        ];
+
+      };
       "parking_lot" = rec {
         crateName = "parking_lot";
         version = "0.12.5";
@@ -6080,6 +6141,39 @@ rec {
         };
         resolvedDefaultFeatures = [ "default" "userspace" ];
       };
+      "redox_users" = rec {
+        crateName = "redox_users";
+        version = "0.5.2";
+        edition = "2021";
+        sha256 = "1b17q7gf7w8b1vvl53bxna24xl983yn7bd00gfbii74bcg30irm4";
+        authors = [
+          "Jose Narvaez <goyox86@gmail.com>"
+          "Wesley Hershberger <mggmugginsmc@gmail.com>"
+        ];
+        dependencies = [
+          {
+            name = "getrandom";
+            packageId = "getrandom 0.2.17";
+            features = [ "std" ];
+          }
+          {
+            name = "libredox";
+            packageId = "libredox";
+            usesDefaultFeatures = false;
+            features = [ "std" "call" ];
+          }
+          {
+            name = "thiserror";
+            packageId = "thiserror 2.0.18";
+          }
+        ];
+        features = {
+          "auth" = [ "rust-argon2" "zeroize" ];
+          "default" = [ "auth" ];
+          "rust-argon2" = [ "dep:rust-argon2" ];
+          "zeroize" = [ "dep:zeroize" ];
+        };
+      };
       "regex" = rec {
         crateName = "regex";
         version = "1.12.3";
@@ -7188,6 +7282,27 @@ rec {
         };
         resolvedDefaultFeatures = [ "default" "std" ];
       };
+      "serde_spanned" = rec {
+        crateName = "serde_spanned";
+        version = "1.0.4";
+        edition = "2021";
+        sha256 = "0xkp0qdzams5sqwndbw3xrhf4c0bb5r46w2ywkp1aqsdb8ggkfzq";
+        dependencies = [
+          {
+            name = "serde_core";
+            packageId = "serde_core";
+            optional = true;
+            usesDefaultFeatures = false;
+          }
+        ];
+        features = {
+          "alloc" = [ "serde_core?/alloc" ];
+          "default" = [ "std" "serde" ];
+          "serde" = [ "dep:serde_core" ];
+          "std" = [ "alloc" "serde_core?/std" ];
+        };
+        resolvedDefaultFeatures = [ "alloc" "serde" "std" ];
+      };
       "serde_urlencoded" = rec {
         crateName = "serde_urlencoded";
         version = "0.7.1";
@@ -7792,8 +7907,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
-          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
+          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
+          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
         };
         libName = "temporalio_client";
         authors = [
@@ -7909,6 +8024,7 @@ rec {
         features = {
           "telemetry" = [ "dep:opentelemetry" ];
         };
+        resolvedDefaultFeatures = [ "core-based-sdk" ];
       };
       "temporalio-common" = rec {
         crateName = "temporalio-common";
@@ -7917,8 +8033,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
-          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
+          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
+          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
         };
         libName = "temporalio_common";
         authors = [
@@ -7943,15 +8059,72 @@ rec {
             features = [ "implied-bounds" ];
           }
           {
+            name = "crc32fast";
+            packageId = "crc32fast";
+          }
+          {
             name = "derive_more";
             packageId = "derive_more";
             features = [ "constructor" "display" "from" "into" "debug" "try_into" ];
           }
           {
+            name = "dirs";
+            packageId = "dirs";
+            optional = true;
+          }
+          {
+            name = "erased-serde";
+            packageId = "erased-serde";
+          }
+          {
+            name = "futures";
+            packageId = "futures";
+          }
+          {
+            name = "futures-channel";
+            packageId = "futures-channel";
+            optional = true;
+            usesDefaultFeatures = false;
+            features = [ "std" ];
+          }
+          {
+            name = "http-body-util";
+            packageId = "http-body-util";
+            optional = true;
+          }
+          {
+            name = "hyper";
+            packageId = "hyper";
+            optional = true;
+          }
+          {
+            name = "hyper-util";
+            packageId = "hyper-util";
+            optional = true;
+            features = [ "server" "http1" "http2" "tokio" ];
+          }
+          {
             name = "opentelemetry";
             packageId = "opentelemetry";
             optional = true;
-            features = [ "metrics" ];
+            features = [ "metrics" "metrics" ];
+          }
+          {
+            name = "opentelemetry-otlp";
+            packageId = "opentelemetry-otlp";
+            optional = true;
+            features = [ "tokio" "metrics" "tls" "http-proto" "grpc-tonic" ];
+          }
+          {
+            name = "opentelemetry_sdk";
+            packageId = "opentelemetry_sdk";
+            optional = true;
+            features = [ "rt-tokio" "metrics" "spec_unstable_metrics_views" ];
+          }
+          {
+            name = "parking_lot";
+            packageId = "parking_lot";
+            features = [ "send_guard" ];
           }
           {
             name = "pbjson";
@@ -7960,6 +8133,11 @@ rec {
           {
             name = "pbjson-types";
             packageId = "pbjson-types";
+          }
+          {
+            name = "prometheus";
+            packageId = "prometheus";
+            optional = true;
           }
           {
             name = "prost";
@@ -7980,6 +8158,11 @@ rec {
             optional = true;
           }
           {
+            name = "ringbuf";
+            packageId = "ringbuf";
+            optional = true;
+          }
+          {
             name = "serde";
             packageId = "serde";
             features = [ "derive" ];
@@ -7991,6 +8174,16 @@ rec {
           {
             name = "thiserror";
             packageId = "thiserror 2.0.18";
+          }
+          {
+            name = "tokio";
+            packageId = "tokio";
+            optional = true;
+          }
+          {
+            name = "toml";
+            packageId = "toml";
+            optional = true;
           }
           {
             name = "tonic";
@@ -8009,6 +8202,12 @@ rec {
             packageId = "tracing-core";
           }
           {
+            name = "tracing-subscriber";
+            packageId = "tracing-subscriber";
+            usesDefaultFeatures = false;
+            features = [ "parking_lot" "env-filter" "registry" "ansi" ];
+          }
+          {
             name = "url";
             packageId = "url";
           }
@@ -8024,18 +8223,35 @@ rec {
             packageId = "pbjson-build";
           }
           {
+            name = "prost";
+            packageId = "prost";
+          }
+          {
+            name = "prost-types";
+            packageId = "prost-types";
+          }
+          {
             name = "tonic-prost-build";
             packageId = "tonic-prost-build";
           }
         ];
+        devDependencies = [
+          {
+            name = "tokio";
+            packageId = "tokio";
+            features = [ "macros" "rt" ];
+          }
+        ];
         features = {
+          "core-based-sdk" = [ "otel" "prometheus" "envconfig" "dep:ringbuf" "dep:futures-channel" ];
           "envconfig" = [ "dep:toml" "dep:dirs" ];
           "history_builders" = [ "rand" ];
-          "otel_impls" = [ "dep:opentelemetry" ];
+          "otel" = [ "dep:opentelemetry" "dep:opentelemetry_sdk" "dep:opentelemetry-otlp" ];
+          "prometheus" = [ "dep:prometheus" "dep:hyper" "dep:hyper-util" "dep:http-body-util" "dep:tokio" ];
           "rand" = [ "dep:rand" ];
           "test-utilities" = [ "history_builders" ];
         };
-        resolvedDefaultFeatures = [ "history_builders" "otel_impls" "rand" "serde_serialize" "test-utilities" ];
+        resolvedDefaultFeatures = [ "core-based-sdk" "envconfig" "history_builders" "otel" "prometheus" "rand" "serde_serialize" "test-utilities" ];
       };
       "temporalio-macros" = rec {
         crateName = "temporalio-macros";
@@ -8044,8 +8260,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
-          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
+          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
+          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
         };
         procMacro = true;
         libName = "temporalio_macros";
@@ -8082,8 +8298,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "f16f160d1974cfbd265c675664b67cb59a59426b";
-          sha256 = "0brn8b653b0h3mxfhmmcqvvy6r7i71qx4svpq7cj1zbdhrdmbbbv";
+          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
+          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
         };
         libName = "temporalio_sdk_core";
         authors = [
@@ -8142,10 +8358,9 @@ rec {
             optional = true;
           }
           {
-            name = "futures-channel";
-            packageId = "futures-channel";
+            name = "futures";
+            packageId = "futures";
             usesDefaultFeatures = false;
-            features = [ "std" ];
           }
           {
             name = "futures-util";
@@ -8159,22 +8374,6 @@ rec {
           {
             name = "governor";
             packageId = "governor";
-          }
-          {
-            name = "http-body-util";
-            packageId = "http-body-util";
-            optional = true;
-          }
-          {
-            name = "hyper";
-            packageId = "hyper";
-            optional = true;
-          }
-          {
-            name = "hyper-util";
-            packageId = "hyper-util";
-            optional = true;
-            features = [ "server" "http1" "http2" "tokio" ];
           }
           {
             name = "itertools";
@@ -8220,11 +8419,6 @@ rec {
             packageId = "pin-project";
           }
           {
-            name = "prometheus";
-            packageId = "prometheus";
-            optional = true;
-          }
-          {
             name = "prost";
             packageId = "prost";
           }
@@ -8243,10 +8437,6 @@ rec {
             optional = true;
             usesDefaultFeatures = false;
             features = [ "json" "stream" "rustls-tls-native-roots" ];
-          }
-          {
-            name = "ringbuf";
-            packageId = "ringbuf";
           }
           {
             name = "serde";
@@ -8278,11 +8468,12 @@ rec {
           {
             name = "temporalio-client";
             packageId = "temporalio-client";
+            features = [ "core-based-sdk" ];
           }
           {
             name = "temporalio-common";
             packageId = "temporalio-common";
-            features = [ "otel_impls" "history_builders" "test-utilities" ];
+            features = [ "core-based-sdk" "history_builders" "test-utilities" ];
           }
           {
             name = "temporalio-macros";
@@ -8316,12 +8507,6 @@ rec {
             packageId = "tracing";
           }
           {
-            name = "tracing-subscriber";
-            packageId = "tracing-subscriber";
-            usesDefaultFeatures = false;
-            features = [ "parking_lot" "env-filter" "registry" "ansi" ];
-          }
-          {
             name = "url";
             packageId = "url";
           }
@@ -8352,16 +8537,13 @@ rec {
         ];
         features = {
           "antithesis_assertions" = [ "dep:antithesis_sdk" ];
-          "console-subscriber" = [ "dep:console-subscriber" ];
-          "debug-plugin" = [ "dep:reqwest" ];
-          "default" = [ "otel" "prom" ];
+          "debug-plugin" = [ "dep:reqwest" "dep:hyper" ];
+          "default" = [ "otel" ];
           "ephemeral-server" = [ "dep:flate2" "dep:reqwest" "dep:tar" "dep:zip" ];
-          "otel" = [ "dep:opentelemetry" "dep:opentelemetry_sdk" "dep:opentelemetry-otlp" "dep:hyper" "dep:hyper-util" "dep:http-body-util" ];
-          "prom" = [ "dep:prometheus" ];
+          "otel" = [ "dep:opentelemetry" "dep:opentelemetry_sdk" "dep:opentelemetry-otlp" ];
           "test-utilities" = [ "dep:assert_matches" "dep:bimap" ];
-          "tokio-console" = [ "console-subscriber" ];
         };
-        resolvedDefaultFeatures = [ "default" "ephemeral-server" "otel" "prom" ];
+        resolvedDefaultFeatures = [ "default" "ephemeral-server" "otel" ];
       };
       "termtree" = rec {
         crateName = "termtree";
@@ -8822,6 +9004,122 @@ rec {
           "tracing" = [ "dep:tracing" ];
         };
         resolvedDefaultFeatures = [ "codec" "default" "io" "io-util" ];
+      };
+      "toml" = rec {
+        crateName = "toml";
+        version = "0.9.12+spec-1.1.0";
+        edition = "2021";
+        sha256 = "0qwqbrymqn88mg2yqyq3rj52z6p20448z0jxdbpjsbpwg5g894ng";
+        dependencies = [
+          {
+            name = "indexmap";
+            packageId = "indexmap";
+            optional = true;
+            usesDefaultFeatures = false;
+          }
+          {
+            name = "serde_core";
+            packageId = "serde_core";
+            optional = true;
+            usesDefaultFeatures = false;
+            features = [ "alloc" ];
+          }
+          {
+            name = "serde_spanned";
+            packageId = "serde_spanned";
+            usesDefaultFeatures = false;
+            features = [ "alloc" ];
+          }
+          {
+            name = "toml_datetime";
+            packageId = "toml_datetime";
+            usesDefaultFeatures = false;
+            features = [ "alloc" ];
+          }
+          {
+            name = "toml_parser";
+            packageId = "toml_parser";
+            optional = true;
+            usesDefaultFeatures = false;
+            features = [ "alloc" ];
+          }
+          {
+            name = "toml_writer";
+            packageId = "toml_writer";
+            optional = true;
+            usesDefaultFeatures = false;
+            features = [ "alloc" ];
+          }
+          {
+            name = "winnow";
+            packageId = "winnow";
+            optional = true;
+            usesDefaultFeatures = false;
+          }
+        ];
+        features = {
+          "debug" = [ "std" "toml_parser?/debug" "dep:anstream" "dep:anstyle" ];
+          "default" = [ "std" "serde" "parse" "display" ];
+          "display" = [ "dep:toml_writer" ];
+          "fast_hash" = [ "preserve_order" "dep:foldhash" ];
+          "parse" = [ "dep:toml_parser" "dep:winnow" ];
+          "preserve_order" = [ "dep:indexmap" "std" ];
+          "serde" = [ "dep:serde_core" "toml_datetime/serde" "serde_spanned/serde" ];
+          "std" = [ "indexmap?/std" "serde_core?/std" "toml_parser?/std" "toml_writer?/std" "toml_datetime/std" "serde_spanned/std" ];
+        };
+        resolvedDefaultFeatures = [ "default" "display" "parse" "serde" "std" ];
+      };
+      "toml_datetime" = rec {
+        crateName = "toml_datetime";
+        version = "0.7.5+spec-1.1.0";
+        edition = "2021";
+        sha256 = "0iqkgvgsxmszpai53dbip7sf2igic39s4dby29dbqf1h9bnwzqcj";
+        dependencies = [
+          {
+            name = "serde_core";
+            packageId = "serde_core";
+            optional = true;
+            usesDefaultFeatures = false;
+          }
+        ];
+        features = {
+          "alloc" = [ "serde_core?/alloc" ];
+          "default" = [ "std" ];
+          "serde" = [ "dep:serde_core" ];
+          "std" = [ "alloc" "serde_core?/std" ];
+        };
+        resolvedDefaultFeatures = [ "alloc" "serde" "std" ];
+      };
+      "toml_parser" = rec {
+        crateName = "toml_parser";
+        version = "1.0.9+spec-1.1.0";
+        edition = "2021";
+        sha256 = "1i54qpvvcppy8ybdn9gssas81vfzq0kmgkcnxzhyf8w9w0al8bbh";
+        dependencies = [
+          {
+            name = "winnow";
+            packageId = "winnow";
+            usesDefaultFeatures = false;
+          }
+        ];
+        features = {
+          "debug" = [ "std" "dep:anstream" "dep:anstyle" ];
+          "default" = [ "std" ];
+          "simd" = [ "winnow/simd" ];
+          "std" = [ "alloc" ];
+        };
+        resolvedDefaultFeatures = [ "alloc" "std" ];
+      };
+      "toml_writer" = rec {
+        crateName = "toml_writer";
+        version = "1.0.6+spec-1.1.0";
+        edition = "2021";
+        sha256 = "01r6x42d1p8p5kzfsi1fm4dakm3w53vi69f2ivyqpvi1xm5g25mb";
+        features = {
+          "default" = [ "std" ];
+          "std" = [ "alloc" ];
+        };
+        resolvedDefaultFeatures = [ "alloc" "std" ];
       };
       "tonic" = rec {
         crateName = "tonic";
@@ -12579,7 +12877,7 @@ rec {
           "Win32_Web" = [ "Win32" ];
           "Win32_Web_InternetExplorer" = [ "Win32_Web" ];
         };
-        resolvedDefaultFeatures = [ "Wdk" "Wdk_Foundation" "Wdk_Storage" "Wdk_Storage_FileSystem" "Wdk_System" "Wdk_System_IO" "Win32" "Win32_Foundation" "Win32_Networking" "Win32_Networking_WinSock" "Win32_Security" "Win32_Security_Authentication" "Win32_Security_Authentication_Identity" "Win32_Security_Credentials" "Win32_Security_Cryptography" "Win32_Storage" "Win32_Storage_FileSystem" "Win32_System" "Win32_System_Console" "Win32_System_Diagnostics" "Win32_System_Diagnostics_Debug" "Win32_System_IO" "Win32_System_LibraryLoader" "Win32_System_Memory" "Win32_System_Pipes" "Win32_System_SystemInformation" "Win32_System_SystemServices" "Win32_System_Threading" "Win32_System_WindowsProgramming" "default" ];
+        resolvedDefaultFeatures = [ "Wdk" "Wdk_Foundation" "Wdk_Storage" "Wdk_Storage_FileSystem" "Wdk_System" "Wdk_System_IO" "Win32" "Win32_Foundation" "Win32_Globalization" "Win32_Networking" "Win32_Networking_WinSock" "Win32_Security" "Win32_Security_Authentication" "Win32_Security_Authentication_Identity" "Win32_Security_Credentials" "Win32_Security_Cryptography" "Win32_Storage" "Win32_Storage_FileSystem" "Win32_System" "Win32_System_Com" "Win32_System_Console" "Win32_System_Diagnostics" "Win32_System_Diagnostics_Debug" "Win32_System_IO" "Win32_System_LibraryLoader" "Win32_System_Memory" "Win32_System_Pipes" "Win32_System_SystemInformation" "Win32_System_SystemServices" "Win32_System_Threading" "Win32_System_WindowsProgramming" "Win32_UI" "Win32_UI_Shell" "default" ];
       };
       "windows-targets 0.52.6" = rec {
         crateName = "windows-targets";
@@ -12843,6 +13141,19 @@ rec {
         edition = "2021";
         sha256 = "0l6npq76vlq4ksn4bwsncpr8508mk0gmznm6wnhjg95d19gzzfyn";
 
+      };
+      "winnow" = rec {
+        crateName = "winnow";
+        version = "0.7.15";
+        edition = "2021";
+        sha256 = "0i9rkl2rqpbnnxlgs20gmkj3nd0b2k8q55mjmpc2ybb84xwxjyfz";
+        features = {
+          "debug" = [ "std" "dep:anstream" "dep:anstyle" "dep:is_terminal_polyfill" "dep:terminal_size" ];
+          "default" = [ "std" ];
+          "simd" = [ "dep:memchr" ];
+          "std" = [ "alloc" "memchr?/std" ];
+          "unstable-doc" = [ "alloc" "std" "simd" "unstable-recover" ];
+        };
       };
       "wit-bindgen" = rec {
         crateName = "wit-bindgen";
