@@ -1400,7 +1400,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
         ];
 
@@ -4186,7 +4186,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
             optional = true;
             usesDefaultFeatures = false;
           }
@@ -4305,7 +4305,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
             usesDefaultFeatures = false;
           }
           {
@@ -4491,7 +4491,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
             usesDefaultFeatures = false;
           }
           {
@@ -5079,13 +5079,8 @@ rec {
             packageId = "parking_lot";
           }
           {
-            name = "protobuf";
-            packageId = "protobuf";
-            optional = true;
-          }
-          {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
         ];
         features = {
@@ -5100,7 +5095,6 @@ rec {
           "push" = [ "reqwest" "libc" "protobuf" ];
           "reqwest" = [ "dep:reqwest" ];
         };
-        resolvedDefaultFeatures = [ "default" "protobuf" ];
       };
       "prost" = rec {
         crateName = "prost";
@@ -5430,51 +5424,6 @@ rec {
         };
         resolvedDefaultFeatures = [ "default" "std" ];
       };
-      "protobuf" = rec {
-        crateName = "protobuf";
-        version = "3.7.2";
-        edition = "2021";
-        sha256 = "1x4riz4znnjsqpdxnhxj0aq8rfivmbv4hfqmd3gbbn77v96isnnn";
-        authors = [
-          "Stepan Koltsov <stepan.koltsov@gmail.com>"
-        ];
-        dependencies = [
-          {
-            name = "once_cell";
-            packageId = "once_cell";
-          }
-          {
-            name = "protobuf-support";
-            packageId = "protobuf-support";
-          }
-          {
-            name = "thiserror";
-            packageId = "thiserror 1.0.69";
-          }
-        ];
-        features = {
-          "bytes" = [ "dep:bytes" ];
-          "with-bytes" = [ "bytes" ];
-        };
-        resolvedDefaultFeatures = [ "default" ];
-      };
-      "protobuf-support" = rec {
-        crateName = "protobuf-support";
-        version = "3.7.2";
-        edition = "2021";
-        sha256 = "1mnpn2q96bxm2vidh86m5p2x5z0z8rgfyixk1wlgjiqa3vrw4diy";
-        libName = "protobuf_support";
-        authors = [
-          "Stepan Koltsov <stepan.koltsov@gmail.com>"
-        ];
-        dependencies = [
-          {
-            name = "thiserror";
-            packageId = "thiserror 1.0.69";
-          }
-        ];
-
-      };
       "pulldown-cmark" = rec {
         crateName = "pulldown-cmark";
         version = "0.13.1";
@@ -5633,7 +5582,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
           {
             name = "tokio";
@@ -5749,7 +5698,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
           {
             name = "tinyvec";
@@ -6164,7 +6113,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
         ];
         features = {
@@ -7907,8 +7856,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
-          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
+          rev = "5f79ef28684578c391b58bcc71afddb7c964d604";
+          sha256 = "11a1yr9likd0bf2n9b6qqai13198kqplc23qdrcyvij35hig035b";
         };
         libName = "temporalio_client";
         authors = [
@@ -7991,7 +7940,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
           {
             name = "tokio";
@@ -8033,8 +7982,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
-          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
+          rev = "5f79ef28684578c391b58bcc71afddb7c964d604";
+          sha256 = "11a1yr9likd0bf2n9b6qqai13198kqplc23qdrcyvij35hig035b";
         };
         libName = "temporalio_common";
         authors = [
@@ -8138,6 +8087,7 @@ rec {
             name = "prometheus";
             packageId = "prometheus";
             optional = true;
+            usesDefaultFeatures = false;
           }
           {
             name = "prost";
@@ -8173,7 +8123,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
           {
             name = "tokio";
@@ -8260,8 +8210,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
-          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
+          rev = "5f79ef28684578c391b58bcc71afddb7c964d604";
+          sha256 = "11a1yr9likd0bf2n9b6qqai13198kqplc23qdrcyvij35hig035b";
         };
         procMacro = true;
         libName = "temporalio_macros";
@@ -8285,7 +8235,7 @@ rec {
           {
             name = "syn";
             packageId = "syn 2.0.117";
-            features = [ "default" "extra-traits" ];
+            features = [ "default" "extra-traits" "full" ];
           }
         ];
 
@@ -8298,8 +8248,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/temporalio/sdk-core";
-          rev = "c781a61060d827053af9b82d6aa25a76416e0b84";
-          sha256 = "1gvsqjwbdpm9r3n3pxkhbd5plqjjwqd7d62847438jdffypchak4";
+          rev = "5f79ef28684578c391b58bcc71afddb7c964d604";
+          sha256 = "11a1yr9likd0bf2n9b6qqai13198kqplc23qdrcyvij35hig035b";
         };
         libName = "temporalio_sdk_core";
         authors = [
@@ -8481,7 +8431,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 2.0.18";
+            packageId = "thiserror";
           }
           {
             name = "tokio";
@@ -8552,23 +8502,7 @@ rec {
         sha256 = "10s610ax6nb70yi7xfmwcb6d3wi9sj5isd0m63gy2pizr2zgwl4g";
 
       };
-      "thiserror 1.0.69" = rec {
-        crateName = "thiserror";
-        version = "1.0.69";
-        edition = "2021";
-        sha256 = "0lizjay08agcr5hs9yfzzj6axs53a2rgx070a1dsi3jpkcrzbamn";
-        authors = [
-          "David Tolnay <dtolnay@gmail.com>"
-        ];
-        dependencies = [
-          {
-            name = "thiserror-impl";
-            packageId = "thiserror-impl 1.0.69";
-          }
-        ];
-
-      };
-      "thiserror 2.0.18" = rec {
+      "thiserror" = rec {
         crateName = "thiserror";
         version = "2.0.18";
         edition = "2021";
@@ -8579,7 +8513,7 @@ rec {
         dependencies = [
           {
             name = "thiserror-impl";
-            packageId = "thiserror-impl 2.0.18";
+            packageId = "thiserror-impl";
           }
         ];
         features = {
@@ -8587,33 +8521,7 @@ rec {
         };
         resolvedDefaultFeatures = [ "default" "std" ];
       };
-      "thiserror-impl 1.0.69" = rec {
-        crateName = "thiserror-impl";
-        version = "1.0.69";
-        edition = "2021";
-        sha256 = "1h84fmn2nai41cxbhk6pqf46bxqq1b344v8yz089w1chzi76rvjg";
-        procMacro = true;
-        libName = "thiserror_impl";
-        authors = [
-          "David Tolnay <dtolnay@gmail.com>"
-        ];
-        dependencies = [
-          {
-            name = "proc-macro2";
-            packageId = "proc-macro2";
-          }
-          {
-            name = "quote";
-            packageId = "quote";
-          }
-          {
-            name = "syn";
-            packageId = "syn 2.0.117";
-          }
-        ];
-
-      };
-      "thiserror-impl 2.0.18" = rec {
+      "thiserror-impl" = rec {
         crateName = "thiserror-impl";
         version = "2.0.18";
         edition = "2021";
