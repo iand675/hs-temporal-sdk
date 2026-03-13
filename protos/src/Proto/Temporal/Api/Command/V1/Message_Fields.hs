@@ -154,6 +154,13 @@ inheritBuildId ::
    Data.ProtoLens.Field.HasField s "inheritBuildId" a) =>
   Lens.Family2.LensLike' f s a
 inheritBuildId = Data.ProtoLens.Field.field @"inheritBuildId"
+initialVersioningBehavior ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "initialVersioningBehavior" a) =>
+  Lens.Family2.LensLike' f s a
+initialVersioningBehavior
+  = Data.ProtoLens.Field.field @"initialVersioningBehavior"
 initiator ::
   forall f s a.
   (Prelude.Functor f,

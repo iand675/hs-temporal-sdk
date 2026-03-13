@@ -15,7 +15,7 @@ module Proto.Temporal.Sdk.Core.Nexus.Nexus (
         NexusTaskCancelReason(), NexusTaskCancelReason'UnrecognizedValue,
         NexusTaskCompletion(), NexusTaskCompletion'Status(..),
         _NexusTaskCompletion'Completed, _NexusTaskCompletion'Error,
-        _NexusTaskCompletion'AckCancel
+        _NexusTaskCompletion'AckCancel, _NexusTaskCompletion'Failure
     ) where
 import qualified Data.ProtoLens.Runtime.Control.DeepSeq as Control.DeepSeq
 import qualified Data.ProtoLens.Runtime.Data.ProtoLens.Prism as Data.ProtoLens.Prism
@@ -42,6 +42,7 @@ import qualified Data.ProtoLens.Runtime.Data.Vector as Data.Vector
 import qualified Data.ProtoLens.Runtime.Data.Vector.Generic as Data.Vector.Generic
 import qualified Data.ProtoLens.Runtime.Data.Vector.Unboxed as Data.Vector.Unboxed
 import qualified Data.ProtoLens.Runtime.Text.Read as Text.Read
+import qualified Proto.Google.Protobuf.Timestamp
 import qualified Proto.Temporal.Api.Common.V1.Message
 import qualified Proto.Temporal.Api.Failure.V1.Message
 import qualified Proto.Temporal.Api.Nexus.V1.Message
@@ -654,13 +655,16 @@ _NexusOperationResult'TimedOut
               _otherwise -> Prelude.Nothing)
 {- | Fields :
      
+         * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.requestDeadline' @:: Lens' NexusTask Proto.Google.Protobuf.Timestamp.Timestamp@
+         * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'requestDeadline' @:: Lens' NexusTask (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'variant' @:: Lens' NexusTask (Prelude.Maybe NexusTask'Variant)@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'task' @:: Lens' NexusTask (Prelude.Maybe Proto.Temporal.Api.Workflowservice.V1.RequestResponse.PollNexusTaskQueueResponse)@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.task' @:: Lens' NexusTask Proto.Temporal.Api.Workflowservice.V1.RequestResponse.PollNexusTaskQueueResponse@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'cancelTask' @:: Lens' NexusTask (Prelude.Maybe CancelNexusTask)@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.cancelTask' @:: Lens' NexusTask CancelNexusTask@ -}
 data NexusTask
-  = NexusTask'_constructor {_NexusTask'variant :: !(Prelude.Maybe NexusTask'Variant),
+  = NexusTask'_constructor {_NexusTask'requestDeadline :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
+                            _NexusTask'variant :: !(Prelude.Maybe NexusTask'Variant),
                             _NexusTask'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show NexusTask where
@@ -673,6 +677,20 @@ data NexusTask'Variant
   = NexusTask'Task !Proto.Temporal.Api.Workflowservice.V1.RequestResponse.PollNexusTaskQueueResponse |
     NexusTask'CancelTask !CancelNexusTask
   deriving stock (Prelude.Show, Prelude.Eq, Prelude.Ord)
+instance Data.ProtoLens.Field.HasField NexusTask "requestDeadline" Proto.Google.Protobuf.Timestamp.Timestamp where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _NexusTask'requestDeadline
+           (\ x__ y__ -> x__ {_NexusTask'requestDeadline = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField NexusTask "maybe'requestDeadline" (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _NexusTask'requestDeadline
+           (\ x__ y__ -> x__ {_NexusTask'requestDeadline = y__}))
+        Prelude.id
 instance Data.ProtoLens.Field.HasField NexusTask "maybe'variant" (Prelude.Maybe NexusTask'Variant) where
   fieldOf _
     = (Prelude..)
@@ -734,11 +752,20 @@ instance Data.ProtoLens.Message NexusTask where
       \\tNexusTask\DC2Q\n\
       \\EOTtask\CAN\SOH \SOH(\v2;.temporal.api.workflowservice.v1.PollNexusTaskQueueResponseH\NULR\EOTtask\DC2A\n\
       \\vcancel_task\CAN\STX \SOH(\v2\RS.coresdk.nexus.CancelNexusTaskH\NULR\n\
-      \cancelTaskB\t\n\
+      \cancelTask\DC2E\n\
+      \\DLErequest_deadline\CAN\ETX \SOH(\v2\SUB.google.protobuf.TimestampR\SIrequestDeadlineB\t\n\
       \\avariant"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
+        requestDeadline__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "request_deadline"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Timestamp.Timestamp)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'requestDeadline")) ::
+              Data.ProtoLens.FieldDescriptor NexusTask
         task__field_descriptor
           = Data.ProtoLens.FieldDescriptor
               "task"
@@ -757,7 +784,8 @@ instance Data.ProtoLens.Message NexusTask where
               Data.ProtoLens.FieldDescriptor NexusTask
       in
         Data.Map.fromList
-          [(Data.ProtoLens.Tag 1, task__field_descriptor),
+          [(Data.ProtoLens.Tag 3, requestDeadline__field_descriptor),
+           (Data.ProtoLens.Tag 1, task__field_descriptor),
            (Data.ProtoLens.Tag 2, cancelTask__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
@@ -765,7 +793,8 @@ instance Data.ProtoLens.Message NexusTask where
         (\ x__ y__ -> x__ {_NexusTask'_unknownFields = y__})
   defMessage
     = NexusTask'_constructor
-        {_NexusTask'variant = Prelude.Nothing,
+        {_NexusTask'requestDeadline = Prelude.Nothing,
+         _NexusTask'variant = Prelude.Nothing,
          _NexusTask'_unknownFields = []}
   parseMessage
     = let
@@ -788,6 +817,15 @@ instance Data.ProtoLens.Message NexusTask where
                else
                    do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
                       case tag of
+                        26
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "request_deadline"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"requestDeadline") y x)
                         10
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -816,37 +854,55 @@ instance Data.ProtoLens.Message NexusTask where
     = \ _x
         -> (Data.Monoid.<>)
              (case
-                  Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'variant") _x
+                  Lens.Family2.view
+                    (Data.ProtoLens.Field.field @"maybe'requestDeadline") _x
               of
                 Prelude.Nothing -> Data.Monoid.mempty
-                (Prelude.Just (NexusTask'Task v))
+                (Prelude.Just _v)
                   -> (Data.Monoid.<>)
-                       (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                       (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
                        ((Prelude..)
                           (\ bs
                              -> (Data.Monoid.<>)
                                   (Data.ProtoLens.Encoding.Bytes.putVarInt
                                      (Prelude.fromIntegral (Data.ByteString.length bs)))
                                   (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                          Data.ProtoLens.encodeMessage v)
-                (Prelude.Just (NexusTask'CancelTask v))
-                  -> (Data.Monoid.<>)
-                       (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
-                       ((Prelude..)
-                          (\ bs
-                             -> (Data.Monoid.<>)
-                                  (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                     (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                  (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                          Data.ProtoLens.encodeMessage v))
-             (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                (Lens.Family2.view Data.ProtoLens.unknownFields _x))
+                          Data.ProtoLens.encodeMessage _v))
+             ((Data.Monoid.<>)
+                (case
+                     Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'variant") _x
+                 of
+                   Prelude.Nothing -> Data.Monoid.mempty
+                   (Prelude.Just (NexusTask'Task v))
+                     -> (Data.Monoid.<>)
+                          (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                          ((Prelude..)
+                             (\ bs
+                                -> (Data.Monoid.<>)
+                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                             Data.ProtoLens.encodeMessage v)
+                   (Prelude.Just (NexusTask'CancelTask v))
+                     -> (Data.Monoid.<>)
+                          (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
+                          ((Prelude..)
+                             (\ bs
+                                -> (Data.Monoid.<>)
+                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                             Data.ProtoLens.encodeMessage v))
+                (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
 instance Control.DeepSeq.NFData NexusTask where
   rnf
     = \ x__
         -> Control.DeepSeq.deepseq
              (_NexusTask'_unknownFields x__)
-             (Control.DeepSeq.deepseq (_NexusTask'variant x__) ())
+             (Control.DeepSeq.deepseq
+                (_NexusTask'requestDeadline x__)
+                (Control.DeepSeq.deepseq (_NexusTask'variant x__) ()))
 instance Control.DeepSeq.NFData NexusTask'Variant where
   rnf (NexusTask'Task x__) = Control.DeepSeq.rnf x__
   rnf (NexusTask'CancelTask x__) = Control.DeepSeq.rnf x__
@@ -940,7 +996,9 @@ instance Control.DeepSeq.NFData NexusTaskCancelReason where
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'error' @:: Lens' NexusTaskCompletion (Prelude.Maybe Proto.Temporal.Api.Nexus.V1.Message.HandlerError)@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.error' @:: Lens' NexusTaskCompletion Proto.Temporal.Api.Nexus.V1.Message.HandlerError@
          * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'ackCancel' @:: Lens' NexusTaskCompletion (Prelude.Maybe Prelude.Bool)@
-         * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.ackCancel' @:: Lens' NexusTaskCompletion Prelude.Bool@ -}
+         * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.ackCancel' @:: Lens' NexusTaskCompletion Prelude.Bool@
+         * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.maybe'failure' @:: Lens' NexusTaskCompletion (Prelude.Maybe Proto.Temporal.Api.Failure.V1.Message.Failure)@
+         * 'Proto.Temporal.Sdk.Core.Nexus.Nexus_Fields.failure' @:: Lens' NexusTaskCompletion Proto.Temporal.Api.Failure.V1.Message.Failure@ -}
 data NexusTaskCompletion
   = NexusTaskCompletion'_constructor {_NexusTaskCompletion'taskToken :: !Data.ByteString.ByteString,
                                       _NexusTaskCompletion'status :: !(Prelude.Maybe NexusTaskCompletion'Status),
@@ -955,7 +1013,8 @@ instance Prelude.Show NexusTaskCompletion where
 data NexusTaskCompletion'Status
   = NexusTaskCompletion'Completed !Proto.Temporal.Api.Nexus.V1.Message.Response |
     NexusTaskCompletion'Error !Proto.Temporal.Api.Nexus.V1.Message.HandlerError |
-    NexusTaskCompletion'AckCancel !Prelude.Bool
+    NexusTaskCompletion'AckCancel !Prelude.Bool |
+    NexusTaskCompletion'Failure !Proto.Temporal.Api.Failure.V1.Message.Failure
   deriving stock (Prelude.Show, Prelude.Eq, Prelude.Ord)
 instance Data.ProtoLens.Field.HasField NexusTaskCompletion "taskToken" Data.ByteString.ByteString where
   fieldOf _
@@ -1055,6 +1114,34 @@ instance Data.ProtoLens.Field.HasField NexusTaskCompletion "ackCancel" Prelude.B
                       _otherwise -> Prelude.Nothing)
               (\ _ y__ -> Prelude.fmap NexusTaskCompletion'AckCancel y__))
            (Data.ProtoLens.maybeLens Data.ProtoLens.fieldDefault))
+instance Data.ProtoLens.Field.HasField NexusTaskCompletion "maybe'failure" (Prelude.Maybe Proto.Temporal.Api.Failure.V1.Message.Failure) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _NexusTaskCompletion'status
+           (\ x__ y__ -> x__ {_NexusTaskCompletion'status = y__}))
+        (Lens.Family2.Unchecked.lens
+           (\ x__
+              -> case x__ of
+                   (Prelude.Just (NexusTaskCompletion'Failure x__val))
+                     -> Prelude.Just x__val
+                   _otherwise -> Prelude.Nothing)
+           (\ _ y__ -> Prelude.fmap NexusTaskCompletion'Failure y__))
+instance Data.ProtoLens.Field.HasField NexusTaskCompletion "failure" Proto.Temporal.Api.Failure.V1.Message.Failure where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _NexusTaskCompletion'status
+           (\ x__ y__ -> x__ {_NexusTaskCompletion'status = y__}))
+        ((Prelude..)
+           (Lens.Family2.Unchecked.lens
+              (\ x__
+                 -> case x__ of
+                      (Prelude.Just (NexusTaskCompletion'Failure x__val))
+                        -> Prelude.Just x__val
+                      _otherwise -> Prelude.Nothing)
+              (\ _ y__ -> Prelude.fmap NexusTaskCompletion'Failure y__))
+           (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage))
 instance Data.ProtoLens.Message NexusTaskCompletion where
   messageName _ = Data.Text.pack "coresdk.nexus.NexusTaskCompletion"
   packedMessageDescriptor _
@@ -1062,10 +1149,11 @@ instance Data.ProtoLens.Message NexusTaskCompletion where
       \\DC3NexusTaskCompletion\DC2\GS\n\
       \\n\
       \task_token\CAN\SOH \SOH(\fR\ttaskToken\DC2?\n\
-      \\tcompleted\CAN\STX \SOH(\v2\US.temporal.api.nexus.v1.ResponseH\NULR\tcompleted\DC2;\n\
-      \\ENQerror\CAN\ETX \SOH(\v2#.temporal.api.nexus.v1.HandlerErrorH\NULR\ENQerror\DC2\US\n\
+      \\tcompleted\CAN\STX \SOH(\v2\US.temporal.api.nexus.v1.ResponseH\NULR\tcompleted\DC2?\n\
+      \\ENQerror\CAN\ETX \SOH(\v2#.temporal.api.nexus.v1.HandlerErrorH\NULR\ENQerrorB\STX\CAN\SOH\DC2\US\n\
       \\n\
-      \ack_cancel\CAN\EOT \SOH(\bH\NULR\tackCancelB\b\n\
+      \ack_cancel\CAN\EOT \SOH(\bH\NULR\tackCancel\DC2<\n\
+      \\afailure\CAN\ENQ \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\afailureB\b\n\
       \\ACKstatus"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
@@ -1103,12 +1191,21 @@ instance Data.ProtoLens.Message NexusTaskCompletion where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'ackCancel")) ::
               Data.ProtoLens.FieldDescriptor NexusTaskCompletion
+        failure__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "failure"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Failure.V1.Message.Failure)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'failure")) ::
+              Data.ProtoLens.FieldDescriptor NexusTaskCompletion
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, taskToken__field_descriptor),
            (Data.ProtoLens.Tag 2, completed__field_descriptor),
            (Data.ProtoLens.Tag 3, error__field_descriptor),
-           (Data.ProtoLens.Tag 4, ackCancel__field_descriptor)]
+           (Data.ProtoLens.Tag 4, ackCancel__field_descriptor),
+           (Data.ProtoLens.Tag 5, failure__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _NexusTaskCompletion'_unknownFields
@@ -1171,6 +1268,13 @@ instance Data.ProtoLens.Message NexusTaskCompletion where
                                        "ack_cancel"
                                 loop
                                   (Lens.Family2.set (Data.ProtoLens.Field.field @"ackCancel") y x)
+                        42
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "failure"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"failure") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -1227,7 +1331,17 @@ instance Data.ProtoLens.Message NexusTaskCompletion where
                           (Data.ProtoLens.Encoding.Bytes.putVarInt 32)
                           ((Prelude..)
                              Data.ProtoLens.Encoding.Bytes.putVarInt (\ b -> if b then 1 else 0)
-                             v))
+                             v)
+                   (Prelude.Just (NexusTaskCompletion'Failure v))
+                     -> (Data.Monoid.<>)
+                          (Data.ProtoLens.Encoding.Bytes.putVarInt 42)
+                          ((Prelude..)
+                             (\ bs
+                                -> (Data.Monoid.<>)
+                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                             Data.ProtoLens.encodeMessage v))
                 (Data.ProtoLens.Encoding.Wire.buildFieldSet
                    (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
 instance Control.DeepSeq.NFData NexusTaskCompletion where
@@ -1242,6 +1356,7 @@ instance Control.DeepSeq.NFData NexusTaskCompletion'Status where
   rnf (NexusTaskCompletion'Completed x__) = Control.DeepSeq.rnf x__
   rnf (NexusTaskCompletion'Error x__) = Control.DeepSeq.rnf x__
   rnf (NexusTaskCompletion'AckCancel x__) = Control.DeepSeq.rnf x__
+  rnf (NexusTaskCompletion'Failure x__) = Control.DeepSeq.rnf x__
 _NexusTaskCompletion'Completed ::
   Data.ProtoLens.Prism.Prism' NexusTaskCompletion'Status Proto.Temporal.Api.Nexus.V1.Message.Response
 _NexusTaskCompletion'Completed
@@ -1269,28 +1384,39 @@ _NexusTaskCompletion'AckCancel
          -> case p__ of
               (NexusTaskCompletion'AckCancel p__val) -> Prelude.Just p__val
               _otherwise -> Prelude.Nothing)
+_NexusTaskCompletion'Failure ::
+  Data.ProtoLens.Prism.Prism' NexusTaskCompletion'Status Proto.Temporal.Api.Failure.V1.Message.Failure
+_NexusTaskCompletion'Failure
+  = Data.ProtoLens.Prism.prism'
+      NexusTaskCompletion'Failure
+      (\ p__
+         -> case p__ of
+              (NexusTaskCompletion'Failure p__val) -> Prelude.Just p__val
+              _otherwise -> Prelude.Nothing)
 packedFileDescriptor :: Data.ByteString.ByteString
 packedFileDescriptor
   = "\n\
-    \#temporal/sdk/core/nexus/nexus.proto\DC2\rcoresdk.nexus\SUB$temporal/api/common/v1/message.proto\SUB%temporal/api/failure/v1/message.proto\SUB#temporal/api/nexus/v1/message.proto\SUB6temporal/api/workflowservice/v1/request_response.proto\SUB%temporal/sdk/core/common/common.proto\"\160\STX\n\
+    \#temporal/sdk/core/nexus/nexus.proto\DC2\rcoresdk.nexus\SUB\USgoogle/protobuf/timestamp.proto\SUB$temporal/api/common/v1/message.proto\SUB%temporal/api/failure/v1/message.proto\SUB#temporal/api/nexus/v1/message.proto\SUB6temporal/api/workflowservice/v1/request_response.proto\SUB%temporal/sdk/core/common/common.proto\"\160\STX\n\
     \\DC4NexusOperationResult\DC2?\n\
     \\tcompleted\CAN\SOH \SOH(\v2\US.temporal.api.common.v1.PayloadH\NULR\tcompleted\DC2:\n\
     \\ACKfailed\CAN\STX \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\ACKfailed\DC2@\n\
     \\tcancelled\CAN\ETX \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\tcancelled\DC2?\n\
     \\ttimed_out\CAN\EOT \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\btimedOutB\b\n\
-    \\ACKstatus\"\221\SOH\n\
+    \\ACKstatus\"\159\STX\n\
     \\DC3NexusTaskCompletion\DC2\GS\n\
     \\n\
     \task_token\CAN\SOH \SOH(\fR\ttaskToken\DC2?\n\
-    \\tcompleted\CAN\STX \SOH(\v2\US.temporal.api.nexus.v1.ResponseH\NULR\tcompleted\DC2;\n\
-    \\ENQerror\CAN\ETX \SOH(\v2#.temporal.api.nexus.v1.HandlerErrorH\NULR\ENQerror\DC2\US\n\
+    \\tcompleted\CAN\STX \SOH(\v2\US.temporal.api.nexus.v1.ResponseH\NULR\tcompleted\DC2?\n\
+    \\ENQerror\CAN\ETX \SOH(\v2#.temporal.api.nexus.v1.HandlerErrorH\NULR\ENQerrorB\STX\CAN\SOH\DC2\US\n\
     \\n\
-    \ack_cancel\CAN\EOT \SOH(\bH\NULR\tackCancelB\b\n\
-    \\ACKstatus\"\172\SOH\n\
+    \ack_cancel\CAN\EOT \SOH(\bH\NULR\tackCancel\DC2<\n\
+    \\afailure\CAN\ENQ \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\afailureB\b\n\
+    \\ACKstatus\"\243\SOH\n\
     \\tNexusTask\DC2Q\n\
     \\EOTtask\CAN\SOH \SOH(\v2;.temporal.api.workflowservice.v1.PollNexusTaskQueueResponseH\NULR\EOTtask\DC2A\n\
     \\vcancel_task\CAN\STX \SOH(\v2\RS.coresdk.nexus.CancelNexusTaskH\NULR\n\
-    \cancelTaskB\t\n\
+    \cancelTask\DC2E\n\
+    \\DLErequest_deadline\CAN\ETX \SOH(\v2\SUB.google.protobuf.TimestampR\SIrequestDeadlineB\t\n\
     \\avariant\"n\n\
     \\SICancelNexusTask\DC2\GS\n\
     \\n\
@@ -1304,8 +1430,8 @@ packedFileDescriptor
     \\aABANDON\DLE\SOH\DC2\SO\n\
     \\n\
     \TRY_CANCEL\DLE\STX\DC2\US\n\
-    \\ESCWAIT_CANCELLATION_REQUESTED\DLE\ETXB+\234\STX(Temporalio::Internal::Bridge::Api::NexusJ\213\SUB\n\
-    \\ACK\DC2\EOT\NUL\NULU\SOH\n\
+    \\ESCWAIT_CANCELLATION_REQUESTED\DLE\ETXB+\234\STX(Temporalio::Internal::Bridge::Api::NexusJ\136\RS\n\
+    \\ACK\DC2\EOT\NUL\NUL\\\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -1315,132 +1441,148 @@ packedFileDescriptor
     \\t\n\
     \\STX\b-\DC2\ETX\ETX\NULA\n\
     \\t\n\
-    \\STX\ETX\NUL\DC2\ETX\ENQ\NUL.\n\
+    \\STX\ETX\NUL\DC2\ETX\ENQ\NUL)\n\
     \\t\n\
-    \\STX\ETX\SOH\DC2\ETX\ACK\NUL/\n\
+    \\STX\ETX\SOH\DC2\ETX\ACK\NUL.\n\
     \\t\n\
-    \\STX\ETX\STX\DC2\ETX\a\NUL-\n\
+    \\STX\ETX\STX\DC2\ETX\a\NUL/\n\
     \\t\n\
-    \\STX\ETX\ETX\DC2\ETX\b\NUL@\n\
+    \\STX\ETX\ETX\DC2\ETX\b\NUL-\n\
     \\t\n\
-    \\STX\ETX\EOT\DC2\ETX\t\NUL/\n\
+    \\STX\ETX\EOT\DC2\ETX\t\NUL@\n\
+    \\t\n\
+    \\STX\ETX\ENQ\DC2\ETX\n\
+    \\NUL/\n\
     \7\n\
-    \\STX\EOT\NUL\DC2\EOT\f\NUL\DC3\SOH\SUB+ Used by core to resolve nexus operations.\n\
+    \\STX\EOT\NUL\DC2\EOT\r\NUL\DC4\SOH\SUB+ Used by core to resolve nexus operations.\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\NUL\SOH\DC2\ETX\f\b\FS\n\
+    \\ETX\EOT\NUL\SOH\DC2\ETX\r\b\FS\n\
     \\f\n\
-    \\EOT\EOT\NUL\b\NUL\DC2\EOT\r\EOT\DC2\ENQ\n\
+    \\EOT\EOT\NUL\b\NUL\DC2\EOT\SO\EOT\DC3\ENQ\n\
     \\f\n\
-    \\ENQ\EOT\NUL\b\NUL\SOH\DC2\ETX\r\n\
+    \\ENQ\EOT\NUL\b\NUL\SOH\DC2\ETX\SO\n\
     \\DLE\n\
     \\v\n\
-    \\EOT\EOT\NUL\STX\NUL\DC2\ETX\SO\b5\n\
+    \\EOT\EOT\NUL\STX\NUL\DC2\ETX\SI\b5\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\NUL\ACK\DC2\ETX\SO\b&\n\
+    \\ENQ\EOT\NUL\STX\NUL\ACK\DC2\ETX\SI\b&\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\NUL\SOH\DC2\ETX\SO'0\n\
+    \\ENQ\EOT\NUL\STX\NUL\SOH\DC2\ETX\SI'0\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\NUL\ETX\DC2\ETX\SO34\n\
+    \\ENQ\EOT\NUL\STX\NUL\ETX\DC2\ETX\SI34\n\
     \\v\n\
-    \\EOT\EOT\NUL\STX\SOH\DC2\ETX\SI\b3\n\
+    \\EOT\EOT\NUL\STX\SOH\DC2\ETX\DLE\b3\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\SOH\ACK\DC2\ETX\SI\b'\n\
+    \\ENQ\EOT\NUL\STX\SOH\ACK\DC2\ETX\DLE\b'\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\SOH\SOH\DC2\ETX\SI(.\n\
+    \\ENQ\EOT\NUL\STX\SOH\SOH\DC2\ETX\DLE(.\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\SOH\ETX\DC2\ETX\SI12\n\
+    \\ENQ\EOT\NUL\STX\SOH\ETX\DC2\ETX\DLE12\n\
     \\v\n\
-    \\EOT\EOT\NUL\STX\STX\DC2\ETX\DLE\b6\n\
+    \\EOT\EOT\NUL\STX\STX\DC2\ETX\DC1\b6\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\STX\ACK\DC2\ETX\DLE\b'\n\
+    \\ENQ\EOT\NUL\STX\STX\ACK\DC2\ETX\DC1\b'\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\STX\SOH\DC2\ETX\DLE(1\n\
+    \\ENQ\EOT\NUL\STX\STX\SOH\DC2\ETX\DC1(1\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\STX\ETX\DC2\ETX\DLE45\n\
+    \\ENQ\EOT\NUL\STX\STX\ETX\DC2\ETX\DC145\n\
     \\v\n\
-    \\EOT\EOT\NUL\STX\ETX\DC2\ETX\DC1\b6\n\
+    \\EOT\EOT\NUL\STX\ETX\DC2\ETX\DC2\b6\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\ETX\ACK\DC2\ETX\DC1\b'\n\
+    \\ENQ\EOT\NUL\STX\ETX\ACK\DC2\ETX\DC2\b'\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\ETX\SOH\DC2\ETX\DC1(1\n\
+    \\ENQ\EOT\NUL\STX\ETX\SOH\DC2\ETX\DC2(1\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\ETX\ETX\DC2\ETX\DC145\n\
+    \\ENQ\EOT\NUL\STX\ETX\ETX\DC2\ETX\DC245\n\
     \(\n\
-    \\STX\EOT\SOH\DC2\EOT\SYN\NUL%\SOH\SUB\FS A response to a Nexus task\n\
+    \\STX\EOT\SOH\DC2\EOT\ETB\NUL(\SOH\SUB\FS A response to a Nexus task\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\SOH\SOH\DC2\ETX\SYN\b\ESC\n\
+    \\ETX\EOT\SOH\SOH\DC2\ETX\ETB\b\ESC\n\
     \P\n\
-    \\EOT\EOT\SOH\STX\NUL\DC2\ETX\CAN\EOT\EM\SUBC The unique identifier for this task provided in the poll response\n\
+    \\EOT\EOT\SOH\STX\NUL\DC2\ETX\EM\EOT\EM\SUBC The unique identifier for this task provided in the poll response\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ENQ\DC2\ETX\CAN\EOT\t\n\
+    \\ENQ\EOT\SOH\STX\NUL\ENQ\DC2\ETX\EM\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETX\CAN\n\
+    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETX\EM\n\
     \\DC4\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETX\CAN\ETB\CAN\n\
+    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETX\EM\ETB\CAN\n\
     \\f\n\
-    \\EOT\EOT\SOH\b\NUL\DC2\EOT\EM\EOT$\ENQ\n\
+    \\EOT\EOT\SOH\b\NUL\DC2\EOT\SUB\EOT'\ENQ\n\
     \\f\n\
-    \\ENQ\EOT\SOH\b\NUL\SOH\DC2\ETX\EM\n\
+    \\ENQ\EOT\SOH\b\NUL\SOH\DC2\ETX\SUB\n\
     \\DLE\n\
     \\135\SOH\n\
-    \\EOT\EOT\SOH\STX\SOH\DC2\ETX\FS\b5\SUBz The handler completed (successfully or not). Note that the response kind must match the\n\
+    \\EOT\EOT\SOH\STX\SOH\DC2\ETX\GS\b5\SUBz The handler completed (successfully or not). Note that the response kind must match the\n\
     \ request kind (start or cancel).\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETX\FS\b&\n\
+    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETX\GS\b&\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETX\FS'0\n\
+    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETX\GS'0\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETX\FS34\n\
-    \J\n\
-    \\EOT\EOT\SOH\STX\STX\DC2\ETX\RS\b5\SUB= The handler could not complete the request for some reason.\n\
+    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETX\GS34\n\
+    \c\n\
+    \\EOT\EOT\SOH\STX\STX\DC2\ETX\US\bI\SUBV The handler could not complete the request for some reason. Deprecated, use failure.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ACK\DC2\ETX\RS\b*\n\
+    \\ENQ\EOT\SOH\STX\STX\ACK\DC2\ETX\US\b*\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETX\RS+0\n\
+    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETX\US+0\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETX\RS34\n\
+    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETX\US34\n\
+    \\f\n\
+    \\ENQ\EOT\SOH\STX\STX\b\DC2\ETX\US5H\n\
+    \\r\n\
+    \\ACK\EOT\SOH\STX\STX\b\ETX\DC2\ETX\US6G\n\
     \\163\STX\n\
-    \\EOT\EOT\SOH\STX\ETX\DC2\ETX#\b\FS\SUB\149\STX The lang SDK acknowledges that it is responding to a `CancelNexusTask` and thus the\n\
+    \\EOT\EOT\SOH\STX\ETX\DC2\ETX$\b\FS\SUB\149\STX The lang SDK acknowledges that it is responding to a `CancelNexusTask` and thus the\n\
     \ response is irrelevant. This is not the only way to respond to a cancel, the other\n\
     \ variants can still be used, but this variant should be used when the handler was aborted\n\
     \ by cancellation.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\ENQ\DC2\ETX#\b\f\n\
+    \\ENQ\EOT\SOH\STX\ETX\ENQ\DC2\ETX$\b\f\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\SOH\DC2\ETX#\r\ETB\n\
+    \\ENQ\EOT\SOH\STX\ETX\SOH\DC2\ETX$\r\ETB\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\ETX\DC2\ETX#\SUB\ESC\n\
+    \\ENQ\EOT\SOH\STX\ETX\ETX\DC2\ETX$\SUB\ESC\n\
+    \J\n\
+    \\EOT\EOT\SOH\STX\EOT\DC2\ETX&\b4\SUB= The handler could not complete the request for some reason.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\SOH\STX\EOT\ACK\DC2\ETX&\b'\n\
+    \\f\n\
+    \\ENQ\EOT\SOH\STX\EOT\SOH\DC2\ETX&(/\n\
+    \\f\n\
+    \\ENQ\EOT\SOH\STX\EOT\ETX\DC2\ETX&23\n\
     \\n\
     \\n\
-    \\STX\EOT\STX\DC2\EOT'\NUL8\SOH\n\
+    \\STX\EOT\STX\DC2\EOT*\NUL?\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\STX\SOH\DC2\ETX'\b\DC1\n\
+    \\ETX\EOT\STX\SOH\DC2\ETX*\b\DC1\n\
     \\f\n\
-    \\EOT\EOT\STX\b\NUL\DC2\EOT(\EOT7\ENQ\n\
+    \\EOT\EOT\STX\b\NUL\DC2\EOT+\EOT:\ENQ\n\
     \\f\n\
-    \\ENQ\EOT\STX\b\NUL\SOH\DC2\ETX(\n\
+    \\ENQ\EOT\STX\b\NUL\SOH\DC2\ETX+\n\
     \\DC1\n\
     \'\n\
-    \\EOT\EOT\STX\STX\NUL\DC2\ETX*\bL\SUB\SUB A nexus task from server\n\
+    \\EOT\EOT\STX\STX\NUL\DC2\ETX-\bL\SUB\SUB A nexus task from server\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\NUL\ACK\DC2\ETX*\bB\n\
+    \\ENQ\EOT\STX\STX\NUL\ACK\DC2\ETX-\bB\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\ETX*CG\n\
+    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\ETX-CG\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\ETX*JK\n\
+    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\ETX-JK\n\
     \\178\ENQ\n\
-    \\EOT\EOT\STX\STX\SOH\DC2\ETX6\b(\SUB\164\ENQ A request by Core to notify an in-progress operation handler that it should cancel. This\n\
+    \\EOT\EOT\STX\STX\SOH\DC2\ETX9\b(\SUB\164\ENQ A request by Core to notify an in-progress operation handler that it should cancel. This\n\
     \ is distinct from a `CancelOperationRequest` from the server, which results from the user\n\
     \ requesting the cancellation of an operation. Handling this variant should result in\n\
     \ something like cancelling a cancellation token given to the user's operation handler.\n\
@@ -1453,89 +1595,100 @@ packedFileDescriptor
     \ user's operation handler to continue doing work.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\ACK\DC2\ETX6\b\ETB\n\
+    \\ENQ\EOT\STX\STX\SOH\ACK\DC2\ETX9\b\ETB\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\ETX6\CAN#\n\
+    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\ETX9\CAN#\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\ETX6&'\n\
+    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\ETX9&'\n\
+    \\207\SOH\n\
+    \\EOT\EOT\STX\STX\STX\DC2\ETX>\EOT3\SUB\193\SOH The deadline for this request, parsed from the \"Request-Timeout\" header.\n\
+    \ Only set when variant is `task` and the header was present with a valid value.\n\
+    \ Represented as an absolute timestamp.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\STX\STX\STX\ACK\DC2\ETX>\EOT\GS\n\
+    \\f\n\
+    \\ENQ\EOT\STX\STX\STX\SOH\DC2\ETX>\RS.\n\
+    \\f\n\
+    \\ENQ\EOT\STX\STX\STX\ETX\DC2\ETX>12\n\
     \\n\
     \\n\
-    \\STX\EOT\ETX\DC2\EOT:\NUL?\SOH\n\
+    \\STX\EOT\ETX\DC2\EOTA\NULF\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\ETX\SOH\DC2\ETX:\b\ETB\n\
+    \\ETX\EOT\ETX\SOH\DC2\ETXA\b\ETB\n\
     \A\n\
-    \\EOT\EOT\ETX\STX\NUL\DC2\ETX<\EOT\EM\SUB4 The task token from the PollNexusTaskQueueResponse\n\
+    \\EOT\EOT\ETX\STX\NUL\DC2\ETXC\EOT\EM\SUB4 The task token from the PollNexusTaskQueueResponse\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\ETX<\EOT\t\n\
+    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\ETXC\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\ETX<\n\
+    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\ETXC\n\
     \\DC4\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\ETX<\ETB\CAN\n\
+    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\ETXC\ETB\CAN\n\
     \D\n\
-    \\EOT\EOT\ETX\STX\SOH\DC2\ETX>\EOT%\SUB7 Why Core is asking for this operation to be cancelled\n\
+    \\EOT\EOT\ETX\STX\SOH\DC2\ETXE\EOT%\SUB7 Why Core is asking for this operation to be cancelled\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\ACK\DC2\ETX>\EOT\EM\n\
+    \\ENQ\EOT\ETX\STX\SOH\ACK\DC2\ETXE\EOT\EM\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\SOH\DC2\ETX>\SUB \n\
+    \\ENQ\EOT\ETX\STX\SOH\SOH\DC2\ETXE\SUB \n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\ETX\DC2\ETX>#$\n\
+    \\ENQ\EOT\ETX\STX\SOH\ETX\DC2\ETXE#$\n\
     \\n\
     \\n\
-    \\STX\ENQ\NUL\DC2\EOTA\NULF\SOH\n\
+    \\STX\ENQ\NUL\DC2\EOTH\NULM\SOH\n\
     \\n\
     \\n\
-    \\ETX\ENQ\NUL\SOH\DC2\ETXA\ENQ\SUB\n\
+    \\ETX\ENQ\NUL\SOH\DC2\ETXH\ENQ\SUB\n\
     \8\n\
-    \\EOT\ENQ\NUL\STX\NUL\DC2\ETXC\EOT\DC2\SUB+ The nexus task is known to have timed out\n\
+    \\EOT\ENQ\NUL\STX\NUL\DC2\ETXJ\EOT\DC2\SUB+ The nexus task is known to have timed out\n\
     \\n\
     \\f\n\
-    \\ENQ\ENQ\NUL\STX\NUL\SOH\DC2\ETXC\EOT\r\n\
+    \\ENQ\ENQ\NUL\STX\NUL\SOH\DC2\ETXJ\EOT\r\n\
     \\f\n\
-    \\ENQ\ENQ\NUL\STX\NUL\STX\DC2\ETXC\DLE\DC1\n\
+    \\ENQ\ENQ\NUL\STX\NUL\STX\DC2\ETXJ\DLE\DC1\n\
     \*\n\
-    \\EOT\ENQ\NUL\STX\SOH\DC2\ETXE\EOT\CAN\SUB\GS The worker is shutting down\n\
+    \\EOT\ENQ\NUL\STX\SOH\DC2\ETXL\EOT\CAN\SUB\GS The worker is shutting down\n\
     \\n\
     \\f\n\
-    \\ENQ\ENQ\NUL\STX\SOH\SOH\DC2\ETXE\EOT\DC3\n\
+    \\ENQ\ENQ\NUL\STX\SOH\SOH\DC2\ETXL\EOT\DC3\n\
     \\f\n\
-    \\ENQ\ENQ\NUL\STX\SOH\STX\DC2\ETXE\SYN\ETB\n\
+    \\ENQ\ENQ\NUL\STX\SOH\STX\DC2\ETXL\SYN\ETB\n\
     \`\n\
-    \\STX\ENQ\SOH\DC2\EOTI\NULU\SOH\SUBT Controls at which point to report back to lang when a nexus operation is cancelled\n\
+    \\STX\ENQ\SOH\DC2\EOTP\NUL\\\SOH\SUBT Controls at which point to report back to lang when a nexus operation is cancelled\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\ENQ\SOH\SOH\DC2\ETXI\ENQ#\n\
+    \\ETX\ENQ\SOH\SOH\DC2\ETXP\ENQ#\n\
     \C\n\
-    \\EOT\ENQ\SOH\STX\NUL\DC2\ETXK\EOT$\SUB6 Wait for operation cancellation completion. Default.\n\
+    \\EOT\ENQ\SOH\STX\NUL\DC2\ETXR\EOT$\SUB6 Wait for operation cancellation completion. Default.\n\
     \\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\NUL\SOH\DC2\ETXK\EOT\US\n\
+    \\ENQ\ENQ\SOH\STX\NUL\SOH\DC2\ETXR\EOT\US\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\NUL\STX\DC2\ETXK\"#\n\
+    \\ENQ\ENQ\SOH\STX\NUL\STX\DC2\ETXR\"#\n\
     \V\n\
-    \\EOT\ENQ\SOH\STX\SOH\DC2\ETXM\EOT\DLE\SUBI Do not request cancellation of the nexus operation if already scheduled\n\
+    \\EOT\ENQ\SOH\STX\SOH\DC2\ETXT\EOT\DLE\SUBI Do not request cancellation of the nexus operation if already scheduled\n\
     \\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\SOH\SOH\DC2\ETXM\EOT\v\n\
+    \\ENQ\ENQ\SOH\STX\SOH\SOH\DC2\ETXT\EOT\v\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\SOH\STX\DC2\ETXM\SO\SI\n\
+    \\ENQ\ENQ\SOH\STX\SOH\STX\DC2\ETXT\SO\SI\n\
     \\234\STX\n\
-    \\EOT\ENQ\SOH\STX\STX\DC2\ETXR\EOT\DC3\SUB\220\STX Initiate a cancellation request for the Nexus operation and immediately report cancellation\n\
+    \\EOT\ENQ\SOH\STX\STX\DC2\ETXY\EOT\DC3\SUB\220\STX Initiate a cancellation request for the Nexus operation and immediately report cancellation\n\
     \ to the caller. Note that it doesn't guarantee that cancellation is delivered to the operation if calling workflow exits before the delivery is done.\n\
     \ If you want to ensure that cancellation is delivered to the operation, use WAIT_CANCELLATION_REQUESTED.\n\
     \\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\STX\SOH\DC2\ETXR\EOT\SO\n\
+    \\ENQ\ENQ\SOH\STX\STX\SOH\DC2\ETXY\EOT\SO\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\STX\STX\DC2\ETXR\DC1\DC2\n\
+    \\ENQ\ENQ\SOH\STX\STX\STX\DC2\ETXY\DC1\DC2\n\
     \m\n\
-    \\EOT\ENQ\SOH\STX\ETX\DC2\ETXT\EOT$\SUB` Request cancellation of the operation and wait for confirmation that the request was received.\n\
+    \\EOT\ENQ\SOH\STX\ETX\DC2\ETX[\EOT$\SUB` Request cancellation of the operation and wait for confirmation that the request was received.\n\
     \\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\ETX\SOH\DC2\ETXT\EOT\US\n\
+    \\ENQ\ENQ\SOH\STX\ETX\SOH\DC2\ETX[\EOT\US\n\
     \\f\n\
-    \\ENQ\ENQ\SOH\STX\ETX\STX\DC2\ETXT\"#b\ACKproto3"
+    \\ENQ\ENQ\SOH\STX\ETX\STX\DC2\ETX[\"#b\ACKproto3"

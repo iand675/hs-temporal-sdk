@@ -5611,7 +5611,7 @@ packedFileDescriptor
     \\EOTmemo\CAN\STX \SOH(\v2\FS.temporal.api.common.v1.MemoR\EOTmemo\DC2U\n\
     \\DC1search_attributes\CAN\ETX \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2>\n\
     \\EOTinfo\CAN\EOT \SOH(\v2*.temporal.api.schedule.v1.ScheduleListInfoR\EOTinfoB\147\SOH\n\
-    \\ESCio.temporal.api.schedule.v1B\fMessageProtoP\SOHZ'go.temporal.io/api/schedule/v1;schedule\170\STX\SUBTemporalio.Api.Schedule.V1\234\STX\GSTemporalio::Api::Schedule::V1J\220\137\SOH\n\
+    \\ESCio.temporal.api.schedule.v1B\fMessageProtoP\SOHZ'go.temporal.io/api/schedule/v1;schedule\170\STX\SUBTemporalio.Api.Schedule.V1\234\STX\GSTemporalio::Api::Schedule::V1J\181\138\SOH\n\
     \\a\DC2\ENQ\ENQ\NUL\131\ETX\SOH\n\
     \\157\STX\n\
     \\SOH\f\DC2\ETX\ENQ\NUL\DC22\146\STX (-- api-linter: core::0203::optional=disabled\n\
@@ -5804,16 +5804,16 @@ packedFileDescriptor
     \\SO\n\
     \\f\n\
     \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETXI\DC1\DC2\n\
-    \\136\EOT\n\
-    \\STX\EOT\STX\DC2\EOTU\NULh\SOH\SUB\251\ETX StructuredCalendarSpec describes an event specification relative to the\n\
+    \\225\EOT\n\
+    \\STX\EOT\STX\DC2\EOTU\NULh\SOH\SUB\212\EOT StructuredCalendarSpec describes an event specification relative to the\n\
     \ calendar, in a form that's easy to work with programmatically. Each field can\n\
     \ be one or more ranges.\n\
     \ A timestamp matches if at least one range of each field matches the\n\
     \ corresponding fields of the timestamp, except for year: if year is missing,\n\
     \ that means all years match. For all fields besides year, at least one Range\n\
     \ must be present to match anything.\n\
-    \ TODO: add relative-to-end-of-month\n\
-    \ TODO: add nth day-of-week in month\n\
+    \ Relative expressions such as \"last day of the month\" or \"third Monday\" are not currently\n\
+    \ representable; callers must enumerate the concrete days they require.\n\
     \\n\
     \\n\
     \\n\

@@ -54,11 +54,13 @@ import qualified Proto.Temporal.Api.Nexus.V1.Message
      
          * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.frontendAddress' @:: Lens' AddOrUpdateRemoteClusterRequest Data.Text.Text@
          * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.enableRemoteClusterConnection' @:: Lens' AddOrUpdateRemoteClusterRequest Prelude.Bool@
-         * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.frontendHttpAddress' @:: Lens' AddOrUpdateRemoteClusterRequest Data.Text.Text@ -}
+         * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.frontendHttpAddress' @:: Lens' AddOrUpdateRemoteClusterRequest Data.Text.Text@
+         * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.enableReplication' @:: Lens' AddOrUpdateRemoteClusterRequest Prelude.Bool@ -}
 data AddOrUpdateRemoteClusterRequest
   = AddOrUpdateRemoteClusterRequest'_constructor {_AddOrUpdateRemoteClusterRequest'frontendAddress :: !Data.Text.Text,
                                                   _AddOrUpdateRemoteClusterRequest'enableRemoteClusterConnection :: !Prelude.Bool,
                                                   _AddOrUpdateRemoteClusterRequest'frontendHttpAddress :: !Data.Text.Text,
+                                                  _AddOrUpdateRemoteClusterRequest'enableReplication :: !Prelude.Bool,
                                                   _AddOrUpdateRemoteClusterRequest'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show AddOrUpdateRemoteClusterRequest where
@@ -93,6 +95,14 @@ instance Data.ProtoLens.Field.HasField AddOrUpdateRemoteClusterRequest "frontend
               -> x__
                    {_AddOrUpdateRemoteClusterRequest'frontendHttpAddress = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField AddOrUpdateRemoteClusterRequest "enableReplication" Prelude.Bool where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _AddOrUpdateRemoteClusterRequest'enableReplication
+           (\ x__ y__
+              -> x__ {_AddOrUpdateRemoteClusterRequest'enableReplication = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message AddOrUpdateRemoteClusterRequest where
   messageName _
     = Data.Text.pack
@@ -102,7 +112,8 @@ instance Data.ProtoLens.Message AddOrUpdateRemoteClusterRequest where
       \\USAddOrUpdateRemoteClusterRequest\DC2)\n\
       \\DLEfrontend_address\CAN\SOH \SOH(\tR\SIfrontendAddress\DC2G\n\
       \ enable_remote_cluster_connection\CAN\STX \SOH(\bR\GSenableRemoteClusterConnection\DC22\n\
-      \\NAKfrontend_http_address\CAN\ETX \SOH(\tR\DC3frontendHttpAddress"
+      \\NAKfrontend_http_address\CAN\ETX \SOH(\tR\DC3frontendHttpAddress\DC2-\n\
+      \\DC2enable_replication\CAN\EOT \SOH(\bR\DC1enableReplication"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -133,12 +144,22 @@ instance Data.ProtoLens.Message AddOrUpdateRemoteClusterRequest where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"frontendHttpAddress")) ::
               Data.ProtoLens.FieldDescriptor AddOrUpdateRemoteClusterRequest
+        enableReplication__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "enable_replication"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.BoolField ::
+                 Data.ProtoLens.FieldTypeDescriptor Prelude.Bool)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"enableReplication")) ::
+              Data.ProtoLens.FieldDescriptor AddOrUpdateRemoteClusterRequest
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, frontendAddress__field_descriptor),
            (Data.ProtoLens.Tag 2, 
             enableRemoteClusterConnection__field_descriptor),
-           (Data.ProtoLens.Tag 3, frontendHttpAddress__field_descriptor)]
+           (Data.ProtoLens.Tag 3, frontendHttpAddress__field_descriptor),
+           (Data.ProtoLens.Tag 4, enableReplication__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _AddOrUpdateRemoteClusterRequest'_unknownFields
@@ -149,6 +170,7 @@ instance Data.ProtoLens.Message AddOrUpdateRemoteClusterRequest where
         {_AddOrUpdateRemoteClusterRequest'frontendAddress = Data.ProtoLens.fieldDefault,
          _AddOrUpdateRemoteClusterRequest'enableRemoteClusterConnection = Data.ProtoLens.fieldDefault,
          _AddOrUpdateRemoteClusterRequest'frontendHttpAddress = Data.ProtoLens.fieldDefault,
+         _AddOrUpdateRemoteClusterRequest'enableReplication = Data.ProtoLens.fieldDefault,
          _AddOrUpdateRemoteClusterRequest'_unknownFields = []}
   parseMessage
     = let
@@ -200,6 +222,14 @@ instance Data.ProtoLens.Message AddOrUpdateRemoteClusterRequest where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"frontendHttpAddress") y x)
+                        32
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          ((Prelude./=) 0) Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "enable_replication"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"enableReplication") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -262,8 +292,22 @@ instance Data.ProtoLens.Message AddOrUpdateRemoteClusterRequest where
                                           (Prelude.fromIntegral (Data.ByteString.length bs)))
                                        (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                                Data.Text.Encoding.encodeUtf8 _v))
-                   (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                      (Lens.Family2.view Data.ProtoLens.unknownFields _x))))
+                   ((Data.Monoid.<>)
+                      (let
+                         _v
+                           = Lens.Family2.view
+                               (Data.ProtoLens.Field.field @"enableReplication") _x
+                       in
+                         if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                             Data.Monoid.mempty
+                         else
+                             (Data.Monoid.<>)
+                               (Data.ProtoLens.Encoding.Bytes.putVarInt 32)
+                               ((Prelude..)
+                                  Data.ProtoLens.Encoding.Bytes.putVarInt
+                                  (\ b -> if b then 1 else 0) _v))
+                      (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                         (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))
 instance Control.DeepSeq.NFData AddOrUpdateRemoteClusterRequest where
   rnf
     = \ x__
@@ -275,7 +319,9 @@ instance Control.DeepSeq.NFData AddOrUpdateRemoteClusterRequest where
                    (_AddOrUpdateRemoteClusterRequest'enableRemoteClusterConnection
                       x__)
                    (Control.DeepSeq.deepseq
-                      (_AddOrUpdateRemoteClusterRequest'frontendHttpAddress x__) ())))
+                      (_AddOrUpdateRemoteClusterRequest'frontendHttpAddress x__)
+                      (Control.DeepSeq.deepseq
+                         (_AddOrUpdateRemoteClusterRequest'enableReplication x__) ()))))
 {- | Fields :
       -}
 data AddOrUpdateRemoteClusterResponse
@@ -775,7 +821,8 @@ instance Control.DeepSeq.NFData AddSearchAttributesResponse where
          * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.httpAddress' @:: Lens' ClusterMetadata Data.Text.Text@
          * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.initialFailoverVersion' @:: Lens' ClusterMetadata Data.Int.Int64@
          * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.historyShardCount' @:: Lens' ClusterMetadata Data.Int.Int32@
-         * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.isConnectionEnabled' @:: Lens' ClusterMetadata Prelude.Bool@ -}
+         * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.isConnectionEnabled' @:: Lens' ClusterMetadata Prelude.Bool@
+         * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.isReplicationEnabled' @:: Lens' ClusterMetadata Prelude.Bool@ -}
 data ClusterMetadata
   = ClusterMetadata'_constructor {_ClusterMetadata'clusterName :: !Data.Text.Text,
                                   _ClusterMetadata'clusterId :: !Data.Text.Text,
@@ -784,6 +831,7 @@ data ClusterMetadata
                                   _ClusterMetadata'initialFailoverVersion :: !Data.Int.Int64,
                                   _ClusterMetadata'historyShardCount :: !Data.Int.Int32,
                                   _ClusterMetadata'isConnectionEnabled :: !Prelude.Bool,
+                                  _ClusterMetadata'isReplicationEnabled :: !Prelude.Bool,
                                   _ClusterMetadata'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show ClusterMetadata where
@@ -841,6 +889,13 @@ instance Data.ProtoLens.Field.HasField ClusterMetadata "isConnectionEnabled" Pre
            _ClusterMetadata'isConnectionEnabled
            (\ x__ y__ -> x__ {_ClusterMetadata'isConnectionEnabled = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField ClusterMetadata "isReplicationEnabled" Prelude.Bool where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ClusterMetadata'isReplicationEnabled
+           (\ x__ y__ -> x__ {_ClusterMetadata'isReplicationEnabled = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message ClusterMetadata where
   messageName _
     = Data.Text.pack "temporal.api.operatorservice.v1.ClusterMetadata"
@@ -854,7 +909,8 @@ instance Data.ProtoLens.Message ClusterMetadata where
       \\fhttp_address\CAN\a \SOH(\tR\vhttpAddress\DC28\n\
       \\CANinitial_failover_version\CAN\EOT \SOH(\ETXR\SYNinitialFailoverVersion\DC2.\n\
       \\DC3history_shard_count\CAN\ENQ \SOH(\ENQR\DC1historyShardCount\DC22\n\
-      \\NAKis_connection_enabled\CAN\ACK \SOH(\bR\DC3isConnectionEnabled"
+      \\NAKis_connection_enabled\CAN\ACK \SOH(\bR\DC3isConnectionEnabled\DC24\n\
+      \\SYNis_replication_enabled\CAN\b \SOH(\bR\DC4isReplicationEnabled"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -920,6 +976,15 @@ instance Data.ProtoLens.Message ClusterMetadata where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"isConnectionEnabled")) ::
               Data.ProtoLens.FieldDescriptor ClusterMetadata
+        isReplicationEnabled__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "is_replication_enabled"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.BoolField ::
+                 Data.ProtoLens.FieldTypeDescriptor Prelude.Bool)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"isReplicationEnabled")) ::
+              Data.ProtoLens.FieldDescriptor ClusterMetadata
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, clusterName__field_descriptor),
@@ -928,7 +993,8 @@ instance Data.ProtoLens.Message ClusterMetadata where
            (Data.ProtoLens.Tag 7, httpAddress__field_descriptor),
            (Data.ProtoLens.Tag 4, initialFailoverVersion__field_descriptor),
            (Data.ProtoLens.Tag 5, historyShardCount__field_descriptor),
-           (Data.ProtoLens.Tag 6, isConnectionEnabled__field_descriptor)]
+           (Data.ProtoLens.Tag 6, isConnectionEnabled__field_descriptor),
+           (Data.ProtoLens.Tag 8, isReplicationEnabled__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _ClusterMetadata'_unknownFields
@@ -942,6 +1008,7 @@ instance Data.ProtoLens.Message ClusterMetadata where
          _ClusterMetadata'initialFailoverVersion = Data.ProtoLens.fieldDefault,
          _ClusterMetadata'historyShardCount = Data.ProtoLens.fieldDefault,
          _ClusterMetadata'isConnectionEnabled = Data.ProtoLens.fieldDefault,
+         _ClusterMetadata'isReplicationEnabled = Data.ProtoLens.fieldDefault,
          _ClusterMetadata'_unknownFields = []}
   parseMessage
     = let
@@ -1023,6 +1090,14 @@ instance Data.ProtoLens.Message ClusterMetadata where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"isConnectionEnabled") y x)
+                        64
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          ((Prelude./=) 0) Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "is_replication_enabled"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"isReplicationEnabled") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -1142,8 +1217,22 @@ instance Data.ProtoLens.Message ClusterMetadata where
                                         ((Prelude..)
                                            Data.ProtoLens.Encoding.Bytes.putVarInt
                                            (\ b -> if b then 1 else 0) _v))
-                               (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                  (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))))
+                               ((Data.Monoid.<>)
+                                  (let
+                                     _v
+                                       = Lens.Family2.view
+                                           (Data.ProtoLens.Field.field @"isReplicationEnabled") _x
+                                   in
+                                     if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                         Data.Monoid.mempty
+                                     else
+                                         (Data.Monoid.<>)
+                                           (Data.ProtoLens.Encoding.Bytes.putVarInt 64)
+                                           ((Prelude..)
+                                              Data.ProtoLens.Encoding.Bytes.putVarInt
+                                              (\ b -> if b then 1 else 0) _v))
+                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                     (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))))
 instance Control.DeepSeq.NFData ClusterMetadata where
   rnf
     = \ x__
@@ -1162,7 +1251,9 @@ instance Control.DeepSeq.NFData ClusterMetadata where
                             (Control.DeepSeq.deepseq
                                (_ClusterMetadata'historyShardCount x__)
                                (Control.DeepSeq.deepseq
-                                  (_ClusterMetadata'isConnectionEnabled x__) ())))))))
+                                  (_ClusterMetadata'isConnectionEnabled x__)
+                                  (Control.DeepSeq.deepseq
+                                     (_ClusterMetadata'isReplicationEnabled x__) ()))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Operatorservice.V1.RequestResponse_Fields.spec' @:: Lens' CreateNexusEndpointRequest Proto.Temporal.Api.Nexus.V1.Message.EndpointSpec@
@@ -4673,11 +4764,12 @@ packedFileDescriptor
     \\fnamespace_id\CAN\STX \SOH(\tR\vnamespaceId\DC2O\n\
     \\SYNnamespace_delete_delay\CAN\ETX \SOH(\v2\EM.google.protobuf.DurationR\DC4namespaceDeleteDelay\"F\n\
     \\ETBDeleteNamespaceResponse\DC2+\n\
-    \\DC1deleted_namespace\CAN\SOH \SOH(\tR\DLEdeletedNamespace\"\201\SOH\n\
+    \\DC1deleted_namespace\CAN\SOH \SOH(\tR\DLEdeletedNamespace\"\248\SOH\n\
     \\USAddOrUpdateRemoteClusterRequest\DC2)\n\
     \\DLEfrontend_address\CAN\SOH \SOH(\tR\SIfrontendAddress\DC2G\n\
     \ enable_remote_cluster_connection\CAN\STX \SOH(\bR\GSenableRemoteClusterConnection\DC22\n\
-    \\NAKfrontend_http_address\CAN\ETX \SOH(\tR\DC3frontendHttpAddress\"\"\n\
+    \\NAKfrontend_http_address\CAN\ETX \SOH(\tR\DC3frontendHttpAddress\DC2-\n\
+    \\DC2enable_replication\CAN\EOT \SOH(\bR\DC1enableReplication\"\"\n\
     \ AddOrUpdateRemoteClusterResponse\"?\n\
     \\SUBRemoveRemoteClusterRequest\DC2!\n\
     \\fcluster_name\CAN\SOH \SOH(\tR\vclusterName\"\GS\n\
@@ -4687,7 +4779,7 @@ packedFileDescriptor
     \\SInext_page_token\CAN\STX \SOH(\fR\rnextPageToken\"\140\SOH\n\
     \\DC4ListClustersResponse\DC2L\n\
     \\bclusters\CAN\SOH \ETX(\v20.temporal.api.operatorservice.v1.ClusterMetadataR\bclusters\DC2&\n\
-    \\SInext_page_token\CAN\EOT \SOH(\fR\rnextPageToken\"\174\STX\n\
+    \\SInext_page_token\CAN\EOT \SOH(\fR\rnextPageToken\"\228\STX\n\
     \\SIClusterMetadata\DC2!\n\
     \\fcluster_name\CAN\SOH \SOH(\tR\vclusterName\DC2\GS\n\
     \\n\
@@ -4696,7 +4788,8 @@ packedFileDescriptor
     \\fhttp_address\CAN\a \SOH(\tR\vhttpAddress\DC28\n\
     \\CANinitial_failover_version\CAN\EOT \SOH(\ETXR\SYNinitialFailoverVersion\DC2.\n\
     \\DC3history_shard_count\CAN\ENQ \SOH(\ENQR\DC1historyShardCount\DC22\n\
-    \\NAKis_connection_enabled\CAN\ACK \SOH(\bR\DC3isConnectionEnabled\")\n\
+    \\NAKis_connection_enabled\CAN\ACK \SOH(\bR\DC3isConnectionEnabled\DC24\n\
+    \\SYNis_replication_enabled\CAN\b \SOH(\bR\DC4isReplicationEnabled\")\n\
     \\ETBGetNexusEndpointRequest\DC2\SO\n\
     \\STXid\CAN\SOH \SOH(\tR\STXid\"W\n\
     \\CANGetNexusEndpointResponse\DC2;\n\
@@ -4722,8 +4815,8 @@ packedFileDescriptor
     \\SUBListNexusEndpointsResponse\DC2&\n\
     \\SInext_page_token\CAN\SOH \SOH(\fR\rnextPageToken\DC2=\n\
     \\tendpoints\CAN\STX \ETX(\v2\US.temporal.api.nexus.v1.EndpointR\tendpointsB\190\SOH\n\
-    \\"io.temporal.api.operatorservice.v1B\DC4RequestResponseProtoP\SOHZ5go.temporal.io/api/operatorservice/v1;operatorservice\170\STX!Temporalio.Api.OperatorService.V1\234\STX$Temporalio::Api::OperatorService::V1J\188+\n\
-    \\a\DC2\ENQ\NUL\NUL\170\SOH\SOH\n\
+    \\"io.temporal.api.operatorservice.v1B\DC4RequestResponseProtoP\SOHZ5go.temporal.io/api/operatorservice/v1;operatorservice\170\STX!Temporalio.Api.OperatorService.V1\234\STX$Temporalio::Api::OperatorService::V1J\149-\n\
+    \\a\DC2\ENQ\NUL\NUL\174\SOH\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -4922,7 +5015,7 @@ packedFileDescriptor
     \\ENQ\EOT\a\STX\NUL\ETX\DC2\ETX;\US \n\
     \\n\
     \\n\
-    \\STX\EOT\b\DC2\EOT>\NULF\SOH\n\
+    \\STX\EOT\b\DC2\EOT>\NULH\SOH\n\
     \\n\
     \\n\
     \\ETX\EOT\b\SOH\DC2\ETX>\b'\n\
@@ -4956,355 +5049,372 @@ packedFileDescriptor
     \\ENQ\EOT\b\STX\STX\SOH\DC2\ETXE\v \n\
     \\f\n\
     \\ENQ\EOT\b\STX\STX\ETX\DC2\ETXE#$\n\
+    \?\n\
+    \\EOT\EOT\b\STX\ETX\DC2\ETXG\EOT \SUB2 Controls whether replication streams are active.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\b\STX\ETX\ENQ\DC2\ETXG\EOT\b\n\
+    \\f\n\
+    \\ENQ\EOT\b\STX\ETX\SOH\DC2\ETXG\t\ESC\n\
+    \\f\n\
+    \\ENQ\EOT\b\STX\ETX\ETX\DC2\ETXG\RS\US\n\
     \\n\
     \\n\
-    \\STX\EOT\t\DC2\EOTH\NULI\SOH\n\
+    \\STX\EOT\t\DC2\EOTJ\NULK\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\t\SOH\DC2\ETXH\b(\n\
+    \\ETX\EOT\t\SOH\DC2\ETXJ\b(\n\
     \\n\
     \\n\
     \\STX\EOT\n\
-    \\DC2\EOTK\NULN\SOH\n\
+    \\DC2\EOTM\NULP\SOH\n\
     \\n\
     \\n\
     \\ETX\EOT\n\
-    \\SOH\DC2\ETXK\b\"\n\
+    \\SOH\DC2\ETXM\b\"\n\
     \1\n\
     \\EOT\EOT\n\
-    \\STX\NUL\DC2\ETXM\EOT\FS\SUB$ Remote cluster name to be removed.\n\
+    \\STX\NUL\DC2\ETXO\EOT\FS\SUB$ Remote cluster name to be removed.\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ENQ\DC2\ETXM\EOT\n\
+    \\STX\NUL\ENQ\DC2\ETXO\EOT\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\SOH\DC2\ETXM\v\ETB\n\
+    \\STX\NUL\SOH\DC2\ETXO\v\ETB\n\
     \\f\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ETX\DC2\ETXM\SUB\ESC\n\
+    \\STX\NUL\ETX\DC2\ETXO\SUB\ESC\n\
     \\n\
     \\n\
-    \\STX\EOT\v\DC2\EOTP\NULQ\SOH\n\
+    \\STX\EOT\v\DC2\EOTR\NULS\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\v\SOH\DC2\ETXP\b#\n\
+    \\ETX\EOT\v\SOH\DC2\ETXR\b#\n\
     \\n\
     \\n\
-    \\STX\EOT\f\DC2\EOTS\NULV\SOH\n\
+    \\STX\EOT\f\DC2\EOTU\NULX\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\f\SOH\DC2\ETXS\b\ESC\n\
+    \\ETX\EOT\f\SOH\DC2\ETXU\b\ESC\n\
     \\v\n\
-    \\EOT\EOT\f\STX\NUL\DC2\ETXT\EOT\CAN\n\
+    \\EOT\EOT\f\STX\NUL\DC2\ETXV\EOT\CAN\n\
     \\f\n\
-    \\ENQ\EOT\f\STX\NUL\ENQ\DC2\ETXT\EOT\t\n\
+    \\ENQ\EOT\f\STX\NUL\ENQ\DC2\ETXV\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\f\STX\NUL\SOH\DC2\ETXT\n\
+    \\ENQ\EOT\f\STX\NUL\SOH\DC2\ETXV\n\
     \\DC3\n\
     \\f\n\
-    \\ENQ\EOT\f\STX\NUL\ETX\DC2\ETXT\SYN\ETB\n\
+    \\ENQ\EOT\f\STX\NUL\ETX\DC2\ETXV\SYN\ETB\n\
     \\v\n\
-    \\EOT\EOT\f\STX\SOH\DC2\ETXU\EOT\RS\n\
+    \\EOT\EOT\f\STX\SOH\DC2\ETXW\EOT\RS\n\
     \\f\n\
-    \\ENQ\EOT\f\STX\SOH\ENQ\DC2\ETXU\EOT\t\n\
+    \\ENQ\EOT\f\STX\SOH\ENQ\DC2\ETXW\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\f\STX\SOH\SOH\DC2\ETXU\n\
+    \\ENQ\EOT\f\STX\SOH\SOH\DC2\ETXW\n\
     \\EM\n\
     \\f\n\
-    \\ENQ\EOT\f\STX\SOH\ETX\DC2\ETXU\FS\GS\n\
+    \\ENQ\EOT\f\STX\SOH\ETX\DC2\ETXW\FS\GS\n\
     \\n\
     \\n\
-    \\STX\EOT\r\DC2\EOTX\NUL\\\SOH\n\
+    \\STX\EOT\r\DC2\EOTZ\NUL^\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\r\SOH\DC2\ETXX\b\FS\n\
+    \\ETX\EOT\r\SOH\DC2\ETXZ\b\FS\n\
     \.\n\
-    \\EOT\EOT\r\STX\NUL\DC2\ETXZ\EOT*\SUB! List of all cluster information\n\
+    \\EOT\EOT\r\STX\NUL\DC2\ETX\\\EOT*\SUB! List of all cluster information\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\NUL\EOT\DC2\ETXZ\EOT\f\n\
+    \\ENQ\EOT\r\STX\NUL\EOT\DC2\ETX\\\EOT\f\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\NUL\ACK\DC2\ETXZ\r\FS\n\
+    \\ENQ\EOT\r\STX\NUL\ACK\DC2\ETX\\\r\FS\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\NUL\SOH\DC2\ETXZ\GS%\n\
+    \\ENQ\EOT\r\STX\NUL\SOH\DC2\ETX\\\GS%\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\NUL\ETX\DC2\ETXZ()\n\
+    \\ENQ\EOT\r\STX\NUL\ETX\DC2\ETX\\()\n\
     \\v\n\
-    \\EOT\EOT\r\STX\SOH\DC2\ETX[\EOT\RS\n\
+    \\EOT\EOT\r\STX\SOH\DC2\ETX]\EOT\RS\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\ETX[\EOT\t\n\
+    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\ETX]\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\SOH\SOH\DC2\ETX[\n\
+    \\ENQ\EOT\r\STX\SOH\SOH\DC2\ETX]\n\
     \\EM\n\
     \\f\n\
-    \\ENQ\EOT\r\STX\SOH\ETX\DC2\ETX[\FS\GS\n\
+    \\ENQ\EOT\r\STX\SOH\ETX\DC2\ETX]\FS\GS\n\
     \\n\
     \\n\
-    \\STX\EOT\SO\DC2\EOT^\NULm\SOH\n\
+    \\STX\EOT\SO\DC2\EOT`\NULq\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\SO\SOH\DC2\ETX^\b\ETB\n\
+    \\ETX\EOT\SO\SOH\DC2\ETX`\b\ETB\n\
     \(\n\
-    \\EOT\EOT\SO\STX\NUL\DC2\ETX`\EOT\FS\SUB\ESC Name of the cluster name.\n\
+    \\EOT\EOT\SO\STX\NUL\DC2\ETXb\EOT\FS\SUB\ESC Name of the cluster name.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\ETX`\EOT\n\
+    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\ETXb\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\ETX`\v\ETB\n\
+    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\ETXb\v\ETB\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\ETX`\SUB\ESC\n\
+    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\ETXb\SUB\ESC\n\
     \!\n\
-    \\EOT\EOT\SO\STX\SOH\DC2\ETXb\EOT\SUB\SUB\DC4 Id of the cluster.\n\
+    \\EOT\EOT\SO\STX\SOH\DC2\ETXd\EOT\SUB\SUB\DC4 Id of the cluster.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\SOH\ENQ\DC2\ETXb\EOT\n\
+    \\ENQ\EOT\SO\STX\SOH\ENQ\DC2\ETXd\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\SOH\SOH\DC2\ETXb\v\NAK\n\
+    \\ENQ\EOT\SO\STX\SOH\SOH\DC2\ETXd\v\NAK\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\SOH\ETX\DC2\ETXb\CAN\EM\n\
+    \\ENQ\EOT\SO\STX\SOH\ETX\DC2\ETXd\CAN\EM\n\
     \\FS\n\
-    \\EOT\EOT\SO\STX\STX\DC2\ETXd\EOT\ETB\SUB\SI gRPC address.\n\
+    \\EOT\EOT\SO\STX\STX\DC2\ETXf\EOT\ETB\SUB\SI gRPC address.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\STX\ENQ\DC2\ETXd\EOT\n\
+    \\ENQ\EOT\SO\STX\STX\ENQ\DC2\ETXf\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\STX\SOH\DC2\ETXd\v\DC2\n\
+    \\ENQ\EOT\SO\STX\STX\SOH\DC2\ETXf\v\DC2\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\STX\ETX\DC2\ETXd\NAK\SYN\n\
+    \\ENQ\EOT\SO\STX\STX\ETX\DC2\ETXf\NAK\SYN\n\
     \+\n\
-    \\EOT\EOT\SO\STX\ETX\DC2\ETXf\EOT\FS\SUB\RS HTTP address, if one exists.\n\
+    \\EOT\EOT\SO\STX\ETX\DC2\ETXh\EOT\FS\SUB\RS HTTP address, if one exists.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ETX\ENQ\DC2\ETXf\EOT\n\
+    \\ENQ\EOT\SO\STX\ETX\ENQ\DC2\ETXh\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ETX\SOH\DC2\ETXf\v\ETB\n\
+    \\ENQ\EOT\SO\STX\ETX\SOH\DC2\ETXh\v\ETB\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ETX\ETX\DC2\ETXf\SUB\ESC\n\
+    \\ENQ\EOT\SO\STX\ETX\ETX\DC2\ETXh\SUB\ESC\n\
     \G\n\
-    \\EOT\EOT\SO\STX\EOT\DC2\ETXh\EOT'\SUB: A unique failover version across all connected clusters.\n\
+    \\EOT\EOT\SO\STX\EOT\DC2\ETXj\EOT'\SUB: A unique failover version across all connected clusters.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\EOT\ENQ\DC2\ETXh\EOT\t\n\
+    \\ENQ\EOT\SO\STX\EOT\ENQ\DC2\ETXj\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\EOT\SOH\DC2\ETXh\n\
+    \\ENQ\EOT\SO\STX\EOT\SOH\DC2\ETXj\n\
     \\"\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\EOT\ETX\DC2\ETXh%&\n\
+    \\ENQ\EOT\SO\STX\EOT\ETX\DC2\ETXj%&\n\
     \,\n\
-    \\EOT\EOT\SO\STX\ENQ\DC2\ETXj\EOT\"\SUB\US History service shard number.\n\
+    \\EOT\EOT\SO\STX\ENQ\DC2\ETXl\EOT\"\SUB\US History service shard number.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ENQ\ENQ\DC2\ETXj\EOT\t\n\
+    \\ENQ\EOT\SO\STX\ENQ\ENQ\DC2\ETXl\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ENQ\SOH\DC2\ETXj\n\
+    \\ENQ\EOT\SO\STX\ENQ\SOH\DC2\ETXl\n\
     \\GS\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ENQ\ETX\DC2\ETXj !\n\
+    \\ENQ\EOT\SO\STX\ENQ\ETX\DC2\ETXl !\n\
     \<\n\
-    \\EOT\EOT\SO\STX\ACK\DC2\ETXl\EOT#\SUB/ A flag to indicate if a connection is active.\n\
+    \\EOT\EOT\SO\STX\ACK\DC2\ETXn\EOT#\SUB/ A flag to indicate if a connection is active.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ACK\ENQ\DC2\ETXl\EOT\b\n\
+    \\ENQ\EOT\SO\STX\ACK\ENQ\DC2\ETXn\EOT\b\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ACK\SOH\DC2\ETXl\t\RS\n\
+    \\ENQ\EOT\SO\STX\ACK\SOH\DC2\ETXn\t\RS\n\
     \\f\n\
-    \\ENQ\EOT\SO\STX\ACK\ETX\DC2\ETXl!\"\n\
+    \\ENQ\EOT\SO\STX\ACK\ETX\DC2\ETXn!\"\n\
+    \<\n\
+    \\EOT\EOT\SO\STX\a\DC2\ETXp\EOT$\SUB/ A flag to indicate if replication is enabled.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\SO\STX\a\ENQ\DC2\ETXp\EOT\b\n\
+    \\f\n\
+    \\ENQ\EOT\SO\STX\a\SOH\DC2\ETXp\t\US\n\
+    \\f\n\
+    \\ENQ\EOT\SO\STX\a\ETX\DC2\ETXp\"#\n\
     \\n\
     \\n\
-    \\STX\EOT\SI\DC2\EOTo\NULr\SOH\n\
+    \\STX\EOT\SI\DC2\EOTs\NULv\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\SI\SOH\DC2\ETXo\b\US\n\
+    \\ETX\EOT\SI\SOH\DC2\ETXs\b\US\n\
     \3\n\
-    \\EOT\EOT\SI\STX\NUL\DC2\ETXq\EOT\DC2\SUB& Server-generated unique endpoint ID.\n\
+    \\EOT\EOT\SI\STX\NUL\DC2\ETXu\EOT\DC2\SUB& Server-generated unique endpoint ID.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\ETXq\EOT\n\
+    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\ETXu\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\ETXq\v\r\n\
+    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\ETXu\v\r\n\
     \\f\n\
-    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\ETXq\DLE\DC1\n\
+    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\ETXu\DLE\DC1\n\
     \\n\
     \\n\
-    \\STX\EOT\DLE\DC2\EOTt\NULv\SOH\n\
+    \\STX\EOT\DLE\DC2\EOTx\NULz\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\DLE\SOH\DC2\ETXt\b \n\
+    \\ETX\EOT\DLE\SOH\DC2\ETXx\b \n\
     \\v\n\
-    \\EOT\EOT\DLE\STX\NUL\DC2\ETXu\EOT0\n\
+    \\EOT\EOT\DLE\STX\NUL\DC2\ETXy\EOT0\n\
     \\f\n\
-    \\ENQ\EOT\DLE\STX\NUL\ACK\DC2\ETXu\EOT\"\n\
+    \\ENQ\EOT\DLE\STX\NUL\ACK\DC2\ETXy\EOT\"\n\
     \\f\n\
-    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\ETXu#+\n\
+    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\ETXy#+\n\
     \\f\n\
-    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\ETXu./\n\
+    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\ETXy./\n\
     \\n\
     \\n\
-    \\STX\EOT\DC1\DC2\EOTx\NUL{\SOH\n\
+    \\STX\EOT\DC1\DC2\EOT|\NUL\DEL\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\DC1\SOH\DC2\ETXx\b\"\n\
+    \\ETX\EOT\DC1\SOH\DC2\ETX|\b\"\n\
     \-\n\
-    \\EOT\EOT\DC1\STX\NUL\DC2\ETXz\EOT0\SUB  Endpoint definition to create.\n\
+    \\EOT\EOT\DC1\STX\NUL\DC2\ETX~\EOT0\SUB  Endpoint definition to create.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\DC1\STX\NUL\ACK\DC2\ETXz\EOT&\n\
+    \\ENQ\EOT\DC1\STX\NUL\ACK\DC2\ETX~\EOT&\n\
     \\f\n\
-    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\ETXz'+\n\
+    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\ETX~'+\n\
     \\f\n\
-    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\ETXz./\n\
+    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\ETX~./\n\
+    \\f\n\
+    \\STX\EOT\DC2\DC2\ACK\129\SOH\NUL\132\SOH\SOH\n\
     \\v\n\
-    \\STX\EOT\DC2\DC2\ENQ}\NUL\128\SOH\SOH\n\
-    \\n\
-    \\n\
-    \\ETX\EOT\DC2\SOH\DC2\ETX}\b#\n\
-    \\\\n\
-    \\EOT\EOT\DC2\STX\NUL\DC2\ETX\DEL\EOT0\SUBO Data post acceptance. Can be used to issue additional updates to this record.\n\
-    \\n\
-    \\f\n\
-    \\ENQ\EOT\DC2\STX\NUL\ACK\DC2\ETX\DEL\EOT\"\n\
-    \\f\n\
-    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\ETX\DEL#+\n\
-    \\f\n\
-    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\ETX\DEL./\n\
-    \\f\n\
-    \\STX\EOT\DC3\DC2\ACK\130\SOH\NUL\137\SOH\SOH\n\
-    \\v\n\
-    \\ETX\EOT\DC3\SOH\DC2\EOT\130\SOH\b\"\n\
-    \4\n\
-    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\132\SOH\EOT\DC2\SUB& Server-generated unique endpoint ID.\n\
-    \\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ENQ\DC2\EOT\132\SOH\EOT\n\
-    \\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\132\SOH\v\r\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\132\SOH\DLE\DC1\n\
-    \K\n\
-    \\EOT\EOT\DC3\STX\SOH\DC2\EOT\134\SOH\EOT\SYN\SUB= Data version for this endpoint. Must match current version.\n\
-    \\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\ENQ\DC2\EOT\134\SOH\EOT\t\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\SOH\DC2\EOT\134\SOH\n\
-    \\DC1\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\ETX\DC2\EOT\134\SOH\DC4\NAK\n\
-    \\f\n\
-    \\EOT\EOT\DC3\STX\STX\DC2\EOT\136\SOH\EOT0\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\STX\ACK\DC2\EOT\136\SOH\EOT&\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\STX\SOH\DC2\EOT\136\SOH'+\n\
-    \\r\n\
-    \\ENQ\EOT\DC3\STX\STX\ETX\DC2\EOT\136\SOH./\n\
-    \\f\n\
-    \\STX\EOT\DC4\DC2\ACK\139\SOH\NUL\142\SOH\SOH\n\
-    \\v\n\
-    \\ETX\EOT\DC4\SOH\DC2\EOT\139\SOH\b#\n\
+    \\ETX\EOT\DC2\SOH\DC2\EOT\129\SOH\b#\n\
     \]\n\
-    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\141\SOH\EOT0\SUBO Data post acceptance. Can be used to issue additional updates to this record.\n\
+    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\131\SOH\EOT0\SUBO Data post acceptance. Can be used to issue additional updates to this record.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\ACK\DC2\EOT\141\SOH\EOT\"\n\
+    \\ENQ\EOT\DC2\STX\NUL\ACK\DC2\EOT\131\SOH\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\141\SOH#+\n\
+    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\131\SOH#+\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\141\SOH./\n\
+    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\131\SOH./\n\
     \\f\n\
-    \\STX\EOT\NAK\DC2\ACK\144\SOH\NUL\149\SOH\SOH\n\
+    \\STX\EOT\DC3\DC2\ACK\134\SOH\NUL\141\SOH\SOH\n\
     \\v\n\
-    \\ETX\EOT\NAK\SOH\DC2\EOT\144\SOH\b\"\n\
+    \\ETX\EOT\DC3\SOH\DC2\EOT\134\SOH\b\"\n\
     \4\n\
-    \\EOT\EOT\NAK\STX\NUL\DC2\EOT\146\SOH\EOT\DC2\SUB& Server-generated unique endpoint ID.\n\
+    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\136\SOH\EOT\DC2\SUB& Server-generated unique endpoint ID.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\NUL\ENQ\DC2\EOT\146\SOH\EOT\n\
+    \\ENQ\EOT\DC3\STX\NUL\ENQ\DC2\EOT\136\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\NUL\SOH\DC2\EOT\146\SOH\v\r\n\
+    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\136\SOH\v\r\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\NUL\ETX\DC2\EOT\146\SOH\DLE\DC1\n\
+    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\136\SOH\DLE\DC1\n\
     \K\n\
-    \\EOT\EOT\NAK\STX\SOH\DC2\EOT\148\SOH\EOT\SYN\SUB= Data version for this endpoint. Must match current version.\n\
+    \\EOT\EOT\DC3\STX\SOH\DC2\EOT\138\SOH\EOT\SYN\SUB= Data version for this endpoint. Must match current version.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\SOH\ENQ\DC2\EOT\148\SOH\EOT\t\n\
+    \\ENQ\EOT\DC3\STX\SOH\ENQ\DC2\EOT\138\SOH\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\SOH\SOH\DC2\EOT\148\SOH\n\
+    \\ENQ\EOT\DC3\STX\SOH\SOH\DC2\EOT\138\SOH\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\SOH\ETX\DC2\EOT\148\SOH\DC4\NAK\n\
+    \\ENQ\EOT\DC3\STX\SOH\ETX\DC2\EOT\138\SOH\DC4\NAK\n\
     \\f\n\
-    \\STX\EOT\SYN\DC2\ACK\151\SOH\NUL\152\SOH\SOH\n\
-    \\v\n\
-    \\ETX\EOT\SYN\SOH\DC2\EOT\151\SOH\b#\n\
-    \\f\n\
-    \\STX\EOT\ETB\DC2\ACK\154\SOH\NUL\164\SOH\SOH\n\
-    \\v\n\
-    \\ETX\EOT\ETB\SOH\DC2\EOT\154\SOH\b!\n\
-    \\f\n\
-    \\EOT\EOT\ETB\STX\NUL\DC2\EOT\155\SOH\EOT\CAN\n\
+    \\EOT\EOT\DC3\STX\STX\DC2\EOT\140\SOH\EOT0\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\NUL\ENQ\DC2\EOT\155\SOH\EOT\t\n\
+    \\ENQ\EOT\DC3\STX\STX\ACK\DC2\EOT\140\SOH\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\NUL\SOH\DC2\EOT\155\SOH\n\
+    \\ENQ\EOT\DC3\STX\STX\SOH\DC2\EOT\140\SOH'+\n\
+    \\r\n\
+    \\ENQ\EOT\DC3\STX\STX\ETX\DC2\EOT\140\SOH./\n\
+    \\f\n\
+    \\STX\EOT\DC4\DC2\ACK\143\SOH\NUL\146\SOH\SOH\n\
+    \\v\n\
+    \\ETX\EOT\DC4\SOH\DC2\EOT\143\SOH\b#\n\
+    \]\n\
+    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\145\SOH\EOT0\SUBO Data post acceptance. Can be used to issue additional updates to this record.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\NUL\ACK\DC2\EOT\145\SOH\EOT\"\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\145\SOH#+\n\
+    \\r\n\
+    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\145\SOH./\n\
+    \\f\n\
+    \\STX\EOT\NAK\DC2\ACK\148\SOH\NUL\153\SOH\SOH\n\
+    \\v\n\
+    \\ETX\EOT\NAK\SOH\DC2\EOT\148\SOH\b\"\n\
+    \4\n\
+    \\EOT\EOT\NAK\STX\NUL\DC2\EOT\150\SOH\EOT\DC2\SUB& Server-generated unique endpoint ID.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\NAK\STX\NUL\ENQ\DC2\EOT\150\SOH\EOT\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\NAK\STX\NUL\SOH\DC2\EOT\150\SOH\v\r\n\
+    \\r\n\
+    \\ENQ\EOT\NAK\STX\NUL\ETX\DC2\EOT\150\SOH\DLE\DC1\n\
+    \K\n\
+    \\EOT\EOT\NAK\STX\SOH\DC2\EOT\152\SOH\EOT\SYN\SUB= Data version for this endpoint. Must match current version.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\NAK\STX\SOH\ENQ\DC2\EOT\152\SOH\EOT\t\n\
+    \\r\n\
+    \\ENQ\EOT\NAK\STX\SOH\SOH\DC2\EOT\152\SOH\n\
+    \\DC1\n\
+    \\r\n\
+    \\ENQ\EOT\NAK\STX\SOH\ETX\DC2\EOT\152\SOH\DC4\NAK\n\
+    \\f\n\
+    \\STX\EOT\SYN\DC2\ACK\155\SOH\NUL\156\SOH\SOH\n\
+    \\v\n\
+    \\ETX\EOT\SYN\SOH\DC2\EOT\155\SOH\b#\n\
+    \\f\n\
+    \\STX\EOT\ETB\DC2\ACK\158\SOH\NUL\168\SOH\SOH\n\
+    \\v\n\
+    \\ETX\EOT\ETB\SOH\DC2\EOT\158\SOH\b!\n\
+    \\f\n\
+    \\EOT\EOT\ETB\STX\NUL\DC2\EOT\159\SOH\EOT\CAN\n\
+    \\r\n\
+    \\ENQ\EOT\ETB\STX\NUL\ENQ\DC2\EOT\159\SOH\EOT\t\n\
+    \\r\n\
+    \\ENQ\EOT\ETB\STX\NUL\SOH\DC2\EOT\159\SOH\n\
     \\DC3\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\NUL\ETX\DC2\EOT\155\SOH\SYN\ETB\n\
+    \\ENQ\EOT\ETB\STX\NUL\ETX\DC2\EOT\159\SOH\SYN\ETB\n\
     \\159\STX\n\
-    \\EOT\EOT\ETB\STX\SOH\DC2\EOT\159\SOH\EOT\RS\SUB\144\STX To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's\n\
+    \\EOT\EOT\ETB\STX\SOH\DC2\EOT\163\SOH\EOT\RS\SUB\144\STX To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's\n\
     \ response, the token will be empty if there's no other page.\n\
     \ Note: the last page may be empty if the total number of endpoints registered is a multiple of the page size.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\SOH\ENQ\DC2\EOT\159\SOH\EOT\t\n\
+    \\ENQ\EOT\ETB\STX\SOH\ENQ\DC2\EOT\163\SOH\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\SOH\SOH\DC2\EOT\159\SOH\n\
+    \\ENQ\EOT\ETB\STX\SOH\SOH\DC2\EOT\163\SOH\n\
     \\EM\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\SOH\ETX\DC2\EOT\159\SOH\FS\GS\n\
+    \\ENQ\EOT\ETB\STX\SOH\ETX\DC2\EOT\163\SOH\FS\GS\n\
     \\244\SOH\n\
-    \\EOT\EOT\ETB\STX\STX\DC2\EOT\163\SOH\EOT\DC4\SUB\229\SOH Name of the incoming endpoint to filter on - optional. Specifying this will result in zero or one results.\n\
+    \\EOT\EOT\ETB\STX\STX\DC2\EOT\167\SOH\EOT\DC4\SUB\229\SOH Name of the incoming endpoint to filter on - optional. Specifying this will result in zero or one results.\n\
     \ (-- api-linter: core::203::field-behavior-required=disabled\n\
     \     aip.dev/not-precedent: Not following linter rules. --)\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\STX\ENQ\DC2\EOT\163\SOH\EOT\n\
+    \\ENQ\EOT\ETB\STX\STX\ENQ\DC2\EOT\167\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\STX\SOH\DC2\EOT\163\SOH\v\SI\n\
+    \\ENQ\EOT\ETB\STX\STX\SOH\DC2\EOT\167\SOH\v\SI\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\STX\ETX\DC2\EOT\163\SOH\DC2\DC3\n\
+    \\ENQ\EOT\ETB\STX\STX\ETX\DC2\EOT\167\SOH\DC2\DC3\n\
     \\f\n\
-    \\STX\EOT\CAN\DC2\ACK\166\SOH\NUL\170\SOH\SOH\n\
+    \\STX\EOT\CAN\DC2\ACK\170\SOH\NUL\174\SOH\SOH\n\
     \\v\n\
-    \\ETX\EOT\CAN\SOH\DC2\EOT\166\SOH\b\"\n\
+    \\ETX\EOT\CAN\SOH\DC2\EOT\170\SOH\b\"\n\
     \0\n\
-    \\EOT\EOT\CAN\STX\NUL\DC2\EOT\168\SOH\EOT\RS\SUB\" Token for getting the next page.\n\
+    \\EOT\EOT\CAN\STX\NUL\DC2\EOT\172\SOH\EOT\RS\SUB\" Token for getting the next page.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\NUL\ENQ\DC2\EOT\168\SOH\EOT\t\n\
+    \\ENQ\EOT\CAN\STX\NUL\ENQ\DC2\EOT\172\SOH\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\NUL\SOH\DC2\EOT\168\SOH\n\
+    \\ENQ\EOT\CAN\STX\NUL\SOH\DC2\EOT\172\SOH\n\
     \\EM\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\NUL\ETX\DC2\EOT\168\SOH\FS\GS\n\
+    \\ENQ\EOT\CAN\STX\NUL\ETX\DC2\EOT\172\SOH\FS\GS\n\
     \\f\n\
-    \\EOT\EOT\CAN\STX\SOH\DC2\EOT\169\SOH\EOT:\n\
+    \\EOT\EOT\CAN\STX\SOH\DC2\EOT\173\SOH\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\SOH\EOT\DC2\EOT\169\SOH\EOT\f\n\
+    \\ENQ\EOT\CAN\STX\SOH\EOT\DC2\EOT\173\SOH\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\SOH\ACK\DC2\EOT\169\SOH\r+\n\
+    \\ENQ\EOT\CAN\STX\SOH\ACK\DC2\EOT\173\SOH\r+\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\SOH\SOH\DC2\EOT\169\SOH,5\n\
+    \\ENQ\EOT\CAN\STX\SOH\SOH\DC2\EOT\173\SOH,5\n\
     \\r\n\
-    \\ENQ\EOT\CAN\STX\SOH\ETX\DC2\EOT\169\SOH89b\ACKproto3"
+    \\ENQ\EOT\CAN\STX\SOH\ETX\DC2\EOT\173\SOH89b\ACKproto3"

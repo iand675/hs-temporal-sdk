@@ -10,16 +10,17 @@ module Proto.Temporal.Api.Nexus.V1.Message (
         EndpointTarget'External(), EndpointTarget'Worker(), Failure(),
         Failure'MetadataEntry(), HandlerError(), Link(), Request(),
         Request'Variant(..), _Request'StartOperation,
-        _Request'CancelOperation, Request'HeaderEntry(), Response(),
-        Response'Variant(..), _Response'StartOperation,
-        _Response'CancelOperation, StartOperationRequest(),
+        _Request'CancelOperation, Request'Capabilities(),
+        Request'HeaderEntry(), Response(), Response'Variant(..),
+        _Response'StartOperation, _Response'CancelOperation,
+        StartOperationRequest(),
         StartOperationRequest'CallbackHeaderEntry(),
         StartOperationResponse(), StartOperationResponse'Variant(..),
         _StartOperationResponse'SyncSuccess,
         _StartOperationResponse'AsyncSuccess,
         _StartOperationResponse'OperationError,
-        StartOperationResponse'Async(), StartOperationResponse'Sync(),
-        UnsuccessfulOperationError()
+        _StartOperationResponse'Failure, StartOperationResponse'Async(),
+        StartOperationResponse'Sync(), UnsuccessfulOperationError()
     ) where
 import qualified Data.ProtoLens.Runtime.Control.DeepSeq as Control.DeepSeq
 import qualified Data.ProtoLens.Runtime.Data.ProtoLens.Prism as Data.ProtoLens.Prism
@@ -49,6 +50,7 @@ import qualified Data.ProtoLens.Runtime.Text.Read as Text.Read
 import qualified Proto.Google.Protobuf.Timestamp
 import qualified Proto.Temporal.Api.Common.V1.Message
 import qualified Proto.Temporal.Api.Enums.V1.Nexus
+import qualified Proto.Temporal.Api.Failure.V1.Message
 {- | Fields :
      
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.service' @:: Lens' CancelOperationRequest Data.Text.Text@
@@ -1459,12 +1461,17 @@ instance Control.DeepSeq.NFData EndpointTarget'Worker where
 {- | Fields :
      
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.message' @:: Lens' Failure Data.Text.Text@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.stackTrace' @:: Lens' Failure Data.Text.Text@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.metadata' @:: Lens' Failure (Data.Map.Map Data.Text.Text Data.Text.Text)@
-         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.details' @:: Lens' Failure Data.ByteString.ByteString@ -}
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.details' @:: Lens' Failure Data.ByteString.ByteString@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.cause' @:: Lens' Failure Failure@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'cause' @:: Lens' Failure (Prelude.Maybe Failure)@ -}
 data Failure
   = Failure'_constructor {_Failure'message :: !Data.Text.Text,
+                          _Failure'stackTrace :: !Data.Text.Text,
                           _Failure'metadata :: !(Data.Map.Map Data.Text.Text Data.Text.Text),
                           _Failure'details :: !Data.ByteString.ByteString,
+                          _Failure'cause :: !(Prelude.Maybe Failure),
                           _Failure'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show Failure where
@@ -1479,6 +1486,12 @@ instance Data.ProtoLens.Field.HasField Failure "message" Data.Text.Text where
         (Lens.Family2.Unchecked.lens
            _Failure'message (\ x__ y__ -> x__ {_Failure'message = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField Failure "stackTrace" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Failure'stackTrace (\ x__ y__ -> x__ {_Failure'stackTrace = y__}))
+        Prelude.id
 instance Data.ProtoLens.Field.HasField Failure "metadata" (Data.Map.Map Data.Text.Text Data.Text.Text) where
   fieldOf _
     = (Prelude..)
@@ -1491,14 +1504,29 @@ instance Data.ProtoLens.Field.HasField Failure "details" Data.ByteString.ByteStr
         (Lens.Family2.Unchecked.lens
            _Failure'details (\ x__ y__ -> x__ {_Failure'details = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField Failure "cause" Failure where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Failure'cause (\ x__ y__ -> x__ {_Failure'cause = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField Failure "maybe'cause" (Prelude.Maybe Failure) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Failure'cause (\ x__ y__ -> x__ {_Failure'cause = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message Failure where
   messageName _ = Data.Text.pack "temporal.api.nexus.v1.Failure"
   packedMessageDescriptor _
     = "\n\
       \\aFailure\DC2\CAN\n\
-      \\amessage\CAN\SOH \SOH(\tR\amessage\DC2H\n\
+      \\amessage\CAN\SOH \SOH(\tR\amessage\DC2\US\n\
+      \\vstack_trace\CAN\EOT \SOH(\tR\n\
+      \stackTrace\DC2H\n\
       \\bmetadata\CAN\STX \ETX(\v2,.temporal.api.nexus.v1.Failure.MetadataEntryR\bmetadata\DC2\CAN\n\
-      \\adetails\CAN\ETX \SOH(\fR\adetails\SUB;\n\
+      \\adetails\CAN\ETX \SOH(\fR\adetails\DC24\n\
+      \\ENQcause\CAN\ENQ \SOH(\v2\RS.temporal.api.nexus.v1.FailureR\ENQcause\SUB;\n\
       \\rMetadataEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
       \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOH"
@@ -1512,6 +1540,15 @@ instance Data.ProtoLens.Message Failure where
                  Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
               (Data.ProtoLens.PlainField
                  Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"message")) ::
+              Data.ProtoLens.FieldDescriptor Failure
+        stackTrace__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "stack_trace"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"stackTrace")) ::
               Data.ProtoLens.FieldDescriptor Failure
         metadata__field_descriptor
           = Data.ProtoLens.FieldDescriptor
@@ -1531,11 +1568,21 @@ instance Data.ProtoLens.Message Failure where
               (Data.ProtoLens.PlainField
                  Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"details")) ::
               Data.ProtoLens.FieldDescriptor Failure
+        cause__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "cause"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Failure)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'cause")) ::
+              Data.ProtoLens.FieldDescriptor Failure
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, message__field_descriptor),
+           (Data.ProtoLens.Tag 4, stackTrace__field_descriptor),
            (Data.ProtoLens.Tag 2, metadata__field_descriptor),
-           (Data.ProtoLens.Tag 3, details__field_descriptor)]
+           (Data.ProtoLens.Tag 3, details__field_descriptor),
+           (Data.ProtoLens.Tag 5, cause__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _Failure'_unknownFields
@@ -1543,9 +1590,10 @@ instance Data.ProtoLens.Message Failure where
   defMessage
     = Failure'_constructor
         {_Failure'message = Data.ProtoLens.fieldDefault,
+         _Failure'stackTrace = Data.ProtoLens.fieldDefault,
          _Failure'metadata = Data.Map.empty,
          _Failure'details = Data.ProtoLens.fieldDefault,
-         _Failure'_unknownFields = []}
+         _Failure'cause = Prelude.Nothing, _Failure'_unknownFields = []}
   parseMessage
     = let
         loop :: Failure -> Data.ProtoLens.Encoding.Bytes.Parser Failure
@@ -1574,6 +1622,14 @@ instance Data.ProtoLens.Message Failure where
                                              (Prelude.fromIntegral len))
                                        "message"
                                 loop (Lens.Family2.set (Data.ProtoLens.Field.field @"message") y x)
+                        34
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "stack_trace"
+                                loop
+                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"stackTrace") y x)
                         18
                           -> do !(entry :: Failure'MetadataEntry) <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -1598,6 +1654,13 @@ instance Data.ProtoLens.Message Failure where
                                              (Prelude.fromIntegral len))
                                        "details"
                                 loop (Lens.Family2.set (Data.ProtoLens.Field.field @"details") y x)
+                        42
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "cause"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"cause") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -1626,42 +1689,74 @@ instance Data.ProtoLens.Message Failure where
                                  (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                          Data.Text.Encoding.encodeUtf8 _v))
              ((Data.Monoid.<>)
-                (Data.Monoid.mconcat
-                   (Prelude.map
-                      (\ _v
-                         -> (Data.Monoid.<>)
-                              (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
-                              ((Prelude..)
-                                 (\ bs
-                                    -> (Data.Monoid.<>)
-                                         (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                            (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                         (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                                 Data.ProtoLens.encodeMessage
-                                 (Lens.Family2.set
-                                    (Data.ProtoLens.Field.field @"key") (Prelude.fst _v)
-                                    (Lens.Family2.set
-                                       (Data.ProtoLens.Field.field @"value") (Prelude.snd _v)
-                                       (Data.ProtoLens.defMessage :: Failure'MetadataEntry)))))
-                      (Data.Map.toList
-                         (Lens.Family2.view (Data.ProtoLens.Field.field @"metadata") _x))))
+                (let
+                   _v
+                     = Lens.Family2.view (Data.ProtoLens.Field.field @"stackTrace") _x
+                 in
+                   if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                       Data.Monoid.mempty
+                   else
+                       (Data.Monoid.<>)
+                         (Data.ProtoLens.Encoding.Bytes.putVarInt 34)
+                         ((Prelude..)
+                            (\ bs
+                               -> (Data.Monoid.<>)
+                                    (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                       (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                    (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                            Data.Text.Encoding.encodeUtf8 _v))
                 ((Data.Monoid.<>)
-                   (let
-                      _v = Lens.Family2.view (Data.ProtoLens.Field.field @"details") _x
-                    in
-                      if (Prelude.==) _v Data.ProtoLens.fieldDefault then
-                          Data.Monoid.mempty
-                      else
-                          (Data.Monoid.<>)
-                            (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
-                            ((\ bs
-                                -> (Data.Monoid.<>)
-                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                               _v))
-                   (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                      (Lens.Family2.view Data.ProtoLens.unknownFields _x))))
+                   (Data.Monoid.mconcat
+                      (Prelude.map
+                         (\ _v
+                            -> (Data.Monoid.<>)
+                                 (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
+                                 ((Prelude..)
+                                    (\ bs
+                                       -> (Data.Monoid.<>)
+                                            (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                               (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                            (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                    Data.ProtoLens.encodeMessage
+                                    (Lens.Family2.set
+                                       (Data.ProtoLens.Field.field @"key") (Prelude.fst _v)
+                                       (Lens.Family2.set
+                                          (Data.ProtoLens.Field.field @"value") (Prelude.snd _v)
+                                          (Data.ProtoLens.defMessage :: Failure'MetadataEntry)))))
+                         (Data.Map.toList
+                            (Lens.Family2.view (Data.ProtoLens.Field.field @"metadata") _x))))
+                   ((Data.Monoid.<>)
+                      (let
+                         _v = Lens.Family2.view (Data.ProtoLens.Field.field @"details") _x
+                       in
+                         if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                             Data.Monoid.mempty
+                         else
+                             (Data.Monoid.<>)
+                               (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
+                               ((\ bs
+                                   -> (Data.Monoid.<>)
+                                        (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                           (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                        (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                  _v))
+                      ((Data.Monoid.<>)
+                         (case
+                              Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'cause") _x
+                          of
+                            Prelude.Nothing -> Data.Monoid.mempty
+                            (Prelude.Just _v)
+                              -> (Data.Monoid.<>)
+                                   (Data.ProtoLens.Encoding.Bytes.putVarInt 42)
+                                   ((Prelude..)
+                                      (\ bs
+                                         -> (Data.Monoid.<>)
+                                              (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                 (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                              (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                      Data.ProtoLens.encodeMessage _v))
+                         (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                            (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))
 instance Control.DeepSeq.NFData Failure where
   rnf
     = \ x__
@@ -1670,8 +1765,12 @@ instance Control.DeepSeq.NFData Failure where
              (Control.DeepSeq.deepseq
                 (_Failure'message x__)
                 (Control.DeepSeq.deepseq
-                   (_Failure'metadata x__)
-                   (Control.DeepSeq.deepseq (_Failure'details x__) ())))
+                   (_Failure'stackTrace x__)
+                   (Control.DeepSeq.deepseq
+                      (_Failure'metadata x__)
+                      (Control.DeepSeq.deepseq
+                         (_Failure'details x__)
+                         (Control.DeepSeq.deepseq (_Failure'cause x__) ())))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.key' @:: Lens' Failure'MetadataEntry Data.Text.Text@
@@ -2203,6 +2302,9 @@ instance Control.DeepSeq.NFData Link where
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.header' @:: Lens' Request (Data.Map.Map Data.Text.Text Data.Text.Text)@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.scheduledTime' @:: Lens' Request Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'scheduledTime' @:: Lens' Request (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.capabilities' @:: Lens' Request Request'Capabilities@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'capabilities' @:: Lens' Request (Prelude.Maybe Request'Capabilities)@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.endpoint' @:: Lens' Request Data.Text.Text@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'variant' @:: Lens' Request (Prelude.Maybe Request'Variant)@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'startOperation' @:: Lens' Request (Prelude.Maybe StartOperationRequest)@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.startOperation' @:: Lens' Request StartOperationRequest@
@@ -2211,6 +2313,8 @@ instance Control.DeepSeq.NFData Link where
 data Request
   = Request'_constructor {_Request'header :: !(Data.Map.Map Data.Text.Text Data.Text.Text),
                           _Request'scheduledTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
+                          _Request'capabilities :: !(Prelude.Maybe Request'Capabilities),
+                          _Request'endpoint :: !Data.Text.Text,
                           _Request'variant :: !(Prelude.Maybe Request'Variant),
                           _Request'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
@@ -2243,6 +2347,26 @@ instance Data.ProtoLens.Field.HasField Request "maybe'scheduledTime" (Prelude.Ma
         (Lens.Family2.Unchecked.lens
            _Request'scheduledTime
            (\ x__ y__ -> x__ {_Request'scheduledTime = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField Request "capabilities" Request'Capabilities where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Request'capabilities
+           (\ x__ y__ -> x__ {_Request'capabilities = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField Request "maybe'capabilities" (Prelude.Maybe Request'Capabilities) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Request'capabilities
+           (\ x__ y__ -> x__ {_Request'capabilities = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField Request "endpoint" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Request'endpoint (\ x__ y__ -> x__ {_Request'endpoint = y__}))
         Prelude.id
 instance Data.ProtoLens.Field.HasField Request "maybe'variant" (Prelude.Maybe Request'Variant) where
   fieldOf _
@@ -2308,9 +2432,14 @@ instance Data.ProtoLens.Message Request where
     = "\n\
       \\aRequest\DC2B\n\
       \\ACKheader\CAN\SOH \ETX(\v2*.temporal.api.nexus.v1.Request.HeaderEntryR\ACKheader\DC2A\n\
-      \\SOscheduled_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\rscheduledTime\DC2W\n\
+      \\SOscheduled_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\rscheduledTime\DC2O\n\
+      \\fcapabilities\CANd \SOH(\v2+.temporal.api.nexus.v1.Request.CapabilitiesR\fcapabilities\DC2W\n\
       \\SIstart_operation\CAN\ETX \SOH(\v2,.temporal.api.nexus.v1.StartOperationRequestH\NULR\SOstartOperation\DC2Z\n\
-      \\DLEcancel_operation\CAN\EOT \SOH(\v2-.temporal.api.nexus.v1.CancelOperationRequestH\NULR\SIcancelOperation\SUB9\n\
+      \\DLEcancel_operation\CAN\EOT \SOH(\v2-.temporal.api.nexus.v1.CancelOperationRequestH\NULR\SIcancelOperation\DC2\SUB\n\
+      \\bendpoint\CAN\n\
+      \ \SOH(\tR\bendpoint\SUBL\n\
+      \\fCapabilities\DC2<\n\
+      \\SUBtemporal_failure_responses\CAN\SOH \SOH(\bR\CANtemporalFailureResponses\SUB9\n\
       \\vHeaderEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
       \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOHB\t\n\
@@ -2336,6 +2465,23 @@ instance Data.ProtoLens.Message Request where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'scheduledTime")) ::
               Data.ProtoLens.FieldDescriptor Request
+        capabilities__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "capabilities"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Request'Capabilities)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'capabilities")) ::
+              Data.ProtoLens.FieldDescriptor Request
+        endpoint__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "endpoint"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"endpoint")) ::
+              Data.ProtoLens.FieldDescriptor Request
         startOperation__field_descriptor
           = Data.ProtoLens.FieldDescriptor
               "start_operation"
@@ -2356,6 +2502,8 @@ instance Data.ProtoLens.Message Request where
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, header__field_descriptor),
            (Data.ProtoLens.Tag 2, scheduledTime__field_descriptor),
+           (Data.ProtoLens.Tag 100, capabilities__field_descriptor),
+           (Data.ProtoLens.Tag 10, endpoint__field_descriptor),
            (Data.ProtoLens.Tag 3, startOperation__field_descriptor),
            (Data.ProtoLens.Tag 4, cancelOperation__field_descriptor)]
   unknownFields
@@ -2366,6 +2514,8 @@ instance Data.ProtoLens.Message Request where
     = Request'_constructor
         {_Request'header = Data.Map.empty,
          _Request'scheduledTime = Prelude.Nothing,
+         _Request'capabilities = Prelude.Nothing,
+         _Request'endpoint = Data.ProtoLens.fieldDefault,
          _Request'variant = Prelude.Nothing, _Request'_unknownFields = []}
   parseMessage
     = let
@@ -2414,6 +2564,23 @@ instance Data.ProtoLens.Message Request where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"scheduledTime") y x)
+                        802
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "capabilities"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"capabilities") y x)
+                        82
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "endpoint"
+                                loop
+                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"endpoint") y x)
                         26
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -2481,31 +2648,63 @@ instance Data.ProtoLens.Message Request where
                              Data.ProtoLens.encodeMessage _v))
                 ((Data.Monoid.<>)
                    (case
-                        Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'variant") _x
+                        Lens.Family2.view
+                          (Data.ProtoLens.Field.field @"maybe'capabilities") _x
                     of
                       Prelude.Nothing -> Data.Monoid.mempty
-                      (Prelude.Just (Request'StartOperation v))
+                      (Prelude.Just _v)
                         -> (Data.Monoid.<>)
-                             (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
+                             (Data.ProtoLens.Encoding.Bytes.putVarInt 802)
                              ((Prelude..)
                                 (\ bs
                                    -> (Data.Monoid.<>)
                                         (Data.ProtoLens.Encoding.Bytes.putVarInt
                                            (Prelude.fromIntegral (Data.ByteString.length bs)))
                                         (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                                Data.ProtoLens.encodeMessage v)
-                      (Prelude.Just (Request'CancelOperation v))
-                        -> (Data.Monoid.<>)
-                             (Data.ProtoLens.Encoding.Bytes.putVarInt 34)
-                             ((Prelude..)
-                                (\ bs
-                                   -> (Data.Monoid.<>)
-                                        (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                           (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                        (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                                Data.ProtoLens.encodeMessage v))
-                   (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                      (Lens.Family2.view Data.ProtoLens.unknownFields _x))))
+                                Data.ProtoLens.encodeMessage _v))
+                   ((Data.Monoid.<>)
+                      (let
+                         _v = Lens.Family2.view (Data.ProtoLens.Field.field @"endpoint") _x
+                       in
+                         if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                             Data.Monoid.mempty
+                         else
+                             (Data.Monoid.<>)
+                               (Data.ProtoLens.Encoding.Bytes.putVarInt 82)
+                               ((Prelude..)
+                                  (\ bs
+                                     -> (Data.Monoid.<>)
+                                          (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                             (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                          (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                  Data.Text.Encoding.encodeUtf8 _v))
+                      ((Data.Monoid.<>)
+                         (case
+                              Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'variant") _x
+                          of
+                            Prelude.Nothing -> Data.Monoid.mempty
+                            (Prelude.Just (Request'StartOperation v))
+                              -> (Data.Monoid.<>)
+                                   (Data.ProtoLens.Encoding.Bytes.putVarInt 26)
+                                   ((Prelude..)
+                                      (\ bs
+                                         -> (Data.Monoid.<>)
+                                              (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                 (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                              (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                      Data.ProtoLens.encodeMessage v)
+                            (Prelude.Just (Request'CancelOperation v))
+                              -> (Data.Monoid.<>)
+                                   (Data.ProtoLens.Encoding.Bytes.putVarInt 34)
+                                   ((Prelude..)
+                                      (\ bs
+                                         -> (Data.Monoid.<>)
+                                              (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                 (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                              (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                      Data.ProtoLens.encodeMessage v))
+                         (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                            (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))
 instance Control.DeepSeq.NFData Request where
   rnf
     = \ x__
@@ -2515,7 +2714,11 @@ instance Control.DeepSeq.NFData Request where
                 (_Request'header x__)
                 (Control.DeepSeq.deepseq
                    (_Request'scheduledTime x__)
-                   (Control.DeepSeq.deepseq (_Request'variant x__) ())))
+                   (Control.DeepSeq.deepseq
+                      (_Request'capabilities x__)
+                      (Control.DeepSeq.deepseq
+                         (_Request'endpoint x__)
+                         (Control.DeepSeq.deepseq (_Request'variant x__) ())))))
 instance Control.DeepSeq.NFData Request'Variant where
   rnf (Request'StartOperation x__) = Control.DeepSeq.rnf x__
   rnf (Request'CancelOperation x__) = Control.DeepSeq.rnf x__
@@ -2537,6 +2740,122 @@ _Request'CancelOperation
          -> case p__ of
               (Request'CancelOperation p__val) -> Prelude.Just p__val
               _otherwise -> Prelude.Nothing)
+{- | Fields :
+     
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.temporalFailureResponses' @:: Lens' Request'Capabilities Prelude.Bool@ -}
+data Request'Capabilities
+  = Request'Capabilities'_constructor {_Request'Capabilities'temporalFailureResponses :: !Prelude.Bool,
+                                       _Request'Capabilities'_unknownFields :: !Data.ProtoLens.FieldSet}
+  deriving stock (Prelude.Eq, Prelude.Ord)
+instance Prelude.Show Request'Capabilities where
+  showsPrec _ __x __s
+    = Prelude.showChar
+        '{'
+        (Prelude.showString
+           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
+instance Data.ProtoLens.Field.HasField Request'Capabilities "temporalFailureResponses" Prelude.Bool where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _Request'Capabilities'temporalFailureResponses
+           (\ x__ y__
+              -> x__ {_Request'Capabilities'temporalFailureResponses = y__}))
+        Prelude.id
+instance Data.ProtoLens.Message Request'Capabilities where
+  messageName _
+    = Data.Text.pack "temporal.api.nexus.v1.Request.Capabilities"
+  packedMessageDescriptor _
+    = "\n\
+      \\fCapabilities\DC2<\n\
+      \\SUBtemporal_failure_responses\CAN\SOH \SOH(\bR\CANtemporalFailureResponses"
+  packedFileDescriptor _ = packedFileDescriptor
+  fieldsByTag
+    = let
+        temporalFailureResponses__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "temporal_failure_responses"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.BoolField ::
+                 Data.ProtoLens.FieldTypeDescriptor Prelude.Bool)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"temporalFailureResponses")) ::
+              Data.ProtoLens.FieldDescriptor Request'Capabilities
+      in
+        Data.Map.fromList
+          [(Data.ProtoLens.Tag 1, 
+            temporalFailureResponses__field_descriptor)]
+  unknownFields
+    = Lens.Family2.Unchecked.lens
+        _Request'Capabilities'_unknownFields
+        (\ x__ y__ -> x__ {_Request'Capabilities'_unknownFields = y__})
+  defMessage
+    = Request'Capabilities'_constructor
+        {_Request'Capabilities'temporalFailureResponses = Data.ProtoLens.fieldDefault,
+         _Request'Capabilities'_unknownFields = []}
+  parseMessage
+    = let
+        loop ::
+          Request'Capabilities
+          -> Data.ProtoLens.Encoding.Bytes.Parser Request'Capabilities
+        loop x
+          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
+               if end then
+                   do (let missing = []
+                       in
+                         if Prelude.null missing then
+                             Prelude.return ()
+                         else
+                             Prelude.fail
+                               ((Prelude.++)
+                                  "Missing required fields: "
+                                  (Prelude.show (missing :: [Prelude.String]))))
+                      Prelude.return
+                        (Lens.Family2.over
+                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
+               else
+                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                      case tag of
+                        8 -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          ((Prelude./=) 0) Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "temporal_failure_responses"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"temporalFailureResponses") y x)
+                        wire
+                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
+                                        wire
+                                loop
+                                  (Lens.Family2.over
+                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
+      in
+        (Data.ProtoLens.Encoding.Bytes.<?>)
+          (do loop Data.ProtoLens.defMessage) "Capabilities"
+  buildMessage
+    = \ _x
+        -> (Data.Monoid.<>)
+             (let
+                _v
+                  = Lens.Family2.view
+                      (Data.ProtoLens.Field.field @"temporalFailureResponses") _x
+              in
+                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                    Data.Monoid.mempty
+                else
+                    (Data.Monoid.<>)
+                      (Data.ProtoLens.Encoding.Bytes.putVarInt 8)
+                      ((Prelude..)
+                         Data.ProtoLens.Encoding.Bytes.putVarInt (\ b -> if b then 1 else 0)
+                         _v))
+             (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                (Lens.Family2.view Data.ProtoLens.unknownFields _x))
+instance Control.DeepSeq.NFData Request'Capabilities where
+  rnf
+    = \ x__
+        -> Control.DeepSeq.deepseq
+             (_Request'Capabilities'_unknownFields x__)
+             (Control.DeepSeq.deepseq
+                (_Request'Capabilities'temporalFailureResponses x__) ())
 {- | Fields :
      
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.key' @:: Lens' Request'HeaderEntry Data.Text.Text@
@@ -3539,7 +3858,9 @@ instance Control.DeepSeq.NFData StartOperationRequest'CallbackHeaderEntry where
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'asyncSuccess' @:: Lens' StartOperationResponse (Prelude.Maybe StartOperationResponse'Async)@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.asyncSuccess' @:: Lens' StartOperationResponse StartOperationResponse'Async@
          * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'operationError' @:: Lens' StartOperationResponse (Prelude.Maybe UnsuccessfulOperationError)@
-         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.operationError' @:: Lens' StartOperationResponse UnsuccessfulOperationError@ -}
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.operationError' @:: Lens' StartOperationResponse UnsuccessfulOperationError@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.maybe'failure' @:: Lens' StartOperationResponse (Prelude.Maybe Proto.Temporal.Api.Failure.V1.Message.Failure)@
+         * 'Proto.Temporal.Api.Nexus.V1.Message_Fields.failure' @:: Lens' StartOperationResponse Proto.Temporal.Api.Failure.V1.Message.Failure@ -}
 data StartOperationResponse
   = StartOperationResponse'_constructor {_StartOperationResponse'variant :: !(Prelude.Maybe StartOperationResponse'Variant),
                                          _StartOperationResponse'_unknownFields :: !Data.ProtoLens.FieldSet}
@@ -3553,7 +3874,8 @@ instance Prelude.Show StartOperationResponse where
 data StartOperationResponse'Variant
   = StartOperationResponse'SyncSuccess !StartOperationResponse'Sync |
     StartOperationResponse'AsyncSuccess !StartOperationResponse'Async |
-    StartOperationResponse'OperationError !UnsuccessfulOperationError
+    StartOperationResponse'OperationError !UnsuccessfulOperationError |
+    StartOperationResponse'Failure !Proto.Temporal.Api.Failure.V1.Message.Failure
   deriving stock (Prelude.Show, Prelude.Eq, Prelude.Ord)
 instance Data.ProtoLens.Field.HasField StartOperationResponse "maybe'variant" (Prelude.Maybe StartOperationResponse'Variant) where
   fieldOf _
@@ -3648,6 +3970,34 @@ instance Data.ProtoLens.Field.HasField StartOperationResponse "operationError" U
               (\ _ y__
                  -> Prelude.fmap StartOperationResponse'OperationError y__))
            (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage))
+instance Data.ProtoLens.Field.HasField StartOperationResponse "maybe'failure" (Prelude.Maybe Proto.Temporal.Api.Failure.V1.Message.Failure) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _StartOperationResponse'variant
+           (\ x__ y__ -> x__ {_StartOperationResponse'variant = y__}))
+        (Lens.Family2.Unchecked.lens
+           (\ x__
+              -> case x__ of
+                   (Prelude.Just (StartOperationResponse'Failure x__val))
+                     -> Prelude.Just x__val
+                   _otherwise -> Prelude.Nothing)
+           (\ _ y__ -> Prelude.fmap StartOperationResponse'Failure y__))
+instance Data.ProtoLens.Field.HasField StartOperationResponse "failure" Proto.Temporal.Api.Failure.V1.Message.Failure where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _StartOperationResponse'variant
+           (\ x__ y__ -> x__ {_StartOperationResponse'variant = y__}))
+        ((Prelude..)
+           (Lens.Family2.Unchecked.lens
+              (\ x__
+                 -> case x__ of
+                      (Prelude.Just (StartOperationResponse'Failure x__val))
+                        -> Prelude.Just x__val
+                      _otherwise -> Prelude.Nothing)
+              (\ _ y__ -> Prelude.fmap StartOperationResponse'Failure y__))
+           (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage))
 instance Data.ProtoLens.Message StartOperationResponse where
   messageName _
     = Data.Text.pack "temporal.api.nexus.v1.StartOperationResponse"
@@ -3655,8 +4005,9 @@ instance Data.ProtoLens.Message StartOperationResponse where
     = "\n\
       \\SYNStartOperationResponse\DC2W\n\
       \\fsync_success\CAN\SOH \SOH(\v22.temporal.api.nexus.v1.StartOperationResponse.SyncH\NULR\vsyncSuccess\DC2Z\n\
-      \\rasync_success\CAN\STX \SOH(\v23.temporal.api.nexus.v1.StartOperationResponse.AsyncH\NULR\fasyncSuccess\DC2\\\n\
-      \\SIoperation_error\CAN\ETX \SOH(\v21.temporal.api.nexus.v1.UnsuccessfulOperationErrorH\NULR\SOoperationError\SUBt\n\
+      \\rasync_success\CAN\STX \SOH(\v23.temporal.api.nexus.v1.StartOperationResponse.AsyncH\NULR\fasyncSuccess\DC2`\n\
+      \\SIoperation_error\CAN\ETX \SOH(\v21.temporal.api.nexus.v1.UnsuccessfulOperationErrorH\NULR\SOoperationErrorB\STX\CAN\SOH\DC2<\n\
+      \\afailure\CAN\EOT \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\afailure\SUBt\n\
       \\EOTSync\DC29\n\
       \\apayload\CAN\SOH \SOH(\v2\US.temporal.api.common.v1.PayloadR\apayload\DC21\n\
       \\ENQlinks\CAN\STX \ETX(\v2\ESC.temporal.api.nexus.v1.LinkR\ENQlinks\SUB\138\SOH\n\
@@ -3692,11 +4043,20 @@ instance Data.ProtoLens.Message StartOperationResponse where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'operationError")) ::
               Data.ProtoLens.FieldDescriptor StartOperationResponse
+        failure__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "failure"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Failure.V1.Message.Failure)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'failure")) ::
+              Data.ProtoLens.FieldDescriptor StartOperationResponse
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, syncSuccess__field_descriptor),
            (Data.ProtoLens.Tag 2, asyncSuccess__field_descriptor),
-           (Data.ProtoLens.Tag 3, operationError__field_descriptor)]
+           (Data.ProtoLens.Tag 3, operationError__field_descriptor),
+           (Data.ProtoLens.Tag 4, failure__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _StartOperationResponse'_unknownFields
@@ -3754,6 +4114,13 @@ instance Data.ProtoLens.Message StartOperationResponse where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"operationError") y x)
+                        34
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "failure"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"failure") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -3799,6 +4166,16 @@ instance Data.ProtoLens.Message StartOperationResponse where
                                   (Data.ProtoLens.Encoding.Bytes.putVarInt
                                      (Prelude.fromIntegral (Data.ByteString.length bs)))
                                   (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                          Data.ProtoLens.encodeMessage v)
+                (Prelude.Just (StartOperationResponse'Failure v))
+                  -> (Data.Monoid.<>)
+                       (Data.ProtoLens.Encoding.Bytes.putVarInt 34)
+                       ((Prelude..)
+                          (\ bs
+                             -> (Data.Monoid.<>)
+                                  (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                     (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                  (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                           Data.ProtoLens.encodeMessage v))
              (Data.ProtoLens.Encoding.Wire.buildFieldSet
                 (Lens.Family2.view Data.ProtoLens.unknownFields _x))
@@ -3815,6 +4192,7 @@ instance Control.DeepSeq.NFData StartOperationResponse'Variant where
     = Control.DeepSeq.rnf x__
   rnf (StartOperationResponse'OperationError x__)
     = Control.DeepSeq.rnf x__
+  rnf (StartOperationResponse'Failure x__) = Control.DeepSeq.rnf x__
 _StartOperationResponse'SyncSuccess ::
   Data.ProtoLens.Prism.Prism' StartOperationResponse'Variant StartOperationResponse'Sync
 _StartOperationResponse'SyncSuccess
@@ -3842,6 +4220,15 @@ _StartOperationResponse'OperationError
          -> case p__ of
               (StartOperationResponse'OperationError p__val)
                 -> Prelude.Just p__val
+              _otherwise -> Prelude.Nothing)
+_StartOperationResponse'Failure ::
+  Data.ProtoLens.Prism.Prism' StartOperationResponse'Variant Proto.Temporal.Api.Failure.V1.Message.Failure
+_StartOperationResponse'Failure
+  = Data.ProtoLens.Prism.prism'
+      StartOperationResponse'Failure
+      (\ p__
+         -> case p__ of
+              (StartOperationResponse'Failure p__val) -> Prelude.Just p__val
               _otherwise -> Prelude.Nothing)
 {- | Fields :
      
@@ -4448,11 +4835,14 @@ instance Control.DeepSeq.NFData UnsuccessfulOperationError where
 packedFileDescriptor :: Data.ByteString.ByteString
 packedFileDescriptor
   = "\n\
-    \#temporal/api/nexus/v1/message.proto\DC2\NAKtemporal.api.nexus.v1\SUB\USgoogle/protobuf/timestamp.proto\SUB$temporal/api/common/v1/message.proto\SUB!temporal/api/enums/v1/nexus.proto\"\196\SOH\n\
+    \#temporal/api/nexus/v1/message.proto\DC2\NAKtemporal.api.nexus.v1\SUB\USgoogle/protobuf/timestamp.proto\SUB$temporal/api/common/v1/message.proto\SUB!temporal/api/enums/v1/nexus.proto\SUB%temporal/api/failure/v1/message.proto\"\155\STX\n\
     \\aFailure\DC2\CAN\n\
-    \\amessage\CAN\SOH \SOH(\tR\amessage\DC2H\n\
+    \\amessage\CAN\SOH \SOH(\tR\amessage\DC2\US\n\
+    \\vstack_trace\CAN\EOT \SOH(\tR\n\
+    \stackTrace\DC2H\n\
     \\bmetadata\CAN\STX \ETX(\v2,.temporal.api.nexus.v1.Failure.MetadataEntryR\bmetadata\DC2\CAN\n\
-    \\adetails\CAN\ETX \SOH(\fR\adetails\SUB;\n\
+    \\adetails\CAN\ETX \SOH(\fR\adetails\DC24\n\
+    \\ENQcause\CAN\ENQ \SOH(\v2\RS.temporal.api.nexus.v1.FailureR\ENQcause\SUB;\n\
     \\rMetadataEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
     \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOH\"\197\SOH\n\
@@ -4483,20 +4873,26 @@ packedFileDescriptor
     \\aservice\CAN\SOH \SOH(\tR\aservice\DC2\FS\n\
     \\toperation\CAN\STX \SOH(\tR\toperation\DC2%\n\
     \\foperation_id\CAN\ETX \SOH(\tR\voperationIdB\STX\CAN\SOH\DC2'\n\
-    \\SIoperation_token\CAN\EOT \SOH(\tR\SOoperationToken\"\139\ETX\n\
+    \\SIoperation_token\CAN\EOT \SOH(\tR\SOoperationToken\"\198\EOT\n\
     \\aRequest\DC2B\n\
     \\ACKheader\CAN\SOH \ETX(\v2*.temporal.api.nexus.v1.Request.HeaderEntryR\ACKheader\DC2A\n\
-    \\SOscheduled_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\rscheduledTime\DC2W\n\
+    \\SOscheduled_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\rscheduledTime\DC2O\n\
+    \\fcapabilities\CANd \SOH(\v2+.temporal.api.nexus.v1.Request.CapabilitiesR\fcapabilities\DC2W\n\
     \\SIstart_operation\CAN\ETX \SOH(\v2,.temporal.api.nexus.v1.StartOperationRequestH\NULR\SOstartOperation\DC2Z\n\
-    \\DLEcancel_operation\CAN\EOT \SOH(\v2-.temporal.api.nexus.v1.CancelOperationRequestH\NULR\SIcancelOperation\SUB9\n\
+    \\DLEcancel_operation\CAN\EOT \SOH(\v2-.temporal.api.nexus.v1.CancelOperationRequestH\NULR\SIcancelOperation\DC2\SUB\n\
+    \\bendpoint\CAN\n\
+    \ \SOH(\tR\bendpoint\SUBL\n\
+    \\fCapabilities\DC2<\n\
+    \\SUBtemporal_failure_responses\CAN\SOH \SOH(\bR\CANtemporalFailureResponses\SUB9\n\
     \\vHeaderEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
     \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOHB\t\n\
-    \\avariant\"\185\EOT\n\
+    \\avariant\"\251\EOT\n\
     \\SYNStartOperationResponse\DC2W\n\
     \\fsync_success\CAN\SOH \SOH(\v22.temporal.api.nexus.v1.StartOperationResponse.SyncH\NULR\vsyncSuccess\DC2Z\n\
-    \\rasync_success\CAN\STX \SOH(\v23.temporal.api.nexus.v1.StartOperationResponse.AsyncH\NULR\fasyncSuccess\DC2\\\n\
-    \\SIoperation_error\CAN\ETX \SOH(\v21.temporal.api.nexus.v1.UnsuccessfulOperationErrorH\NULR\SOoperationError\SUBt\n\
+    \\rasync_success\CAN\STX \SOH(\v23.temporal.api.nexus.v1.StartOperationResponse.AsyncH\NULR\fasyncSuccess\DC2`\n\
+    \\SIoperation_error\CAN\ETX \SOH(\v21.temporal.api.nexus.v1.UnsuccessfulOperationErrorH\NULR\SOoperationErrorB\STX\CAN\SOH\DC2<\n\
+    \\afailure\CAN\EOT \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\afailure\SUBt\n\
     \\EOTSync\DC29\n\
     \\apayload\CAN\SOH \SOH(\v2\US.temporal.api.common.v1.PayloadR\apayload\DC21\n\
     \\ENQlinks\CAN\STX \ETX(\v2\ESC.temporal.api.nexus.v1.LinkR\ENQlinks\SUB\138\SOH\n\
@@ -4532,8 +4928,8 @@ packedFileDescriptor
     \\bExternal\DC2\DLE\n\
     \\ETXurl\CAN\SOH \SOH(\tR\ETXurlB\t\n\
     \\avariantB\132\SOH\n\
-    \\CANio.temporal.api.nexus.v1B\fMessageProtoP\SOHZ!go.temporal.io/api/nexus/v1;nexus\170\STX\ETBTemporalio.Api.Nexus.V1\234\STX\SUBTemporalio::Api::Nexus::V1J\130;\n\
-    \\a\DC2\ENQ\NUL\NUL\195\SOH\SOH\n\
+    \\CANio.temporal.api.nexus.v1B\fMessageProtoP\SOHZ!go.temporal.io/api/nexus/v1;nexus\170\STX\ETBTemporalio.Api.Nexus.V1\234\STX\SUBTemporalio::Api::Nexus::V1J\182B\n\
+    \\a\DC2\ENQ\NUL\NUL\214\SOH\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -4569,620 +4965,685 @@ packedFileDescriptor
     \\STX\ETX\SOH\DC2\ETX\f\NUL.\n\
     \\t\n\
     \\STX\ETX\STX\DC2\ETX\r\NUL+\n\
+    \\t\n\
+    \\STX\ETX\ETX\DC2\ETX\SO\NUL/\n\
     \q\n\
-    \\STX\EOT\NUL\DC2\EOT\DC1\NUL\SYN\SOH\SUBe A general purpose failure message.\n\
+    \\STX\EOT\NUL\DC2\EOT\DC2\NUL\EM\SOH\SUBe A general purpose failure message.\n\
     \ See: https://github.com/nexus-rpc/api/blob/main/SPEC.md#failure\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\NUL\SOH\DC2\ETX\DC1\b\SI\n\
+    \\ETX\EOT\NUL\SOH\DC2\ETX\DC2\b\SI\n\
     \\v\n\
-    \\EOT\EOT\NUL\STX\NUL\DC2\ETX\DC2\EOT\ETB\n\
+    \\EOT\EOT\NUL\STX\NUL\DC2\ETX\DC3\EOT\ETB\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\NUL\ENQ\DC2\ETX\DC2\EOT\n\
+    \\ENQ\EOT\NUL\STX\NUL\ENQ\DC2\ETX\DC3\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\NUL\SOH\DC2\ETX\DC2\v\DC2\n\
+    \\ENQ\EOT\NUL\STX\NUL\SOH\DC2\ETX\DC3\v\DC2\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\NUL\ETX\DC2\ETX\DC2\NAK\SYN\n\
+    \\ENQ\EOT\NUL\STX\NUL\ETX\DC2\ETX\DC3\NAK\SYN\n\
     \\v\n\
-    \\EOT\EOT\NUL\STX\SOH\DC2\ETX\DC3\EOT%\n\
+    \\EOT\EOT\NUL\STX\SOH\DC2\ETX\DC4\EOT\ESC\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\SOH\ACK\DC2\ETX\DC3\EOT\ETB\n\
+    \\ENQ\EOT\NUL\STX\SOH\ENQ\DC2\ETX\DC4\EOT\n\
+    \\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\SOH\SOH\DC2\ETX\DC3\CAN \n\
+    \\ENQ\EOT\NUL\STX\SOH\SOH\DC2\ETX\DC4\v\SYN\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\SOH\ETX\DC2\ETX\DC3#$\n\
+    \\ENQ\EOT\NUL\STX\SOH\ETX\DC2\ETX\DC4\EM\SUB\n\
+    \\v\n\
+    \\EOT\EOT\NUL\STX\STX\DC2\ETX\NAK\EOT%\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\STX\ACK\DC2\ETX\NAK\EOT\ETB\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\STX\SOH\DC2\ETX\NAK\CAN \n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\STX\ETX\DC2\ETX\NAK#$\n\
     \7\n\
-    \\EOT\EOT\NUL\STX\STX\DC2\ETX\NAK\EOT\SYN\SUB* UTF-8 encoded JSON serializable details.\n\
+    \\EOT\EOT\NUL\STX\ETX\DC2\ETX\ETB\EOT\SYN\SUB* UTF-8 encoded JSON serializable details.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\STX\ENQ\DC2\ETX\NAK\EOT\t\n\
+    \\ENQ\EOT\NUL\STX\ETX\ENQ\DC2\ETX\ETB\EOT\t\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\STX\SOH\DC2\ETX\NAK\n\
+    \\ENQ\EOT\NUL\STX\ETX\SOH\DC2\ETX\ETB\n\
     \\DC1\n\
     \\f\n\
-    \\ENQ\EOT\NUL\STX\STX\ETX\DC2\ETX\NAK\DC4\NAK\n\
+    \\ENQ\EOT\NUL\STX\ETX\ETX\DC2\ETX\ETB\DC4\NAK\n\
+    \\v\n\
+    \\EOT\EOT\NUL\STX\EOT\DC2\ETX\CAN\EOT\SYN\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\EOT\ACK\DC2\ETX\CAN\EOT\v\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\EOT\SOH\DC2\ETX\CAN\f\DC1\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\EOT\ETX\DC2\ETX\CAN\DC4\NAK\n\
     \\n\
     \\n\
-    \\STX\EOT\SOH\DC2\EOT\CAN\NUL\RS\SOH\n\
+    \\STX\EOT\SOH\DC2\EOT\ESC\NUL!\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\SOH\SOH\DC2\ETX\CAN\b\DC4\n\
+    \\ETX\EOT\SOH\SOH\DC2\ETX\ESC\b\DC4\n\
     \`\n\
-    \\EOT\EOT\SOH\STX\NUL\DC2\ETX\SUB\EOT\SUB\SUBS See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.\n\
+    \\EOT\EOT\SOH\STX\NUL\DC2\ETX\GS\EOT\SUB\SUBS See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ENQ\DC2\ETX\SUB\EOT\n\
+    \\ENQ\EOT\SOH\STX\NUL\ENQ\DC2\ETX\GS\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETX\SUB\v\NAK\n\
+    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETX\GS\v\NAK\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETX\SUB\CAN\EM\n\
+    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETX\GS\CAN\EM\n\
     \\v\n\
-    \\EOT\EOT\SOH\STX\SOH\DC2\ETX\ESC\EOT\CAN\n\
+    \\EOT\EOT\SOH\STX\SOH\DC2\ETX\RS\EOT\CAN\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETX\ESC\EOT\v\n\
+    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETX\RS\EOT\v\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETX\ESC\f\DC3\n\
+    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETX\RS\f\DC3\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETX\ESC\SYN\ETB\n\
+    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETX\RS\SYN\ETB\n\
     \g\n\
-    \\EOT\EOT\SOH\STX\STX\DC2\ETX\GS\EOTL\SUBZ Retry behavior, defaults to the retry behavior of the error type as defined in the spec.\n\
+    \\EOT\EOT\SOH\STX\STX\DC2\ETX \EOTL\SUBZ Retry behavior, defaults to the retry behavior of the error type as defined in the spec.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ACK\DC2\ETX\GS\EOT8\n\
+    \\ENQ\EOT\SOH\STX\STX\ACK\DC2\ETX \EOT8\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETX\GS9G\n\
+    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETX 9G\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETX\GSJK\n\
+    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETX JK\n\
     \\n\
     \\n\
-    \\STX\EOT\STX\DC2\EOT \NUL$\SOH\n\
+    \\STX\EOT\STX\DC2\EOT#\NUL'\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\STX\SOH\DC2\ETX \b\"\n\
+    \\ETX\EOT\STX\SOH\DC2\ETX#\b\"\n\
     \T\n\
-    \\EOT\EOT\STX\STX\NUL\DC2\ETX\"\EOT\US\SUBG See https://github.com/nexus-rpc/api/blob/main/SPEC.md#operationinfo.\n\
+    \\EOT\EOT\STX\STX\NUL\DC2\ETX%\EOT\US\SUBG See https://github.com/nexus-rpc/api/blob/main/SPEC.md#operationinfo.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\NUL\ENQ\DC2\ETX\"\EOT\n\
+    \\ENQ\EOT\STX\STX\NUL\ENQ\DC2\ETX%\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\ETX\"\v\SUB\n\
+    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\ETX%\v\SUB\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\ETX\"\GS\RS\n\
+    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\ETX%\GS\RS\n\
     \\v\n\
-    \\EOT\EOT\STX\STX\SOH\DC2\ETX#\EOT\CAN\n\
+    \\EOT\EOT\STX\STX\SOH\DC2\ETX&\EOT\CAN\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\ACK\DC2\ETX#\EOT\v\n\
+    \\ENQ\EOT\STX\STX\SOH\ACK\DC2\ETX&\EOT\v\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\ETX#\f\DC3\n\
+    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\ETX&\f\DC3\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\ETX#\SYN\ETB\n\
+    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\ETX&\SYN\ETB\n\
     \\n\
     \\n\
-    \\STX\EOT\ETX\DC2\EOT&\NUL*\SOH\n\
+    \\STX\EOT\ETX\DC2\EOT)\NUL-\SOH\n\
     \\n\
     \\n\
-    \\ETX\EOT\ETX\SOH\DC2\ETX&\b\f\n\
+    \\ETX\EOT\ETX\SOH\DC2\ETX)\b\f\n\
     \L\n\
-    \\EOT\EOT\ETX\STX\NUL\DC2\ETX(\EOT\DC3\SUB? See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.\n\
+    \\EOT\EOT\ETX\STX\NUL\DC2\ETX+\EOT\DC3\SUB? See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\ETX(\EOT\n\
+    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\ETX+\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\ETX(\v\SO\n\
+    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\ETX+\v\SO\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\ETX(\DC1\DC2\n\
+    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\ETX+\DC1\DC2\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\SOH\DC2\ETX)\EOT\DC4\n\
+    \\EOT\EOT\ETX\STX\SOH\DC2\ETX,\EOT\DC4\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\ENQ\DC2\ETX)\EOT\n\
+    \\ENQ\EOT\ETX\STX\SOH\ENQ\DC2\ETX,\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\SOH\DC2\ETX)\v\SI\n\
+    \\ENQ\EOT\ETX\STX\SOH\SOH\DC2\ETX,\v\SI\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\ETX\DC2\ETX)\DC2\DC3\n\
+    \\ENQ\EOT\ETX\STX\SOH\ETX\DC2\ETX,\DC2\DC3\n\
     \.\n\
-    \\STX\EOT\EOT\DC2\EOT-\NUL<\SOH\SUB\" A request to start an operation.\n\
+    \\STX\EOT\EOT\DC2\EOT0\NUL?\SOH\SUB\" A request to start an operation.\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\EOT\SOH\DC2\ETX-\b\GS\n\
+    \\ETX\EOT\EOT\SOH\DC2\ETX0\b\GS\n\
     \9\n\
-    \\EOT\EOT\EOT\STX\NUL\DC2\ETX/\EOT\ETB\SUB, Name of service to start the operation in.\n\
+    \\EOT\EOT\EOT\STX\NUL\DC2\ETX2\EOT\ETB\SUB, Name of service to start the operation in.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\NUL\ENQ\DC2\ETX/\EOT\n\
+    \\ENQ\EOT\EOT\STX\NUL\ENQ\DC2\ETX2\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\ETX/\v\DC2\n\
+    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\ETX2\v\DC2\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\ETX/\NAK\SYN\n\
+    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\ETX2\NAK\SYN\n\
     \*\n\
-    \\EOT\EOT\EOT\STX\SOH\DC2\ETX1\EOT\EM\SUB\GS Type of operation to start.\n\
+    \\EOT\EOT\EOT\STX\SOH\DC2\ETX4\EOT\EM\SUB\GS Type of operation to start.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\SOH\ENQ\DC2\ETX1\EOT\n\
+    \\ENQ\EOT\EOT\STX\SOH\ENQ\DC2\ETX4\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\SOH\SOH\DC2\ETX1\v\DC4\n\
+    \\ENQ\EOT\EOT\STX\SOH\SOH\DC2\ETX4\v\DC4\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\SOH\ETX\DC2\ETX1\ETB\CAN\n\
+    \\ENQ\EOT\EOT\STX\SOH\ETX\DC2\ETX4\ETB\CAN\n\
     \F\n\
-    \\EOT\EOT\EOT\STX\STX\DC2\ETX3\EOT\SUB\SUB9 A request ID that can be used as an idempotentency key.\n\
+    \\EOT\EOT\EOT\STX\STX\DC2\ETX6\EOT\SUB\SUB9 A request ID that can be used as an idempotentency key.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\STX\ENQ\DC2\ETX3\EOT\n\
+    \\ENQ\EOT\EOT\STX\STX\ENQ\DC2\ETX6\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\STX\SOH\DC2\ETX3\v\NAK\n\
+    \\ENQ\EOT\EOT\STX\STX\SOH\DC2\ETX6\v\NAK\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\STX\ETX\DC2\ETX3\CAN\EM\n\
+    \\ENQ\EOT\EOT\STX\STX\ETX\DC2\ETX6\CAN\EM\n\
     \V\n\
-    \\EOT\EOT\EOT\STX\ETX\DC2\ETX5\EOT\CAN\SUBI Callback URL to call upon completion if the started operation is async.\n\
+    \\EOT\EOT\EOT\STX\ETX\DC2\ETX8\EOT\CAN\SUBI Callback URL to call upon completion if the started operation is async.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ETX\ENQ\DC2\ETX5\EOT\n\
+    \\ENQ\EOT\EOT\STX\ETX\ENQ\DC2\ETX8\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ETX\SOH\DC2\ETX5\v\DC3\n\
+    \\ENQ\EOT\EOT\STX\ETX\SOH\DC2\ETX8\v\DC3\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ETX\ETX\DC2\ETX5\SYN\ETB\n\
+    \\ENQ\EOT\EOT\STX\ETX\ETX\DC2\ETX8\SYN\ETB\n\
     \@\n\
-    \\EOT\EOT\EOT\STX\EOT\DC2\ETX7\EOT/\SUB3 Full request body from the incoming HTTP request.\n\
+    \\EOT\EOT\EOT\STX\EOT\DC2\ETX:\EOT/\SUB3 Full request body from the incoming HTTP request.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\EOT\ACK\DC2\ETX7\EOT\"\n\
+    \\ENQ\EOT\EOT\STX\EOT\ACK\DC2\ETX:\EOT\"\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\EOT\SOH\DC2\ETX7#*\n\
+    \\ENQ\EOT\EOT\STX\EOT\SOH\DC2\ETX:#*\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\EOT\ETX\DC2\ETX7-.\n\
+    \\ENQ\EOT\EOT\STX\EOT\ETX\DC2\ETX:-.\n\
     \k\n\
-    \\EOT\EOT\EOT\STX\ENQ\DC2\ETX9\EOT,\SUB^ Header that is expected to be attached to the callback request when the operation completes.\n\
+    \\EOT\EOT\EOT\STX\ENQ\DC2\ETX<\EOT,\SUB^ Header that is expected to be attached to the callback request when the operation completes.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ENQ\ACK\DC2\ETX9\EOT\ETB\n\
+    \\ENQ\EOT\EOT\STX\ENQ\ACK\DC2\ETX<\EOT\ETB\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ENQ\SOH\DC2\ETX9\CAN'\n\
+    \\ENQ\EOT\EOT\STX\ENQ\SOH\DC2\ETX<\CAN'\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ENQ\ETX\DC2\ETX9*+\n\
+    \\ENQ\EOT\EOT\STX\ENQ\ETX\DC2\ETX<*+\n\
     \m\n\
-    \\EOT\EOT\EOT\STX\ACK\DC2\ETX;\EOT\FS\SUB` Links contain caller information and can be attached to the operations started by the handler.\n\
+    \\EOT\EOT\EOT\STX\ACK\DC2\ETX>\EOT\FS\SUB` Links contain caller information and can be attached to the operations started by the handler.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ACK\EOT\DC2\ETX;\EOT\f\n\
+    \\ENQ\EOT\EOT\STX\ACK\EOT\DC2\ETX>\EOT\f\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ACK\ACK\DC2\ETX;\r\DC1\n\
+    \\ENQ\EOT\EOT\STX\ACK\ACK\DC2\ETX>\r\DC1\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ACK\SOH\DC2\ETX;\DC2\ETB\n\
+    \\ENQ\EOT\EOT\STX\ACK\SOH\DC2\ETX>\DC2\ETB\n\
     \\f\n\
-    \\ENQ\EOT\EOT\STX\ACK\ETX\DC2\ETX;\SUB\ESC\n\
+    \\ENQ\EOT\EOT\STX\ACK\ETX\DC2\ETX>\SUB\ESC\n\
     \/\n\
-    \\STX\EOT\ENQ\DC2\EOT?\NULK\SOH\SUB# A request to cancel an operation.\n\
+    \\STX\EOT\ENQ\DC2\EOTB\NULN\SOH\SUB# A request to cancel an operation.\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\ENQ\SOH\DC2\ETX?\b\RS\n\
+    \\ETX\EOT\ENQ\SOH\DC2\ETXB\b\RS\n\
     \\FS\n\
-    \\EOT\EOT\ENQ\STX\NUL\DC2\ETXA\EOT\ETB\SUB\SI Service name.\n\
+    \\EOT\EOT\ENQ\STX\NUL\DC2\ETXD\EOT\ETB\SUB\SI Service name.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ENQ\DC2\ETXA\EOT\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ENQ\DC2\ETXD\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\ETXA\v\DC2\n\
+    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\ETXD\v\DC2\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\ETXA\NAK\SYN\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\ETXD\NAK\SYN\n\
     \+\n\
-    \\EOT\EOT\ENQ\STX\SOH\DC2\ETXC\EOT\EM\SUB\RS Type of operation to cancel.\n\
+    \\EOT\EOT\ENQ\STX\SOH\DC2\ETXF\EOT\EM\SUB\RS Type of operation to cancel.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ENQ\DC2\ETXC\EOT\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ENQ\DC2\ETXF\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\ETXC\v\DC4\n\
+    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\ETXF\v\DC4\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\ETXC\ETB\CAN\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\ETXF\ETB\CAN\n\
     \k\n\
-    \\EOT\EOT\ENQ\STX\STX\DC2\ETXG\EOT0\SUB^ Operation ID as originally generated by a Handler.\n\
+    \\EOT\EOT\ENQ\STX\STX\DC2\ETXJ\EOT0\SUB^ Operation ID as originally generated by a Handler.\n\
     \\n\
     \ Deprecated. Renamed to operation_token.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\STX\ENQ\DC2\ETXG\EOT\n\
+    \\ENQ\EOT\ENQ\STX\STX\ENQ\DC2\ETXJ\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\STX\SOH\DC2\ETXG\v\ETB\n\
+    \\ENQ\EOT\ENQ\STX\STX\SOH\DC2\ETXJ\v\ETB\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\STX\ETX\DC2\ETXG\SUB\ESC\n\
+    \\ENQ\EOT\ENQ\STX\STX\ETX\DC2\ETXJ\SUB\ESC\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\STX\b\DC2\ETXG\FS/\n\
+    \\ENQ\EOT\ENQ\STX\STX\b\DC2\ETXJ\FS/\n\
     \\r\n\
-    \\ACK\EOT\ENQ\STX\STX\b\ETX\DC2\ETXG\GS.\n\
+    \\ACK\EOT\ENQ\STX\STX\b\ETX\DC2\ETXJ\GS.\n\
     \D\n\
-    \\EOT\EOT\ENQ\STX\ETX\DC2\ETXJ\EOT\US\SUB7 Operation token as originally generated by a Handler.\n\
+    \\EOT\EOT\ENQ\STX\ETX\DC2\ETXM\EOT\US\SUB7 Operation token as originally generated by a Handler.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\ETX\ENQ\DC2\ETXJ\EOT\n\
+    \\ENQ\EOT\ENQ\STX\ETX\ENQ\DC2\ETXM\EOT\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\ETX\SOH\DC2\ETXJ\v\SUB\n\
+    \\ENQ\EOT\ENQ\STX\ETX\SOH\DC2\ETXM\v\SUB\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\ETX\ETX\DC2\ETXJ\GS\RS\n\
+    \\ENQ\EOT\ENQ\STX\ETX\ETX\DC2\ETXM\GS\RS\n\
     \\RS\n\
-    \\STX\EOT\ACK\DC2\EOTN\NUL\\\SOH\SUB\DC2 A Nexus request.\n\
+    \\STX\EOT\ACK\DC2\EOTQ\NULk\SOH\SUB\DC2 A Nexus request.\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\ACK\SOH\DC2\ETXN\b\SI\n\
+    \\ETX\EOT\ACK\SOH\DC2\ETXQ\b\SI\n\
+    \\f\n\
+    \\EOT\EOT\ACK\ETX\NUL\DC2\EOTR\EOTV\ENQ\n\
+    \\f\n\
+    \\ENQ\EOT\ACK\ETX\NUL\SOH\DC2\ETXR\f\CAN\n\
+    \\210\SOH\n\
+    \\ACK\EOT\ACK\ETX\NUL\STX\NUL\DC2\ETXU\b,\SUB\194\SOH If set, handlers may use temporal.api.failure.v1.Failure instances to return failures to the server.\n\
+    \ This also allows handler and operation errors to have their own messages and stack traces.\n\
+    \\n\
+    \\SO\n\
+    \\a\EOT\ACK\ETX\NUL\STX\NUL\ENQ\DC2\ETXU\b\f\n\
+    \\SO\n\
+    \\a\EOT\ACK\ETX\NUL\STX\NUL\SOH\DC2\ETXU\r'\n\
+    \\SO\n\
+    \\a\EOT\ACK\ETX\NUL\STX\NUL\ETX\DC2\ETXU*+\n\
     \\181\SOH\n\
-    \\EOT\EOT\ACK\STX\NUL\DC2\ETXQ\EOT#\SUB\167\SOH Headers extracted from the original request in the Temporal frontend.\n\
+    \\EOT\EOT\ACK\STX\NUL\DC2\ETXZ\EOT#\SUB\167\SOH Headers extracted from the original request in the Temporal frontend.\n\
     \ When using Nexus over HTTP, this includes the request's HTTP headers ignoring multiple values.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\NUL\ACK\DC2\ETXQ\EOT\ETB\n\
+    \\ENQ\EOT\ACK\STX\NUL\ACK\DC2\ETXZ\EOT\ETB\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\ETXQ\CAN\RS\n\
+    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\ETXZ\CAN\RS\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\ETXQ!\"\n\
+    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\ETXZ!\"\n\
     \\192\SOH\n\
-    \\EOT\EOT\ACK\STX\SOH\DC2\ETXV\EOT1\SUB\178\SOH The timestamp when the request was scheduled in the frontend.\n\
+    \\EOT\EOT\ACK\STX\SOH\DC2\ETX_\EOT1\SUB\178\SOH The timestamp when the request was scheduled in the frontend.\n\
     \ (-- api-linter: core::0142::time-field-names=disabled\n\
     \     aip.dev/not-precedent: Not following linter rules. --)\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\SOH\ACK\DC2\ETXV\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\SOH\ACK\DC2\ETX_\EOT\GS\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\SOH\SOH\DC2\ETXV\RS,\n\
+    \\ENQ\EOT\ACK\STX\SOH\SOH\DC2\ETX_\RS,\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\SOH\ETX\DC2\ETXV/0\n\
+    \\ENQ\EOT\ACK\STX\SOH\ETX\DC2\ETX_/0\n\
+    \\v\n\
+    \\EOT\EOT\ACK\STX\STX\DC2\ETXa\EOT$\n\
     \\f\n\
-    \\EOT\EOT\ACK\b\NUL\DC2\EOTX\EOT[\ENQ\n\
+    \\ENQ\EOT\ACK\STX\STX\ACK\DC2\ETXa\EOT\DLE\n\
     \\f\n\
-    \\ENQ\EOT\ACK\b\NUL\SOH\DC2\ETXX\n\
+    \\ENQ\EOT\ACK\STX\STX\SOH\DC2\ETXa\DC1\GS\n\
+    \\f\n\
+    \\ENQ\EOT\ACK\STX\STX\ETX\DC2\ETXa #\n\
+    \\f\n\
+    \\EOT\EOT\ACK\b\NUL\DC2\EOTc\EOTf\ENQ\n\
+    \\f\n\
+    \\ENQ\EOT\ACK\b\NUL\SOH\DC2\ETXc\n\
     \\DC1\n\
     \\v\n\
-    \\EOT\EOT\ACK\STX\STX\DC2\ETXY\b2\n\
+    \\EOT\EOT\ACK\STX\ETX\DC2\ETXd\b2\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\STX\ACK\DC2\ETXY\b\GS\n\
+    \\ENQ\EOT\ACK\STX\ETX\ACK\DC2\ETXd\b\GS\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\STX\SOH\DC2\ETXY\RS-\n\
+    \\ENQ\EOT\ACK\STX\ETX\SOH\DC2\ETXd\RS-\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\STX\ETX\DC2\ETXY01\n\
+    \\ENQ\EOT\ACK\STX\ETX\ETX\DC2\ETXd01\n\
     \\v\n\
-    \\EOT\EOT\ACK\STX\ETX\DC2\ETXZ\b4\n\
+    \\EOT\EOT\ACK\STX\EOT\DC2\ETXe\b4\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\ETX\ACK\DC2\ETXZ\b\RS\n\
+    \\ENQ\EOT\ACK\STX\EOT\ACK\DC2\ETXe\b\RS\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\ETX\SOH\DC2\ETXZ\US/\n\
+    \\ENQ\EOT\ACK\STX\EOT\SOH\DC2\ETXe\US/\n\
     \\f\n\
-    \\ENQ\EOT\ACK\STX\ETX\ETX\DC2\ETXZ23\n\
-    \9\n\
-    \\STX\EOT\a\DC2\EOT_\NULu\SOH\SUB- Response variant for StartOperationRequest.\n\
+    \\ENQ\EOT\ACK\STX\EOT\ETX\DC2\ETXe23\n\
+    \\129\SOH\n\
+    \\EOT\EOT\ACK\STX\ENQ\DC2\ETXj\EOT\EM\SUBt The endpoint this request was addressed to before forwarding to the worker.\n\
+    \ Supported from server version 1.30.0.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\ACK\STX\ENQ\ENQ\DC2\ETXj\EOT\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\ACK\STX\ENQ\SOH\DC2\ETXj\v\DC3\n\
+    \\f\n\
+    \\ENQ\EOT\ACK\STX\ENQ\ETX\DC2\ETXj\SYN\CAN\n\
+    \:\n\
+    \\STX\EOT\a\DC2\ENQn\NUL\136\SOH\SOH\SUB- Response variant for StartOperationRequest.\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\a\SOH\DC2\ETX_\b\RS\n\
+    \\ETX\EOT\a\SOH\DC2\ETXn\b\RS\n\
     \4\n\
-    \\EOT\EOT\a\ETX\NUL\DC2\EOTa\EOTd\ENQ\SUB& An operation completed successfully.\n\
+    \\EOT\EOT\a\ETX\NUL\DC2\EOTp\EOTs\ENQ\SUB& An operation completed successfully.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\a\ETX\NUL\SOH\DC2\ETXa\f\DLE\n\
+    \\ENQ\EOT\a\ETX\NUL\SOH\DC2\ETXp\f\DLE\n\
     \\r\n\
-    \\ACK\EOT\a\ETX\NUL\STX\NUL\DC2\ETXb\b3\n\
+    \\ACK\EOT\a\ETX\NUL\STX\NUL\DC2\ETXq\b3\n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\ACK\DC2\ETXb\b&\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\ACK\DC2\ETXq\b&\n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\SOH\DC2\ETXb'.\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\SOH\DC2\ETXq'.\n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\ETX\DC2\ETXb12\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\ETX\DC2\ETXq12\n\
     \\r\n\
-    \\ACK\EOT\a\ETX\NUL\STX\SOH\DC2\ETXc\b \n\
+    \\ACK\EOT\a\ETX\NUL\STX\SOH\DC2\ETXr\b \n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\EOT\DC2\ETXc\b\DLE\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\EOT\DC2\ETXr\b\DLE\n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\ACK\DC2\ETXc\DC1\NAK\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\ACK\DC2\ETXr\DC1\NAK\n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\SOH\DC2\ETXc\SYN\ESC\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\SOH\DC2\ETXr\SYN\ESC\n\
     \\SO\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\ETX\DC2\ETXc\RS\US\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\ETX\DC2\ETXr\RS\US\n\
     \u\n\
-    \\EOT\EOT\a\ETX\SOH\DC2\EOTh\EOTm\ENQ\SUBg The operation will complete asynchronously.\n\
+    \\EOT\EOT\a\ETX\SOH\DC2\EOTw\EOT|\ENQ\SUBg The operation will complete asynchronously.\n\
     \ The returned ID can be used to reference this operation.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\a\ETX\SOH\SOH\DC2\ETXh\f\DC1\n\
+    \\ENQ\EOT\a\ETX\SOH\SOH\DC2\ETXw\f\DC1\n\
     \8\n\
-    \\ACK\EOT\a\ETX\SOH\STX\NUL\DC2\ETXj\b4\SUB) Deprecated. Renamed to operation_token.\n\
+    \\ACK\EOT\a\ETX\SOH\STX\NUL\DC2\ETXy\b4\SUB) Deprecated. Renamed to operation_token.\n\
     \\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\NUL\ENQ\DC2\ETXj\b\SO\n\
+    \\a\EOT\a\ETX\SOH\STX\NUL\ENQ\DC2\ETXy\b\SO\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\NUL\SOH\DC2\ETXj\SI\ESC\n\
+    \\a\EOT\a\ETX\SOH\STX\NUL\SOH\DC2\ETXy\SI\ESC\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\NUL\ETX\DC2\ETXj\RS\US\n\
+    \\a\EOT\a\ETX\SOH\STX\NUL\ETX\DC2\ETXy\RS\US\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\NUL\b\DC2\ETXj 3\n\
+    \\a\EOT\a\ETX\SOH\STX\NUL\b\DC2\ETXy 3\n\
     \\SI\n\
-    \\b\EOT\a\ETX\SOH\STX\NUL\b\ETX\DC2\ETXj!2\n\
+    \\b\EOT\a\ETX\SOH\STX\NUL\b\ETX\DC2\ETXy!2\n\
     \\r\n\
-    \\ACK\EOT\a\ETX\SOH\STX\SOH\DC2\ETXk\b \n\
+    \\ACK\EOT\a\ETX\SOH\STX\SOH\DC2\ETXz\b \n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\SOH\EOT\DC2\ETXk\b\DLE\n\
+    \\a\EOT\a\ETX\SOH\STX\SOH\EOT\DC2\ETXz\b\DLE\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\SOH\ACK\DC2\ETXk\DC1\NAK\n\
+    \\a\EOT\a\ETX\SOH\STX\SOH\ACK\DC2\ETXz\DC1\NAK\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\SOH\SOH\DC2\ETXk\SYN\ESC\n\
+    \\a\EOT\a\ETX\SOH\STX\SOH\SOH\DC2\ETXz\SYN\ESC\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\SOH\ETX\DC2\ETXk\RS\US\n\
+    \\a\EOT\a\ETX\SOH\STX\SOH\ETX\DC2\ETXz\RS\US\n\
     \\r\n\
-    \\ACK\EOT\a\ETX\SOH\STX\STX\DC2\ETXl\b#\n\
+    \\ACK\EOT\a\ETX\SOH\STX\STX\DC2\ETX{\b#\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\STX\ENQ\DC2\ETXl\b\SO\n\
+    \\a\EOT\a\ETX\SOH\STX\STX\ENQ\DC2\ETX{\b\SO\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\STX\SOH\DC2\ETXl\SI\RS\n\
+    \\a\EOT\a\ETX\SOH\STX\STX\SOH\DC2\ETX{\SI\RS\n\
     \\SO\n\
-    \\a\EOT\a\ETX\SOH\STX\STX\ETX\DC2\ETXl!\"\n\
+    \\a\EOT\a\ETX\SOH\STX\STX\ETX\DC2\ETX{!\"\n\
+    \\r\n\
+    \\EOT\EOT\a\b\NUL\DC2\ENQ~\EOT\135\SOH\ENQ\n\
     \\f\n\
-    \\EOT\EOT\a\b\NUL\DC2\EOTo\EOTt\ENQ\n\
-    \\f\n\
-    \\ENQ\EOT\a\b\NUL\SOH\DC2\ETXo\n\
+    \\ENQ\EOT\a\b\NUL\SOH\DC2\ETX~\n\
     \\DC1\n\
     \\v\n\
-    \\EOT\EOT\a\STX\NUL\DC2\ETXp\b\RS\n\
+    \\EOT\EOT\a\STX\NUL\DC2\ETX\DEL\b\RS\n\
     \\f\n\
-    \\ENQ\EOT\a\STX\NUL\ACK\DC2\ETXp\b\f\n\
+    \\ENQ\EOT\a\STX\NUL\ACK\DC2\ETX\DEL\b\f\n\
     \\f\n\
-    \\ENQ\EOT\a\STX\NUL\SOH\DC2\ETXp\r\EM\n\
+    \\ENQ\EOT\a\STX\NUL\SOH\DC2\ETX\DEL\r\EM\n\
     \\f\n\
-    \\ENQ\EOT\a\STX\NUL\ETX\DC2\ETXp\FS\GS\n\
+    \\ENQ\EOT\a\STX\NUL\ETX\DC2\ETX\DEL\FS\GS\n\
+    \\f\n\
+    \\EOT\EOT\a\STX\SOH\DC2\EOT\128\SOH\b \n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\SOH\ACK\DC2\EOT\128\SOH\b\r\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\128\SOH\SO\ESC\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\128\SOH\RS\US\n\
+    \z\n\
+    \\EOT\EOT\a\STX\STX\DC2\EOT\131\SOH\bK\SUBl The operation completed unsuccessfully (failed or canceled).\n\
+    \ Deprecated. Use the failure variant instead.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\STX\ACK\DC2\EOT\131\SOH\b\"\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\131\SOH#2\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\131\SOH56\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\STX\b\DC2\EOT\131\SOH7J\n\
+    \\SO\n\
+    \\ACK\EOT\a\STX\STX\b\ETX\DC2\EOT\131\SOH8I\n\
+    \\163\SOH\n\
+    \\EOT\EOT\a\STX\ETX\DC2\EOT\134\SOH\b4\SUB\148\SOH The operation completed unsuccessfully (failed or canceled).\n\
+    \ Failure object must contain an ApplicationFailureInfo or CanceledFailureInfo object.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ETX\ACK\DC2\EOT\134\SOH\b'\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ETX\SOH\DC2\EOT\134\SOH(/\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ETX\ETX\DC2\EOT\134\SOH23\n\
+    \<\n\
+    \\STX\EOT\b\DC2\ACK\139\SOH\NUL\140\SOH\SOH\SUB. Response variant for CancelOperationRequest.\n\
+    \\n\
     \\v\n\
-    \\EOT\EOT\a\STX\SOH\DC2\ETXq\b \n\
-    \\f\n\
-    \\ENQ\EOT\a\STX\SOH\ACK\DC2\ETXq\b\r\n\
-    \\f\n\
-    \\ENQ\EOT\a\STX\SOH\SOH\DC2\ETXq\SO\ESC\n\
-    \\f\n\
-    \\ENQ\EOT\a\STX\SOH\ETX\DC2\ETXq\RS\US\n\
-    \K\n\
-    \\EOT\EOT\a\STX\STX\DC2\ETXs\b7\SUB> The operation completed unsuccessfully (failed or canceled).\n\
+    \\ETX\EOT\b\SOH\DC2\EOT\139\SOH\b\US\n\
+    \\\\n\
+    \\STX\EOT\t\DC2\ACK\143\SOH\NUL\149\SOH\SOH\SUBN A response indicating that the handler has successfully processed a request.\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\a\STX\STX\ACK\DC2\ETXs\b\"\n\
-    \\f\n\
-    \\ENQ\EOT\a\STX\STX\SOH\DC2\ETXs#2\n\
-    \\f\n\
-    \\ENQ\EOT\a\STX\STX\ETX\DC2\ETXs56\n\
-    \:\n\
-    \\STX\EOT\b\DC2\EOTx\NULy\SOH\SUB. Response variant for CancelOperationRequest.\n\
+    \\v\n\
+    \\ETX\EOT\t\SOH\DC2\EOT\143\SOH\b\DLE\n\
+    \P\n\
+    \\EOT\EOT\t\b\NUL\DC2\ACK\145\SOH\EOT\148\SOH\ENQ\SUB@ Variant must correlate to the corresponding Request's variant.\n\
     \\n\
-    \\n\
-    \\n\
-    \\ETX\EOT\b\SOH\DC2\ETXx\b\US\n\
-    \[\n\
-    \\STX\EOT\t\DC2\ENQ|\NUL\130\SOH\SOH\SUBN A response indicating that the handler has successfully processed a request.\n\
-    \\n\
-    \\n\
-    \\n\
-    \\ETX\EOT\t\SOH\DC2\ETX|\b\DLE\n\
-    \O\n\
-    \\EOT\EOT\t\b\NUL\DC2\ENQ~\EOT\129\SOH\ENQ\SUB@ Variant must correlate to the corresponding Request's variant.\n\
-    \\n\
-    \\f\n\
-    \\ENQ\EOT\t\b\NUL\SOH\DC2\ETX~\n\
+    \\r\n\
+    \\ENQ\EOT\t\b\NUL\SOH\DC2\EOT\145\SOH\n\
     \\DC1\n\
-    \\v\n\
-    \\EOT\EOT\t\STX\NUL\DC2\ETX\DEL\b3\n\
     \\f\n\
-    \\ENQ\EOT\t\STX\NUL\ACK\DC2\ETX\DEL\b\RS\n\
-    \\f\n\
-    \\ENQ\EOT\t\STX\NUL\SOH\DC2\ETX\DEL\US.\n\
-    \\f\n\
-    \\ENQ\EOT\t\STX\NUL\ETX\DC2\ETX\DEL12\n\
-    \\f\n\
-    \\EOT\EOT\t\STX\SOH\DC2\EOT\128\SOH\b5\n\
+    \\EOT\EOT\t\STX\NUL\DC2\EOT\146\SOH\b3\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\SOH\ACK\DC2\EOT\128\SOH\b\US\n\
+    \\ENQ\EOT\t\STX\NUL\ACK\DC2\EOT\146\SOH\b\RS\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\SOH\SOH\DC2\EOT\128\SOH 0\n\
+    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\146\SOH\US.\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\SOH\ETX\DC2\EOT\128\SOH34\n\
+    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\146\SOH12\n\
+    \\f\n\
+    \\EOT\EOT\t\STX\SOH\DC2\EOT\147\SOH\b5\n\
+    \\r\n\
+    \\ENQ\EOT\t\STX\SOH\ACK\DC2\EOT\147\SOH\b\US\n\
+    \\r\n\
+    \\ENQ\EOT\t\STX\SOH\SOH\DC2\EOT\147\SOH 0\n\
+    \\r\n\
+    \\ENQ\EOT\t\STX\SOH\ETX\DC2\EOT\147\SOH34\n\
     \q\n\
     \\STX\EOT\n\
-    \\DC2\ACK\133\SOH\NUL\156\SOH\SOH\SUBc A cluster-global binding from an endpoint ID to a target for dispatching incoming Nexus requests.\n\
+    \\DC2\ACK\152\SOH\NUL\175\SOH\SOH\SUBc A cluster-global binding from an endpoint ID to a target for dispatching incoming Nexus requests.\n\
     \\n\
     \\v\n\
     \\ETX\EOT\n\
-    \\SOH\DC2\EOT\133\SOH\b\DLE\n\
+    \\SOH\DC2\EOT\152\SOH\b\DLE\n\
     \t\n\
     \\EOT\EOT\n\
-    \\STX\NUL\DC2\EOT\135\SOH\EOT\SYN\SUBf Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API.\n\
+    \\STX\NUL\DC2\EOT\154\SOH\EOT\SYN\SUBf Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ENQ\DC2\EOT\135\SOH\EOT\t\n\
+    \\STX\NUL\ENQ\DC2\EOT\154\SOH\EOT\t\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\SOH\DC2\EOT\135\SOH\n\
+    \\STX\NUL\SOH\DC2\EOT\154\SOH\n\
     \\DC1\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ETX\DC2\EOT\135\SOH\DC4\NAK\n\
+    \\STX\NUL\ETX\DC2\EOT\154\SOH\DC4\NAK\n\
     \4\n\
     \\EOT\EOT\n\
-    \\STX\SOH\DC2\EOT\137\SOH\EOT\DC2\SUB& Unique server-generated endpoint ID.\n\
+    \\STX\SOH\DC2\EOT\156\SOH\EOT\DC2\SUB& Unique server-generated endpoint ID.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ENQ\DC2\EOT\137\SOH\EOT\n\
+    \\STX\SOH\ENQ\DC2\EOT\156\SOH\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\SOH\DC2\EOT\137\SOH\v\r\n\
+    \\STX\SOH\SOH\DC2\EOT\156\SOH\v\r\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ETX\DC2\EOT\137\SOH\DLE\DC1\n\
+    \\STX\SOH\ETX\DC2\EOT\156\SOH\DLE\DC1\n\
     \&\n\
     \\EOT\EOT\n\
-    \\STX\STX\DC2\EOT\139\SOH\EOT\SUB\SUB\CAN Spec for the endpoint.\n\
+    \\STX\STX\DC2\EOT\158\SOH\EOT\SUB\SUB\CAN Spec for the endpoint.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ACK\DC2\EOT\139\SOH\EOT\DLE\n\
+    \\STX\STX\ACK\DC2\EOT\158\SOH\EOT\DLE\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\SOH\DC2\EOT\139\SOH\DC1\NAK\n\
+    \\STX\STX\SOH\DC2\EOT\158\SOH\DC1\NAK\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ETX\DC2\EOT\139\SOH\CAN\EM\n\
+    \\STX\STX\ETX\DC2\EOT\158\SOH\CAN\EM\n\
     \\180\SOH\n\
     \\EOT\EOT\n\
-    \\STX\ETX\DC2\EOT\144\SOH\EOT/\SUB\165\SOH The date and time when the endpoint was created.\n\
+    \\STX\ETX\DC2\EOT\163\SOH\EOT/\SUB\165\SOH The date and time when the endpoint was created.\n\
     \ (-- api-linter: core::0142::time-field-names=disabled\n\
     \     aip.dev/not-precedent: Not following linter rules. --)\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ACK\DC2\EOT\144\SOH\EOT\GS\n\
+    \\STX\ETX\ACK\DC2\EOT\163\SOH\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\SOH\DC2\EOT\144\SOH\RS*\n\
+    \\STX\ETX\SOH\DC2\EOT\163\SOH\RS*\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ETX\DC2\EOT\144\SOH-.\n\
+    \\STX\ETX\ETX\DC2\EOT\163\SOH-.\n\
     \\244\SOH\n\
     \\EOT\EOT\n\
-    \\STX\EOT\DC2\EOT\150\SOH\EOT5\SUB\229\SOH The date and time when the endpoint was last modified.\n\
+    \\STX\EOT\DC2\EOT\169\SOH\EOT5\SUB\229\SOH The date and time when the endpoint was last modified.\n\
     \ Will not be set if the endpoint has never been modified.\n\
     \ (-- api-linter: core::0142::time-field-names=disabled\n\
     \     aip.dev/not-precedent: Not following linter rules. --)\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ACK\DC2\EOT\150\SOH\EOT\GS\n\
+    \\STX\EOT\ACK\DC2\EOT\169\SOH\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\SOH\DC2\EOT\150\SOH\RS0\n\
+    \\STX\EOT\SOH\DC2\EOT\169\SOH\RS0\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ETX\DC2\EOT\150\SOH34\n\
+    \\STX\EOT\ETX\DC2\EOT\169\SOH34\n\
     \\130\STX\n\
     \\EOT\EOT\n\
-    \\STX\ENQ\DC2\EOT\155\SOH\EOT\SUB\SUB\243\SOH Server exposed URL prefix for invocation of operations on this endpoint.\n\
+    \\STX\ENQ\DC2\EOT\174\SOH\EOT\SUB\SUB\243\SOH Server exposed URL prefix for invocation of operations on this endpoint.\n\
     \ This doesn't include the protocol, hostname or port as the server does not know how it should be accessed\n\
     \ publicly. The URL is stable in the face of endpoint renames.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ENQ\DC2\EOT\155\SOH\EOT\n\
+    \\STX\ENQ\ENQ\DC2\EOT\174\SOH\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\SOH\DC2\EOT\155\SOH\v\NAK\n\
+    \\STX\ENQ\SOH\DC2\EOT\174\SOH\v\NAK\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ETX\DC2\EOT\155\SOH\CAN\EM\n\
+    \\STX\ENQ\ETX\DC2\EOT\174\SOH\CAN\EM\n\
     \8\n\
-    \\STX\EOT\v\DC2\ACK\159\SOH\NUL\171\SOH\SOH\SUB* Contains mutable fields for an Endpoint.\n\
+    \\STX\EOT\v\DC2\ACK\178\SOH\NUL\190\SOH\SOH\SUB* Contains mutable fields for an Endpoint.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\v\SOH\DC2\EOT\159\SOH\b\DC4\n\
+    \\ETX\EOT\v\SOH\DC2\EOT\178\SOH\b\DC4\n\
     \\201\SOH\n\
-    \\EOT\EOT\v\STX\NUL\DC2\EOT\162\SOH\EOT\DC4\SUB\186\SOH Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`.\n\
+    \\EOT\EOT\v\STX\NUL\DC2\EOT\181\SOH\EOT\DC4\SUB\186\SOH Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`.\n\
     \ Renaming an endpoint breaks all workflow callers that reference this endpoint, causing operations to fail.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\ENQ\DC2\EOT\162\SOH\EOT\n\
+    \\ENQ\EOT\v\STX\NUL\ENQ\DC2\EOT\181\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\162\SOH\v\SI\n\
+    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\181\SOH\v\SI\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\162\SOH\DC2\DC3\n\
+    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\181\SOH\DC2\DC3\n\
     \\255\SOH\n\
-    \\EOT\EOT\v\STX\SOH\DC2\EOT\167\SOH\EOT3\SUB\240\SOH Markdown description serialized as a single JSON string.\n\
+    \\EOT\EOT\v\STX\SOH\DC2\EOT\186\SOH\EOT3\SUB\240\SOH Markdown description serialized as a single JSON string.\n\
     \ If the Payload is encrypted, the UI and CLI may decrypt with the configured codec server endpoint.\n\
     \ By default, the server enforces a limit of 20,000 bytes for this entire payload.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\ACK\DC2\EOT\167\SOH\EOT\"\n\
+    \\ENQ\EOT\v\STX\SOH\ACK\DC2\EOT\186\SOH\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\167\SOH#.\n\
+    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\186\SOH#.\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\167\SOH12\n\
+    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\186\SOH12\n\
     \,\n\
-    \\EOT\EOT\v\STX\STX\DC2\EOT\170\SOH\EOT\RS\SUB\RS Target to route requests to.\n\
+    \\EOT\EOT\v\STX\STX\DC2\EOT\189\SOH\EOT\RS\SUB\RS Target to route requests to.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\ACK\DC2\EOT\170\SOH\EOT\DC2\n\
+    \\ENQ\EOT\v\STX\STX\ACK\DC2\EOT\189\SOH\EOT\DC2\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\SOH\DC2\EOT\170\SOH\DC3\EM\n\
+    \\ENQ\EOT\v\STX\STX\SOH\DC2\EOT\189\SOH\DC3\EM\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\ETX\DC2\EOT\170\SOH\FS\GS\n\
+    \\ENQ\EOT\v\STX\STX\ETX\DC2\EOT\189\SOH\FS\GS\n\
     \,\n\
-    \\STX\EOT\f\DC2\ACK\174\SOH\NUL\195\SOH\SOH\SUB\RS Target to route requests to.\n\
+    \\STX\EOT\f\DC2\ACK\193\SOH\NUL\214\SOH\SOH\SUB\RS Target to route requests to.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\f\SOH\DC2\EOT\174\SOH\b\SYN\n\
+    \\ETX\EOT\f\SOH\DC2\EOT\193\SOH\b\SYN\n\
     \X\n\
-    \\EOT\EOT\f\ETX\NUL\DC2\ACK\176\SOH\EOT\181\SOH\ENQ\SUBH Target a worker polling on a Nexus task queue in a specific namespace.\n\
+    \\EOT\EOT\f\ETX\NUL\DC2\ACK\195\SOH\EOT\200\SOH\ENQ\SUBH Target a worker polling on a Nexus task queue in a specific namespace.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\ETX\NUL\SOH\DC2\EOT\176\SOH\f\DC2\n\
+    \\ENQ\EOT\f\ETX\NUL\SOH\DC2\EOT\195\SOH\f\DC2\n\
     \1\n\
-    \\ACK\EOT\f\ETX\NUL\STX\NUL\DC2\EOT\178\SOH\b\GS\SUB! Namespace to route requests to.\n\
+    \\ACK\EOT\f\ETX\NUL\STX\NUL\DC2\EOT\197\SOH\b\GS\SUB! Namespace to route requests to.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\f\ETX\NUL\STX\NUL\ENQ\DC2\EOT\178\SOH\b\SO\n\
+    \\a\EOT\f\ETX\NUL\STX\NUL\ENQ\DC2\EOT\197\SOH\b\SO\n\
     \\SI\n\
-    \\a\EOT\f\ETX\NUL\STX\NUL\SOH\DC2\EOT\178\SOH\SI\CAN\n\
+    \\a\EOT\f\ETX\NUL\STX\NUL\SOH\DC2\EOT\197\SOH\SI\CAN\n\
     \\SI\n\
-    \\a\EOT\f\ETX\NUL\STX\NUL\ETX\DC2\EOT\178\SOH\ESC\FS\n\
+    \\a\EOT\f\ETX\NUL\STX\NUL\ETX\DC2\EOT\197\SOH\ESC\FS\n\
     \8\n\
-    \\ACK\EOT\f\ETX\NUL\STX\SOH\DC2\EOT\180\SOH\b\RS\SUB( Nexus task queue to route requests to.\n\
+    \\ACK\EOT\f\ETX\NUL\STX\SOH\DC2\EOT\199\SOH\b\RS\SUB( Nexus task queue to route requests to.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\f\ETX\NUL\STX\SOH\ENQ\DC2\EOT\180\SOH\b\SO\n\
+    \\a\EOT\f\ETX\NUL\STX\SOH\ENQ\DC2\EOT\199\SOH\b\SO\n\
     \\SI\n\
-    \\a\EOT\f\ETX\NUL\STX\SOH\SOH\DC2\EOT\180\SOH\SI\EM\n\
+    \\a\EOT\f\ETX\NUL\STX\SOH\SOH\DC2\EOT\199\SOH\SI\EM\n\
     \\SI\n\
-    \\a\EOT\f\ETX\NUL\STX\SOH\ETX\DC2\EOT\180\SOH\FS\GS\n\
+    \\a\EOT\f\ETX\NUL\STX\SOH\ETX\DC2\EOT\199\SOH\FS\GS\n\
     \\206\SOH\n\
-    \\EOT\EOT\f\ETX\SOH\DC2\ACK\186\SOH\EOT\189\SOH\ENQ\SUB\189\SOH Target an external server by URL.\n\
+    \\EOT\EOT\f\ETX\SOH\DC2\ACK\205\SOH\EOT\208\SOH\ENQ\SUB\189\SOH Target an external server by URL.\n\
     \ At a later point, this will support providing credentials, in the meantime, an http.RoundTripper can be injected\n\
     \ into the server to modify the request.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\ETX\SOH\SOH\DC2\EOT\186\SOH\f\DC4\n\
+    \\ENQ\EOT\f\ETX\SOH\SOH\DC2\EOT\205\SOH\f\DC4\n\
     \\RS\n\
-    \\ACK\EOT\f\ETX\SOH\STX\NUL\DC2\EOT\188\SOH\b\ETB\SUB\SO URL to call.\n\
+    \\ACK\EOT\f\ETX\SOH\STX\NUL\DC2\EOT\207\SOH\b\ETB\SUB\SO URL to call.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\STX\NUL\ENQ\DC2\EOT\188\SOH\b\SO\n\
+    \\a\EOT\f\ETX\SOH\STX\NUL\ENQ\DC2\EOT\207\SOH\b\SO\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\STX\NUL\SOH\DC2\EOT\188\SOH\SI\DC2\n\
+    \\a\EOT\f\ETX\SOH\STX\NUL\SOH\DC2\EOT\207\SOH\SI\DC2\n\
     \\SI\n\
-    \\a\EOT\f\ETX\SOH\STX\NUL\ETX\DC2\EOT\188\SOH\NAK\SYN\n\
+    \\a\EOT\f\ETX\SOH\STX\NUL\ETX\DC2\EOT\207\SOH\NAK\SYN\n\
     \\SO\n\
-    \\EOT\EOT\f\b\NUL\DC2\ACK\191\SOH\EOT\194\SOH\ENQ\n\
+    \\EOT\EOT\f\b\NUL\DC2\ACK\210\SOH\EOT\213\SOH\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\f\b\NUL\SOH\DC2\EOT\191\SOH\n\
+    \\ENQ\EOT\f\b\NUL\SOH\DC2\EOT\210\SOH\n\
     \\DC1\n\
     \\f\n\
-    \\EOT\EOT\f\STX\NUL\DC2\EOT\192\SOH\b\SUB\n\
+    \\EOT\EOT\f\STX\NUL\DC2\EOT\211\SOH\b\SUB\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\ACK\DC2\EOT\192\SOH\b\SO\n\
+    \\ENQ\EOT\f\STX\NUL\ACK\DC2\EOT\211\SOH\b\SO\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\SOH\DC2\EOT\192\SOH\SI\NAK\n\
+    \\ENQ\EOT\f\STX\NUL\SOH\DC2\EOT\211\SOH\SI\NAK\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\ETX\DC2\EOT\192\SOH\CAN\EM\n\
+    \\ENQ\EOT\f\STX\NUL\ETX\DC2\EOT\211\SOH\CAN\EM\n\
     \\f\n\
-    \\EOT\EOT\f\STX\SOH\DC2\EOT\193\SOH\b\RS\n\
+    \\EOT\EOT\f\STX\SOH\DC2\EOT\212\SOH\b\RS\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\SOH\ACK\DC2\EOT\193\SOH\b\DLE\n\
+    \\ENQ\EOT\f\STX\SOH\ACK\DC2\EOT\212\SOH\b\DLE\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\SOH\SOH\DC2\EOT\193\SOH\DC1\EM\n\
+    \\ENQ\EOT\f\STX\SOH\SOH\DC2\EOT\212\SOH\DC1\EM\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\SOH\ETX\DC2\EOT\193\SOH\FS\GSb\ACKproto3"
+    \\ENQ\EOT\f\STX\SOH\ETX\DC2\EOT\212\SOH\FS\GSb\ACKproto3"

@@ -252,6 +252,20 @@ expireTime ::
    Data.ProtoLens.Field.HasField s "expireTime" a) =>
   Lens.Family2.LensLike' f s a
 expireTime = Data.ProtoLens.Field.field @"expireTime"
+externalPayloadCount ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "externalPayloadCount" a) =>
+  Lens.Family2.LensLike' f s a
+externalPayloadCount
+  = Data.ProtoLens.Field.field @"externalPayloadCount"
+externalPayloadSizeBytes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "externalPayloadSizeBytes" a) =>
+  Lens.Family2.LensLike' f s a
+externalPayloadSizeBytes
+  = Data.ProtoLens.Field.field @"externalPayloadSizeBytes"
 firstRunId ::
   forall f s a.
   (Prelude.Functor f,
@@ -704,6 +718,12 @@ maybe'pausedBy ::
    Data.ProtoLens.Field.HasField s "maybe'pausedBy" a) =>
   Lens.Family2.LensLike' f s a
 maybe'pausedBy = Data.ProtoLens.Field.field @"maybe'pausedBy"
+maybe'pausedTime ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'pausedTime" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'pausedTime = Data.ProtoLens.Field.field @"maybe'pausedTime"
 maybe'pinned ::
   forall f s a.
   (Prelude.Functor f,
@@ -763,6 +783,13 @@ maybe'scheduleToCloseTimeout ::
   Lens.Family2.LensLike' f s a
 maybe'scheduleToCloseTimeout
   = Data.ProtoLens.Field.field @"maybe'scheduleToCloseTimeout"
+maybe'scheduleToStartTimeout ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'scheduleToStartTimeout" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'scheduleToStartTimeout
+  = Data.ProtoLens.Field.field @"maybe'scheduleToStartTimeout"
 maybe'scheduledTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -790,6 +817,13 @@ maybe'startTime ::
    Data.ProtoLens.Field.HasField s "maybe'startTime" a) =>
   Lens.Family2.LensLike' f s a
 maybe'startTime = Data.ProtoLens.Field.field @"maybe'startTime"
+maybe'startToCloseTimeout ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'startToCloseTimeout" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'startToCloseTimeout
+  = Data.ProtoLens.Field.field @"maybe'startToCloseTimeout"
 maybe'startedTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -1007,6 +1041,12 @@ paused ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "paused" a) =>
   Lens.Family2.LensLike' f s a
 paused = Data.ProtoLens.Field.field @"paused"
+pausedTime ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "pausedTime" a) =>
+  Lens.Family2.LensLike' f s a
+pausedTime = Data.ProtoLens.Field.field @"pausedTime"
 pinned ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "pinned" a) =>
@@ -1070,6 +1110,12 @@ retryPolicy ::
    Data.ProtoLens.Field.HasField s "retryPolicy" a) =>
   Lens.Family2.LensLike' f s a
 retryPolicy = Data.ProtoLens.Field.field @"retryPolicy"
+revisionNumber ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "revisionNumber" a) =>
+  Lens.Family2.LensLike' f s a
+revisionNumber = Data.ProtoLens.Field.field @"revisionNumber"
 rootExecution ::
   forall f s a.
   (Prelude.Functor f,
@@ -1104,6 +1150,13 @@ scheduleToCloseTimeout ::
   Lens.Family2.LensLike' f s a
 scheduleToCloseTimeout
   = Data.ProtoLens.Field.field @"scheduleToCloseTimeout"
+scheduleToStartTimeout ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "scheduleToStartTimeout" a) =>
+  Lens.Family2.LensLike' f s a
+scheduleToStartTimeout
+  = Data.ProtoLens.Field.field @"scheduleToStartTimeout"
 scheduledEventId ::
   forall f s a.
   (Prelude.Functor f,
@@ -1145,6 +1198,13 @@ startTime ::
    Data.ProtoLens.Field.HasField s "startTime" a) =>
   Lens.Family2.LensLike' f s a
 startTime = Data.ProtoLens.Field.field @"startTime"
+startToCloseTimeout ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "startToCloseTimeout" a) =>
+  Lens.Family2.LensLike' f s a
+startToCloseTimeout
+  = Data.ProtoLens.Field.field @"startToCloseTimeout"
 startedTime ::
   forall f s a.
   (Prelude.Functor f,

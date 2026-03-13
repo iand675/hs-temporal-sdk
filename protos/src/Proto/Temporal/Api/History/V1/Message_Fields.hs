@@ -415,6 +415,13 @@ inheritBuildId ::
    Data.ProtoLens.Field.HasField s "inheritBuildId" a) =>
   Lens.Family2.LensLike' f s a
 inheritBuildId = Data.ProtoLens.Field.field @"inheritBuildId"
+inheritedAutoUpgradeInfo ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "inheritedAutoUpgradeInfo" a) =>
+  Lens.Family2.LensLike' f s a
+inheritedAutoUpgradeInfo
+  = Data.ProtoLens.Field.field @"inheritedAutoUpgradeInfo"
 inheritedBuildId ::
   forall f s a.
   (Prelude.Functor f,
@@ -428,6 +435,13 @@ inheritedPinnedVersion ::
   Lens.Family2.LensLike' f s a
 inheritedPinnedVersion
   = Data.ProtoLens.Field.field @"inheritedPinnedVersion"
+initialVersioningBehavior ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "initialVersioningBehavior" a) =>
+  Lens.Family2.LensLike' f s a
+initialVersioningBehavior
+  = Data.ProtoLens.Field.field @"initialVersioningBehavior"
 initiatedEventId ::
   forall f s a.
   (Prelude.Functor f,
@@ -708,6 +722,13 @@ maybe'heartbeatTimeout ::
   Lens.Family2.LensLike' f s a
 maybe'heartbeatTimeout
   = Data.ProtoLens.Field.field @"maybe'heartbeatTimeout"
+maybe'inheritedAutoUpgradeInfo ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'inheritedAutoUpgradeInfo" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'inheritedAutoUpgradeInfo
+  = Data.ProtoLens.Field.field @"maybe'inheritedAutoUpgradeInfo"
 maybe'inheritedPinnedVersion ::
   forall f s a.
   (Prelude.Functor f,
@@ -1146,6 +1167,14 @@ maybe'workflowExecutionOptionsUpdatedEventAttributes ::
 maybe'workflowExecutionOptionsUpdatedEventAttributes
   = Data.ProtoLens.Field.field
       @"maybe'workflowExecutionOptionsUpdatedEventAttributes"
+maybe'workflowExecutionPausedEventAttributes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'workflowExecutionPausedEventAttributes" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'workflowExecutionPausedEventAttributes
+  = Data.ProtoLens.Field.field
+      @"maybe'workflowExecutionPausedEventAttributes"
 maybe'workflowExecutionSignaledEventAttributes ::
   forall f s a.
   (Prelude.Functor f,
@@ -1185,6 +1214,14 @@ maybe'workflowExecutionTimeout ::
   Lens.Family2.LensLike' f s a
 maybe'workflowExecutionTimeout
   = Data.ProtoLens.Field.field @"maybe'workflowExecutionTimeout"
+maybe'workflowExecutionUnpausedEventAttributes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'workflowExecutionUnpausedEventAttributes" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'workflowExecutionUnpausedEventAttributes
+  = Data.ProtoLens.Field.field
+      @"maybe'workflowExecutionUnpausedEventAttributes"
 maybe'workflowExecutionUpdateAcceptedEventAttributes ::
   forall f s a.
   (Prelude.Functor f,
@@ -1745,6 +1782,21 @@ suggestContinueAsNew ::
   Lens.Family2.LensLike' f s a
 suggestContinueAsNew
   = Data.ProtoLens.Field.field @"suggestContinueAsNew"
+suggestContinueAsNewReasons ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "suggestContinueAsNewReasons" a) =>
+  Lens.Family2.LensLike' f s a
+suggestContinueAsNewReasons
+  = Data.ProtoLens.Field.field @"suggestContinueAsNewReasons"
+targetWorkerDeploymentVersionChanged ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "targetWorkerDeploymentVersionChanged" a) =>
+  Lens.Family2.LensLike' f s a
+targetWorkerDeploymentVersionChanged
+  = Data.ProtoLens.Field.field
+      @"targetWorkerDeploymentVersionChanged"
 taskId ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "taskId" a) =>
@@ -1853,6 +1905,13 @@ vec'links ::
    Data.ProtoLens.Field.HasField s "vec'links" a) =>
   Lens.Family2.LensLike' f s a
 vec'links = Data.ProtoLens.Field.field @"vec'links"
+vec'suggestContinueAsNewReasons ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "vec'suggestContinueAsNewReasons" a) =>
+  Lens.Family2.LensLike' f s a
+vec'suggestContinueAsNewReasons
+  = Data.ProtoLens.Field.field @"vec'suggestContinueAsNewReasons"
 version ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "version" a) =>
@@ -1959,6 +2018,14 @@ workflowExecutionOptionsUpdatedEventAttributes ::
 workflowExecutionOptionsUpdatedEventAttributes
   = Data.ProtoLens.Field.field
       @"workflowExecutionOptionsUpdatedEventAttributes"
+workflowExecutionPausedEventAttributes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "workflowExecutionPausedEventAttributes" a) =>
+  Lens.Family2.LensLike' f s a
+workflowExecutionPausedEventAttributes
+  = Data.ProtoLens.Field.field
+      @"workflowExecutionPausedEventAttributes"
 workflowExecutionSignaledEventAttributes ::
   forall f s a.
   (Prelude.Functor f,
@@ -1998,6 +2065,14 @@ workflowExecutionTimeout ::
   Lens.Family2.LensLike' f s a
 workflowExecutionTimeout
   = Data.ProtoLens.Field.field @"workflowExecutionTimeout"
+workflowExecutionUnpausedEventAttributes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "workflowExecutionUnpausedEventAttributes" a) =>
+  Lens.Family2.LensLike' f s a
+workflowExecutionUnpausedEventAttributes
+  = Data.ProtoLens.Field.field
+      @"workflowExecutionUnpausedEventAttributes"
 workflowExecutionUpdateAcceptedEventAttributes ::
   forall f s a.
   (Prelude.Functor f,

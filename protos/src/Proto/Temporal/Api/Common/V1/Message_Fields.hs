@@ -91,6 +91,12 @@ eventType ::
    Data.ProtoLens.Field.HasField s "eventType" a) =>
   Lens.Family2.LensLike' f s a
 eventType = Data.ProtoLens.Field.field @"eventType"
+externalPayloads ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "externalPayloads" a) =>
+  Lens.Family2.LensLike' f s a
+externalPayloads = Data.ProtoLens.Field.field @"externalPayloads"
 fairnessKey ::
   forall f s a.
   (Prelude.Functor f,
@@ -365,6 +371,12 @@ runId ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "runId" a) =>
   Lens.Family2.LensLike' f s a
 runId = Data.ProtoLens.Field.field @"runId"
+sizeBytes ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "sizeBytes" a) =>
+  Lens.Family2.LensLike' f s a
+sizeBytes = Data.ProtoLens.Field.field @"sizeBytes"
 url ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "url" a) =>
@@ -381,6 +393,13 @@ value ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "value" a) =>
   Lens.Family2.LensLike' f s a
 value = Data.ProtoLens.Field.field @"value"
+vec'externalPayloads ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "vec'externalPayloads" a) =>
+  Lens.Family2.LensLike' f s a
+vec'externalPayloads
+  = Data.ProtoLens.Field.field @"vec'externalPayloads"
 vec'links ::
   forall f s a.
   (Prelude.Functor f,

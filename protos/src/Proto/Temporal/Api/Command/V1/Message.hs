@@ -1976,7 +1976,8 @@ instance Control.DeepSeq.NFData CompleteWorkflowExecutionCommandAttributes where
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.maybe'memo' @:: Lens' ContinueAsNewWorkflowExecutionCommandAttributes (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Memo)@
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.searchAttributes' @:: Lens' ContinueAsNewWorkflowExecutionCommandAttributes Proto.Temporal.Api.Common.V1.Message.SearchAttributes@
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.maybe'searchAttributes' @:: Lens' ContinueAsNewWorkflowExecutionCommandAttributes (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes)@
-         * 'Proto.Temporal.Api.Command.V1.Message_Fields.inheritBuildId' @:: Lens' ContinueAsNewWorkflowExecutionCommandAttributes Prelude.Bool@ -}
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.inheritBuildId' @:: Lens' ContinueAsNewWorkflowExecutionCommandAttributes Prelude.Bool@
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.initialVersioningBehavior' @:: Lens' ContinueAsNewWorkflowExecutionCommandAttributes Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior@ -}
 data ContinueAsNewWorkflowExecutionCommandAttributes
   = ContinueAsNewWorkflowExecutionCommandAttributes'_constructor {_ContinueAsNewWorkflowExecutionCommandAttributes'workflowType :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.WorkflowType),
                                                                   _ContinueAsNewWorkflowExecutionCommandAttributes'taskQueue :: !(Prelude.Maybe Proto.Temporal.Api.Taskqueue.V1.Message.TaskQueue),
@@ -1993,6 +1994,7 @@ data ContinueAsNewWorkflowExecutionCommandAttributes
                                                                   _ContinueAsNewWorkflowExecutionCommandAttributes'memo :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Memo),
                                                                   _ContinueAsNewWorkflowExecutionCommandAttributes'searchAttributes :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes),
                                                                   _ContinueAsNewWorkflowExecutionCommandAttributes'inheritBuildId :: !Prelude.Bool,
+                                                                  _ContinueAsNewWorkflowExecutionCommandAttributes'initialVersioningBehavior :: !Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior,
                                                                   _ContinueAsNewWorkflowExecutionCommandAttributes'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show ContinueAsNewWorkflowExecutionCommandAttributes where
@@ -2244,6 +2246,15 @@ instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecutionCommandAttr
               -> x__
                    {_ContinueAsNewWorkflowExecutionCommandAttributes'inheritBuildId = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecutionCommandAttributes "initialVersioningBehavior" Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ContinueAsNewWorkflowExecutionCommandAttributes'initialVersioningBehavior
+           (\ x__ y__
+              -> x__
+                   {_ContinueAsNewWorkflowExecutionCommandAttributes'initialVersioningBehavior = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes where
   messageName _
     = Data.Text.pack
@@ -2267,7 +2278,8 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes 
       \\ACKheader\CAN\f \SOH(\v2\RS.temporal.api.common.v1.HeaderR\ACKheader\DC20\n\
       \\EOTmemo\CAN\r \SOH(\v2\FS.temporal.api.common.v1.MemoR\EOTmemo\DC2U\n\
       \\DC1search_attributes\CAN\SO \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2,\n\
-      \\DLEinherit_build_id\CAN\SI \SOH(\bR\SOinheritBuildIdB\STX\CAN\SOH"
+      \\DLEinherit_build_id\CAN\SI \SOH(\bR\SOinheritBuildIdB\STX\CAN\SOH\DC2v\n\
+      \\ESCinitial_versioning_behavior\CAN\DLE \SOH(\SO26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR\EMinitialVersioningBehavior"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -2394,6 +2406,15 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes 
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"inheritBuildId")) ::
               Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecutionCommandAttributes
+        initialVersioningBehavior__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "initial_versioning_behavior"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.EnumField ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"initialVersioningBehavior")) ::
+              Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecutionCommandAttributes
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, workflowType__field_descriptor),
@@ -2410,7 +2431,9 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes 
            (Data.ProtoLens.Tag 12, header__field_descriptor),
            (Data.ProtoLens.Tag 13, memo__field_descriptor),
            (Data.ProtoLens.Tag 14, searchAttributes__field_descriptor),
-           (Data.ProtoLens.Tag 15, inheritBuildId__field_descriptor)]
+           (Data.ProtoLens.Tag 15, inheritBuildId__field_descriptor),
+           (Data.ProtoLens.Tag 16, 
+            initialVersioningBehavior__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _ContinueAsNewWorkflowExecutionCommandAttributes'_unknownFields
@@ -2434,6 +2457,7 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes 
          _ContinueAsNewWorkflowExecutionCommandAttributes'memo = Prelude.Nothing,
          _ContinueAsNewWorkflowExecutionCommandAttributes'searchAttributes = Prelude.Nothing,
          _ContinueAsNewWorkflowExecutionCommandAttributes'inheritBuildId = Data.ProtoLens.fieldDefault,
+         _ContinueAsNewWorkflowExecutionCommandAttributes'initialVersioningBehavior = Data.ProtoLens.fieldDefault,
          _ContinueAsNewWorkflowExecutionCommandAttributes'_unknownFields = []}
   parseMessage
     = let
@@ -2583,6 +2607,17 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes 
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"inheritBuildId") y x)
+                        128
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.toEnum
+                                          (Prelude.fmap
+                                             Prelude.fromIntegral
+                                             Data.ProtoLens.Encoding.Bytes.getVarInt))
+                                       "initial_versioning_behavior"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"initialVersioningBehavior") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -2862,10 +2897,31 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecutionCommandAttributes 
                                                                 ((Prelude..)
                                                                    Data.ProtoLens.Encoding.Bytes.putVarInt
                                                                    (\ b -> if b then 1 else 0) _v))
-                                                       (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                                          (Lens.Family2.view
-                                                             Data.ProtoLens.unknownFields
-                                                             _x))))))))))))))))
+                                                       ((Data.Monoid.<>)
+                                                          (let
+                                                             _v
+                                                               = Lens.Family2.view
+                                                                   (Data.ProtoLens.Field.field
+                                                                      @"initialVersioningBehavior")
+                                                                   _x
+                                                           in
+                                                             if (Prelude.==)
+                                                                  _v
+                                                                  Data.ProtoLens.fieldDefault then
+                                                                 Data.Monoid.mempty
+                                                             else
+                                                                 (Data.Monoid.<>)
+                                                                   (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                      128)
+                                                                   ((Prelude..)
+                                                                      ((Prelude..)
+                                                                         Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                         Prelude.fromIntegral)
+                                                                      Prelude.fromEnum _v))
+                                                          (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                                             (Lens.Family2.view
+                                                                Data.ProtoLens.unknownFields
+                                                                _x)))))))))))))))))
 instance Control.DeepSeq.NFData ContinueAsNewWorkflowExecutionCommandAttributes where
   rnf
     = \ x__
@@ -2913,7 +2969,10 @@ instance Control.DeepSeq.NFData ContinueAsNewWorkflowExecutionCommandAttributes 
                                                        (Control.DeepSeq.deepseq
                                                           (_ContinueAsNewWorkflowExecutionCommandAttributes'inheritBuildId
                                                              x__)
-                                                          ())))))))))))))))
+                                                          (Control.DeepSeq.deepseq
+                                                             (_ContinueAsNewWorkflowExecutionCommandAttributes'initialVersioningBehavior
+                                                                x__)
+                                                             ()))))))))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.failure' @:: Lens' FailWorkflowExecutionCommandAttributes Proto.Temporal.Api.Failure.V1.Message.Failure@
@@ -5202,7 +5261,11 @@ instance Control.DeepSeq.NFData ScheduleActivityTaskCommandAttributes where
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.maybe'input' @:: Lens' ScheduleNexusOperationCommandAttributes (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload)@
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.scheduleToCloseTimeout' @:: Lens' ScheduleNexusOperationCommandAttributes Proto.Google.Protobuf.Duration.Duration@
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.maybe'scheduleToCloseTimeout' @:: Lens' ScheduleNexusOperationCommandAttributes (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@
-         * 'Proto.Temporal.Api.Command.V1.Message_Fields.nexusHeader' @:: Lens' ScheduleNexusOperationCommandAttributes (Data.Map.Map Data.Text.Text Data.Text.Text)@ -}
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.nexusHeader' @:: Lens' ScheduleNexusOperationCommandAttributes (Data.Map.Map Data.Text.Text Data.Text.Text)@
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.scheduleToStartTimeout' @:: Lens' ScheduleNexusOperationCommandAttributes Proto.Google.Protobuf.Duration.Duration@
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.maybe'scheduleToStartTimeout' @:: Lens' ScheduleNexusOperationCommandAttributes (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.startToCloseTimeout' @:: Lens' ScheduleNexusOperationCommandAttributes Proto.Google.Protobuf.Duration.Duration@
+         * 'Proto.Temporal.Api.Command.V1.Message_Fields.maybe'startToCloseTimeout' @:: Lens' ScheduleNexusOperationCommandAttributes (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@ -}
 data ScheduleNexusOperationCommandAttributes
   = ScheduleNexusOperationCommandAttributes'_constructor {_ScheduleNexusOperationCommandAttributes'endpoint :: !Data.Text.Text,
                                                           _ScheduleNexusOperationCommandAttributes'service :: !Data.Text.Text,
@@ -5210,6 +5273,8 @@ data ScheduleNexusOperationCommandAttributes
                                                           _ScheduleNexusOperationCommandAttributes'input :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload),
                                                           _ScheduleNexusOperationCommandAttributes'scheduleToCloseTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
                                                           _ScheduleNexusOperationCommandAttributes'nexusHeader :: !(Data.Map.Map Data.Text.Text Data.Text.Text),
+                                                          _ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
+                                                          _ScheduleNexusOperationCommandAttributes'startToCloseTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
                                                           _ScheduleNexusOperationCommandAttributes'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show ScheduleNexusOperationCommandAttributes where
@@ -5285,6 +5350,42 @@ instance Data.ProtoLens.Field.HasField ScheduleNexusOperationCommandAttributes "
               -> x__
                    {_ScheduleNexusOperationCommandAttributes'nexusHeader = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperationCommandAttributes "scheduleToStartTimeout" Proto.Google.Protobuf.Duration.Duration where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout
+           (\ x__ y__
+              -> x__
+                   {_ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperationCommandAttributes "maybe'scheduleToStartTimeout" (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout
+           (\ x__ y__
+              -> x__
+                   {_ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperationCommandAttributes "startToCloseTimeout" Proto.Google.Protobuf.Duration.Duration where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperationCommandAttributes'startToCloseTimeout
+           (\ x__ y__
+              -> x__
+                   {_ScheduleNexusOperationCommandAttributes'startToCloseTimeout = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperationCommandAttributes "maybe'startToCloseTimeout" (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperationCommandAttributes'startToCloseTimeout
+           (\ x__ y__
+              -> x__
+                   {_ScheduleNexusOperationCommandAttributes'startToCloseTimeout = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
   messageName _
     = Data.Text.pack
@@ -5297,7 +5398,9 @@ instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
       \\toperation\CAN\ETX \SOH(\tR\toperation\DC25\n\
       \\ENQinput\CAN\EOT \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQinput\DC2T\n\
       \\EMschedule_to_close_timeout\CAN\ENQ \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToCloseTimeout\DC2t\n\
-      \\fnexus_header\CAN\ACK \ETX(\v2Q.temporal.api.command.v1.ScheduleNexusOperationCommandAttributes.NexusHeaderEntryR\vnexusHeader\SUB>\n\
+      \\fnexus_header\CAN\ACK \ETX(\v2Q.temporal.api.command.v1.ScheduleNexusOperationCommandAttributes.NexusHeaderEntryR\vnexusHeader\DC2T\n\
+      \\EMschedule_to_start_timeout\CAN\a \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToStartTimeout\DC2N\n\
+      \\SYNstart_to_close_timeout\CAN\b \SOH(\v2\EM.google.protobuf.DurationR\DC3startToCloseTimeout\SUB>\n\
       \\DLENexusHeaderEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
       \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOH"
@@ -5356,6 +5459,22 @@ instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
                  (Data.ProtoLens.Field.field @"value")
                  (Data.ProtoLens.Field.field @"nexusHeader")) ::
               Data.ProtoLens.FieldDescriptor ScheduleNexusOperationCommandAttributes
+        scheduleToStartTimeout__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "schedule_to_start_timeout"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Duration.Duration)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'scheduleToStartTimeout")) ::
+              Data.ProtoLens.FieldDescriptor ScheduleNexusOperationCommandAttributes
+        startToCloseTimeout__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "start_to_close_timeout"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Duration.Duration)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'startToCloseTimeout")) ::
+              Data.ProtoLens.FieldDescriptor ScheduleNexusOperationCommandAttributes
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, endpoint__field_descriptor),
@@ -5363,7 +5482,9 @@ instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
            (Data.ProtoLens.Tag 3, operation__field_descriptor),
            (Data.ProtoLens.Tag 4, input__field_descriptor),
            (Data.ProtoLens.Tag 5, scheduleToCloseTimeout__field_descriptor),
-           (Data.ProtoLens.Tag 6, nexusHeader__field_descriptor)]
+           (Data.ProtoLens.Tag 6, nexusHeader__field_descriptor),
+           (Data.ProtoLens.Tag 7, scheduleToStartTimeout__field_descriptor),
+           (Data.ProtoLens.Tag 8, startToCloseTimeout__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _ScheduleNexusOperationCommandAttributes'_unknownFields
@@ -5378,6 +5499,8 @@ instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
          _ScheduleNexusOperationCommandAttributes'input = Prelude.Nothing,
          _ScheduleNexusOperationCommandAttributes'scheduleToCloseTimeout = Prelude.Nothing,
          _ScheduleNexusOperationCommandAttributes'nexusHeader = Data.Map.empty,
+         _ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout = Prelude.Nothing,
+         _ScheduleNexusOperationCommandAttributes'startToCloseTimeout = Prelude.Nothing,
          _ScheduleNexusOperationCommandAttributes'_unknownFields = []}
   parseMessage
     = let
@@ -5458,6 +5581,24 @@ instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
                                      (Lens.Family2.over
                                         (Data.ProtoLens.Field.field @"nexusHeader")
                                         (\ !t -> Data.Map.insert key value t) x))
+                        58
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "schedule_to_start_timeout"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"scheduleToStartTimeout") y x)
+                        66
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "start_to_close_timeout"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"startToCloseTimeout") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -5573,8 +5714,44 @@ instance Data.ProtoLens.Message ScheduleNexusOperationCommandAttributes where
                                   (Data.Map.toList
                                      (Lens.Family2.view
                                         (Data.ProtoLens.Field.field @"nexusHeader") _x))))
-                            (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                               (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))
+                            ((Data.Monoid.<>)
+                               (case
+                                    Lens.Family2.view
+                                      (Data.ProtoLens.Field.field @"maybe'scheduleToStartTimeout")
+                                      _x
+                                of
+                                  Prelude.Nothing -> Data.Monoid.mempty
+                                  (Prelude.Just _v)
+                                    -> (Data.Monoid.<>)
+                                         (Data.ProtoLens.Encoding.Bytes.putVarInt 58)
+                                         ((Prelude..)
+                                            (\ bs
+                                               -> (Data.Monoid.<>)
+                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                       (Prelude.fromIntegral
+                                                          (Data.ByteString.length bs)))
+                                                    (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                            Data.ProtoLens.encodeMessage _v))
+                               ((Data.Monoid.<>)
+                                  (case
+                                       Lens.Family2.view
+                                         (Data.ProtoLens.Field.field @"maybe'startToCloseTimeout")
+                                         _x
+                                   of
+                                     Prelude.Nothing -> Data.Monoid.mempty
+                                     (Prelude.Just _v)
+                                       -> (Data.Monoid.<>)
+                                            (Data.ProtoLens.Encoding.Bytes.putVarInt 66)
+                                            ((Prelude..)
+                                               (\ bs
+                                                  -> (Data.Monoid.<>)
+                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                          (Prelude.fromIntegral
+                                                             (Data.ByteString.length bs)))
+                                                       (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                               Data.ProtoLens.encodeMessage _v))
+                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                     (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))))
 instance Control.DeepSeq.NFData ScheduleNexusOperationCommandAttributes where
   rnf
     = \ x__
@@ -5592,7 +5769,14 @@ instance Control.DeepSeq.NFData ScheduleNexusOperationCommandAttributes where
                             (_ScheduleNexusOperationCommandAttributes'scheduleToCloseTimeout
                                x__)
                             (Control.DeepSeq.deepseq
-                               (_ScheduleNexusOperationCommandAttributes'nexusHeader x__) ()))))))
+                               (_ScheduleNexusOperationCommandAttributes'nexusHeader x__)
+                               (Control.DeepSeq.deepseq
+                                  (_ScheduleNexusOperationCommandAttributes'scheduleToStartTimeout
+                                     x__)
+                                  (Control.DeepSeq.deepseq
+                                     (_ScheduleNexusOperationCommandAttributes'startToCloseTimeout
+                                        x__)
+                                     ()))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Command.V1.Message_Fields.key' @:: Lens' ScheduleNexusOperationCommandAttributes'NexusHeaderEntry Data.Text.Text@
@@ -7713,7 +7897,7 @@ packedFileDescriptor
     \\afailure\CAN\EOT \SOH(\v2 .temporal.api.failure.v1.FailureR\afailure\SUB\\\n\
     \\fDetailsEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC26\n\
-    \\ENQvalue\CAN\STX \SOH(\v2 .temporal.api.common.v1.PayloadsR\ENQvalue:\STX8\SOH\"\163\b\n\
+    \\ENQvalue\CAN\STX \SOH(\v2 .temporal.api.common.v1.PayloadsR\ENQvalue:\STX8\SOH\"\155\t\n\
     \/ContinueAsNewWorkflowExecutionCommandAttributes\DC2I\n\
     \\rworkflow_type\CAN\SOH \SOH(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\DC2C\n\
     \\n\
@@ -7731,7 +7915,8 @@ packedFileDescriptor
     \\ACKheader\CAN\f \SOH(\v2\RS.temporal.api.common.v1.HeaderR\ACKheader\DC20\n\
     \\EOTmemo\CAN\r \SOH(\v2\FS.temporal.api.common.v1.MemoR\EOTmemo\DC2U\n\
     \\DC1search_attributes\CAN\SO \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2,\n\
-    \\DLEinherit_build_id\CAN\SI \SOH(\bR\SOinheritBuildIdB\STX\CAN\SOH\"\159\t\n\
+    \\DLEinherit_build_id\CAN\SI \SOH(\bR\SOinheritBuildIdB\STX\CAN\SOH\DC2v\n\
+    \\ESCinitial_versioning_behavior\CAN\DLE \SOH(\SO26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR\EMinitialVersioningBehavior\"\159\t\n\
     \,StartChildWorkflowExecutionCommandAttributes\DC2\FS\n\
     \\tnamespace\CAN\SOH \SOH(\tR\tnamespace\DC2\US\n\
     \\vworkflow_id\CAN\STX \SOH(\tR\n\
@@ -7756,14 +7941,16 @@ packedFileDescriptor
     \\bpriority\CAN\DC2 \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\"A\n\
     \ ProtocolMessageCommandAttributes\DC2\GS\n\
     \\n\
-    \message_id\CAN\SOH \SOH(\tR\tmessageId\"\192\ETX\n\
+    \message_id\CAN\SOH \SOH(\tR\tmessageId\"\230\EOT\n\
     \'ScheduleNexusOperationCommandAttributes\DC2\SUB\n\
     \\bendpoint\CAN\SOH \SOH(\tR\bendpoint\DC2\CAN\n\
     \\aservice\CAN\STX \SOH(\tR\aservice\DC2\FS\n\
     \\toperation\CAN\ETX \SOH(\tR\toperation\DC25\n\
     \\ENQinput\CAN\EOT \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQinput\DC2T\n\
     \\EMschedule_to_close_timeout\CAN\ENQ \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToCloseTimeout\DC2t\n\
-    \\fnexus_header\CAN\ACK \ETX(\v2Q.temporal.api.command.v1.ScheduleNexusOperationCommandAttributes.NexusHeaderEntryR\vnexusHeader\SUB>\n\
+    \\fnexus_header\CAN\ACK \ETX(\v2Q.temporal.api.command.v1.ScheduleNexusOperationCommandAttributes.NexusHeaderEntryR\vnexusHeader\DC2T\n\
+    \\EMschedule_to_start_timeout\CAN\a \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToStartTimeout\DC2N\n\
+    \\SYNstart_to_close_timeout\CAN\b \SOH(\v2\EM.google.protobuf.DurationR\DC3startToCloseTimeout\SUB>\n\
     \\DLENexusHeaderEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
     \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOH\"\\\n\
@@ -7792,8 +7979,8 @@ packedFileDescriptor
     \1request_cancel_nexus_operation_command_attributes\CAN\DC3 \SOH(\v2E.temporal.api.command.v1.RequestCancelNexusOperationCommandAttributesH\NULR,requestCancelNexusOperationCommandAttributesB\f\n\
     \\n\
     \attributesB\142\SOH\n\
-    \\SUBio.temporal.api.command.v1B\fMessageProtoP\SOHZ%go.temporal.io/api/command/v1;command\170\STX\EMTemporalio.Api.Command.V1\234\STX\FSTemporalio::Api::Command::V1J\201l\n\
-    \\a\DC2\ENQ\NUL\NUL\161\STX\SOH\n\
+    \\SUBio.temporal.api.command.v1B\fMessageProtoP\SOHZ%go.temporal.io/api/command/v1;command\170\STX\EMTemporalio.Api.Command.V1\234\STX\FSTemporalio::Api::Command::V1J\168x\n\
+    \\a\DC2\ENQ\NUL\NUL\187\STX\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -8311,7 +8498,7 @@ packedFileDescriptor
     \\r\n\
     \\ENQ\EOT\v\STX\ETX\ETX\DC2\EOT\150\SOH./\n\
     \\f\n\
-    \\STX\EOT\f\DC2\ACK\153\SOH\NUL\182\SOH\SOH\n\
+    \\STX\EOT\f\DC2\ACK\153\SOH\NUL\187\SOH\SOH\n\
     \\v\n\
     \\ETX\EOT\f\SOH\DC2\EOT\153\SOH\b7\n\
     \\f\n\
@@ -8453,251 +8640,262 @@ packedFileDescriptor
     \\ENQ\EOT\f\STX\SO\b\DC2\EOT\179\SOH\US2\n\
     \\SO\n\
     \\ACK\EOT\f\STX\SO\b\ETX\DC2\EOT\179\SOH 1\n\
+    \\237\SOH\n\
+    \\EOT\EOT\f\STX\SI\DC2\EOT\184\SOH\EOT[\SUB\222\SOH Experimental. Optionally decide the versioning behavior that the first task of the new run should use.\n\
+    \ For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version\n\
+    \ of the previous run.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\f\STX\SI\ACK\DC2\EOT\184\SOH\EOT9\n\
+    \\r\n\
+    \\ENQ\EOT\f\STX\SI\SOH\DC2\EOT\184\SOH:U\n\
+    \\r\n\
+    \\ENQ\EOT\f\STX\SI\ETX\DC2\EOT\184\SOHXZ\n\
     \\f\n\
-    \\STX\EOT\r\DC2\ACK\184\SOH\NUL\214\SOH\SOH\n\
+    \\STX\EOT\r\DC2\ACK\189\SOH\NUL\219\SOH\SOH\n\
     \\v\n\
-    \\ETX\EOT\r\SOH\DC2\EOT\184\SOH\b4\n\
+    \\ETX\EOT\r\SOH\DC2\EOT\189\SOH\b4\n\
     \\f\n\
-    \\EOT\EOT\r\STX\NUL\DC2\EOT\185\SOH\EOT\EM\n\
+    \\EOT\EOT\r\STX\NUL\DC2\EOT\190\SOH\EOT\EM\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\185\SOH\EOT\n\
+    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\190\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\185\SOH\v\DC4\n\
+    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\190\SOH\v\DC4\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\185\SOH\ETB\CAN\n\
+    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\190\SOH\ETB\CAN\n\
     \\f\n\
-    \\EOT\EOT\r\STX\SOH\DC2\EOT\186\SOH\EOT\ESC\n\
+    \\EOT\EOT\r\STX\SOH\DC2\EOT\191\SOH\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\EOT\186\SOH\EOT\n\
+    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\EOT\191\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\186\SOH\v\SYN\n\
+    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\191\SOH\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\186\SOH\EM\SUB\n\
+    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\191\SOH\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\r\STX\STX\DC2\EOT\187\SOH\EOT:\n\
+    \\EOT\EOT\r\STX\STX\DC2\EOT\192\SOH\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\ACK\DC2\EOT\187\SOH\EOT'\n\
+    \\ENQ\EOT\r\STX\STX\ACK\DC2\EOT\192\SOH\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\SOH\DC2\EOT\187\SOH(5\n\
+    \\ENQ\EOT\r\STX\STX\SOH\DC2\EOT\192\SOH(5\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\ETX\DC2\EOT\187\SOH89\n\
+    \\ENQ\EOT\r\STX\STX\ETX\DC2\EOT\192\SOH89\n\
     \\f\n\
-    \\EOT\EOT\r\STX\ETX\DC2\EOT\188\SOH\EOT7\n\
+    \\EOT\EOT\r\STX\ETX\DC2\EOT\193\SOH\EOT7\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\ACK\DC2\EOT\188\SOH\EOT'\n\
+    \\ENQ\EOT\r\STX\ETX\ACK\DC2\EOT\193\SOH\EOT'\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\SOH\DC2\EOT\188\SOH(2\n\
+    \\ENQ\EOT\r\STX\ETX\SOH\DC2\EOT\193\SOH(2\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\ETX\DC2\EOT\188\SOH56\n\
+    \\ENQ\EOT\r\STX\ETX\ETX\DC2\EOT\193\SOH56\n\
     \\f\n\
-    \\EOT\EOT\r\STX\EOT\DC2\EOT\189\SOH\EOT.\n\
+    \\EOT\EOT\r\STX\EOT\DC2\EOT\194\SOH\EOT.\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\EOT\ACK\DC2\EOT\189\SOH\EOT#\n\
+    \\ENQ\EOT\r\STX\EOT\ACK\DC2\EOT\194\SOH\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\EOT\SOH\DC2\EOT\189\SOH$)\n\
+    \\ENQ\EOT\r\STX\EOT\SOH\DC2\EOT\194\SOH$)\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\EOT\ETX\DC2\EOT\189\SOH,-\n\
+    \\ENQ\EOT\r\STX\EOT\ETX\DC2\EOT\194\SOH,-\n\
     \W\n\
-    \\EOT\EOT\r\STX\ENQ\DC2\EOT\191\SOH\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
+    \\EOT\EOT\r\STX\ENQ\DC2\EOT\196\SOH\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ENQ\ACK\DC2\EOT\191\SOH\EOT\FS\n\
+    \\ENQ\EOT\r\STX\ENQ\ACK\DC2\EOT\196\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ENQ\SOH\DC2\EOT\191\SOH\GS7\n\
+    \\ENQ\EOT\r\STX\ENQ\SOH\DC2\EOT\196\SOH\GS7\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ENQ\ETX\DC2\EOT\191\SOH:;\n\
+    \\ENQ\EOT\r\STX\ENQ\ETX\DC2\EOT\196\SOH:;\n\
     \1\n\
-    \\EOT\EOT\r\STX\ACK\DC2\EOT\193\SOH\EOT6\SUB# Timeout of a single workflow run.\n\
+    \\EOT\EOT\r\STX\ACK\DC2\EOT\198\SOH\EOT6\SUB# Timeout of a single workflow run.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ACK\ACK\DC2\EOT\193\SOH\EOT\FS\n\
+    \\ENQ\EOT\r\STX\ACK\ACK\DC2\EOT\198\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ACK\SOH\DC2\EOT\193\SOH\GS1\n\
+    \\ENQ\EOT\r\STX\ACK\SOH\DC2\EOT\198\SOH\GS1\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ACK\ETX\DC2\EOT\193\SOH45\n\
+    \\ENQ\EOT\r\STX\ACK\ETX\DC2\EOT\198\SOH45\n\
     \2\n\
-    \\EOT\EOT\r\STX\a\DC2\EOT\195\SOH\EOT7\SUB$ Timeout of a single workflow task.\n\
+    \\EOT\EOT\r\STX\a\DC2\EOT\200\SOH\EOT7\SUB$ Timeout of a single workflow task.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\a\ACK\DC2\EOT\195\SOH\EOT\FS\n\
+    \\ENQ\EOT\r\STX\a\ACK\DC2\EOT\200\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\a\SOH\DC2\EOT\195\SOH\GS2\n\
+    \\ENQ\EOT\r\STX\a\SOH\DC2\EOT\200\SOH\GS2\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\a\ETX\DC2\EOT\195\SOH56\n\
+    \\ENQ\EOT\r\STX\a\ETX\DC2\EOT\200\SOH56\n\
     \7\n\
-    \\EOT\EOT\r\STX\b\DC2\EOT\197\SOH\EOTD\SUB) Default: PARENT_CLOSE_POLICY_TERMINATE.\n\
+    \\EOT\EOT\r\STX\b\DC2\EOT\202\SOH\EOTD\SUB) Default: PARENT_CLOSE_POLICY_TERMINATE.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\b\ACK\DC2\EOT\197\SOH\EOT+\n\
+    \\ENQ\EOT\r\STX\b\ACK\DC2\EOT\202\SOH\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\b\SOH\DC2\EOT\197\SOH,?\n\
+    \\ENQ\EOT\r\STX\b\SOH\DC2\EOT\202\SOH,?\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\b\ETX\DC2\EOT\197\SOHBC\n\
+    \\ENQ\EOT\r\STX\b\ETX\DC2\EOT\202\SOHBC\n\
     \\f\n\
-    \\EOT\EOT\r\STX\t\DC2\EOT\198\SOH\EOT\CAN\n\
+    \\EOT\EOT\r\STX\t\DC2\EOT\203\SOH\EOT\CAN\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\t\ENQ\DC2\EOT\198\SOH\EOT\n\
+    \\ENQ\EOT\r\STX\t\ENQ\DC2\EOT\203\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\t\SOH\DC2\EOT\198\SOH\v\DC2\n\
+    \\ENQ\EOT\r\STX\t\SOH\DC2\EOT\203\SOH\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\t\ETX\DC2\EOT\198\SOH\NAK\ETB\n\
+    \\ENQ\EOT\r\STX\t\ETX\DC2\EOT\203\SOH\NAK\ETB\n\
     \B\n\
     \\EOT\EOT\r\STX\n\
-    \\DC2\EOT\200\SOH\EOTN\SUB4 Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.\n\
+    \\DC2\EOT\205\SOH\EOTN\SUB4 Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\r\STX\n\
-    \\ACK\DC2\EOT\200\SOH\EOT/\n\
+    \\ACK\DC2\EOT\205\SOH\EOT/\n\
     \\r\n\
     \\ENQ\EOT\r\STX\n\
-    \\SOH\DC2\EOT\200\SOH0H\n\
+    \\SOH\DC2\EOT\205\SOH0H\n\
     \\r\n\
     \\ENQ\EOT\r\STX\n\
-    \\ETX\DC2\EOT\200\SOHKM\n\
+    \\ETX\DC2\EOT\205\SOHKM\n\
     \\f\n\
-    \\EOT\EOT\r\STX\v\DC2\EOT\201\SOH\EOT9\n\
+    \\EOT\EOT\r\STX\v\DC2\EOT\206\SOH\EOT9\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\v\ACK\DC2\EOT\201\SOH\EOT&\n\
+    \\ENQ\EOT\r\STX\v\ACK\DC2\EOT\206\SOH\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\v\SOH\DC2\EOT\201\SOH'3\n\
+    \\ENQ\EOT\r\STX\v\SOH\DC2\EOT\206\SOH'3\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\v\ETX\DC2\EOT\201\SOH68\n\
+    \\ENQ\EOT\r\STX\v\ETX\DC2\EOT\206\SOH68\n\
     \A\n\
-    \\EOT\EOT\r\STX\f\DC2\EOT\203\SOH\EOT\RS\SUB3 Establish a cron schedule for the child workflow.\n\
+    \\EOT\EOT\r\STX\f\DC2\EOT\208\SOH\EOT\RS\SUB3 Establish a cron schedule for the child workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\f\ENQ\DC2\EOT\203\SOH\EOT\n\
+    \\ENQ\EOT\r\STX\f\ENQ\DC2\EOT\208\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\f\SOH\DC2\EOT\203\SOH\v\CAN\n\
+    \\ENQ\EOT\r\STX\f\SOH\DC2\EOT\208\SOH\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\f\ETX\DC2\EOT\203\SOH\ESC\GS\n\
+    \\ENQ\EOT\r\STX\f\ETX\DC2\EOT\208\SOH\ESC\GS\n\
     \\f\n\
-    \\EOT\EOT\r\STX\r\DC2\EOT\204\SOH\EOT.\n\
+    \\EOT\EOT\r\STX\r\DC2\EOT\209\SOH\EOT.\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\r\ACK\DC2\EOT\204\SOH\EOT!\n\
+    \\ENQ\EOT\r\STX\r\ACK\DC2\EOT\209\SOH\EOT!\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\r\SOH\DC2\EOT\204\SOH\"(\n\
+    \\ENQ\EOT\r\STX\r\SOH\DC2\EOT\209\SOH\"(\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\r\ETX\DC2\EOT\204\SOH+-\n\
+    \\ENQ\EOT\r\STX\r\ETX\DC2\EOT\209\SOH+-\n\
     \\f\n\
-    \\EOT\EOT\r\STX\SO\DC2\EOT\205\SOH\EOT*\n\
+    \\EOT\EOT\r\STX\SO\DC2\EOT\210\SOH\EOT*\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SO\ACK\DC2\EOT\205\SOH\EOT\US\n\
+    \\ENQ\EOT\r\STX\SO\ACK\DC2\EOT\210\SOH\EOT\US\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SO\SOH\DC2\EOT\205\SOH $\n\
+    \\ENQ\EOT\r\STX\SO\SOH\DC2\EOT\210\SOH $\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SO\ETX\DC2\EOT\205\SOH')\n\
+    \\ENQ\EOT\r\STX\SO\ETX\DC2\EOT\210\SOH')\n\
     \\f\n\
-    \\EOT\EOT\r\STX\SI\DC2\EOT\206\SOH\EOTC\n\
+    \\EOT\EOT\r\STX\SI\DC2\EOT\211\SOH\EOTC\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SI\ACK\DC2\EOT\206\SOH\EOT+\n\
+    \\ENQ\EOT\r\STX\SI\ACK\DC2\EOT\211\SOH\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SI\SOH\DC2\EOT\206\SOH,=\n\
+    \\ENQ\EOT\r\STX\SI\SOH\DC2\EOT\211\SOH,=\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SI\ETX\DC2\EOT\206\SOH@B\n\
+    \\ENQ\EOT\r\STX\SI\ETX\DC2\EOT\211\SOH@B\n\
     \\252\SOH\n\
-    \\EOT\EOT\r\STX\DLE\DC2\EOT\210\SOH\EOT3\SUB\237\SOH If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment\n\
+    \\EOT\EOT\r\STX\DLE\DC2\EOT\215\SOH\EOT3\SUB\237\SOH If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment\n\
     \ rules of the child's Task Queue will be used to independently assign a Build ID to it.\n\
     \ Deprecated. Only considered for versioning v0.2.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DLE\ENQ\DC2\EOT\210\SOH\EOT\b\n\
+    \\ENQ\EOT\r\STX\DLE\ENQ\DC2\EOT\215\SOH\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DLE\SOH\DC2\EOT\210\SOH\t\EM\n\
+    \\ENQ\EOT\r\STX\DLE\SOH\DC2\EOT\215\SOH\t\EM\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DLE\ETX\DC2\EOT\210\SOH\FS\RS\n\
+    \\ENQ\EOT\r\STX\DLE\ETX\DC2\EOT\215\SOH\FS\RS\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DLE\b\DC2\EOT\210\SOH\US2\n\
+    \\ENQ\EOT\r\STX\DLE\b\DC2\EOT\215\SOH\US2\n\
     \\SO\n\
-    \\ACK\EOT\r\STX\DLE\b\ETX\DC2\EOT\210\SOH 1\n\
+    \\ACK\EOT\r\STX\DLE\b\ETX\DC2\EOT\215\SOH 1\n\
     \\141\SOH\n\
-    \\EOT\EOT\r\STX\DC1\DC2\EOT\213\SOH\EOT2\SUB\DEL Priority metadata. If this message is not present, or any fields are not\n\
+    \\EOT\EOT\r\STX\DC1\DC2\EOT\218\SOH\EOT2\SUB\DEL Priority metadata. If this message is not present, or any fields are not\n\
     \ present, they inherit the values from the workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DC1\ACK\DC2\EOT\213\SOH\EOT#\n\
+    \\ENQ\EOT\r\STX\DC1\ACK\DC2\EOT\218\SOH\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DC1\SOH\DC2\EOT\213\SOH$,\n\
+    \\ENQ\EOT\r\STX\DC1\SOH\DC2\EOT\218\SOH$,\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\DC1\ETX\DC2\EOT\213\SOH/1\n\
+    \\ENQ\EOT\r\STX\DC1\ETX\DC2\EOT\218\SOH/1\n\
     \\f\n\
-    \\STX\EOT\SO\DC2\ACK\216\SOH\NUL\219\SOH\SOH\n\
+    \\STX\EOT\SO\DC2\ACK\221\SOH\NUL\224\SOH\SOH\n\
     \\v\n\
-    \\ETX\EOT\SO\SOH\DC2\EOT\216\SOH\b(\n\
+    \\ETX\EOT\SO\SOH\DC2\EOT\221\SOH\b(\n\
     \Q\n\
-    \\EOT\EOT\SO\STX\NUL\DC2\EOT\218\SOH\EOT\SUB\SUBC The message ID of the message to which this command is a pointer.\n\
+    \\EOT\EOT\SO\STX\NUL\DC2\EOT\223\SOH\EOT\SUB\SUBC The message ID of the message to which this command is a pointer.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\EOT\218\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\EOT\223\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\218\SOH\v\NAK\n\
+    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\223\SOH\v\NAK\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\218\SOH\CAN\EM\n\
+    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\223\SOH\CAN\EM\n\
     \\f\n\
-    \\STX\EOT\SI\DC2\ACK\221\SOH\NUL\246\SOH\SOH\n\
+    \\STX\EOT\SI\DC2\ACK\226\SOH\NUL\144\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\SI\SOH\DC2\EOT\221\SOH\b/\n\
+    \\ETX\EOT\SI\SOH\DC2\EOT\226\SOH\b/\n\
     \]\n\
-    \\EOT\EOT\SI\STX\NUL\DC2\EOT\223\SOH\EOT\CAN\SUBO Endpoint name, must exist in the endpoint registry or this command will fail.\n\
+    \\EOT\EOT\SI\STX\NUL\DC2\EOT\228\SOH\EOT\CAN\SUBO Endpoint name, must exist in the endpoint registry or this command will fail.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\EOT\223\SOH\EOT\n\
+    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\EOT\228\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\223\SOH\v\DC3\n\
+    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\228\SOH\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\223\SOH\SYN\ETB\n\
+    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\228\SOH\SYN\ETB\n\
     \\GS\n\
-    \\EOT\EOT\SI\STX\SOH\DC2\EOT\225\SOH\EOT\ETB\SUB\SI Service name.\n\
+    \\EOT\EOT\SI\STX\SOH\DC2\EOT\230\SOH\EOT\ETB\SUB\SI Service name.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\ENQ\DC2\EOT\225\SOH\EOT\n\
+    \\ENQ\EOT\SI\STX\SOH\ENQ\DC2\EOT\230\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\225\SOH\v\DC2\n\
+    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\230\SOH\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\225\SOH\NAK\SYN\n\
+    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\230\SOH\NAK\SYN\n\
     \\US\n\
-    \\EOT\EOT\SI\STX\STX\DC2\EOT\227\SOH\EOT\EM\SUB\DC1 Operation name.\n\
+    \\EOT\EOT\SI\STX\STX\DC2\EOT\232\SOH\EOT\EM\SUB\DC1 Operation name.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\STX\ENQ\DC2\EOT\227\SOH\EOT\n\
+    \\ENQ\EOT\SI\STX\STX\ENQ\DC2\EOT\232\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\STX\SOH\DC2\EOT\227\SOH\v\DC4\n\
+    \\ENQ\EOT\SI\STX\STX\SOH\DC2\EOT\232\SOH\v\DC4\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\STX\ETX\DC2\EOT\227\SOH\ETB\CAN\n\
+    \\ENQ\EOT\SI\STX\STX\ETX\DC2\EOT\232\SOH\ETB\CAN\n\
     \\188\STX\n\
-    \\EOT\EOT\SI\STX\ETX\DC2\EOT\231\SOH\EOT-\SUB\173\STX Input for the operation. The server converts this into Nexus request content and the appropriate content headers\n\
+    \\EOT\EOT\SI\STX\ETX\DC2\EOT\236\SOH\EOT-\SUB\173\STX Input for the operation. The server converts this into Nexus request content and the appropriate content headers\n\
     \ internally when sending the StartOperation request. On the handler side, if it is also backed by Temporal, the\n\
     \ content is transformed back to the original Payload sent in this command.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\ETX\ACK\DC2\EOT\231\SOH\EOT\"\n\
+    \\ENQ\EOT\SI\STX\ETX\ACK\DC2\EOT\236\SOH\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\ETX\SOH\DC2\EOT\231\SOH#(\n\
+    \\ENQ\EOT\SI\STX\ETX\SOH\DC2\EOT\236\SOH#(\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\ETX\ETX\DC2\EOT\231\SOH+,\n\
+    \\ENQ\EOT\SI\STX\ETX\ETX\DC2\EOT\236\SOH+,\n\
     \\173\STX\n\
-    \\EOT\EOT\SI\STX\EOT\DC2\EOT\237\SOH\EOT;\SUB\158\STX Schedule-to-close timeout for this operation.\n\
+    \\EOT\EOT\SI\STX\EOT\DC2\EOT\242\SOH\EOT;\SUB\158\STX Schedule-to-close timeout for this operation.\n\
     \ Indicates how long the caller is willing to wait for operation completion.\n\
     \ Calls are retried internally by the server.\n\
     \ (-- api-linter: core::0140::prepositions=disabled\n\
     \     aip.dev/not-precedent: \"to\" is used to indicate interval. --)\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\EOT\ACK\DC2\EOT\237\SOH\EOT\FS\n\
+    \\ENQ\EOT\SI\STX\EOT\ACK\DC2\EOT\242\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\EOT\SOH\DC2\EOT\237\SOH\GS6\n\
+    \\ENQ\EOT\SI\STX\EOT\SOH\DC2\EOT\242\SOH\GS6\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\EOT\ETX\DC2\EOT\237\SOH9:\n\
+    \\ENQ\EOT\SI\STX\EOT\ETX\DC2\EOT\242\SOH9:\n\
     \\200\ETX\n\
-    \\EOT\EOT\SI\STX\ENQ\DC2\EOT\245\SOH\EOT)\SUB\185\ETX Header to attach to the Nexus request.\n\
+    \\EOT\EOT\SI\STX\ENQ\DC2\EOT\250\SOH\EOT)\SUB\185\ETX Header to attach to the Nexus request.\n\
     \ Users are responsible for encrypting sensitive data in this header as it is stored in workflow history and\n\
     \ transmitted to external services as-is.\n\
     \ This is useful for propagating tracing information.\n\
@@ -8705,40 +8903,73 @@ packedFileDescriptor
     \ transmitted to Nexus operations that may be external and are not traditional payloads.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\ENQ\ACK\DC2\EOT\245\SOH\EOT\ETB\n\
+    \\ENQ\EOT\SI\STX\ENQ\ACK\DC2\EOT\250\SOH\EOT\ETB\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\ENQ\SOH\DC2\EOT\245\SOH\CAN$\n\
+    \\ENQ\EOT\SI\STX\ENQ\SOH\DC2\EOT\250\SOH\CAN$\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\ENQ\ETX\DC2\EOT\245\SOH'(\n\
+    \\ENQ\EOT\SI\STX\ENQ\ETX\DC2\EOT\250\SOH'(\n\
+    \\134\EOT\n\
+    \\EOT\EOT\SI\STX\ACK\DC2\EOT\132\STX\EOT;\SUB\247\ETX Schedule-to-start timeout for this operation.\n\
+    \ Indicates how long the caller is willing to wait for the operation to be started (or completed if synchronous)\n\
+    \ by the handler. If the operation is not started within this timeout, it will fail with\n\
+    \ TIMEOUT_TYPE_SCHEDULE_TO_START.\n\
+    \ If not set or zero, no schedule-to-start timeout is enforced.\n\
+    \ (-- api-linter: core::0140::prepositions=disabled\n\
+    \     aip.dev/not-precedent: \"to\" is used to indicate interval. --)\n\
+    \ Requires server version 1.31.0 or later.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\ACK\ACK\DC2\EOT\132\STX\EOT\FS\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\ACK\SOH\DC2\EOT\132\STX\GS6\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\ACK\ETX\DC2\EOT\132\STX9:\n\
+    \\220\EOT\n\
+    \\EOT\EOT\SI\STX\a\DC2\EOT\143\STX\EOT8\SUB\205\EOT Start-to-close timeout for this operation.\n\
+    \ Indicates how long the caller is willing to wait for an asynchronous operation to complete after it has been\n\
+    \ started. If the operation does not complete within this timeout after starting, it will fail with\n\
+    \ TIMEOUT_TYPE_START_TO_CLOSE.\n\
+    \ Only applies to asynchronous operations. Synchronous operations ignore this timeout.\n\
+    \ If not set or zero, no start-to-close timeout is enforced.\n\
+    \ (-- api-linter: core::0140::prepositions=disabled\n\
+    \     aip.dev/not-precedent: \"to\" is used to indicate interval. --)\n\
+    \ Requires server version 1.31.0 or later.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\a\ACK\DC2\EOT\143\STX\EOT\FS\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\a\SOH\DC2\EOT\143\STX\GS3\n\
+    \\r\n\
+    \\ENQ\EOT\SI\STX\a\ETX\DC2\EOT\143\STX67\n\
     \\f\n\
-    \\STX\EOT\DLE\DC2\ACK\248\SOH\NUL\252\SOH\SOH\n\
+    \\STX\EOT\DLE\DC2\ACK\146\STX\NUL\150\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DLE\SOH\DC2\EOT\248\SOH\b4\n\
+    \\ETX\EOT\DLE\SOH\DC2\EOT\146\STX\b4\n\
     \\190\SOH\n\
-    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\251\SOH\EOT!\SUB\175\SOH The `NEXUS_OPERATION_SCHEDULED` event ID (a unique identifier) for the operation to be canceled.\n\
+    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\149\STX\EOT!\SUB\175\SOH The `NEXUS_OPERATION_SCHEDULED` event ID (a unique identifier) for the operation to be canceled.\n\
     \ The operation may ignore cancellation and end up with any completion state.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ENQ\DC2\EOT\251\SOH\EOT\t\n\
+    \\ENQ\EOT\DLE\STX\NUL\ENQ\DC2\EOT\149\STX\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\251\SOH\n\
+    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\149\STX\n\
     \\FS\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\251\SOH\US \n\
+    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\149\STX\US \n\
     \\f\n\
-    \\STX\EOT\DC1\DC2\ACK\254\SOH\NUL\161\STX\SOH\n\
+    \\STX\EOT\DC1\DC2\ACK\152\STX\NUL\187\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DC1\SOH\DC2\EOT\254\SOH\b\SI\n\
+    \\ETX\EOT\DC1\SOH\DC2\EOT\152\STX\b\SI\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\255\SOH\EOT7\n\
+    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\153\STX\EOT7\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ACK\DC2\EOT\255\SOH\EOT%\n\
+    \\ENQ\EOT\DC1\STX\NUL\ACK\DC2\EOT\153\STX\EOT%\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\255\SOH&2\n\
+    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\153\STX&2\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\255\SOH56\n\
+    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\153\STX56\n\
     \\183\ENQ\n\
-    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\138\STX\EOT9\SUB\168\ENQ Metadata on the command. This is sometimes carried over to the history event if one is\n\
+    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\164\STX\EOT9\SUB\168\ENQ Metadata on the command. This is sometimes carried over to the history event if one is\n\
     \ created as a result of the command. Most commands won't have this information, and how this\n\
     \ information is used is dependent upon the interface that reads it.\n\
     \\n\
@@ -8750,155 +8981,155 @@ packedFileDescriptor
     \    started where the summary is used to identify the timer.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ACK\DC2\EOT\138\STX\EOT$\n\
+    \\ENQ\EOT\DC1\STX\SOH\ACK\DC2\EOT\164\STX\EOT$\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\138\STX%2\n\
+    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\164\STX%2\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\138\STX58\n\
+    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\164\STX58\n\
     \R\n\
-    \\EOT\EOT\DC1\b\NUL\DC2\ACK\140\STX\EOT\160\STX\ENQ\SUBB The command details. The type must match that in `command_type`.\n\
+    \\EOT\EOT\DC1\b\NUL\DC2\ACK\166\STX\EOT\186\STX\ENQ\SUBB The command details. The type must match that in `command_type`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\b\NUL\SOH\DC2\EOT\140\STX\n\
+    \\ENQ\EOT\DC1\b\NUL\SOH\DC2\EOT\166\STX\n\
     \\DC4\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\STX\DC2\EOT\141\STX\b\\\n\
+    \\EOT\EOT\DC1\STX\STX\DC2\EOT\167\STX\b\\\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ACK\DC2\EOT\141\STX\b-\n\
+    \\ENQ\EOT\DC1\STX\STX\ACK\DC2\EOT\167\STX\b-\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\141\STX.W\n\
+    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\167\STX.W\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\141\STXZ[\n\
+    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\167\STXZ[\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\ETX\DC2\EOT\142\STX\bG\n\
+    \\EOT\EOT\DC1\STX\ETX\DC2\EOT\168\STX\bG\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\ACK\DC2\EOT\142\STX\b#\n\
+    \\ENQ\EOT\DC1\STX\ETX\ACK\DC2\EOT\168\STX\b#\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\SOH\DC2\EOT\142\STX$B\n\
+    \\ENQ\EOT\DC1\STX\ETX\SOH\DC2\EOT\168\STX$B\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\ETX\DC2\EOT\142\STXEF\n\
+    \\ENQ\EOT\DC1\STX\ETX\ETX\DC2\EOT\168\STXEF\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\EOT\DC2\EOT\143\STX\bf\n\
+    \\EOT\EOT\DC1\STX\EOT\DC2\EOT\169\STX\bf\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\ACK\DC2\EOT\143\STX\b2\n\
+    \\ENQ\EOT\DC1\STX\EOT\ACK\DC2\EOT\169\STX\b2\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\SOH\DC2\EOT\143\STX3a\n\
+    \\ENQ\EOT\DC1\STX\EOT\SOH\DC2\EOT\169\STX3a\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\ETX\DC2\EOT\143\STXde\n\
+    \\ENQ\EOT\DC1\STX\EOT\ETX\DC2\EOT\169\STXde\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\ENQ\DC2\EOT\144\STX\b^\n\
+    \\EOT\EOT\DC1\STX\ENQ\DC2\EOT\170\STX\b^\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\ACK\DC2\EOT\144\STX\b.\n\
+    \\ENQ\EOT\DC1\STX\ENQ\ACK\DC2\EOT\170\STX\b.\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\SOH\DC2\EOT\144\STX/Y\n\
+    \\ENQ\EOT\DC1\STX\ENQ\SOH\DC2\EOT\170\STX/Y\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\ETX\DC2\EOT\144\STX\\]\n\
+    \\ENQ\EOT\DC1\STX\ENQ\ETX\DC2\EOT\170\STX\\]\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\ACK\DC2\EOT\145\STX\bg\n\
+    \\EOT\EOT\DC1\STX\ACK\DC2\EOT\171\STX\bg\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ACK\ACK\DC2\EOT\145\STX\b2\n\
+    \\ENQ\EOT\DC1\STX\ACK\ACK\DC2\EOT\171\STX\b2\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ACK\SOH\DC2\EOT\145\STX3b\n\
+    \\ENQ\EOT\DC1\STX\ACK\SOH\DC2\EOT\171\STX3b\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ACK\ETX\DC2\EOT\145\STXef\n\
+    \\ENQ\EOT\DC1\STX\ACK\ETX\DC2\EOT\171\STXef\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\a\DC2\EOT\146\STX\bI\n\
+    \\EOT\EOT\DC1\STX\a\DC2\EOT\172\STX\bI\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\a\ACK\DC2\EOT\146\STX\b$\n\
+    \\ENQ\EOT\DC1\STX\a\ACK\DC2\EOT\172\STX\b$\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\a\SOH\DC2\EOT\146\STX%D\n\
+    \\ENQ\EOT\DC1\STX\a\SOH\DC2\EOT\172\STX%D\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\a\ETX\DC2\EOT\146\STXGH\n\
+    \\ENQ\EOT\DC1\STX\a\ETX\DC2\EOT\172\STXGH\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\b\DC2\EOT\147\STX\bb\n\
+    \\EOT\EOT\DC1\STX\b\DC2\EOT\173\STX\bb\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\b\ACK\DC2\EOT\147\STX\b0\n\
+    \\ENQ\EOT\DC1\STX\b\ACK\DC2\EOT\173\STX\b0\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\b\SOH\DC2\EOT\147\STX1]\n\
+    \\ENQ\EOT\DC1\STX\b\SOH\DC2\EOT\173\STX1]\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\b\ETX\DC2\EOT\147\STX`a\n\
+    \\ENQ\EOT\DC1\STX\b\ETX\DC2\EOT\173\STX`a\n\
     \\r\n\
-    \\EOT\EOT\DC1\STX\t\DC2\ENQ\148\STX\b\130\SOH\n\
+    \\EOT\EOT\DC1\STX\t\DC2\ENQ\174\STX\b\130\SOH\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\t\ACK\DC2\EOT\148\STX\b?\n\
+    \\ENQ\EOT\DC1\STX\t\ACK\DC2\EOT\174\STX\b?\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\t\SOH\DC2\EOT\148\STX@}\n\
+    \\ENQ\EOT\DC1\STX\t\SOH\DC2\EOT\174\STX@}\n\
     \\SI\n\
-    \\ENQ\EOT\DC1\STX\t\ETX\DC2\ACK\148\STX\128\SOH\129\SOH\n\
+    \\ENQ\EOT\DC1\STX\t\ETX\DC2\ACK\174\STX\128\SOH\129\SOH\n\
     \\f\n\
     \\EOT\EOT\DC1\STX\n\
-    \\DC2\EOT\149\STX\bL\n\
+    \\DC2\EOT\175\STX\bL\n\
     \\r\n\
     \\ENQ\EOT\DC1\STX\n\
-    \\ACK\DC2\EOT\149\STX\b%\n\
+    \\ACK\DC2\EOT\175\STX\b%\n\
     \\r\n\
     \\ENQ\EOT\DC1\STX\n\
-    \\SOH\DC2\EOT\149\STX&F\n\
+    \\SOH\DC2\EOT\175\STX&F\n\
     \\r\n\
     \\ENQ\EOT\DC1\STX\n\
-    \\ETX\DC2\EOT\149\STXIK\n\
+    \\ETX\DC2\EOT\175\STXIK\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\v\DC2\EOT\150\STX\bs\n\
+    \\EOT\EOT\DC1\STX\v\DC2\EOT\176\STX\bs\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\v\ACK\DC2\EOT\150\STX\b7\n\
+    \\ENQ\EOT\DC1\STX\v\ACK\DC2\EOT\176\STX\b7\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\v\SOH\DC2\EOT\150\STX8m\n\
+    \\ENQ\EOT\DC1\STX\v\SOH\DC2\EOT\176\STX8m\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\v\ETX\DC2\EOT\150\STXpr\n\
+    \\ENQ\EOT\DC1\STX\v\ETX\DC2\EOT\176\STXpr\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\f\DC2\EOT\151\STX\bl\n\
+    \\EOT\EOT\DC1\STX\f\DC2\EOT\177\STX\bl\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\f\ACK\DC2\EOT\151\STX\b4\n\
+    \\ENQ\EOT\DC1\STX\f\ACK\DC2\EOT\177\STX\b4\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\f\SOH\DC2\EOT\151\STX5f\n\
+    \\ENQ\EOT\DC1\STX\f\SOH\DC2\EOT\177\STX5f\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\f\ETX\DC2\EOT\151\STXik\n\
+    \\ENQ\EOT\DC1\STX\f\ETX\DC2\EOT\177\STXik\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\r\DC2\EOT\152\STX\bt\n\
+    \\EOT\EOT\DC1\STX\r\DC2\EOT\178\STX\bt\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\r\ACK\DC2\EOT\152\STX\b8\n\
+    \\ENQ\EOT\DC1\STX\r\ACK\DC2\EOT\178\STX\b8\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\r\SOH\DC2\EOT\152\STX9n\n\
+    \\ENQ\EOT\DC1\STX\r\SOH\DC2\EOT\178\STX9n\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\r\ETX\DC2\EOT\152\STXqs\n\
+    \\ENQ\EOT\DC1\STX\r\ETX\DC2\EOT\178\STXqs\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\SO\DC2\EOT\153\STX\br\n\
+    \\EOT\EOT\DC1\STX\SO\DC2\EOT\179\STX\br\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SO\ACK\DC2\EOT\153\STX\b7\n\
+    \\ENQ\EOT\DC1\STX\SO\ACK\DC2\EOT\179\STX\b7\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SO\SOH\DC2\EOT\153\STX8l\n\
+    \\ENQ\EOT\DC1\STX\SO\SOH\DC2\EOT\179\STX8l\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SO\ETX\DC2\EOT\153\STXoq\n\
+    \\ENQ\EOT\DC1\STX\SO\ETX\DC2\EOT\179\STXoq\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\SI\DC2\EOT\154\STX\bR\n\
+    \\EOT\EOT\DC1\STX\SI\DC2\EOT\180\STX\bR\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SI\ACK\DC2\EOT\154\STX\b(\n\
+    \\ENQ\EOT\DC1\STX\SI\ACK\DC2\EOT\180\STX\b(\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SI\SOH\DC2\EOT\154\STX)L\n\
+    \\ENQ\EOT\DC1\STX\SI\SOH\DC2\EOT\180\STX)L\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SI\ETX\DC2\EOT\154\STXOQ\n\
+    \\ENQ\EOT\DC1\STX\SI\ETX\DC2\EOT\180\STXOQ\n\
     \n\n\
-    \\EOT\EOT\DC1\STX\DLE\DC2\EOT\156\STX\be\SUB` 16 is available for use - it was used as part of a prototype that never made it into a release\n\
+    \\EOT\EOT\DC1\STX\DLE\DC2\EOT\182\STX\be\SUB` 16 is available for use - it was used as part of a prototype that never made it into a release\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DLE\ACK\DC2\EOT\156\STX\b1\n\
+    \\ENQ\EOT\DC1\STX\DLE\ACK\DC2\EOT\182\STX\b1\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DLE\SOH\DC2\EOT\156\STX2_\n\
+    \\ENQ\EOT\DC1\STX\DLE\SOH\DC2\EOT\182\STX2_\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DLE\ETX\DC2\EOT\156\STXbd\n\
+    \\ENQ\EOT\DC1\STX\DLE\ETX\DC2\EOT\182\STXbd\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\DC1\DC2\EOT\158\STX\ba\n\
+    \\EOT\EOT\DC1\STX\DC1\DC2\EOT\184\STX\ba\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DC1\ACK\DC2\EOT\158\STX\b/\n\
+    \\ENQ\EOT\DC1\STX\DC1\ACK\DC2\EOT\184\STX\b/\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DC1\SOH\DC2\EOT\158\STX0[\n\
+    \\ENQ\EOT\DC1\STX\DC1\SOH\DC2\EOT\184\STX0[\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DC1\ETX\DC2\EOT\158\STX^`\n\
+    \\ENQ\EOT\DC1\STX\DC1\ETX\DC2\EOT\184\STX^`\n\
     \\f\n\
-    \\EOT\EOT\DC1\STX\DC2\DC2\EOT\159\STX\bl\n\
+    \\EOT\EOT\DC1\STX\DC2\DC2\EOT\185\STX\bl\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DC2\ACK\DC2\EOT\159\STX\b4\n\
+    \\ENQ\EOT\DC1\STX\DC2\ACK\DC2\EOT\185\STX\b4\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DC2\SOH\DC2\EOT\159\STX5f\n\
+    \\ENQ\EOT\DC1\STX\DC2\SOH\DC2\EOT\185\STX5f\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\DC2\ETX\DC2\EOT\159\STXikb\ACKproto3"
+    \\ENQ\EOT\DC1\STX\DC2\ETX\DC2\EOT\185\STXikb\ACKproto3"

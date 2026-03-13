@@ -11,7 +11,6 @@ module Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands (
         CompleteWorkflowExecution(), ContinueAsNewWorkflowExecution(),
         ContinueAsNewWorkflowExecution'HeadersEntry(),
         ContinueAsNewWorkflowExecution'MemoEntry(),
-        ContinueAsNewWorkflowExecution'SearchAttributesEntry(),
         FailWorkflowExecution(), ModifyWorkflowProperties(), QueryResult(),
         QueryResult'Variant(..), _QueryResult'Succeeded,
         _QueryResult'Failed, QuerySuccess(), RequestCancelActivity(),
@@ -28,12 +27,10 @@ module Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands (
         SignalExternalWorkflowExecution'HeadersEntry(),
         StartChildWorkflowExecution(),
         StartChildWorkflowExecution'HeadersEntry(),
-        StartChildWorkflowExecution'MemoEntry(),
-        StartChildWorkflowExecution'SearchAttributesEntry(), StartTimer(),
+        StartChildWorkflowExecution'MemoEntry(), StartTimer(),
         UpdateResponse(), UpdateResponse'Response(..),
         _UpdateResponse'Accepted, _UpdateResponse'Rejected,
         _UpdateResponse'Completed, UpsertWorkflowSearchAttributes(),
-        UpsertWorkflowSearchAttributes'SearchAttributesEntry(),
         WorkflowCommand(), WorkflowCommand'Variant(..),
         _WorkflowCommand'StartTimer, _WorkflowCommand'ScheduleActivity,
         _WorkflowCommand'RespondToQuery,
@@ -741,10 +738,12 @@ instance Control.DeepSeq.NFData CompleteWorkflowExecution where
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'workflowTaskTimeout' @:: Lens' ContinueAsNewWorkflowExecution (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.memo' @:: Lens' ContinueAsNewWorkflowExecution (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.headers' @:: Lens' ContinueAsNewWorkflowExecution (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.searchAttributes' @:: Lens' ContinueAsNewWorkflowExecution (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.searchAttributes' @:: Lens' ContinueAsNewWorkflowExecution Proto.Temporal.Api.Common.V1.Message.SearchAttributes@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'searchAttributes' @:: Lens' ContinueAsNewWorkflowExecution (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes)@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.retryPolicy' @:: Lens' ContinueAsNewWorkflowExecution Proto.Temporal.Api.Common.V1.Message.RetryPolicy@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'retryPolicy' @:: Lens' ContinueAsNewWorkflowExecution (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.RetryPolicy)@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.versioningIntent' @:: Lens' ContinueAsNewWorkflowExecution Proto.Temporal.Sdk.Core.Common.Common.VersioningIntent@ -}
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.versioningIntent' @:: Lens' ContinueAsNewWorkflowExecution Proto.Temporal.Sdk.Core.Common.Common.VersioningIntent@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.initialVersioningBehavior' @:: Lens' ContinueAsNewWorkflowExecution Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior@ -}
 data ContinueAsNewWorkflowExecution
   = ContinueAsNewWorkflowExecution'_constructor {_ContinueAsNewWorkflowExecution'workflowType :: !Data.Text.Text,
                                                  _ContinueAsNewWorkflowExecution'taskQueue :: !Data.Text.Text,
@@ -753,9 +752,10 @@ data ContinueAsNewWorkflowExecution
                                                  _ContinueAsNewWorkflowExecution'workflowTaskTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
                                                  _ContinueAsNewWorkflowExecution'memo :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
                                                  _ContinueAsNewWorkflowExecution'headers :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
-                                                 _ContinueAsNewWorkflowExecution'searchAttributes :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
+                                                 _ContinueAsNewWorkflowExecution'searchAttributes :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes),
                                                  _ContinueAsNewWorkflowExecution'retryPolicy :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.RetryPolicy),
                                                  _ContinueAsNewWorkflowExecution'versioningIntent :: !Proto.Temporal.Sdk.Core.Common.Common.VersioningIntent,
+                                                 _ContinueAsNewWorkflowExecution'initialVersioningBehavior :: !Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior,
                                                  _ContinueAsNewWorkflowExecution'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show ContinueAsNewWorkflowExecution where
@@ -846,7 +846,15 @@ instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution "headers" 
            _ContinueAsNewWorkflowExecution'headers
            (\ x__ y__ -> x__ {_ContinueAsNewWorkflowExecution'headers = y__}))
         Prelude.id
-instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution "searchAttributes" (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload) where
+instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution "searchAttributes" Proto.Temporal.Api.Common.V1.Message.SearchAttributes where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ContinueAsNewWorkflowExecution'searchAttributes
+           (\ x__ y__
+              -> x__ {_ContinueAsNewWorkflowExecution'searchAttributes = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution "maybe'searchAttributes" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes) where
   fieldOf _
     = (Prelude..)
         (Lens.Family2.Unchecked.lens
@@ -878,6 +886,15 @@ instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution "versionin
            (\ x__ y__
               -> x__ {_ContinueAsNewWorkflowExecution'versioningIntent = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution "initialVersioningBehavior" Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ContinueAsNewWorkflowExecution'initialVersioningBehavior
+           (\ x__ y__
+              -> x__
+                   {_ContinueAsNewWorkflowExecution'initialVersioningBehavior = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
   messageName _
     = Data.Text.pack
@@ -892,18 +909,16 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
       \\DC4workflow_run_timeout\CAN\EOT \SOH(\v2\EM.google.protobuf.DurationR\DC2workflowRunTimeout\DC2M\n\
       \\NAKworkflow_task_timeout\CAN\ENQ \SOH(\v2\EM.google.protobuf.DurationR\DC3workflowTaskTimeout\DC2W\n\
       \\EOTmemo\CAN\ACK \ETX(\v2C.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.MemoEntryR\EOTmemo\DC2`\n\
-      \\aheaders\CAN\a \ETX(\v2F.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.HeadersEntryR\aheaders\DC2|\n\
-      \\DC1search_attributes\CAN\b \ETX(\v2O.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.SearchAttributesEntryR\DLEsearchAttributes\DC2F\n\
+      \\aheaders\CAN\a \ETX(\v2F.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.HeadersEntryR\aheaders\DC2U\n\
+      \\DC1search_attributes\CAN\b \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2F\n\
       \\fretry_policy\CAN\t \SOH(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\DC2M\n\
       \\DC1versioning_intent\CAN\n\
-      \ \SOH(\SO2 .coresdk.common.VersioningIntentR\DLEversioningIntent\SUBX\n\
+      \ \SOH(\SO2 .coresdk.common.VersioningIntentR\DLEversioningIntent\DC2v\n\
+      \\ESCinitial_versioning_behavior\CAN\v \SOH(\SO26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR\EMinitialVersioningBehavior\SUBX\n\
       \\tMemoEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
       \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUB[\n\
       \\fHeadersEntry\DC2\DLE\n\
-      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-      \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUBd\n\
-      \\NAKSearchAttributesEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
       \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH"
   packedFileDescriptor _ = packedFileDescriptor
@@ -976,11 +991,9 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
           = Data.ProtoLens.FieldDescriptor
               "search_attributes"
               (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
-                 Data.ProtoLens.FieldTypeDescriptor ContinueAsNewWorkflowExecution'SearchAttributesEntry)
-              (Data.ProtoLens.MapField
-                 (Data.ProtoLens.Field.field @"key")
-                 (Data.ProtoLens.Field.field @"value")
-                 (Data.ProtoLens.Field.field @"searchAttributes")) ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.SearchAttributes)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'searchAttributes")) ::
               Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecution
         retryPolicy__field_descriptor
           = Data.ProtoLens.FieldDescriptor
@@ -999,6 +1012,15 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"versioningIntent")) ::
               Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecution
+        initialVersioningBehavior__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "initial_versioning_behavior"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.EnumField ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Enums.V1.Workflow.ContinueAsNewVersioningBehavior)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"initialVersioningBehavior")) ::
+              Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecution
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, workflowType__field_descriptor),
@@ -1010,7 +1032,9 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
            (Data.ProtoLens.Tag 7, headers__field_descriptor),
            (Data.ProtoLens.Tag 8, searchAttributes__field_descriptor),
            (Data.ProtoLens.Tag 9, retryPolicy__field_descriptor),
-           (Data.ProtoLens.Tag 10, versioningIntent__field_descriptor)]
+           (Data.ProtoLens.Tag 10, versioningIntent__field_descriptor),
+           (Data.ProtoLens.Tag 11, 
+            initialVersioningBehavior__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _ContinueAsNewWorkflowExecution'_unknownFields
@@ -1025,9 +1049,10 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
          _ContinueAsNewWorkflowExecution'workflowTaskTimeout = Prelude.Nothing,
          _ContinueAsNewWorkflowExecution'memo = Data.Map.empty,
          _ContinueAsNewWorkflowExecution'headers = Data.Map.empty,
-         _ContinueAsNewWorkflowExecution'searchAttributes = Data.Map.empty,
+         _ContinueAsNewWorkflowExecution'searchAttributes = Prelude.Nothing,
          _ContinueAsNewWorkflowExecution'retryPolicy = Prelude.Nothing,
          _ContinueAsNewWorkflowExecution'versioningIntent = Data.ProtoLens.fieldDefault,
+         _ContinueAsNewWorkflowExecution'initialVersioningBehavior = Data.ProtoLens.fieldDefault,
          _ContinueAsNewWorkflowExecution'_unknownFields = []}
   parseMessage
     = let
@@ -1144,23 +1169,15 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
                                         (\ !t -> Data.Map.insert key value t) x)
                                      mutable'arguments)
                         66
-                          -> do !(entry :: ContinueAsNewWorkflowExecution'SearchAttributesEntry) <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                                                                                      (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                                                                                          Data.ProtoLens.Encoding.Bytes.isolate
-                                                                                                            (Prelude.fromIntegral
-                                                                                                               len)
-                                                                                                            Data.ProtoLens.parseMessage)
-                                                                                                      "search_attributes"
-                                (let
-                                   key = Lens.Family2.view (Data.ProtoLens.Field.field @"key") entry
-                                   value
-                                     = Lens.Family2.view (Data.ProtoLens.Field.field @"value") entry
-                                 in
-                                   loop
-                                     (Lens.Family2.over
-                                        (Data.ProtoLens.Field.field @"searchAttributes")
-                                        (\ !t -> Data.Map.insert key value t) x)
-                                     mutable'arguments)
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "search_attributes"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"searchAttributes") y x)
+                                  mutable'arguments
                         74
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -1181,6 +1198,18 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"versioningIntent") y x)
+                                  mutable'arguments
+                        88
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.toEnum
+                                          (Prelude.fmap
+                                             Prelude.fromIntegral
+                                             Data.ProtoLens.Encoding.Bytes.getVarInt))
+                                       "initial_versioning_behavior"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"initialVersioningBehavior") y x)
                                   mutable'arguments
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
@@ -1325,32 +1354,22 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
                                         (Lens.Family2.view
                                            (Data.ProtoLens.Field.field @"headers") _x))))
                                ((Data.Monoid.<>)
-                                  (Data.Monoid.mconcat
-                                     (Prelude.map
-                                        (\ _v
-                                           -> (Data.Monoid.<>)
-                                                (Data.ProtoLens.Encoding.Bytes.putVarInt 66)
-                                                ((Prelude..)
-                                                   (\ bs
-                                                      -> (Data.Monoid.<>)
-                                                           (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                              (Prelude.fromIntegral
-                                                                 (Data.ByteString.length bs)))
-                                                           (Data.ProtoLens.Encoding.Bytes.putBytes
-                                                              bs))
-                                                   Data.ProtoLens.encodeMessage
-                                                   (Lens.Family2.set
-                                                      (Data.ProtoLens.Field.field @"key")
-                                                      (Prelude.fst _v)
-                                                      (Lens.Family2.set
-                                                         (Data.ProtoLens.Field.field @"value")
-                                                         (Prelude.snd _v)
-                                                         (Data.ProtoLens.defMessage ::
-                                                            ContinueAsNewWorkflowExecution'SearchAttributesEntry)))))
-                                        (Data.Map.toList
-                                           (Lens.Family2.view
-                                              (Data.ProtoLens.Field.field @"searchAttributes")
-                                              _x))))
+                                  (case
+                                       Lens.Family2.view
+                                         (Data.ProtoLens.Field.field @"maybe'searchAttributes") _x
+                                   of
+                                     Prelude.Nothing -> Data.Monoid.mempty
+                                     (Prelude.Just _v)
+                                       -> (Data.Monoid.<>)
+                                            (Data.ProtoLens.Encoding.Bytes.putVarInt 66)
+                                            ((Prelude..)
+                                               (\ bs
+                                                  -> (Data.Monoid.<>)
+                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                          (Prelude.fromIntegral
+                                                             (Data.ByteString.length bs)))
+                                                       (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                               Data.ProtoLens.encodeMessage _v))
                                   ((Data.Monoid.<>)
                                      (case
                                           Lens.Family2.view
@@ -1385,9 +1404,27 @@ instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution where
                                                        Data.ProtoLens.Encoding.Bytes.putVarInt
                                                        Prelude.fromIntegral)
                                                     Prelude.fromEnum _v))
-                                        (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                           (Lens.Family2.view
-                                              Data.ProtoLens.unknownFields _x)))))))))))
+                                        ((Data.Monoid.<>)
+                                           (let
+                                              _v
+                                                = Lens.Family2.view
+                                                    (Data.ProtoLens.Field.field
+                                                       @"initialVersioningBehavior")
+                                                    _x
+                                            in
+                                              if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                                  Data.Monoid.mempty
+                                              else
+                                                  (Data.Monoid.<>)
+                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt 88)
+                                                    ((Prelude..)
+                                                       ((Prelude..)
+                                                          Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                          Prelude.fromIntegral)
+                                                       Prelude.fromEnum _v))
+                                           (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                              (Lens.Family2.view
+                                                 Data.ProtoLens.unknownFields _x))))))))))))
 instance Control.DeepSeq.NFData ContinueAsNewWorkflowExecution where
   rnf
     = \ x__
@@ -1413,7 +1450,10 @@ instance Control.DeepSeq.NFData ContinueAsNewWorkflowExecution where
                                         (_ContinueAsNewWorkflowExecution'retryPolicy x__)
                                         (Control.DeepSeq.deepseq
                                            (_ContinueAsNewWorkflowExecution'versioningIntent x__)
-                                           ()))))))))))
+                                           (Control.DeepSeq.deepseq
+                                              (_ContinueAsNewWorkflowExecution'initialVersioningBehavior
+                                                 x__)
+                                              ())))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.key' @:: Lens' ContinueAsNewWorkflowExecution'HeadersEntry Data.Text.Text@
@@ -1758,183 +1798,6 @@ instance Control.DeepSeq.NFData ContinueAsNewWorkflowExecution'MemoEntry where
                 (_ContinueAsNewWorkflowExecution'MemoEntry'key x__)
                 (Control.DeepSeq.deepseq
                    (_ContinueAsNewWorkflowExecution'MemoEntry'value x__) ()))
-{- | Fields :
-     
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.key' @:: Lens' ContinueAsNewWorkflowExecution'SearchAttributesEntry Data.Text.Text@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.value' @:: Lens' ContinueAsNewWorkflowExecution'SearchAttributesEntry Proto.Temporal.Api.Common.V1.Message.Payload@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'value' @:: Lens' ContinueAsNewWorkflowExecution'SearchAttributesEntry (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload)@ -}
-data ContinueAsNewWorkflowExecution'SearchAttributesEntry
-  = ContinueAsNewWorkflowExecution'SearchAttributesEntry'_constructor {_ContinueAsNewWorkflowExecution'SearchAttributesEntry'key :: !Data.Text.Text,
-                                                                       _ContinueAsNewWorkflowExecution'SearchAttributesEntry'value :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload),
-                                                                       _ContinueAsNewWorkflowExecution'SearchAttributesEntry'_unknownFields :: !Data.ProtoLens.FieldSet}
-  deriving stock (Prelude.Eq, Prelude.Ord)
-instance Prelude.Show ContinueAsNewWorkflowExecution'SearchAttributesEntry where
-  showsPrec _ __x __s
-    = Prelude.showChar
-        '{'
-        (Prelude.showString
-           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
-instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution'SearchAttributesEntry "key" Data.Text.Text where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _ContinueAsNewWorkflowExecution'SearchAttributesEntry'key
-           (\ x__ y__
-              -> x__
-                   {_ContinueAsNewWorkflowExecution'SearchAttributesEntry'key = y__}))
-        Prelude.id
-instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution'SearchAttributesEntry "value" Proto.Temporal.Api.Common.V1.Message.Payload where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _ContinueAsNewWorkflowExecution'SearchAttributesEntry'value
-           (\ x__ y__
-              -> x__
-                   {_ContinueAsNewWorkflowExecution'SearchAttributesEntry'value = y__}))
-        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
-instance Data.ProtoLens.Field.HasField ContinueAsNewWorkflowExecution'SearchAttributesEntry "maybe'value" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload) where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _ContinueAsNewWorkflowExecution'SearchAttributesEntry'value
-           (\ x__ y__
-              -> x__
-                   {_ContinueAsNewWorkflowExecution'SearchAttributesEntry'value = y__}))
-        Prelude.id
-instance Data.ProtoLens.Message ContinueAsNewWorkflowExecution'SearchAttributesEntry where
-  messageName _
-    = Data.Text.pack
-        "coresdk.workflow_commands.ContinueAsNewWorkflowExecution.SearchAttributesEntry"
-  packedMessageDescriptor _
-    = "\n\
-      \\NAKSearchAttributesEntry\DC2\DLE\n\
-      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-      \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH"
-  packedFileDescriptor _ = packedFileDescriptor
-  fieldsByTag
-    = let
-        key__field_descriptor
-          = Data.ProtoLens.FieldDescriptor
-              "key"
-              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
-                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
-              (Data.ProtoLens.PlainField
-                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"key")) ::
-              Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecution'SearchAttributesEntry
-        value__field_descriptor
-          = Data.ProtoLens.FieldDescriptor
-              "value"
-              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
-                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.Payload)
-              (Data.ProtoLens.OptionalField
-                 (Data.ProtoLens.Field.field @"maybe'value")) ::
-              Data.ProtoLens.FieldDescriptor ContinueAsNewWorkflowExecution'SearchAttributesEntry
-      in
-        Data.Map.fromList
-          [(Data.ProtoLens.Tag 1, key__field_descriptor),
-           (Data.ProtoLens.Tag 2, value__field_descriptor)]
-  unknownFields
-    = Lens.Family2.Unchecked.lens
-        _ContinueAsNewWorkflowExecution'SearchAttributesEntry'_unknownFields
-        (\ x__ y__
-           -> x__
-                {_ContinueAsNewWorkflowExecution'SearchAttributesEntry'_unknownFields = y__})
-  defMessage
-    = ContinueAsNewWorkflowExecution'SearchAttributesEntry'_constructor
-        {_ContinueAsNewWorkflowExecution'SearchAttributesEntry'key = Data.ProtoLens.fieldDefault,
-         _ContinueAsNewWorkflowExecution'SearchAttributesEntry'value = Prelude.Nothing,
-         _ContinueAsNewWorkflowExecution'SearchAttributesEntry'_unknownFields = []}
-  parseMessage
-    = let
-        loop ::
-          ContinueAsNewWorkflowExecution'SearchAttributesEntry
-          -> Data.ProtoLens.Encoding.Bytes.Parser ContinueAsNewWorkflowExecution'SearchAttributesEntry
-        loop x
-          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
-               if end then
-                   do (let missing = []
-                       in
-                         if Prelude.null missing then
-                             Prelude.return ()
-                         else
-                             Prelude.fail
-                               ((Prelude.++)
-                                  "Missing required fields: "
-                                  (Prelude.show (missing :: [Prelude.String]))))
-                      Prelude.return
-                        (Lens.Family2.over
-                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
-               else
-                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                      case tag of
-                        10
-                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                           Data.ProtoLens.Encoding.Bytes.getText
-                                             (Prelude.fromIntegral len))
-                                       "key"
-                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"key") y x)
-                        18
-                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                           Data.ProtoLens.Encoding.Bytes.isolate
-                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
-                                       "value"
-                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"value") y x)
-                        wire
-                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
-                                        wire
-                                loop
-                                  (Lens.Family2.over
-                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
-      in
-        (Data.ProtoLens.Encoding.Bytes.<?>)
-          (do loop Data.ProtoLens.defMessage) "SearchAttributesEntry"
-  buildMessage
-    = \ _x
-        -> (Data.Monoid.<>)
-             (let _v = Lens.Family2.view (Data.ProtoLens.Field.field @"key") _x
-              in
-                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
-                    Data.Monoid.mempty
-                else
-                    (Data.Monoid.<>)
-                      (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
-                      ((Prelude..)
-                         (\ bs
-                            -> (Data.Monoid.<>)
-                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                    (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                 (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                         Data.Text.Encoding.encodeUtf8 _v))
-             ((Data.Monoid.<>)
-                (case
-                     Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'value") _x
-                 of
-                   Prelude.Nothing -> Data.Monoid.mempty
-                   (Prelude.Just _v)
-                     -> (Data.Monoid.<>)
-                          (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
-                          ((Prelude..)
-                             (\ bs
-                                -> (Data.Monoid.<>)
-                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                             Data.ProtoLens.encodeMessage _v))
-                (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
-instance Control.DeepSeq.NFData ContinueAsNewWorkflowExecution'SearchAttributesEntry where
-  rnf
-    = \ x__
-        -> Control.DeepSeq.deepseq
-             (_ContinueAsNewWorkflowExecution'SearchAttributesEntry'_unknownFields
-                x__)
-             (Control.DeepSeq.deepseq
-                (_ContinueAsNewWorkflowExecution'SearchAttributesEntry'key x__)
-                (Control.DeepSeq.deepseq
-                   (_ContinueAsNewWorkflowExecution'SearchAttributesEntry'value x__)
-                   ()))
 {- | Fields :
      
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.failure' @:: Lens' FailWorkflowExecution Proto.Temporal.Api.Failure.V1.Message.Failure@
@@ -5190,7 +5053,11 @@ instance Control.DeepSeq.NFData ScheduleLocalActivity'HeadersEntry where
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.scheduleToCloseTimeout' @:: Lens' ScheduleNexusOperation Proto.Google.Protobuf.Duration.Duration@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'scheduleToCloseTimeout' @:: Lens' ScheduleNexusOperation (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.nexusHeader' @:: Lens' ScheduleNexusOperation (Data.Map.Map Data.Text.Text Data.Text.Text)@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.cancellationType' @:: Lens' ScheduleNexusOperation Proto.Temporal.Sdk.Core.Nexus.Nexus.NexusOperationCancellationType@ -}
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.cancellationType' @:: Lens' ScheduleNexusOperation Proto.Temporal.Sdk.Core.Nexus.Nexus.NexusOperationCancellationType@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.scheduleToStartTimeout' @:: Lens' ScheduleNexusOperation Proto.Google.Protobuf.Duration.Duration@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'scheduleToStartTimeout' @:: Lens' ScheduleNexusOperation (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.startToCloseTimeout' @:: Lens' ScheduleNexusOperation Proto.Google.Protobuf.Duration.Duration@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'startToCloseTimeout' @:: Lens' ScheduleNexusOperation (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration)@ -}
 data ScheduleNexusOperation
   = ScheduleNexusOperation'_constructor {_ScheduleNexusOperation'seq :: !Data.Word.Word32,
                                          _ScheduleNexusOperation'endpoint :: !Data.Text.Text,
@@ -5200,6 +5067,8 @@ data ScheduleNexusOperation
                                          _ScheduleNexusOperation'scheduleToCloseTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
                                          _ScheduleNexusOperation'nexusHeader :: !(Data.Map.Map Data.Text.Text Data.Text.Text),
                                          _ScheduleNexusOperation'cancellationType :: !Proto.Temporal.Sdk.Core.Nexus.Nexus.NexusOperationCancellationType,
+                                         _ScheduleNexusOperation'scheduleToStartTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
+                                         _ScheduleNexusOperation'startToCloseTimeout :: !(Prelude.Maybe Proto.Google.Protobuf.Duration.Duration),
                                          _ScheduleNexusOperation'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show ScheduleNexusOperation where
@@ -5281,6 +5150,38 @@ instance Data.ProtoLens.Field.HasField ScheduleNexusOperation "cancellationType"
            (\ x__ y__
               -> x__ {_ScheduleNexusOperation'cancellationType = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperation "scheduleToStartTimeout" Proto.Google.Protobuf.Duration.Duration where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperation'scheduleToStartTimeout
+           (\ x__ y__
+              -> x__ {_ScheduleNexusOperation'scheduleToStartTimeout = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperation "maybe'scheduleToStartTimeout" (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperation'scheduleToStartTimeout
+           (\ x__ y__
+              -> x__ {_ScheduleNexusOperation'scheduleToStartTimeout = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperation "startToCloseTimeout" Proto.Google.Protobuf.Duration.Duration where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperation'startToCloseTimeout
+           (\ x__ y__
+              -> x__ {_ScheduleNexusOperation'startToCloseTimeout = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField ScheduleNexusOperation "maybe'startToCloseTimeout" (Prelude.Maybe Proto.Google.Protobuf.Duration.Duration) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ScheduleNexusOperation'startToCloseTimeout
+           (\ x__ y__
+              -> x__ {_ScheduleNexusOperation'startToCloseTimeout = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message ScheduleNexusOperation where
   messageName _
     = Data.Text.pack "coresdk.workflow_commands.ScheduleNexusOperation"
@@ -5294,7 +5195,10 @@ instance Data.ProtoLens.Message ScheduleNexusOperation where
       \\ENQinput\CAN\ENQ \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQinput\DC2T\n\
       \\EMschedule_to_close_timeout\CAN\ACK \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToCloseTimeout\DC2e\n\
       \\fnexus_header\CAN\a \ETX(\v2B.coresdk.workflow_commands.ScheduleNexusOperation.NexusHeaderEntryR\vnexusHeader\DC2Z\n\
-      \\DC1cancellation_type\CAN\b \SOH(\SO2-.coresdk.nexus.NexusOperationCancellationTypeR\DLEcancellationType\SUB>\n\
+      \\DC1cancellation_type\CAN\b \SOH(\SO2-.coresdk.nexus.NexusOperationCancellationTypeR\DLEcancellationType\DC2T\n\
+      \\EMschedule_to_start_timeout\CAN\t \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToStartTimeout\DC2N\n\
+      \\SYNstart_to_close_timeout\CAN\n\
+      \ \SOH(\v2\EM.google.protobuf.DurationR\DC3startToCloseTimeout\SUB>\n\
       \\DLENexusHeaderEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
       \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOH"
@@ -5370,6 +5274,22 @@ instance Data.ProtoLens.Message ScheduleNexusOperation where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"cancellationType")) ::
               Data.ProtoLens.FieldDescriptor ScheduleNexusOperation
+        scheduleToStartTimeout__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "schedule_to_start_timeout"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Duration.Duration)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'scheduleToStartTimeout")) ::
+              Data.ProtoLens.FieldDescriptor ScheduleNexusOperation
+        startToCloseTimeout__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "start_to_close_timeout"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Duration.Duration)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'startToCloseTimeout")) ::
+              Data.ProtoLens.FieldDescriptor ScheduleNexusOperation
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, seq__field_descriptor),
@@ -5379,7 +5299,9 @@ instance Data.ProtoLens.Message ScheduleNexusOperation where
            (Data.ProtoLens.Tag 5, input__field_descriptor),
            (Data.ProtoLens.Tag 6, scheduleToCloseTimeout__field_descriptor),
            (Data.ProtoLens.Tag 7, nexusHeader__field_descriptor),
-           (Data.ProtoLens.Tag 8, cancellationType__field_descriptor)]
+           (Data.ProtoLens.Tag 8, cancellationType__field_descriptor),
+           (Data.ProtoLens.Tag 9, scheduleToStartTimeout__field_descriptor),
+           (Data.ProtoLens.Tag 10, startToCloseTimeout__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _ScheduleNexusOperation'_unknownFields
@@ -5394,6 +5316,8 @@ instance Data.ProtoLens.Message ScheduleNexusOperation where
          _ScheduleNexusOperation'scheduleToCloseTimeout = Prelude.Nothing,
          _ScheduleNexusOperation'nexusHeader = Data.Map.empty,
          _ScheduleNexusOperation'cancellationType = Data.ProtoLens.fieldDefault,
+         _ScheduleNexusOperation'scheduleToStartTimeout = Prelude.Nothing,
+         _ScheduleNexusOperation'startToCloseTimeout = Prelude.Nothing,
          _ScheduleNexusOperation'_unknownFields = []}
   parseMessage
     = let
@@ -5491,6 +5415,24 @@ instance Data.ProtoLens.Message ScheduleNexusOperation where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"cancellationType") y x)
+                        74
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "schedule_to_start_timeout"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"scheduleToStartTimeout") y x)
+                        82
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "start_to_close_timeout"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"startToCloseTimeout") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -5633,8 +5575,49 @@ instance Data.ProtoLens.Message ScheduleNexusOperation where
                                                  Data.ProtoLens.Encoding.Bytes.putVarInt
                                                  Prelude.fromIntegral)
                                               Prelude.fromEnum _v))
-                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                     (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))))
+                                  ((Data.Monoid.<>)
+                                     (case
+                                          Lens.Family2.view
+                                            (Data.ProtoLens.Field.field
+                                               @"maybe'scheduleToStartTimeout")
+                                            _x
+                                      of
+                                        Prelude.Nothing -> Data.Monoid.mempty
+                                        (Prelude.Just _v)
+                                          -> (Data.Monoid.<>)
+                                               (Data.ProtoLens.Encoding.Bytes.putVarInt 74)
+                                               ((Prelude..)
+                                                  (\ bs
+                                                     -> (Data.Monoid.<>)
+                                                          (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                             (Prelude.fromIntegral
+                                                                (Data.ByteString.length bs)))
+                                                          (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                             bs))
+                                                  Data.ProtoLens.encodeMessage _v))
+                                     ((Data.Monoid.<>)
+                                        (case
+                                             Lens.Family2.view
+                                               (Data.ProtoLens.Field.field
+                                                  @"maybe'startToCloseTimeout")
+                                               _x
+                                         of
+                                           Prelude.Nothing -> Data.Monoid.mempty
+                                           (Prelude.Just _v)
+                                             -> (Data.Monoid.<>)
+                                                  (Data.ProtoLens.Encoding.Bytes.putVarInt 82)
+                                                  ((Prelude..)
+                                                     (\ bs
+                                                        -> (Data.Monoid.<>)
+                                                             (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                (Prelude.fromIntegral
+                                                                   (Data.ByteString.length bs)))
+                                                             (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                bs))
+                                                     Data.ProtoLens.encodeMessage _v))
+                                        (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                           (Lens.Family2.view
+                                              Data.ProtoLens.unknownFields _x)))))))))))
 instance Control.DeepSeq.NFData ScheduleNexusOperation where
   rnf
     = \ x__
@@ -5655,7 +5638,12 @@ instance Control.DeepSeq.NFData ScheduleNexusOperation where
                                (Control.DeepSeq.deepseq
                                   (_ScheduleNexusOperation'nexusHeader x__)
                                   (Control.DeepSeq.deepseq
-                                     (_ScheduleNexusOperation'cancellationType x__) ()))))))))
+                                     (_ScheduleNexusOperation'cancellationType x__)
+                                     (Control.DeepSeq.deepseq
+                                        (_ScheduleNexusOperation'scheduleToStartTimeout x__)
+                                        (Control.DeepSeq.deepseq
+                                           (_ScheduleNexusOperation'startToCloseTimeout x__)
+                                           ()))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.key' @:: Lens' ScheduleNexusOperation'NexusHeaderEntry Data.Text.Text@
@@ -6645,7 +6633,8 @@ instance Control.DeepSeq.NFData SignalExternalWorkflowExecution'HeadersEntry whe
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.cronSchedule' @:: Lens' StartChildWorkflowExecution Data.Text.Text@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.headers' @:: Lens' StartChildWorkflowExecution (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.memo' @:: Lens' StartChildWorkflowExecution (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.searchAttributes' @:: Lens' StartChildWorkflowExecution (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.searchAttributes' @:: Lens' StartChildWorkflowExecution Proto.Temporal.Api.Common.V1.Message.SearchAttributes@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'searchAttributes' @:: Lens' StartChildWorkflowExecution (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes)@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.cancellationType' @:: Lens' StartChildWorkflowExecution Proto.Temporal.Sdk.Core.ChildWorkflow.ChildWorkflow.ChildWorkflowCancellationType@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.versioningIntent' @:: Lens' StartChildWorkflowExecution Proto.Temporal.Sdk.Core.Common.Common.VersioningIntent@
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.priority' @:: Lens' StartChildWorkflowExecution Proto.Temporal.Api.Common.V1.Message.Priority@
@@ -6666,7 +6655,7 @@ data StartChildWorkflowExecution
                                               _StartChildWorkflowExecution'cronSchedule :: !Data.Text.Text,
                                               _StartChildWorkflowExecution'headers :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
                                               _StartChildWorkflowExecution'memo :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
-                                              _StartChildWorkflowExecution'searchAttributes :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
+                                              _StartChildWorkflowExecution'searchAttributes :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes),
                                               _StartChildWorkflowExecution'cancellationType :: !Proto.Temporal.Sdk.Core.ChildWorkflow.ChildWorkflow.ChildWorkflowCancellationType,
                                               _StartChildWorkflowExecution'versioningIntent :: !Proto.Temporal.Sdk.Core.Common.Common.VersioningIntent,
                                               _StartChildWorkflowExecution'priority :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Priority),
@@ -6834,7 +6823,15 @@ instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution "memo" (Data.
            _StartChildWorkflowExecution'memo
            (\ x__ y__ -> x__ {_StartChildWorkflowExecution'memo = y__}))
         Prelude.id
-instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution "searchAttributes" (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload) where
+instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution "searchAttributes" Proto.Temporal.Api.Common.V1.Message.SearchAttributes where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _StartChildWorkflowExecution'searchAttributes
+           (\ x__ y__
+              -> x__ {_StartChildWorkflowExecution'searchAttributes = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution "maybe'searchAttributes" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes) where
   fieldOf _
     = (Prelude..)
         (Lens.Family2.Unchecked.lens
@@ -6896,8 +6893,8 @@ instance Data.ProtoLens.Message StartChildWorkflowExecution where
       \\fretry_policy\CAN\r \SOH(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\DC2#\n\
       \\rcron_schedule\CAN\SO \SOH(\tR\fcronSchedule\DC2]\n\
       \\aheaders\CAN\SI \ETX(\v2C.coresdk.workflow_commands.StartChildWorkflowExecution.HeadersEntryR\aheaders\DC2T\n\
-      \\EOTmemo\CAN\DLE \ETX(\v2@.coresdk.workflow_commands.StartChildWorkflowExecution.MemoEntryR\EOTmemo\DC2y\n\
-      \\DC1search_attributes\CAN\DC1 \ETX(\v2L.coresdk.workflow_commands.StartChildWorkflowExecution.SearchAttributesEntryR\DLEsearchAttributes\DC2b\n\
+      \\EOTmemo\CAN\DLE \ETX(\v2@.coresdk.workflow_commands.StartChildWorkflowExecution.MemoEntryR\EOTmemo\DC2U\n\
+      \\DC1search_attributes\CAN\DC1 \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2b\n\
       \\DC1cancellation_type\CAN\DC2 \SOH(\SO25.coresdk.child_workflow.ChildWorkflowCancellationTypeR\DLEcancellationType\DC2M\n\
       \\DC1versioning_intent\CAN\DC3 \SOH(\SO2 .coresdk.common.VersioningIntentR\DLEversioningIntent\DC2<\n\
       \\bpriority\CAN\DC4 \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\SUB[\n\
@@ -6905,9 +6902,6 @@ instance Data.ProtoLens.Message StartChildWorkflowExecution where
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
       \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUBX\n\
       \\tMemoEntry\DC2\DLE\n\
-      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-      \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUBd\n\
-      \\NAKSearchAttributesEntry\DC2\DLE\n\
       \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
       \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH"
   packedFileDescriptor _ = packedFileDescriptor
@@ -7048,11 +7042,9 @@ instance Data.ProtoLens.Message StartChildWorkflowExecution where
           = Data.ProtoLens.FieldDescriptor
               "search_attributes"
               (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
-                 Data.ProtoLens.FieldTypeDescriptor StartChildWorkflowExecution'SearchAttributesEntry)
-              (Data.ProtoLens.MapField
-                 (Data.ProtoLens.Field.field @"key")
-                 (Data.ProtoLens.Field.field @"value")
-                 (Data.ProtoLens.Field.field @"searchAttributes")) ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.SearchAttributes)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'searchAttributes")) ::
               Data.ProtoLens.FieldDescriptor StartChildWorkflowExecution
         cancellationType__field_descriptor
           = Data.ProtoLens.FieldDescriptor
@@ -7123,7 +7115,7 @@ instance Data.ProtoLens.Message StartChildWorkflowExecution where
          _StartChildWorkflowExecution'cronSchedule = Data.ProtoLens.fieldDefault,
          _StartChildWorkflowExecution'headers = Data.Map.empty,
          _StartChildWorkflowExecution'memo = Data.Map.empty,
-         _StartChildWorkflowExecution'searchAttributes = Data.Map.empty,
+         _StartChildWorkflowExecution'searchAttributes = Prelude.Nothing,
          _StartChildWorkflowExecution'cancellationType = Data.ProtoLens.fieldDefault,
          _StartChildWorkflowExecution'versioningIntent = Data.ProtoLens.fieldDefault,
          _StartChildWorkflowExecution'priority = Prelude.Nothing,
@@ -7321,23 +7313,15 @@ instance Data.ProtoLens.Message StartChildWorkflowExecution where
                                         (\ !t -> Data.Map.insert key value t) x)
                                      mutable'input)
                         138
-                          -> do !(entry :: StartChildWorkflowExecution'SearchAttributesEntry) <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                                                                                   (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                                                                                       Data.ProtoLens.Encoding.Bytes.isolate
-                                                                                                         (Prelude.fromIntegral
-                                                                                                            len)
-                                                                                                         Data.ProtoLens.parseMessage)
-                                                                                                   "search_attributes"
-                                (let
-                                   key = Lens.Family2.view (Data.ProtoLens.Field.field @"key") entry
-                                   value
-                                     = Lens.Family2.view (Data.ProtoLens.Field.field @"value") entry
-                                 in
-                                   loop
-                                     (Lens.Family2.over
-                                        (Data.ProtoLens.Field.field @"searchAttributes")
-                                        (\ !t -> Data.Map.insert key value t) x)
-                                     mutable'input)
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "search_attributes"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"searchAttributes") y x)
+                                  mutable'input
                         144
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (Prelude.fmap
@@ -7678,37 +7662,28 @@ instance Data.ProtoLens.Message StartChildWorkflowExecution where
                                                                       @"memo")
                                                                    _x))))
                                                        ((Data.Monoid.<>)
-                                                          (Data.Monoid.mconcat
-                                                             (Prelude.map
-                                                                (\ _v
-                                                                   -> (Data.Monoid.<>)
-                                                                        (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                                           138)
-                                                                        ((Prelude..)
-                                                                           (\ bs
-                                                                              -> (Data.Monoid.<>)
-                                                                                   (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                                                      (Prelude.fromIntegral
-                                                                                         (Data.ByteString.length
-                                                                                            bs)))
-                                                                                   (Data.ProtoLens.Encoding.Bytes.putBytes
-                                                                                      bs))
-                                                                           Data.ProtoLens.encodeMessage
-                                                                           (Lens.Family2.set
-                                                                              (Data.ProtoLens.Field.field
-                                                                                 @"key")
-                                                                              (Prelude.fst _v)
-                                                                              (Lens.Family2.set
-                                                                                 (Data.ProtoLens.Field.field
-                                                                                    @"value")
-                                                                                 (Prelude.snd _v)
-                                                                                 (Data.ProtoLens.defMessage ::
-                                                                                    StartChildWorkflowExecution'SearchAttributesEntry)))))
-                                                                (Data.Map.toList
-                                                                   (Lens.Family2.view
-                                                                      (Data.ProtoLens.Field.field
-                                                                         @"searchAttributes")
-                                                                      _x))))
+                                                          (case
+                                                               Lens.Family2.view
+                                                                 (Data.ProtoLens.Field.field
+                                                                    @"maybe'searchAttributes")
+                                                                 _x
+                                                           of
+                                                             Prelude.Nothing -> Data.Monoid.mempty
+                                                             (Prelude.Just _v)
+                                                               -> (Data.Monoid.<>)
+                                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                       138)
+                                                                    ((Prelude..)
+                                                                       (\ bs
+                                                                          -> (Data.Monoid.<>)
+                                                                               (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                                  (Prelude.fromIntegral
+                                                                                     (Data.ByteString.length
+                                                                                        bs)))
+                                                                               (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                                  bs))
+                                                                       Data.ProtoLens.encodeMessage
+                                                                       _v))
                                                           ((Data.Monoid.<>)
                                                              (let
                                                                 _v
@@ -8172,182 +8147,6 @@ instance Control.DeepSeq.NFData StartChildWorkflowExecution'MemoEntry where
                 (_StartChildWorkflowExecution'MemoEntry'key x__)
                 (Control.DeepSeq.deepseq
                    (_StartChildWorkflowExecution'MemoEntry'value x__) ()))
-{- | Fields :
-     
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.key' @:: Lens' StartChildWorkflowExecution'SearchAttributesEntry Data.Text.Text@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.value' @:: Lens' StartChildWorkflowExecution'SearchAttributesEntry Proto.Temporal.Api.Common.V1.Message.Payload@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'value' @:: Lens' StartChildWorkflowExecution'SearchAttributesEntry (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload)@ -}
-data StartChildWorkflowExecution'SearchAttributesEntry
-  = StartChildWorkflowExecution'SearchAttributesEntry'_constructor {_StartChildWorkflowExecution'SearchAttributesEntry'key :: !Data.Text.Text,
-                                                                    _StartChildWorkflowExecution'SearchAttributesEntry'value :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload),
-                                                                    _StartChildWorkflowExecution'SearchAttributesEntry'_unknownFields :: !Data.ProtoLens.FieldSet}
-  deriving stock (Prelude.Eq, Prelude.Ord)
-instance Prelude.Show StartChildWorkflowExecution'SearchAttributesEntry where
-  showsPrec _ __x __s
-    = Prelude.showChar
-        '{'
-        (Prelude.showString
-           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
-instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution'SearchAttributesEntry "key" Data.Text.Text where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _StartChildWorkflowExecution'SearchAttributesEntry'key
-           (\ x__ y__
-              -> x__
-                   {_StartChildWorkflowExecution'SearchAttributesEntry'key = y__}))
-        Prelude.id
-instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution'SearchAttributesEntry "value" Proto.Temporal.Api.Common.V1.Message.Payload where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _StartChildWorkflowExecution'SearchAttributesEntry'value
-           (\ x__ y__
-              -> x__
-                   {_StartChildWorkflowExecution'SearchAttributesEntry'value = y__}))
-        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
-instance Data.ProtoLens.Field.HasField StartChildWorkflowExecution'SearchAttributesEntry "maybe'value" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload) where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _StartChildWorkflowExecution'SearchAttributesEntry'value
-           (\ x__ y__
-              -> x__
-                   {_StartChildWorkflowExecution'SearchAttributesEntry'value = y__}))
-        Prelude.id
-instance Data.ProtoLens.Message StartChildWorkflowExecution'SearchAttributesEntry where
-  messageName _
-    = Data.Text.pack
-        "coresdk.workflow_commands.StartChildWorkflowExecution.SearchAttributesEntry"
-  packedMessageDescriptor _
-    = "\n\
-      \\NAKSearchAttributesEntry\DC2\DLE\n\
-      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-      \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH"
-  packedFileDescriptor _ = packedFileDescriptor
-  fieldsByTag
-    = let
-        key__field_descriptor
-          = Data.ProtoLens.FieldDescriptor
-              "key"
-              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
-                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
-              (Data.ProtoLens.PlainField
-                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"key")) ::
-              Data.ProtoLens.FieldDescriptor StartChildWorkflowExecution'SearchAttributesEntry
-        value__field_descriptor
-          = Data.ProtoLens.FieldDescriptor
-              "value"
-              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
-                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.Payload)
-              (Data.ProtoLens.OptionalField
-                 (Data.ProtoLens.Field.field @"maybe'value")) ::
-              Data.ProtoLens.FieldDescriptor StartChildWorkflowExecution'SearchAttributesEntry
-      in
-        Data.Map.fromList
-          [(Data.ProtoLens.Tag 1, key__field_descriptor),
-           (Data.ProtoLens.Tag 2, value__field_descriptor)]
-  unknownFields
-    = Lens.Family2.Unchecked.lens
-        _StartChildWorkflowExecution'SearchAttributesEntry'_unknownFields
-        (\ x__ y__
-           -> x__
-                {_StartChildWorkflowExecution'SearchAttributesEntry'_unknownFields = y__})
-  defMessage
-    = StartChildWorkflowExecution'SearchAttributesEntry'_constructor
-        {_StartChildWorkflowExecution'SearchAttributesEntry'key = Data.ProtoLens.fieldDefault,
-         _StartChildWorkflowExecution'SearchAttributesEntry'value = Prelude.Nothing,
-         _StartChildWorkflowExecution'SearchAttributesEntry'_unknownFields = []}
-  parseMessage
-    = let
-        loop ::
-          StartChildWorkflowExecution'SearchAttributesEntry
-          -> Data.ProtoLens.Encoding.Bytes.Parser StartChildWorkflowExecution'SearchAttributesEntry
-        loop x
-          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
-               if end then
-                   do (let missing = []
-                       in
-                         if Prelude.null missing then
-                             Prelude.return ()
-                         else
-                             Prelude.fail
-                               ((Prelude.++)
-                                  "Missing required fields: "
-                                  (Prelude.show (missing :: [Prelude.String]))))
-                      Prelude.return
-                        (Lens.Family2.over
-                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
-               else
-                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                      case tag of
-                        10
-                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                           Data.ProtoLens.Encoding.Bytes.getText
-                                             (Prelude.fromIntegral len))
-                                       "key"
-                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"key") y x)
-                        18
-                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                           Data.ProtoLens.Encoding.Bytes.isolate
-                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
-                                       "value"
-                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"value") y x)
-                        wire
-                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
-                                        wire
-                                loop
-                                  (Lens.Family2.over
-                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
-      in
-        (Data.ProtoLens.Encoding.Bytes.<?>)
-          (do loop Data.ProtoLens.defMessage) "SearchAttributesEntry"
-  buildMessage
-    = \ _x
-        -> (Data.Monoid.<>)
-             (let _v = Lens.Family2.view (Data.ProtoLens.Field.field @"key") _x
-              in
-                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
-                    Data.Monoid.mempty
-                else
-                    (Data.Monoid.<>)
-                      (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
-                      ((Prelude..)
-                         (\ bs
-                            -> (Data.Monoid.<>)
-                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                    (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                 (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                         Data.Text.Encoding.encodeUtf8 _v))
-             ((Data.Monoid.<>)
-                (case
-                     Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'value") _x
-                 of
-                   Prelude.Nothing -> Data.Monoid.mempty
-                   (Prelude.Just _v)
-                     -> (Data.Monoid.<>)
-                          (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
-                          ((Prelude..)
-                             (\ bs
-                                -> (Data.Monoid.<>)
-                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                             Data.ProtoLens.encodeMessage _v))
-                (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
-instance Control.DeepSeq.NFData StartChildWorkflowExecution'SearchAttributesEntry where
-  rnf
-    = \ x__
-        -> Control.DeepSeq.deepseq
-             (_StartChildWorkflowExecution'SearchAttributesEntry'_unknownFields
-                x__)
-             (Control.DeepSeq.deepseq
-                (_StartChildWorkflowExecution'SearchAttributesEntry'key x__)
-                (Control.DeepSeq.deepseq
-                   (_StartChildWorkflowExecution'SearchAttributesEntry'value x__) ()))
 {- | Fields :
      
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.seq' @:: Lens' StartTimer Data.Word.Word32@
@@ -8859,9 +8658,10 @@ _UpdateResponse'Completed
               _otherwise -> Prelude.Nothing)
 {- | Fields :
      
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.searchAttributes' @:: Lens' UpsertWorkflowSearchAttributes (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@ -}
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.searchAttributes' @:: Lens' UpsertWorkflowSearchAttributes Proto.Temporal.Api.Common.V1.Message.SearchAttributes@
+         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'searchAttributes' @:: Lens' UpsertWorkflowSearchAttributes (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes)@ -}
 data UpsertWorkflowSearchAttributes
-  = UpsertWorkflowSearchAttributes'_constructor {_UpsertWorkflowSearchAttributes'searchAttributes :: !(Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload),
+  = UpsertWorkflowSearchAttributes'_constructor {_UpsertWorkflowSearchAttributes'searchAttributes :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes),
                                                  _UpsertWorkflowSearchAttributes'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show UpsertWorkflowSearchAttributes where
@@ -8870,7 +8670,15 @@ instance Prelude.Show UpsertWorkflowSearchAttributes where
         '{'
         (Prelude.showString
            (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
-instance Data.ProtoLens.Field.HasField UpsertWorkflowSearchAttributes "searchAttributes" (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload) where
+instance Data.ProtoLens.Field.HasField UpsertWorkflowSearchAttributes "searchAttributes" Proto.Temporal.Api.Common.V1.Message.SearchAttributes where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _UpsertWorkflowSearchAttributes'searchAttributes
+           (\ x__ y__
+              -> x__ {_UpsertWorkflowSearchAttributes'searchAttributes = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField UpsertWorkflowSearchAttributes "maybe'searchAttributes" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.SearchAttributes) where
   fieldOf _
     = (Prelude..)
         (Lens.Family2.Unchecked.lens
@@ -8884,11 +8692,8 @@ instance Data.ProtoLens.Message UpsertWorkflowSearchAttributes where
         "coresdk.workflow_commands.UpsertWorkflowSearchAttributes"
   packedMessageDescriptor _
     = "\n\
-      \\RSUpsertWorkflowSearchAttributes\DC2|\n\
-      \\DC1search_attributes\CAN\SOH \ETX(\v2O.coresdk.workflow_commands.UpsertWorkflowSearchAttributes.SearchAttributesEntryR\DLEsearchAttributes\SUBd\n\
-      \\NAKSearchAttributesEntry\DC2\DLE\n\
-      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-      \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH"
+      \\RSUpsertWorkflowSearchAttributes\DC2U\n\
+      \\DC1search_attributes\CAN\SOH \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -8896,11 +8701,9 @@ instance Data.ProtoLens.Message UpsertWorkflowSearchAttributes where
           = Data.ProtoLens.FieldDescriptor
               "search_attributes"
               (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
-                 Data.ProtoLens.FieldTypeDescriptor UpsertWorkflowSearchAttributes'SearchAttributesEntry)
-              (Data.ProtoLens.MapField
-                 (Data.ProtoLens.Field.field @"key")
-                 (Data.ProtoLens.Field.field @"value")
-                 (Data.ProtoLens.Field.field @"searchAttributes")) ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.SearchAttributes)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'searchAttributes")) ::
               Data.ProtoLens.FieldDescriptor UpsertWorkflowSearchAttributes
       in
         Data.Map.fromList
@@ -8912,7 +8715,7 @@ instance Data.ProtoLens.Message UpsertWorkflowSearchAttributes where
            -> x__ {_UpsertWorkflowSearchAttributes'_unknownFields = y__})
   defMessage
     = UpsertWorkflowSearchAttributes'_constructor
-        {_UpsertWorkflowSearchAttributes'searchAttributes = Data.Map.empty,
+        {_UpsertWorkflowSearchAttributes'searchAttributes = Prelude.Nothing,
          _UpsertWorkflowSearchAttributes'_unknownFields = []}
   parseMessage
     = let
@@ -8938,22 +8741,14 @@ instance Data.ProtoLens.Message UpsertWorkflowSearchAttributes where
                    do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
                       case tag of
                         10
-                          -> do !(entry :: UpsertWorkflowSearchAttributes'SearchAttributesEntry) <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                                                                                      (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                                                                                          Data.ProtoLens.Encoding.Bytes.isolate
-                                                                                                            (Prelude.fromIntegral
-                                                                                                               len)
-                                                                                                            Data.ProtoLens.parseMessage)
-                                                                                                      "search_attributes"
-                                (let
-                                   key = Lens.Family2.view (Data.ProtoLens.Field.field @"key") entry
-                                   value
-                                     = Lens.Family2.view (Data.ProtoLens.Field.field @"value") entry
-                                 in
-                                   loop
-                                     (Lens.Family2.over
-                                        (Data.ProtoLens.Field.field @"searchAttributes")
-                                        (\ !t -> Data.Map.insert key value t) x))
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "search_attributes"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"searchAttributes") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -8967,27 +8762,21 @@ instance Data.ProtoLens.Message UpsertWorkflowSearchAttributes where
   buildMessage
     = \ _x
         -> (Data.Monoid.<>)
-             (Data.Monoid.mconcat
-                (Prelude.map
-                   (\ _v
-                      -> (Data.Monoid.<>)
-                           (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
-                           ((Prelude..)
-                              (\ bs
-                                 -> (Data.Monoid.<>)
-                                      (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                         (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                      (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                              Data.ProtoLens.encodeMessage
-                              (Lens.Family2.set
-                                 (Data.ProtoLens.Field.field @"key") (Prelude.fst _v)
-                                 (Lens.Family2.set
-                                    (Data.ProtoLens.Field.field @"value") (Prelude.snd _v)
-                                    (Data.ProtoLens.defMessage ::
-                                       UpsertWorkflowSearchAttributes'SearchAttributesEntry)))))
-                   (Data.Map.toList
-                      (Lens.Family2.view
-                         (Data.ProtoLens.Field.field @"searchAttributes") _x))))
+             (case
+                  Lens.Family2.view
+                    (Data.ProtoLens.Field.field @"maybe'searchAttributes") _x
+              of
+                Prelude.Nothing -> Data.Monoid.mempty
+                (Prelude.Just _v)
+                  -> (Data.Monoid.<>)
+                       (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                       ((Prelude..)
+                          (\ bs
+                             -> (Data.Monoid.<>)
+                                  (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                     (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                  (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                          Data.ProtoLens.encodeMessage _v))
              (Data.ProtoLens.Encoding.Wire.buildFieldSet
                 (Lens.Family2.view Data.ProtoLens.unknownFields _x))
 instance Control.DeepSeq.NFData UpsertWorkflowSearchAttributes where
@@ -8997,183 +8786,6 @@ instance Control.DeepSeq.NFData UpsertWorkflowSearchAttributes where
              (_UpsertWorkflowSearchAttributes'_unknownFields x__)
              (Control.DeepSeq.deepseq
                 (_UpsertWorkflowSearchAttributes'searchAttributes x__) ())
-{- | Fields :
-     
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.key' @:: Lens' UpsertWorkflowSearchAttributes'SearchAttributesEntry Data.Text.Text@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.value' @:: Lens' UpsertWorkflowSearchAttributes'SearchAttributesEntry Proto.Temporal.Api.Common.V1.Message.Payload@
-         * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.maybe'value' @:: Lens' UpsertWorkflowSearchAttributes'SearchAttributesEntry (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload)@ -}
-data UpsertWorkflowSearchAttributes'SearchAttributesEntry
-  = UpsertWorkflowSearchAttributes'SearchAttributesEntry'_constructor {_UpsertWorkflowSearchAttributes'SearchAttributesEntry'key :: !Data.Text.Text,
-                                                                       _UpsertWorkflowSearchAttributes'SearchAttributesEntry'value :: !(Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload),
-                                                                       _UpsertWorkflowSearchAttributes'SearchAttributesEntry'_unknownFields :: !Data.ProtoLens.FieldSet}
-  deriving stock (Prelude.Eq, Prelude.Ord)
-instance Prelude.Show UpsertWorkflowSearchAttributes'SearchAttributesEntry where
-  showsPrec _ __x __s
-    = Prelude.showChar
-        '{'
-        (Prelude.showString
-           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
-instance Data.ProtoLens.Field.HasField UpsertWorkflowSearchAttributes'SearchAttributesEntry "key" Data.Text.Text where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _UpsertWorkflowSearchAttributes'SearchAttributesEntry'key
-           (\ x__ y__
-              -> x__
-                   {_UpsertWorkflowSearchAttributes'SearchAttributesEntry'key = y__}))
-        Prelude.id
-instance Data.ProtoLens.Field.HasField UpsertWorkflowSearchAttributes'SearchAttributesEntry "value" Proto.Temporal.Api.Common.V1.Message.Payload where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _UpsertWorkflowSearchAttributes'SearchAttributesEntry'value
-           (\ x__ y__
-              -> x__
-                   {_UpsertWorkflowSearchAttributes'SearchAttributesEntry'value = y__}))
-        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
-instance Data.ProtoLens.Field.HasField UpsertWorkflowSearchAttributes'SearchAttributesEntry "maybe'value" (Prelude.Maybe Proto.Temporal.Api.Common.V1.Message.Payload) where
-  fieldOf _
-    = (Prelude..)
-        (Lens.Family2.Unchecked.lens
-           _UpsertWorkflowSearchAttributes'SearchAttributesEntry'value
-           (\ x__ y__
-              -> x__
-                   {_UpsertWorkflowSearchAttributes'SearchAttributesEntry'value = y__}))
-        Prelude.id
-instance Data.ProtoLens.Message UpsertWorkflowSearchAttributes'SearchAttributesEntry where
-  messageName _
-    = Data.Text.pack
-        "coresdk.workflow_commands.UpsertWorkflowSearchAttributes.SearchAttributesEntry"
-  packedMessageDescriptor _
-    = "\n\
-      \\NAKSearchAttributesEntry\DC2\DLE\n\
-      \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-      \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH"
-  packedFileDescriptor _ = packedFileDescriptor
-  fieldsByTag
-    = let
-        key__field_descriptor
-          = Data.ProtoLens.FieldDescriptor
-              "key"
-              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
-                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
-              (Data.ProtoLens.PlainField
-                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"key")) ::
-              Data.ProtoLens.FieldDescriptor UpsertWorkflowSearchAttributes'SearchAttributesEntry
-        value__field_descriptor
-          = Data.ProtoLens.FieldDescriptor
-              "value"
-              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
-                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Common.V1.Message.Payload)
-              (Data.ProtoLens.OptionalField
-                 (Data.ProtoLens.Field.field @"maybe'value")) ::
-              Data.ProtoLens.FieldDescriptor UpsertWorkflowSearchAttributes'SearchAttributesEntry
-      in
-        Data.Map.fromList
-          [(Data.ProtoLens.Tag 1, key__field_descriptor),
-           (Data.ProtoLens.Tag 2, value__field_descriptor)]
-  unknownFields
-    = Lens.Family2.Unchecked.lens
-        _UpsertWorkflowSearchAttributes'SearchAttributesEntry'_unknownFields
-        (\ x__ y__
-           -> x__
-                {_UpsertWorkflowSearchAttributes'SearchAttributesEntry'_unknownFields = y__})
-  defMessage
-    = UpsertWorkflowSearchAttributes'SearchAttributesEntry'_constructor
-        {_UpsertWorkflowSearchAttributes'SearchAttributesEntry'key = Data.ProtoLens.fieldDefault,
-         _UpsertWorkflowSearchAttributes'SearchAttributesEntry'value = Prelude.Nothing,
-         _UpsertWorkflowSearchAttributes'SearchAttributesEntry'_unknownFields = []}
-  parseMessage
-    = let
-        loop ::
-          UpsertWorkflowSearchAttributes'SearchAttributesEntry
-          -> Data.ProtoLens.Encoding.Bytes.Parser UpsertWorkflowSearchAttributes'SearchAttributesEntry
-        loop x
-          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
-               if end then
-                   do (let missing = []
-                       in
-                         if Prelude.null missing then
-                             Prelude.return ()
-                         else
-                             Prelude.fail
-                               ((Prelude.++)
-                                  "Missing required fields: "
-                                  (Prelude.show (missing :: [Prelude.String]))))
-                      Prelude.return
-                        (Lens.Family2.over
-                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
-               else
-                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                      case tag of
-                        10
-                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                           Data.ProtoLens.Encoding.Bytes.getText
-                                             (Prelude.fromIntegral len))
-                                       "key"
-                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"key") y x)
-                        18
-                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
-                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
-                                           Data.ProtoLens.Encoding.Bytes.isolate
-                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
-                                       "value"
-                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"value") y x)
-                        wire
-                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
-                                        wire
-                                loop
-                                  (Lens.Family2.over
-                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
-      in
-        (Data.ProtoLens.Encoding.Bytes.<?>)
-          (do loop Data.ProtoLens.defMessage) "SearchAttributesEntry"
-  buildMessage
-    = \ _x
-        -> (Data.Monoid.<>)
-             (let _v = Lens.Family2.view (Data.ProtoLens.Field.field @"key") _x
-              in
-                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
-                    Data.Monoid.mempty
-                else
-                    (Data.Monoid.<>)
-                      (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
-                      ((Prelude..)
-                         (\ bs
-                            -> (Data.Monoid.<>)
-                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                    (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                 (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                         Data.Text.Encoding.encodeUtf8 _v))
-             ((Data.Monoid.<>)
-                (case
-                     Lens.Family2.view (Data.ProtoLens.Field.field @"maybe'value") _x
-                 of
-                   Prelude.Nothing -> Data.Monoid.mempty
-                   (Prelude.Just _v)
-                     -> (Data.Monoid.<>)
-                          (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
-                          ((Prelude..)
-                             (\ bs
-                                -> (Data.Monoid.<>)
-                                     (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                        (Prelude.fromIntegral (Data.ByteString.length bs)))
-                                     (Data.ProtoLens.Encoding.Bytes.putBytes bs))
-                             Data.ProtoLens.encodeMessage _v))
-                (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
-instance Control.DeepSeq.NFData UpsertWorkflowSearchAttributes'SearchAttributesEntry where
-  rnf
-    = \ x__
-        -> Control.DeepSeq.deepseq
-             (_UpsertWorkflowSearchAttributes'SearchAttributesEntry'_unknownFields
-                x__)
-             (Control.DeepSeq.deepseq
-                (_UpsertWorkflowSearchAttributes'SearchAttributesEntry'key x__)
-                (Control.DeepSeq.deepseq
-                   (_UpsertWorkflowSearchAttributes'SearchAttributesEntry'value x__)
-                   ()))
 {- | Fields :
      
          * 'Proto.Temporal.Sdk.Core.WorkflowCommands.WorkflowCommands_Fields.userMetadata' @:: Lens' WorkflowCommand Proto.Temporal.Api.Sdk.V1.UserMetadata.UserMetadata@
@@ -11048,7 +10660,7 @@ packedFileDescriptor
     \\EMCompleteWorkflowExecution\DC27\n\
     \\ACKresult\CAN\SOH \SOH(\v2\US.temporal.api.common.v1.PayloadR\ACKresult\"S\n\
     \\NAKFailWorkflowExecution\DC2:\n\
-    \\afailure\CAN\SOH \SOH(\v2 .temporal.api.failure.v1.FailureR\afailure\"\172\b\n\
+    \\afailure\CAN\SOH \SOH(\v2 .temporal.api.failure.v1.FailureR\afailure\"\151\b\n\
     \\RSContinueAsNewWorkflowExecution\DC2#\n\
     \\rworkflow_type\CAN\SOH \SOH(\tR\fworkflowType\DC2\GS\n\
     \\n\
@@ -11057,18 +10669,16 @@ packedFileDescriptor
     \\DC4workflow_run_timeout\CAN\EOT \SOH(\v2\EM.google.protobuf.DurationR\DC2workflowRunTimeout\DC2M\n\
     \\NAKworkflow_task_timeout\CAN\ENQ \SOH(\v2\EM.google.protobuf.DurationR\DC3workflowTaskTimeout\DC2W\n\
     \\EOTmemo\CAN\ACK \ETX(\v2C.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.MemoEntryR\EOTmemo\DC2`\n\
-    \\aheaders\CAN\a \ETX(\v2F.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.HeadersEntryR\aheaders\DC2|\n\
-    \\DC1search_attributes\CAN\b \ETX(\v2O.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.SearchAttributesEntryR\DLEsearchAttributes\DC2F\n\
+    \\aheaders\CAN\a \ETX(\v2F.coresdk.workflow_commands.ContinueAsNewWorkflowExecution.HeadersEntryR\aheaders\DC2U\n\
+    \\DC1search_attributes\CAN\b \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2F\n\
     \\fretry_policy\CAN\t \SOH(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\DC2M\n\
     \\DC1versioning_intent\CAN\n\
-    \ \SOH(\SO2 .coresdk.common.VersioningIntentR\DLEversioningIntent\SUBX\n\
+    \ \SOH(\SO2 .coresdk.common.VersioningIntentR\DLEversioningIntent\DC2v\n\
+    \\ESCinitial_versioning_behavior\CAN\v \SOH(\SO26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR\EMinitialVersioningBehavior\SUBX\n\
     \\tMemoEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
     \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUB[\n\
     \\fHeadersEntry\DC2\DLE\n\
-    \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-    \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUBd\n\
-    \\NAKSearchAttributesEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
     \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\"\EM\n\
     \\ETBCancelWorkflowExecution\"K\n\
@@ -11076,7 +10686,7 @@ packedFileDescriptor
     \\bpatch_id\CAN\SOH \SOH(\tR\apatchId\DC2\RS\n\
     \\n\
     \deprecated\CAN\STX \SOH(\bR\n\
-    \deprecated\"\203\f\n\
+    \deprecated\"\193\v\n\
     \\ESCStartChildWorkflowExecution\DC2\DLE\n\
     \\ETXseq\CAN\SOH \SOH(\rR\ETXseq\DC2\FS\n\
     \\tnamespace\CAN\STX \SOH(\tR\tnamespace\DC2\US\n\
@@ -11095,8 +10705,8 @@ packedFileDescriptor
     \\fretry_policy\CAN\r \SOH(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\DC2#\n\
     \\rcron_schedule\CAN\SO \SOH(\tR\fcronSchedule\DC2]\n\
     \\aheaders\CAN\SI \ETX(\v2C.coresdk.workflow_commands.StartChildWorkflowExecution.HeadersEntryR\aheaders\DC2T\n\
-    \\EOTmemo\CAN\DLE \ETX(\v2@.coresdk.workflow_commands.StartChildWorkflowExecution.MemoEntryR\EOTmemo\DC2y\n\
-    \\DC1search_attributes\CAN\DC1 \ETX(\v2L.coresdk.workflow_commands.StartChildWorkflowExecution.SearchAttributesEntryR\DLEsearchAttributes\DC2b\n\
+    \\EOTmemo\CAN\DLE \ETX(\v2@.coresdk.workflow_commands.StartChildWorkflowExecution.MemoEntryR\EOTmemo\DC2U\n\
+    \\DC1search_attributes\CAN\DC1 \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\DC2b\n\
     \\DC1cancellation_type\CAN\DC2 \SOH(\SO25.coresdk.child_workflow.ChildWorkflowCancellationTypeR\DLEcancellationType\DC2M\n\
     \\DC1versioning_intent\CAN\DC3 \SOH(\SO2 .coresdk.common.VersioningIntentR\DLEversioningIntent\DC2<\n\
     \\bpriority\CAN\DC4 \SOH(\v2 .temporal.api.common.v1.PriorityR\bpriority\SUB[\n\
@@ -11104,9 +10714,6 @@ packedFileDescriptor
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
     \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUBX\n\
     \\tMemoEntry\DC2\DLE\n\
-    \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-    \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\SUBd\n\
-    \\NAKSearchAttributesEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
     \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\"d\n\
     \\FSCancelChildWorkflowExecution\DC2,\n\
@@ -11129,12 +10736,9 @@ packedFileDescriptor
     \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOHB\b\n\
     \\ACKtarget\"(\n\
     \\DC4CancelSignalWorkflow\DC2\DLE\n\
-    \\ETXseq\CAN\SOH \SOH(\rR\ETXseq\"\132\STX\n\
-    \\RSUpsertWorkflowSearchAttributes\DC2|\n\
-    \\DC1search_attributes\CAN\SOH \ETX(\v2O.coresdk.workflow_commands.UpsertWorkflowSearchAttributes.SearchAttributesEntryR\DLEsearchAttributes\SUBd\n\
-    \\NAKSearchAttributesEntry\DC2\DLE\n\
-    \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-    \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\"]\n\
+    \\ETXseq\CAN\SOH \SOH(\rR\ETXseq\"w\n\
+    \\RSUpsertWorkflowSearchAttributes\DC2U\n\
+    \\DC1search_attributes\CAN\SOH \SOH(\v2(.temporal.api.common.v1.SearchAttributesR\DLEsearchAttributes\"]\n\
     \\CANModifyWorkflowProperties\DC2A\n\
     \\rupserted_memo\CAN\SOH \SOH(\v2\FS.temporal.api.common.v1.MemoR\fupsertedMemo\"\133\STX\n\
     \\SOUpdateResponse\DC20\n\
@@ -11143,7 +10747,7 @@ packedFileDescriptor
     \\brejected\CAN\ETX \SOH(\v2 .temporal.api.failure.v1.FailureH\NULR\brejected\DC2?\n\
     \\tcompleted\CAN\EOT \SOH(\v2\US.temporal.api.common.v1.PayloadH\NULR\tcompletedB\n\
     \\n\
-    \\bresponse\"\142\EOT\n\
+    \\bresponse\"\180\ENQ\n\
     \\SYNScheduleNexusOperation\DC2\DLE\n\
     \\ETXseq\CAN\SOH \SOH(\rR\ETXseq\DC2\SUB\n\
     \\bendpoint\CAN\STX \SOH(\tR\bendpoint\DC2\CAN\n\
@@ -11152,7 +10756,10 @@ packedFileDescriptor
     \\ENQinput\CAN\ENQ \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQinput\DC2T\n\
     \\EMschedule_to_close_timeout\CAN\ACK \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToCloseTimeout\DC2e\n\
     \\fnexus_header\CAN\a \ETX(\v2B.coresdk.workflow_commands.ScheduleNexusOperation.NexusHeaderEntryR\vnexusHeader\DC2Z\n\
-    \\DC1cancellation_type\CAN\b \SOH(\SO2-.coresdk.nexus.NexusOperationCancellationTypeR\DLEcancellationType\SUB>\n\
+    \\DC1cancellation_type\CAN\b \SOH(\SO2-.coresdk.nexus.NexusOperationCancellationTypeR\DLEcancellationType\DC2T\n\
+    \\EMschedule_to_start_timeout\CAN\t \SOH(\v2\EM.google.protobuf.DurationR\SYNscheduleToStartTimeout\DC2N\n\
+    \\SYNstart_to_close_timeout\CAN\n\
+    \ \SOH(\v2\EM.google.protobuf.DurationR\DC3startToCloseTimeout\SUB>\n\
     \\DLENexusHeaderEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC2\DC4\n\
     \\ENQvalue\CAN\STX \SOH(\tR\ENQvalue:\STX8\SOH\"/\n\
@@ -11162,8 +10769,8 @@ packedFileDescriptor
     \\n\
     \TRY_CANCEL\DLE\NUL\DC2\US\n\
     \\ESCWAIT_CANCELLATION_COMPLETED\DLE\SOH\DC2\v\n\
-    \\aABANDON\DLE\STXB6\234\STX3Temporalio::Internal::Bridge::Api::WorkflowCommandsJ\186\147\SOH\n\
-    \\a\DC2\ENQ\NUL\NUL\130\ETX\SOH\n\
+    \\aABANDON\DLE\STXB6\234\STX3Temporalio::Internal::Bridge::Api::WorkflowCommandsJ\129\157\SOH\n\
+    \\a\DC2\ENQ\NUL\NUL\147\ETX\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\215\SOH\n\
@@ -11878,7 +11485,7 @@ packedFileDescriptor
     \\ENQ\EOT\n\
     \\STX\NUL\ETX\DC2\EOT\188\SOH./\n\
     \8\n\
-    \\STX\EOT\v\DC2\ACK\192\SOH\NUL\217\SOH\SOH\SUB* Continue the workflow as a new execution\n\
+    \\STX\EOT\v\DC2\ACK\192\SOH\NUL\221\SOH\SOH\SUB* Continue the workflow as a new execution\n\
     \\n\
     \\v\n\
     \\ETX\EOT\v\SOH\DC2\EOT\192\SOH\b&\n\
@@ -11952,15 +11559,15 @@ packedFileDescriptor
     \\r\n\
     \\ENQ\EOT\v\STX\ACK\ETX\DC2\EOT\208\SOH:;\n\
     \\136\SOH\n\
-    \\EOT\EOT\v\STX\a\DC2\EOT\211\SOH\EOTF\SUBz If set, the new workflow will have these search attributes. If unset, re-uses the current\n\
+    \\EOT\EOT\v\STX\a\DC2\EOT\211\SOH\EOTB\SUBz If set, the new workflow will have these search attributes. If unset, re-uses the current\n\
     \ workflow's search attributes.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\a\ACK\DC2\EOT\211\SOH\EOT/\n\
+    \\ENQ\EOT\v\STX\a\ACK\DC2\EOT\211\SOH\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\a\SOH\DC2\EOT\211\SOH0A\n\
+    \\ENQ\EOT\v\STX\a\SOH\DC2\EOT\211\SOH,=\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\a\ETX\DC2\EOT\211\SOHDE\n\
+    \\ENQ\EOT\v\STX\a\ETX\DC2\EOT\211\SOH@A\n\
     \}\n\
     \\EOT\EOT\v\STX\b\DC2\EOT\214\SOH\EOT8\SUBo If set, the new workflow will have this retry policy. If unset, re-uses the current\n\
     \ workflow's retry policy.\n\
@@ -11980,396 +11587,411 @@ packedFileDescriptor
     \\ENQ\EOT\v\STX\t\SOH\DC2\EOT\216\SOH$5\n\
     \\r\n\
     \\ENQ\EOT\v\STX\t\ETX\DC2\EOT\216\SOH8:\n\
+    \\237\SOH\n\
+    \\EOT\EOT\v\STX\n\
+    \\DC2\EOT\220\SOH\EOT[\SUB\222\SOH Experimental. Optionally decide the versioning behavior that the first task of the new run should use.\n\
+    \ For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version\n\
+    \ of the previous run.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\n\
+    \\ACK\DC2\EOT\220\SOH\EOT9\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\n\
+    \\SOH\DC2\EOT\220\SOH:U\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\n\
+    \\ETX\DC2\EOT\220\SOHXZ\n\
     \\139\SOH\n\
-    \\STX\EOT\f\DC2\EOT\221\SOH\NUL\"\SUB\DEL Indicate a workflow has completed as cancelled. Generally sent as a response to an activation\n\
+    \\STX\EOT\f\DC2\EOT\225\SOH\NUL\"\SUB\DEL Indicate a workflow has completed as cancelled. Generally sent as a response to an activation\n\
     \ containing a cancellation job.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\f\SOH\DC2\EOT\221\SOH\b\US\n\
+    \\ETX\EOT\f\SOH\DC2\EOT\225\SOH\b\US\n\
     \K\n\
-    \\STX\EOT\r\DC2\ACK\224\SOH\NUL\232\SOH\SOH\SUB= A request to set/check if a certain patch is present or not\n\
+    \\STX\EOT\r\DC2\ACK\228\SOH\NUL\236\SOH\SOH\SUB= A request to set/check if a certain patch is present or not\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\r\SOH\DC2\EOT\224\SOH\b\SYN\n\
+    \\ETX\EOT\r\SOH\DC2\EOT\228\SOH\b\SYN\n\
     \\242\SOH\n\
-    \\EOT\EOT\r\STX\NUL\DC2\EOT\228\SOH\EOT\CAN\SUB\227\SOH A user-chosen identifier for this patch. If the same identifier is used in multiple places in\n\
+    \\EOT\EOT\r\STX\NUL\DC2\EOT\232\SOH\EOT\CAN\SUB\227\SOH A user-chosen identifier for this patch. If the same identifier is used in multiple places in\n\
     \ the code, those places are considered to be versioned as one unit. IE: The check call will\n\
     \ return the same result for all of them\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\228\SOH\EOT\n\
+    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\232\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\228\SOH\v\DC3\n\
+    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\232\SOH\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\228\SOH\SYN\ETB\n\
+    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\232\SOH\SYN\ETB\n\
     \\180\SOH\n\
-    \\EOT\EOT\r\STX\SOH\DC2\EOT\231\SOH\EOT\CAN\SUB\165\SOH Can be set to true to indicate that branches using this change are being removed, and all\n\
+    \\EOT\EOT\r\STX\SOH\DC2\EOT\235\SOH\EOT\CAN\SUB\165\SOH Can be set to true to indicate that branches using this change are being removed, and all\n\
     \ future worker deployments will only have the \"with change\" code in them.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\EOT\231\SOH\EOT\b\n\
+    \\ENQ\EOT\r\STX\SOH\ENQ\DC2\EOT\235\SOH\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\231\SOH\t\DC3\n\
+    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\235\SOH\t\DC3\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\231\SOH\SYN\ETB\n\
+    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\235\SOH\SYN\ETB\n\
     \0\n\
-    \\STX\EOT\SO\DC2\ACK\235\SOH\NUL\140\STX\SOH\SUB\" Start a child workflow execution\n\
+    \\STX\EOT\SO\DC2\ACK\239\SOH\NUL\144\STX\SOH\SUB\" Start a child workflow execution\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\SO\SOH\DC2\EOT\235\SOH\b#\n\
+    \\ETX\EOT\SO\SOH\DC2\EOT\239\SOH\b#\n\
     \T\n\
-    \\EOT\EOT\SO\STX\NUL\DC2\EOT\237\SOH\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
+    \\EOT\EOT\SO\STX\NUL\DC2\EOT\241\SOH\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\EOT\237\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\EOT\241\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\237\SOH\v\SO\n\
+    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\241\SOH\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\237\SOH\DC1\DC2\n\
+    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\241\SOH\DC1\DC2\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\SOH\DC2\EOT\238\SOH\EOT\EM\n\
+    \\EOT\EOT\SO\STX\SOH\DC2\EOT\242\SOH\EOT\EM\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SOH\ENQ\DC2\EOT\238\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\SOH\ENQ\DC2\EOT\242\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SOH\SOH\DC2\EOT\238\SOH\v\DC4\n\
+    \\ENQ\EOT\SO\STX\SOH\SOH\DC2\EOT\242\SOH\v\DC4\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SOH\ETX\DC2\EOT\238\SOH\ETB\CAN\n\
+    \\ENQ\EOT\SO\STX\SOH\ETX\DC2\EOT\242\SOH\ETB\CAN\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\STX\DC2\EOT\239\SOH\EOT\ESC\n\
+    \\EOT\EOT\SO\STX\STX\DC2\EOT\243\SOH\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\STX\ENQ\DC2\EOT\239\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\STX\ENQ\DC2\EOT\243\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\STX\SOH\DC2\EOT\239\SOH\v\SYN\n\
+    \\ENQ\EOT\SO\STX\STX\SOH\DC2\EOT\243\SOH\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\STX\ETX\DC2\EOT\239\SOH\EM\SUB\n\
+    \\ENQ\EOT\SO\STX\STX\ETX\DC2\EOT\243\SOH\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\ETX\DC2\EOT\240\SOH\EOT\GS\n\
+    \\EOT\EOT\SO\STX\ETX\DC2\EOT\244\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ETX\ENQ\DC2\EOT\240\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\ETX\ENQ\DC2\EOT\244\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ETX\SOH\DC2\EOT\240\SOH\v\CAN\n\
+    \\ENQ\EOT\SO\STX\ETX\SOH\DC2\EOT\244\SOH\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ETX\ETX\DC2\EOT\240\SOH\ESC\FS\n\
+    \\ENQ\EOT\SO\STX\ETX\ETX\DC2\EOT\244\SOH\ESC\FS\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\EOT\DC2\EOT\241\SOH\EOT\SUB\n\
+    \\EOT\EOT\SO\STX\EOT\DC2\EOT\245\SOH\EOT\SUB\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\EOT\ENQ\DC2\EOT\241\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\EOT\ENQ\DC2\EOT\245\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\EOT\SOH\DC2\EOT\241\SOH\v\NAK\n\
+    \\ENQ\EOT\SO\STX\EOT\SOH\DC2\EOT\245\SOH\v\NAK\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\EOT\ETX\DC2\EOT\241\SOH\CAN\EM\n\
+    \\ENQ\EOT\SO\STX\EOT\ETX\DC2\EOT\245\SOH\CAN\EM\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\ENQ\DC2\EOT\242\SOH\EOT6\n\
+    \\EOT\EOT\SO\STX\ENQ\DC2\EOT\246\SOH\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\EOT\DC2\EOT\242\SOH\EOT\f\n\
+    \\ENQ\EOT\SO\STX\ENQ\EOT\DC2\EOT\246\SOH\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\ACK\DC2\EOT\242\SOH\r+\n\
+    \\ENQ\EOT\SO\STX\ENQ\ACK\DC2\EOT\246\SOH\r+\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\SOH\DC2\EOT\242\SOH,1\n\
+    \\ENQ\EOT\SO\STX\ENQ\SOH\DC2\EOT\246\SOH,1\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ENQ\ETX\DC2\EOT\242\SOH45\n\
+    \\ENQ\EOT\SO\STX\ENQ\ETX\DC2\EOT\246\SOH45\n\
     \W\n\
-    \\EOT\EOT\SO\STX\ACK\DC2\EOT\244\SOH\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
+    \\EOT\EOT\SO\STX\ACK\DC2\EOT\248\SOH\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ACK\ACK\DC2\EOT\244\SOH\EOT\FS\n\
+    \\ENQ\EOT\SO\STX\ACK\ACK\DC2\EOT\248\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ACK\SOH\DC2\EOT\244\SOH\GS7\n\
+    \\ENQ\EOT\SO\STX\ACK\SOH\DC2\EOT\248\SOH\GS7\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\ACK\ETX\DC2\EOT\244\SOH:;\n\
+    \\ENQ\EOT\SO\STX\ACK\ETX\DC2\EOT\248\SOH:;\n\
     \1\n\
-    \\EOT\EOT\SO\STX\a\DC2\EOT\246\SOH\EOT6\SUB# Timeout of a single workflow run.\n\
+    \\EOT\EOT\SO\STX\a\DC2\EOT\250\SOH\EOT6\SUB# Timeout of a single workflow run.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\a\ACK\DC2\EOT\246\SOH\EOT\FS\n\
+    \\ENQ\EOT\SO\STX\a\ACK\DC2\EOT\250\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\a\SOH\DC2\EOT\246\SOH\GS1\n\
+    \\ENQ\EOT\SO\STX\a\SOH\DC2\EOT\250\SOH\GS1\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\a\ETX\DC2\EOT\246\SOH45\n\
+    \\ENQ\EOT\SO\STX\a\ETX\DC2\EOT\250\SOH45\n\
     \2\n\
-    \\EOT\EOT\SO\STX\b\DC2\EOT\248\SOH\EOT7\SUB$ Timeout of a single workflow task.\n\
+    \\EOT\EOT\SO\STX\b\DC2\EOT\252\SOH\EOT7\SUB$ Timeout of a single workflow task.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\b\ACK\DC2\EOT\248\SOH\EOT\FS\n\
+    \\ENQ\EOT\SO\STX\b\ACK\DC2\EOT\252\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\b\SOH\DC2\EOT\248\SOH\GS2\n\
+    \\ENQ\EOT\SO\STX\b\SOH\DC2\EOT\252\SOH\GS2\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\b\ETX\DC2\EOT\248\SOH56\n\
+    \\ENQ\EOT\SO\STX\b\ETX\DC2\EOT\252\SOH56\n\
     \7\n\
-    \\EOT\EOT\SO\STX\t\DC2\EOT\250\SOH\EOT>\SUB) Default: PARENT_CLOSE_POLICY_TERMINATE.\n\
+    \\EOT\EOT\SO\STX\t\DC2\EOT\254\SOH\EOT>\SUB) Default: PARENT_CLOSE_POLICY_TERMINATE.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\t\ACK\DC2\EOT\250\SOH\EOT$\n\
+    \\ENQ\EOT\SO\STX\t\ACK\DC2\EOT\254\SOH\EOT$\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\t\SOH\DC2\EOT\250\SOH%8\n\
+    \\ENQ\EOT\SO\STX\t\SOH\DC2\EOT\254\SOH%8\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\t\ETX\DC2\EOT\250\SOH;=\n\
+    \\ENQ\EOT\SO\STX\t\ETX\DC2\EOT\254\SOH;=\n\
     \\148\SOH\n\
     \\EOT\EOT\SO\STX\n\
-    \\DC2\EOT\253\SOH\EOTN\SUB\133\SOH string control = 11; (unused from StartChildWorkflowExecutionCommandAttributes)\n\
+    \\DC2\EOT\129\STX\EOTN\SUB\133\SOH string control = 11; (unused from StartChildWorkflowExecutionCommandAttributes)\n\
     \ Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\SO\STX\n\
-    \\ACK\DC2\EOT\253\SOH\EOT/\n\
+    \\ACK\DC2\EOT\129\STX\EOT/\n\
     \\r\n\
     \\ENQ\EOT\SO\STX\n\
-    \\SOH\DC2\EOT\253\SOH0H\n\
+    \\SOH\DC2\EOT\129\STX0H\n\
     \\r\n\
     \\ENQ\EOT\SO\STX\n\
-    \\ETX\DC2\EOT\253\SOHKM\n\
+    \\ETX\DC2\EOT\129\STXKM\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\v\DC2\EOT\254\SOH\EOT9\n\
+    \\EOT\EOT\SO\STX\v\DC2\EOT\130\STX\EOT9\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\v\ACK\DC2\EOT\254\SOH\EOT&\n\
+    \\ENQ\EOT\SO\STX\v\ACK\DC2\EOT\130\STX\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\v\SOH\DC2\EOT\254\SOH'3\n\
+    \\ENQ\EOT\SO\STX\v\SOH\DC2\EOT\130\STX'3\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\v\ETX\DC2\EOT\254\SOH68\n\
+    \\ENQ\EOT\SO\STX\v\ETX\DC2\EOT\130\STX68\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\f\DC2\EOT\255\SOH\EOT\RS\n\
+    \\EOT\EOT\SO\STX\f\DC2\EOT\131\STX\EOT\RS\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\f\ENQ\DC2\EOT\255\SOH\EOT\n\
+    \\ENQ\EOT\SO\STX\f\ENQ\DC2\EOT\131\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\f\SOH\DC2\EOT\255\SOH\v\CAN\n\
+    \\ENQ\EOT\SO\STX\f\SOH\DC2\EOT\131\STX\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\f\ETX\DC2\EOT\255\SOH\ESC\GS\n\
+    \\ENQ\EOT\SO\STX\f\ETX\DC2\EOT\131\STX\ESC\GS\n\
     \\GS\n\
-    \\EOT\EOT\SO\STX\r\DC2\EOT\129\STX\EOT=\SUB\SI Header fields\n\
+    \\EOT\EOT\SO\STX\r\DC2\EOT\133\STX\EOT=\SUB\SI Header fields\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\r\ACK\DC2\EOT\129\STX\EOT/\n\
+    \\ENQ\EOT\SO\STX\r\ACK\DC2\EOT\133\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\r\SOH\DC2\EOT\129\STX07\n\
+    \\ENQ\EOT\SO\STX\r\SOH\DC2\EOT\133\STX07\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\r\ETX\DC2\EOT\129\STX:<\n\
+    \\ENQ\EOT\SO\STX\r\ETX\DC2\EOT\133\STX:<\n\
     \\ESC\n\
-    \\EOT\EOT\SO\STX\SO\DC2\EOT\131\STX\EOT:\SUB\r Memo fields\n\
+    \\EOT\EOT\SO\STX\SO\DC2\EOT\135\STX\EOT:\SUB\r Memo fields\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SO\ACK\DC2\EOT\131\STX\EOT/\n\
+    \\ENQ\EOT\SO\STX\SO\ACK\DC2\EOT\135\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SO\SOH\DC2\EOT\131\STX04\n\
+    \\ENQ\EOT\SO\STX\SO\SOH\DC2\EOT\135\STX04\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SO\ETX\DC2\EOT\131\STX79\n\
+    \\ENQ\EOT\SO\STX\SO\ETX\DC2\EOT\135\STX79\n\
     \!\n\
-    \\EOT\EOT\SO\STX\SI\DC2\EOT\133\STX\EOTG\SUB\DC3 Search attributes\n\
+    \\EOT\EOT\SO\STX\SI\DC2\EOT\137\STX\EOTC\SUB\DC3 Search attributes\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SI\ACK\DC2\EOT\133\STX\EOT/\n\
+    \\ENQ\EOT\SO\STX\SI\ACK\DC2\EOT\137\STX\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SI\SOH\DC2\EOT\133\STX0A\n\
+    \\ENQ\EOT\SO\STX\SI\SOH\DC2\EOT\137\STX,=\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\SI\ETX\DC2\EOT\133\STXDF\n\
+    \\ENQ\EOT\SO\STX\SI\ETX\DC2\EOT\137\STX@B\n\
     \q\n\
-    \\EOT\EOT\SO\STX\DLE\DC2\EOT\135\STX\EOTH\SUBc Defines behaviour of the underlying workflow when child workflow cancellation has been requested.\n\
+    \\EOT\EOT\SO\STX\DLE\DC2\EOT\139\STX\EOTH\SUBc Defines behaviour of the underlying workflow when child workflow cancellation has been requested.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DLE\ACK\DC2\EOT\135\STX\EOT0\n\
+    \\ENQ\EOT\SO\STX\DLE\ACK\DC2\EOT\139\STX\EOT0\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DLE\SOH\DC2\EOT\135\STX1B\n\
+    \\ENQ\EOT\SO\STX\DLE\SOH\DC2\EOT\139\STX1B\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DLE\ETX\DC2\EOT\135\STXEG\n\
+    \\ENQ\EOT\SO\STX\DLE\ETX\DC2\EOT\139\STXEG\n\
     \\\\n\
-    \\EOT\EOT\SO\STX\DC1\DC2\EOT\137\STX\EOT;\SUBN Whether this child should run on a worker with a compatible build id or not.\n\
+    \\EOT\EOT\SO\STX\DC1\DC2\EOT\141\STX\EOT;\SUBN Whether this child should run on a worker with a compatible build id or not.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DC1\ACK\DC2\EOT\137\STX\EOT#\n\
+    \\ENQ\EOT\SO\STX\DC1\ACK\DC2\EOT\141\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DC1\SOH\DC2\EOT\137\STX$5\n\
+    \\ENQ\EOT\SO\STX\DC1\SOH\DC2\EOT\141\STX$5\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DC1\ETX\DC2\EOT\137\STX8:\n\
+    \\ENQ\EOT\SO\STX\DC1\ETX\DC2\EOT\141\STX8:\n\
     \5\n\
-    \\EOT\EOT\SO\STX\DC2\DC2\EOT\139\STX\EOT2\SUB' The Priority to use for this activity\n\
+    \\EOT\EOT\SO\STX\DC2\DC2\EOT\143\STX\EOT2\SUB' The Priority to use for this activity\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DC2\ACK\DC2\EOT\139\STX\EOT#\n\
+    \\ENQ\EOT\SO\STX\DC2\ACK\DC2\EOT\143\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DC2\SOH\DC2\EOT\139\STX$,\n\
+    \\ENQ\EOT\SO\STX\DC2\SOH\DC2\EOT\143\STX$,\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\DC2\ETX\DC2\EOT\139\STX/1\n\
+    \\ENQ\EOT\SO\STX\DC2\ETX\DC2\EOT\143\STX/1\n\
     \'\n\
-    \\STX\EOT\SI\DC2\ACK\143\STX\NUL\148\STX\SOH\SUB\EM Cancel a child workflow\n\
+    \\STX\EOT\SI\DC2\ACK\147\STX\NUL\152\STX\SOH\SUB\EM Cancel a child workflow\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\SI\SOH\DC2\EOT\143\STX\b$\n\
+    \\ETX\EOT\SI\SOH\DC2\EOT\147\STX\b$\n\
     \U\n\
-    \\EOT\EOT\SI\STX\NUL\DC2\EOT\145\STX\EOT\"\SUBG Sequence number as given to the `StartChildWorkflowExecution` command\n\
+    \\EOT\EOT\SI\STX\NUL\DC2\EOT\149\STX\EOT\"\SUBG Sequence number as given to the `StartChildWorkflowExecution` command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\EOT\145\STX\EOT\n\
+    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\EOT\149\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\145\STX\v\GS\n\
+    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\149\STX\v\GS\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\145\STX !\n\
+    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\149\STX !\n\
     \-\n\
-    \\EOT\EOT\SI\STX\SOH\DC2\EOT\147\STX\EOT\SYN\SUB\US A reason for the cancellation\n\
+    \\EOT\EOT\SI\STX\SOH\DC2\EOT\151\STX\EOT\SYN\SUB\US A reason for the cancellation\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\ENQ\DC2\EOT\147\STX\EOT\n\
+    \\ENQ\EOT\SI\STX\SOH\ENQ\DC2\EOT\151\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\147\STX\v\DC1\n\
+    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\151\STX\v\DC1\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\147\STX\DC4\NAK\n\
+    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\151\STX\DC4\NAK\n\
     \\207\SOH\n\
-    \\STX\EOT\DLE\DC2\ACK\152\STX\NUL\159\STX\SOH\SUB\192\SOH Request cancellation of an external workflow execution. For cancellation of a child workflow,\n\
+    \\STX\EOT\DLE\DC2\ACK\156\STX\NUL\163\STX\SOH\SUB\192\SOH Request cancellation of an external workflow execution. For cancellation of a child workflow,\n\
     \ prefer `CancelChildWorkflowExecution` instead, as it guards against cancel-before-start issues.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DLE\SOH\DC2\EOT\152\STX\b.\n\
+    \\ETX\EOT\DLE\SOH\DC2\EOT\156\STX\b.\n\
     \T\n\
-    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\154\STX\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
+    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\158\STX\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ENQ\DC2\EOT\154\STX\EOT\n\
+    \\ENQ\EOT\DLE\STX\NUL\ENQ\DC2\EOT\158\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\154\STX\v\SO\n\
+    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\158\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\154\STX\DC1\DC2\n\
+    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\158\STX\DC1\DC2\n\
     \4\n\
-    \\EOT\EOT\DLE\STX\SOH\DC2\EOT\156\STX\EOT>\SUB& The workflow instance being targeted\n\
+    \\EOT\EOT\DLE\STX\SOH\DC2\EOT\160\STX\EOT>\SUB& The workflow instance being targeted\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\ACK\DC2\EOT\156\STX\EOT&\n\
+    \\ENQ\EOT\DLE\STX\SOH\ACK\DC2\EOT\160\STX\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\SOH\DC2\EOT\156\STX'9\n\
+    \\ENQ\EOT\DLE\STX\SOH\SOH\DC2\EOT\160\STX'9\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\ETX\DC2\EOT\156\STX<=\n\
+    \\ENQ\EOT\DLE\STX\SOH\ETX\DC2\EOT\160\STX<=\n\
     \-\n\
-    \\EOT\EOT\DLE\STX\STX\DC2\EOT\158\STX\EOT\SYN\SUB\US A reason for the cancellation\n\
+    \\EOT\EOT\DLE\STX\STX\DC2\EOT\162\STX\EOT\SYN\SUB\US A reason for the cancellation\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\ENQ\DC2\EOT\158\STX\EOT\n\
+    \\ENQ\EOT\DLE\STX\STX\ENQ\DC2\EOT\162\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\SOH\DC2\EOT\158\STX\v\DC1\n\
+    \\ENQ\EOT\DLE\STX\STX\SOH\DC2\EOT\162\STX\v\DC1\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\STX\ETX\DC2\EOT\158\STX\DC4\NAK\n\
+    \\ENQ\EOT\DLE\STX\STX\ETX\DC2\EOT\162\STX\DC4\NAK\n\
     \>\n\
-    \\STX\EOT\DC1\DC2\ACK\162\STX\NUL\178\STX\SOH\SUB0 Send a signal to an external or child workflow\n\
+    \\STX\EOT\DC1\DC2\ACK\166\STX\NUL\182\STX\SOH\SUB0 Send a signal to an external or child workflow\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DC1\SOH\DC2\EOT\162\STX\b'\n\
+    \\ETX\EOT\DC1\SOH\DC2\EOT\166\STX\b'\n\
     \T\n\
-    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\164\STX\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
+    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\168\STX\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\164\STX\EOT\n\
+    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\168\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\164\STX\v\SO\n\
+    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\168\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\164\STX\DC1\DC2\n\
+    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\168\STX\DC1\DC2\n\
     \1\n\
-    \\EOT\EOT\DC1\b\NUL\DC2\ACK\166\STX\EOT\171\STX\ENQ\SUB! What workflow is being targeted\n\
+    \\EOT\EOT\DC1\b\NUL\DC2\ACK\170\STX\EOT\175\STX\ENQ\SUB! What workflow is being targeted\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\b\NUL\SOH\DC2\EOT\166\STX\n\
+    \\ENQ\EOT\DC1\b\NUL\SOH\DC2\EOT\170\STX\n\
     \\DLE\n\
     \,\n\
-    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\168\STX\bB\SUB\RS A specific workflow instance\n\
+    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\172\STX\bB\SUB\RS A specific workflow instance\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ACK\DC2\EOT\168\STX\b*\n\
+    \\ENQ\EOT\DC1\STX\SOH\ACK\DC2\EOT\172\STX\b*\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\168\STX+=\n\
+    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\172\STX+=\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\168\STX@A\n\
+    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\172\STX@A\n\
     \g\n\
-    \\EOT\EOT\DC1\STX\STX\DC2\EOT\170\STX\b%\SUBY The desired target must be a child of the issuing workflow, and this is its workflow id\n\
+    \\EOT\EOT\DC1\STX\STX\DC2\EOT\174\STX\b%\SUBY The desired target must be a child of the issuing workflow, and this is its workflow id\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ENQ\DC2\EOT\170\STX\b\SO\n\
+    \\ENQ\EOT\DC1\STX\STX\ENQ\DC2\EOT\174\STX\b\SO\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\170\STX\SI \n\
+    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\174\STX\SI \n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\170\STX#$\n\
+    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\174\STX#$\n\
     \*\n\
-    \\EOT\EOT\DC1\STX\ETX\DC2\EOT\173\STX\EOT\ESC\SUB\FS Name of the signal handler\n\
+    \\EOT\EOT\DC1\STX\ETX\DC2\EOT\177\STX\EOT\ESC\SUB\FS Name of the signal handler\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\ENQ\DC2\EOT\173\STX\EOT\n\
+    \\ENQ\EOT\DC1\STX\ETX\ENQ\DC2\EOT\177\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\SOH\DC2\EOT\173\STX\v\SYN\n\
+    \\ENQ\EOT\DC1\STX\ETX\SOH\DC2\EOT\177\STX\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\ETX\DC2\EOT\173\STX\EM\SUB\n\
+    \\ENQ\EOT\DC1\STX\ETX\ETX\DC2\EOT\177\STX\EM\SUB\n\
     \)\n\
-    \\EOT\EOT\DC1\STX\EOT\DC2\EOT\175\STX\EOT5\SUB\ESC Arguments for the handler\n\
+    \\EOT\EOT\DC1\STX\EOT\DC2\EOT\179\STX\EOT5\SUB\ESC Arguments for the handler\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\EOT\DC2\EOT\175\STX\EOT\f\n\
+    \\ENQ\EOT\DC1\STX\EOT\EOT\DC2\EOT\179\STX\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\ACK\DC2\EOT\175\STX\r+\n\
+    \\ENQ\EOT\DC1\STX\EOT\ACK\DC2\EOT\179\STX\r+\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\SOH\DC2\EOT\175\STX,0\n\
+    \\ENQ\EOT\DC1\STX\EOT\SOH\DC2\EOT\179\STX,0\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\ETX\DC2\EOT\175\STX34\n\
+    \\ENQ\EOT\DC1\STX\EOT\ETX\DC2\EOT\179\STX34\n\
     \/\n\
-    \\EOT\EOT\DC1\STX\ENQ\DC2\EOT\177\STX\EOT<\SUB! Headers to attach to the signal\n\
+    \\EOT\EOT\DC1\STX\ENQ\DC2\EOT\181\STX\EOT<\SUB! Headers to attach to the signal\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\ACK\DC2\EOT\177\STX\EOT/\n\
+    \\ENQ\EOT\DC1\STX\ENQ\ACK\DC2\EOT\181\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\SOH\DC2\EOT\177\STX07\n\
+    \\ENQ\EOT\DC1\STX\ENQ\SOH\DC2\EOT\181\STX07\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\ETX\DC2\EOT\177\STX:;\n\
+    \\ENQ\EOT\DC1\STX\ENQ\ETX\DC2\EOT\181\STX:;\n\
     \a\n\
-    \\STX\EOT\DC2\DC2\ACK\181\STX\NUL\184\STX\SOH\SUBS Can be used to cancel not-already-sent `SignalExternalWorkflowExecution` commands\n\
+    \\STX\EOT\DC2\DC2\ACK\185\STX\NUL\188\STX\SOH\SUBS Can be used to cancel not-already-sent `SignalExternalWorkflowExecution` commands\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DC2\SOH\DC2\EOT\181\STX\b\FS\n\
+    \\ETX\EOT\DC2\SOH\DC2\EOT\185\STX\b\FS\n\
     \a\n\
-    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\183\STX\EOT\DC3\SUBS Lang's incremental sequence number as passed to `SignalExternalWorkflowExecution`\n\
+    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\187\STX\EOT\DC3\SUBS Lang's incremental sequence number as passed to `SignalExternalWorkflowExecution`\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\ENQ\DC2\EOT\183\STX\EOT\n\
+    \\ENQ\EOT\DC2\STX\NUL\ENQ\DC2\EOT\187\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\183\STX\v\SO\n\
+    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\187\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\183\STX\DC1\DC2\n\
+    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\187\STX\DC1\DC2\n\
     \\f\n\
-    \\STX\EOT\DC3\DC2\ACK\186\STX\NUL\190\STX\SOH\n\
+    \\STX\EOT\DC3\DC2\ACK\190\STX\NUL\194\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DC3\SOH\DC2\EOT\186\STX\b&\n\
-    \r\n\
-    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\189\STX\EOTF\SUBd SearchAttributes fields - equivalent to indexed_fields on api. Key = search index, Value =\n\
-    \ value?\n\
+    \\ETX\EOT\DC3\SOH\DC2\EOT\190\STX\b&\n\
+    \\153\SOH\n\
+    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\193\STX\EOTB\SUB\138\SOH SearchAttributes to upsert. The indexed_fields map will be merged with existing search\n\
+    \ attributes, with these values taking precedence.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ACK\DC2\EOT\189\STX\EOT/\n\
+    \\ENQ\EOT\DC3\STX\NUL\ACK\DC2\EOT\193\STX\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\189\STX0A\n\
+    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\193\STX,=\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\189\STXDE\n\
+    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\193\STX@A\n\
     \\f\n\
-    \\STX\EOT\DC4\DC2\ACK\192\STX\NUL\197\STX\SOH\n\
+    \\STX\EOT\DC4\DC2\ACK\196\STX\NUL\201\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DC4\SOH\DC2\EOT\192\STX\b \n\
+    \\ETX\EOT\DC4\SOH\DC2\EOT\196\STX\b \n\
     \\242\SOH\n\
-    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\196\STX\EOT2\SUB\227\SOH If set, update the workflow memo with the provided values. The values will be merged with\n\
+    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\200\STX\EOT2\SUB\227\SOH If set, update the workflow memo with the provided values. The values will be merged with\n\
     \ the existing memo. If the user wants to delete values, a default/empty Payload should be\n\
     \ used as the value for the key being deleted.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\ACK\DC2\EOT\196\STX\EOT\US\n\
+    \\ENQ\EOT\DC4\STX\NUL\ACK\DC2\EOT\200\STX\EOT\US\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\196\STX -\n\
+    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\200\STX -\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\196\STX01\n\
+    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\200\STX01\n\
     \\166\EOT\n\
-    \\STX\EOT\NAK\DC2\ACK\208\STX\NUL\222\STX\SOH\SUB\151\EOT A reply to a `DoUpdate` job - lang must run the update's validator if told to, and then\n\
+    \\STX\EOT\NAK\DC2\ACK\212\STX\NUL\226\STX\SOH\SUB\151\EOT A reply to a `DoUpdate` job - lang must run the update's validator if told to, and then\n\
     \ immediately run the handler, if the update was accepted.\n\
     \\n\
     \ There must always be an accepted or rejected response immediately, in the same activation as\n\
@@ -12380,122 +12002,122 @@ packedFileDescriptor
     \ with completed or rejected as appropriate for the result of the handler.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\NAK\SOH\DC2\EOT\208\STX\b\SYN\n\
+    \\ETX\EOT\NAK\SOH\DC2\EOT\212\STX\b\SYN\n\
     \0\n\
-    \\EOT\EOT\NAK\STX\NUL\DC2\EOT\210\STX\EOT$\SUB\" The protocol message instance ID\n\
+    \\EOT\EOT\NAK\STX\NUL\DC2\EOT\214\STX\EOT$\SUB\" The protocol message instance ID\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\NUL\ENQ\DC2\EOT\210\STX\EOT\n\
+    \\ENQ\EOT\NAK\STX\NUL\ENQ\DC2\EOT\214\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\NUL\SOH\DC2\EOT\210\STX\v\US\n\
+    \\ENQ\EOT\NAK\STX\NUL\SOH\DC2\EOT\214\STX\v\US\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\NUL\ETX\DC2\EOT\210\STX\"#\n\
+    \\ENQ\EOT\NAK\STX\NUL\ETX\DC2\EOT\214\STX\"#\n\
     \\SO\n\
-    \\EOT\EOT\NAK\b\NUL\DC2\ACK\211\STX\EOT\221\STX\ENQ\n\
+    \\EOT\EOT\NAK\b\NUL\DC2\ACK\215\STX\EOT\225\STX\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\NAK\b\NUL\SOH\DC2\EOT\211\STX\n\
+    \\ENQ\EOT\NAK\b\NUL\SOH\DC2\EOT\215\STX\n\
     \\DC2\n\
     \\209\SOH\n\
-    \\EOT\EOT\NAK\STX\SOH\DC2\EOT\215\STX\b+\SUB\194\SOH Must be sent if the update's validator has passed (or lang was not asked to run it, and\n\
+    \\EOT\EOT\NAK\STX\SOH\DC2\EOT\219\STX\b+\SUB\194\SOH Must be sent if the update's validator has passed (or lang was not asked to run it, and\n\
     \ thus should be considered already-accepted, allowing lang to always send the same\n\
     \ sequence on replay).\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\SOH\ACK\DC2\EOT\215\STX\b\GS\n\
+    \\ENQ\EOT\NAK\STX\SOH\ACK\DC2\EOT\219\STX\b\GS\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\SOH\SOH\DC2\EOT\215\STX\RS&\n\
+    \\ENQ\EOT\NAK\STX\SOH\SOH\DC2\EOT\219\STX\RS&\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\SOH\ETX\DC2\EOT\215\STX)*\n\
+    \\ENQ\EOT\NAK\STX\SOH\ETX\DC2\EOT\219\STX)*\n\
     \w\n\
-    \\EOT\EOT\NAK\STX\STX\DC2\EOT\218\STX\b5\SUBi Must be sent if the update's validator does not pass, or after acceptance if the update\n\
+    \\EOT\EOT\NAK\STX\STX\DC2\EOT\222\STX\b5\SUBi Must be sent if the update's validator does not pass, or after acceptance if the update\n\
     \ handler fails.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\STX\ACK\DC2\EOT\218\STX\b'\n\
+    \\ENQ\EOT\NAK\STX\STX\ACK\DC2\EOT\222\STX\b'\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\STX\SOH\DC2\EOT\218\STX(0\n\
+    \\ENQ\EOT\NAK\STX\STX\SOH\DC2\EOT\222\STX(0\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\STX\ETX\DC2\EOT\218\STX34\n\
+    \\ENQ\EOT\NAK\STX\STX\ETX\DC2\EOT\222\STX34\n\
     \L\n\
-    \\EOT\EOT\NAK\STX\ETX\DC2\EOT\220\STX\b5\SUB> Must be sent once the update handler completes successfully.\n\
+    \\EOT\EOT\NAK\STX\ETX\DC2\EOT\224\STX\b5\SUB> Must be sent once the update handler completes successfully.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\ETX\ACK\DC2\EOT\220\STX\b&\n\
+    \\ENQ\EOT\NAK\STX\ETX\ACK\DC2\EOT\224\STX\b&\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\ETX\SOH\DC2\EOT\220\STX'0\n\
+    \\ENQ\EOT\NAK\STX\ETX\SOH\DC2\EOT\224\STX'0\n\
     \\r\n\
-    \\ENQ\EOT\NAK\STX\ETX\ETX\DC2\EOT\220\STX34\n\
+    \\ENQ\EOT\NAK\STX\ETX\ETX\DC2\EOT\224\STX34\n\
     \4\n\
-    \\STX\EOT\SYN\DC2\ACK\225\STX\NUL\252\STX\SOH\SUB& A request to begin a Nexus operation\n\
+    \\STX\EOT\SYN\DC2\ACK\229\STX\NUL\141\ETX\SOH\SUB& A request to begin a Nexus operation\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\SYN\SOH\DC2\EOT\225\STX\b\RS\n\
+    \\ETX\EOT\SYN\SOH\DC2\EOT\229\STX\b\RS\n\
     \T\n\
-    \\EOT\EOT\SYN\STX\NUL\DC2\EOT\227\STX\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
+    \\EOT\EOT\SYN\STX\NUL\DC2\EOT\231\STX\EOT\DC3\SUBF Lang's incremental sequence number, used as the operation identifier\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\NUL\ENQ\DC2\EOT\227\STX\EOT\n\
+    \\ENQ\EOT\SYN\STX\NUL\ENQ\DC2\EOT\231\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\NUL\SOH\DC2\EOT\227\STX\v\SO\n\
+    \\ENQ\EOT\SYN\STX\NUL\SOH\DC2\EOT\231\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\NUL\ETX\DC2\EOT\227\STX\DC1\DC2\n\
+    \\ENQ\EOT\SYN\STX\NUL\ETX\DC2\EOT\231\STX\DC1\DC2\n\
     \]\n\
-    \\EOT\EOT\SYN\STX\SOH\DC2\EOT\229\STX\EOT\CAN\SUBO Endpoint name, must exist in the endpoint registry or this command will fail.\n\
+    \\EOT\EOT\SYN\STX\SOH\DC2\EOT\233\STX\EOT\CAN\SUBO Endpoint name, must exist in the endpoint registry or this command will fail.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\SOH\ENQ\DC2\EOT\229\STX\EOT\n\
+    \\ENQ\EOT\SYN\STX\SOH\ENQ\DC2\EOT\233\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\SOH\SOH\DC2\EOT\229\STX\v\DC3\n\
+    \\ENQ\EOT\SYN\STX\SOH\SOH\DC2\EOT\233\STX\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\SOH\ETX\DC2\EOT\229\STX\SYN\ETB\n\
+    \\ENQ\EOT\SYN\STX\SOH\ETX\DC2\EOT\233\STX\SYN\ETB\n\
     \\GS\n\
-    \\EOT\EOT\SYN\STX\STX\DC2\EOT\231\STX\EOT\ETB\SUB\SI Service name.\n\
+    \\EOT\EOT\SYN\STX\STX\DC2\EOT\235\STX\EOT\ETB\SUB\SI Service name.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\STX\ENQ\DC2\EOT\231\STX\EOT\n\
+    \\ENQ\EOT\SYN\STX\STX\ENQ\DC2\EOT\235\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\STX\SOH\DC2\EOT\231\STX\v\DC2\n\
+    \\ENQ\EOT\SYN\STX\STX\SOH\DC2\EOT\235\STX\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\STX\ETX\DC2\EOT\231\STX\NAK\SYN\n\
+    \\ENQ\EOT\SYN\STX\STX\ETX\DC2\EOT\235\STX\NAK\SYN\n\
     \\US\n\
-    \\EOT\EOT\SYN\STX\ETX\DC2\EOT\233\STX\EOT\EM\SUB\DC1 Operation name.\n\
+    \\EOT\EOT\SYN\STX\ETX\DC2\EOT\237\STX\EOT\EM\SUB\DC1 Operation name.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ETX\ENQ\DC2\EOT\233\STX\EOT\n\
+    \\ENQ\EOT\SYN\STX\ETX\ENQ\DC2\EOT\237\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ETX\SOH\DC2\EOT\233\STX\v\DC4\n\
+    \\ENQ\EOT\SYN\STX\ETX\SOH\DC2\EOT\237\STX\v\DC4\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ETX\ETX\DC2\EOT\233\STX\ETB\CAN\n\
+    \\ENQ\EOT\SYN\STX\ETX\ETX\DC2\EOT\237\STX\ETB\CAN\n\
     \\189\STX\n\
-    \\EOT\EOT\SYN\STX\EOT\DC2\EOT\238\STX\EOT-\SUB\174\STX Input for the operation. The server converts this into Nexus request content and the\n\
+    \\EOT\EOT\SYN\STX\EOT\DC2\EOT\242\STX\EOT-\SUB\174\STX Input for the operation. The server converts this into Nexus request content and the\n\
     \ appropriate content headers internally when sending the StartOperation request. On the\n\
     \ handler side, if it is also backed by Temporal, the content is transformed back to the\n\
     \ original Payload sent in this command.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\EOT\ACK\DC2\EOT\238\STX\EOT\"\n\
+    \\ENQ\EOT\SYN\STX\EOT\ACK\DC2\EOT\242\STX\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\EOT\SOH\DC2\EOT\238\STX#(\n\
+    \\ENQ\EOT\SYN\STX\EOT\SOH\DC2\EOT\242\STX#(\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\EOT\ETX\DC2\EOT\238\STX+,\n\
+    \\ENQ\EOT\SYN\STX\EOT\ETX\DC2\EOT\242\STX+,\n\
     \\183\SOH\n\
-    \\EOT\EOT\SYN\STX\ENQ\DC2\EOT\242\STX\EOT;\SUB\168\SOH Schedule-to-close timeout for this operation.\n\
+    \\EOT\EOT\SYN\STX\ENQ\DC2\EOT\246\STX\EOT;\SUB\168\SOH Schedule-to-close timeout for this operation.\n\
     \ Indicates how long the caller is willing to wait for operation completion.\n\
     \ Calls are retried internally by the server.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ENQ\ACK\DC2\EOT\242\STX\EOT\FS\n\
+    \\ENQ\EOT\SYN\STX\ENQ\ACK\DC2\EOT\246\STX\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ENQ\SOH\DC2\EOT\242\STX\GS6\n\
+    \\ENQ\EOT\SYN\STX\ENQ\SOH\DC2\EOT\246\STX\GS6\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ENQ\ETX\DC2\EOT\242\STX9:\n\
+    \\ENQ\EOT\SYN\STX\ENQ\ETX\DC2\EOT\246\STX9:\n\
     \\200\ETX\n\
-    \\EOT\EOT\SYN\STX\ACK\DC2\EOT\249\STX\EOT)\SUB\185\ETX Header to attach to the Nexus request.\n\
+    \\EOT\EOT\SYN\STX\ACK\DC2\EOT\253\STX\EOT)\SUB\185\ETX Header to attach to the Nexus request.\n\
     \ Users are responsible for encrypting sensitive data in this header as it is stored in\n\
     \ workflow history and transmitted to external services as-is. This is useful for propagating\n\
     \ tracing information. Note these headers are not the same as Temporal headers on internal\n\
@@ -12503,32 +12125,59 @@ packedFileDescriptor
     \ external and are not traditional payloads.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ACK\ACK\DC2\EOT\249\STX\EOT\ETB\n\
+    \\ENQ\EOT\SYN\STX\ACK\ACK\DC2\EOT\253\STX\EOT\ETB\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ACK\SOH\DC2\EOT\249\STX\CAN$\n\
+    \\ENQ\EOT\SYN\STX\ACK\SOH\DC2\EOT\253\STX\CAN$\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\ACK\ETX\DC2\EOT\249\STX'(\n\
+    \\ENQ\EOT\SYN\STX\ACK\ETX\DC2\EOT\253\STX'(\n\
     \s\n\
-    \\EOT\EOT\SYN\STX\a\DC2\EOT\251\STX\EOT?\SUBe Defines behaviour of the underlying nexus operation when operation cancellation has been requested.\n\
+    \\EOT\EOT\SYN\STX\a\DC2\EOT\255\STX\EOT?\SUBe Defines behaviour of the underlying nexus operation when operation cancellation has been requested.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\a\ACK\DC2\EOT\251\STX\EOT(\n\
+    \\ENQ\EOT\SYN\STX\a\ACK\DC2\EOT\255\STX\EOT(\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\a\SOH\DC2\EOT\251\STX):\n\
+    \\ENQ\EOT\SYN\STX\a\SOH\DC2\EOT\255\STX):\n\
     \\r\n\
-    \\ENQ\EOT\SYN\STX\a\ETX\DC2\EOT\251\STX=>\n\
+    \\ENQ\EOT\SYN\STX\a\ETX\DC2\EOT\255\STX=>\n\
+    \\230\STX\n\
+    \\EOT\EOT\SYN\STX\b\DC2\EOT\133\ETX\EOT;\SUB\215\STX Schedule-to-start timeout for this operation.\n\
+    \ Indicates how long the caller is willing to wait for the operation to be started (or completed if synchronous)\n\
+    \ by the handler. If the operation is not started within this timeout, it will fail with\n\
+    \ TIMEOUT_TYPE_SCHEDULE_TO_START.\n\
+    \ If not set or zero, no schedule-to-start timeout is enforced.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\SYN\STX\b\ACK\DC2\EOT\133\ETX\EOT\FS\n\
+    \\r\n\
+    \\ENQ\EOT\SYN\STX\b\SOH\DC2\EOT\133\ETX\GS6\n\
+    \\r\n\
+    \\ENQ\EOT\SYN\STX\b\ETX\DC2\EOT\133\ETX9:\n\
+    \\188\ETX\n\
+    \\EOT\EOT\SYN\STX\t\DC2\EOT\140\ETX\EOT9\SUB\173\ETX Start-to-close timeout for this operation.\n\
+    \ Indicates how long the caller is willing to wait for an asynchronous operation to complete after it has been\n\
+    \ started. If the operation does not complete within this timeout after starting, it will fail with\n\
+    \ TIMEOUT_TYPE_START_TO_CLOSE.\n\
+    \ Only applies to asynchronous operations. Synchronous operations ignore this timeout.\n\
+    \ If not set or zero, no start-to-close timeout is enforced.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\SYN\STX\t\ACK\DC2\EOT\140\ETX\EOT\FS\n\
+    \\r\n\
+    \\ENQ\EOT\SYN\STX\t\SOH\DC2\EOT\140\ETX\GS3\n\
+    \\r\n\
+    \\ENQ\EOT\SYN\STX\t\ETX\DC2\EOT\140\ETX68\n\
     \^\n\
-    \\STX\EOT\ETB\DC2\ACK\255\STX\NUL\130\ETX\SOH\SUBP Request cancellation of a nexus operation started via `ScheduleNexusOperation`\n\
+    \\STX\EOT\ETB\DC2\ACK\144\ETX\NUL\147\ETX\SOH\SUBP Request cancellation of a nexus operation started via `ScheduleNexusOperation`\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\ETB\SOH\DC2\EOT\255\STX\b#\n\
+    \\ETX\EOT\ETB\SOH\DC2\EOT\144\ETX\b#\n\
     \X\n\
-    \\EOT\EOT\ETB\STX\NUL\DC2\EOT\129\ETX\EOT\DC3\SUBJ Lang's incremental sequence number as passed to `ScheduleNexusOperation`\n\
+    \\EOT\EOT\ETB\STX\NUL\DC2\EOT\146\ETX\EOT\DC3\SUBJ Lang's incremental sequence number as passed to `ScheduleNexusOperation`\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\NUL\ENQ\DC2\EOT\129\ETX\EOT\n\
+    \\ENQ\EOT\ETB\STX\NUL\ENQ\DC2\EOT\146\ETX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\NUL\SOH\DC2\EOT\129\ETX\v\SO\n\
+    \\ENQ\EOT\ETB\STX\NUL\SOH\DC2\EOT\146\ETX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\ETB\STX\NUL\ETX\DC2\EOT\129\ETX\DC1\DC2b\ACKproto3"
+    \\ENQ\EOT\ETB\STX\NUL\ETX\DC2\EOT\146\ETX\DC1\DC2b\ACKproto3"
