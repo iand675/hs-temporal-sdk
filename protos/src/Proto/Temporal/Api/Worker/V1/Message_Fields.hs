@@ -282,12 +282,6 @@ processId ::
    Data.ProtoLens.Field.HasField s "processId" a) =>
   Lens.Family2.LensLike' f s a
 processId = Data.ProtoLens.Field.field @"processId"
-processKey ::
-  forall f s a.
-  (Prelude.Functor f,
-   Data.ProtoLens.Field.HasField s "processKey" a) =>
-  Lens.Family2.LensLike' f s a
-processKey = Data.ProtoLens.Field.field @"processKey"
 sdkName ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "sdkName" a) =>
@@ -360,6 +354,12 @@ version ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "version" a) =>
   Lens.Family2.LensLike' f s a
 version = Data.ProtoLens.Field.field @"version"
+workerGroupingKey ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "workerGroupingKey" a) =>
+  Lens.Family2.LensLike' f s a
+workerGroupingKey = Data.ProtoLens.Field.field @"workerGroupingKey"
 workerHeartbeat ::
   forall f s a.
   (Prelude.Functor f,

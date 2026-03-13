@@ -93,6 +93,8 @@ data EventType
     EVENT_TYPE_WORKFLOW_EXECUTION_OPTIONS_UPDATED |
     EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED |
     EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED |
+    EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED |
+    EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED |
     EventType'Unrecognized !EventType'UnrecognizedValue
   deriving stock (Prelude.Show, Prelude.Eq, Prelude.Ord)
 instance Data.ProtoLens.MessageEnum EventType where
@@ -192,6 +194,9 @@ instance Data.ProtoLens.MessageEnum EventType where
     = Prelude.Just EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED
   maybeToEnum 57
     = Prelude.Just EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+  maybeToEnum 58 = Prelude.Just EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
+  maybeToEnum 59
+    = Prelude.Just EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
   maybeToEnum k
     = Prelude.Just
         (EventType'Unrecognized
@@ -309,6 +314,10 @@ instance Data.ProtoLens.MessageEnum EventType where
     = "EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED"
   showEnum EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
     = "EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED"
+  showEnum EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
+    = "EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED"
+  showEnum EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
+    = "EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED"
   showEnum (EventType'Unrecognized (EventType'UnrecognizedValue k))
     = Prelude.show k
   readEnum k
@@ -441,11 +450,15 @@ instance Data.ProtoLens.MessageEnum EventType where
     = Prelude.Just EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED
     | (Prelude.==) k "EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED"
     = Prelude.Just EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+    | (Prelude.==) k "EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED"
+    = Prelude.Just EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
+    | (Prelude.==) k "EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED"
+    = Prelude.Just EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
     | Prelude.otherwise
     = (Prelude.>>=) (Text.Read.readMaybe k) Data.ProtoLens.maybeToEnum
 instance Prelude.Bounded EventType where
   minBound = EVENT_TYPE_UNSPECIFIED
-  maxBound = EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+  maxBound = EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
 instance Prelude.Enum EventType where
   toEnum k__
     = Prelude.maybe
@@ -517,11 +530,13 @@ instance Prelude.Enum EventType where
   fromEnum EVENT_TYPE_WORKFLOW_EXECUTION_OPTIONS_UPDATED = 55
   fromEnum EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED = 56
   fromEnum EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED = 57
+  fromEnum EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED = 58
+  fromEnum EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED = 59
   fromEnum (EventType'Unrecognized (EventType'UnrecognizedValue k))
     = Prelude.fromIntegral k
-  succ EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+  succ EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
     = Prelude.error
-        "EventType.succ: bad argument EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED. This value would be out of bounds."
+        "EventType.succ: bad argument EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED. This value would be out of bounds."
   succ EVENT_TYPE_UNSPECIFIED = EVENT_TYPE_WORKFLOW_EXECUTION_STARTED
   succ EVENT_TYPE_WORKFLOW_EXECUTION_STARTED
     = EVENT_TYPE_WORKFLOW_EXECUTION_COMPLETED
@@ -633,6 +648,10 @@ instance Prelude.Enum EventType where
     = EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED
   succ EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED
     = EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+  succ EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+    = EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
+  succ EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
+    = EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
   succ (EventType'Unrecognized _)
     = Prelude.error "EventType.succ: bad argument: unrecognized value"
   pred EVENT_TYPE_UNSPECIFIED
@@ -749,6 +768,10 @@ instance Prelude.Enum EventType where
     = EVENT_TYPE_WORKFLOW_EXECUTION_OPTIONS_UPDATED
   pred EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
     = EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED
+  pred EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
+    = EVENT_TYPE_NEXUS_OPERATION_CANCEL_REQUEST_FAILED
+  pred EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED
+    = EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED
   pred (EventType'Unrecognized _)
     = Prelude.error "EventType.pred: bad argument: unrecognized value"
   enumFrom = Data.ProtoLens.Message.Enum.messageEnumFrom

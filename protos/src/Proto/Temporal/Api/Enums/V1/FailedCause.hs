@@ -170,6 +170,7 @@ data ResourceExhaustedCause
     RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_STORAGE_LIMIT |
     RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN |
     RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT |
+    RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS |
     ResourceExhaustedCause'Unrecognized !ResourceExhaustedCause'UnrecognizedValue
   deriving stock (Prelude.Show, Prelude.Eq, Prelude.Ord)
 instance Data.ProtoLens.MessageEnum ResourceExhaustedCause where
@@ -188,6 +189,8 @@ instance Data.ProtoLens.MessageEnum ResourceExhaustedCause where
   maybeToEnum 8
     = Prelude.Just RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN
   maybeToEnum 9 = Prelude.Just RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
+  maybeToEnum 10
+    = Prelude.Just RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
   maybeToEnum k
     = Prelude.Just
         (ResourceExhaustedCause'Unrecognized
@@ -213,6 +216,8 @@ instance Data.ProtoLens.MessageEnum ResourceExhaustedCause where
     = "RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN"
   showEnum RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
     = "RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT"
+  showEnum RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
+    = "RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS"
   showEnum
     (ResourceExhaustedCause'Unrecognized (ResourceExhaustedCause'UnrecognizedValue k))
     = Prelude.show k
@@ -238,11 +243,14 @@ instance Data.ProtoLens.MessageEnum ResourceExhaustedCause where
     = Prelude.Just RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN
     | (Prelude.==) k "RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT"
     = Prelude.Just RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
+    | (Prelude.==)
+        k "RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS"
+    = Prelude.Just RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
     | Prelude.otherwise
     = (Prelude.>>=) (Text.Read.readMaybe k) Data.ProtoLens.maybeToEnum
 instance Prelude.Bounded ResourceExhaustedCause where
   minBound = RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED
-  maxBound = RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
+  maxBound = RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
 instance Prelude.Enum ResourceExhaustedCause where
   toEnum k__
     = Prelude.maybe
@@ -261,12 +269,13 @@ instance Prelude.Enum ResourceExhaustedCause where
   fromEnum RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_STORAGE_LIMIT = 7
   fromEnum RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN = 8
   fromEnum RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT = 9
+  fromEnum RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS = 10
   fromEnum
     (ResourceExhaustedCause'Unrecognized (ResourceExhaustedCause'UnrecognizedValue k))
     = Prelude.fromIntegral k
-  succ RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
+  succ RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
     = Prelude.error
-        "ResourceExhaustedCause.succ: bad argument RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT. This value would be out of bounds."
+        "ResourceExhaustedCause.succ: bad argument RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS. This value would be out of bounds."
   succ RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED
     = RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT
   succ RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT
@@ -285,6 +294,8 @@ instance Prelude.Enum ResourceExhaustedCause where
     = RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN
   succ RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN
     = RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
+  succ RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
+    = RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
   succ (ResourceExhaustedCause'Unrecognized _)
     = Prelude.error
         "ResourceExhaustedCause.succ: bad argument: unrecognized value"
@@ -309,6 +320,8 @@ instance Prelude.Enum ResourceExhaustedCause where
     = RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_STORAGE_LIMIT
   pred RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
     = RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN
+  pred RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS
+    = RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT
   pred (ResourceExhaustedCause'Unrecognized _)
     = Prelude.error
         "ResourceExhaustedCause.pred: bad argument: unrecognized value"
@@ -681,6 +694,7 @@ data WorkflowTaskFailedCause
     WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_NEXUS_OPERATION_ATTRIBUTES |
     WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED |
     WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE |
+    WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE |
     WorkflowTaskFailedCause'Unrecognized !WorkflowTaskFailedCause'UnrecognizedValue
   deriving stock (Prelude.Show, Prelude.Eq, Prelude.Ord)
 instance Data.ProtoLens.MessageEnum WorkflowTaskFailedCause where
@@ -779,6 +793,8 @@ instance Data.ProtoLens.MessageEnum WorkflowTaskFailedCause where
     = Prelude.Just WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED
   maybeToEnum 36
     = Prelude.Just WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
+  maybeToEnum 37
+    = Prelude.Just WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
   maybeToEnum k
     = Prelude.Just
         (WorkflowTaskFailedCause'Unrecognized
@@ -875,6 +891,8 @@ instance Data.ProtoLens.MessageEnum WorkflowTaskFailedCause where
     = "WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED"
   showEnum WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
     = "WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE"
+  showEnum WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
+    = "WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE"
   showEnum
     (WorkflowTaskFailedCause'Unrecognized (WorkflowTaskFailedCause'UnrecognizedValue k))
     = Prelude.show k
@@ -1017,11 +1035,13 @@ instance Data.ProtoLens.MessageEnum WorkflowTaskFailedCause where
     | (Prelude.==)
         k "WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE"
     = Prelude.Just WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
+    | (Prelude.==) k "WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE"
+    = Prelude.Just WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
     | Prelude.otherwise
     = (Prelude.>>=) (Text.Read.readMaybe k) Data.ProtoLens.maybeToEnum
 instance Prelude.Bounded WorkflowTaskFailedCause where
   minBound = WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED
-  maxBound = WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
+  maxBound = WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
 instance Prelude.Enum WorkflowTaskFailedCause where
   toEnum k__
     = Prelude.maybe
@@ -1105,12 +1125,13 @@ instance Prelude.Enum WorkflowTaskFailedCause where
     = 34
   fromEnum WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED = 35
   fromEnum WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE = 36
+  fromEnum WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE = 37
   fromEnum
     (WorkflowTaskFailedCause'Unrecognized (WorkflowTaskFailedCause'UnrecognizedValue k))
     = Prelude.fromIntegral k
-  succ WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
+  succ WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
     = Prelude.error
-        "WorkflowTaskFailedCause.succ: bad argument WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE. This value would be out of bounds."
+        "WorkflowTaskFailedCause.succ: bad argument WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE. This value would be out of bounds."
   succ WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED
     = WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND
   succ WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND
@@ -1197,6 +1218,8 @@ instance Prelude.Enum WorkflowTaskFailedCause where
     = WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED
   succ WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED
     = WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
+  succ WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
+    = WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
   succ (WorkflowTaskFailedCause'Unrecognized _)
     = Prelude.error
         "WorkflowTaskFailedCause.succ: bad argument: unrecognized value"
@@ -1289,6 +1312,8 @@ instance Prelude.Enum WorkflowTaskFailedCause where
     = WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_NEXUS_OPERATION_ATTRIBUTES
   pred WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
     = WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED
+  pred WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE
+    = WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE
   pred (WorkflowTaskFailedCause'Unrecognized _)
     = Prelude.error
         "WorkflowTaskFailedCause.pred: bad argument: unrecognized value"

@@ -217,6 +217,12 @@ lastCompletionResult ::
   Lens.Family2.LensLike' f s a
 lastCompletionResult
   = Data.ProtoLens.Field.field @"lastCompletionResult"
+lastSdkVersion ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "lastSdkVersion" a) =>
+  Lens.Family2.LensLike' f s a
+lastSdkVersion = Data.ProtoLens.Field.field @"lastSdkVersion"
 maybe'cancelWorkflow ::
   forall f s a.
   (Prelude.Functor f,
@@ -715,6 +721,21 @@ succeeded ::
    Data.ProtoLens.Field.HasField s "succeeded" a) =>
   Lens.Family2.LensLike' f s a
 succeeded = Data.ProtoLens.Field.field @"succeeded"
+suggestContinueAsNewReasons ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "suggestContinueAsNewReasons" a) =>
+  Lens.Family2.LensLike' f s a
+suggestContinueAsNewReasons
+  = Data.ProtoLens.Field.field @"suggestContinueAsNewReasons"
+targetWorkerDeploymentVersionChanged ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "targetWorkerDeploymentVersionChanged" a) =>
+  Lens.Family2.LensLike' f s a
+targetWorkerDeploymentVersionChanged
+  = Data.ProtoLens.Field.field
+      @"targetWorkerDeploymentVersionChanged"
 timestamp ::
   forall f s a.
   (Prelude.Functor f,
@@ -757,6 +778,13 @@ vec'jobs ::
    Data.ProtoLens.Field.HasField s "vec'jobs" a) =>
   Lens.Family2.LensLike' f s a
 vec'jobs = Data.ProtoLens.Field.field @"vec'jobs"
+vec'suggestContinueAsNewReasons ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "vec'suggestContinueAsNewReasons" a) =>
+  Lens.Family2.LensLike' f s a
+vec'suggestContinueAsNewReasons
+  = Data.ProtoLens.Field.field @"vec'suggestContinueAsNewReasons"
 workflowExecutionExpirationTime ::
   forall f s a.
   (Prelude.Functor f,

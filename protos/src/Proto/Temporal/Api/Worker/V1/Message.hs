@@ -1604,13 +1604,13 @@ instance Control.DeepSeq.NFData WorkerHeartbeat where
 {- | Fields :
      
          * 'Proto.Temporal.Api.Worker.V1.Message_Fields.hostName' @:: Lens' WorkerHostInfo Data.Text.Text@
-         * 'Proto.Temporal.Api.Worker.V1.Message_Fields.processKey' @:: Lens' WorkerHostInfo Data.Text.Text@
+         * 'Proto.Temporal.Api.Worker.V1.Message_Fields.workerGroupingKey' @:: Lens' WorkerHostInfo Data.Text.Text@
          * 'Proto.Temporal.Api.Worker.V1.Message_Fields.processId' @:: Lens' WorkerHostInfo Data.Text.Text@
          * 'Proto.Temporal.Api.Worker.V1.Message_Fields.currentHostCpuUsage' @:: Lens' WorkerHostInfo Prelude.Float@
          * 'Proto.Temporal.Api.Worker.V1.Message_Fields.currentHostMemUsage' @:: Lens' WorkerHostInfo Prelude.Float@ -}
 data WorkerHostInfo
   = WorkerHostInfo'_constructor {_WorkerHostInfo'hostName :: !Data.Text.Text,
-                                 _WorkerHostInfo'processKey :: !Data.Text.Text,
+                                 _WorkerHostInfo'workerGroupingKey :: !Data.Text.Text,
                                  _WorkerHostInfo'processId :: !Data.Text.Text,
                                  _WorkerHostInfo'currentHostCpuUsage :: !Prelude.Float,
                                  _WorkerHostInfo'currentHostMemUsage :: !Prelude.Float,
@@ -1629,12 +1629,12 @@ instance Data.ProtoLens.Field.HasField WorkerHostInfo "hostName" Data.Text.Text 
            _WorkerHostInfo'hostName
            (\ x__ y__ -> x__ {_WorkerHostInfo'hostName = y__}))
         Prelude.id
-instance Data.ProtoLens.Field.HasField WorkerHostInfo "processKey" Data.Text.Text where
+instance Data.ProtoLens.Field.HasField WorkerHostInfo "workerGroupingKey" Data.Text.Text where
   fieldOf _
     = (Prelude..)
         (Lens.Family2.Unchecked.lens
-           _WorkerHostInfo'processKey
-           (\ x__ y__ -> x__ {_WorkerHostInfo'processKey = y__}))
+           _WorkerHostInfo'workerGroupingKey
+           (\ x__ y__ -> x__ {_WorkerHostInfo'workerGroupingKey = y__}))
         Prelude.id
 instance Data.ProtoLens.Field.HasField WorkerHostInfo "processId" Data.Text.Text where
   fieldOf _
@@ -1663,9 +1663,8 @@ instance Data.ProtoLens.Message WorkerHostInfo where
   packedMessageDescriptor _
     = "\n\
       \\SOWorkerHostInfo\DC2\ESC\n\
-      \\thost_name\CAN\SOH \SOH(\tR\bhostName\DC2\US\n\
-      \\vprocess_key\CAN\ENQ \SOH(\tR\n\
-      \processKey\DC2\GS\n\
+      \\thost_name\CAN\SOH \SOH(\tR\bhostName\DC2.\n\
+      \\DC3worker_grouping_key\CAN\ENQ \SOH(\tR\DC1workerGroupingKey\DC2\GS\n\
       \\n\
       \process_id\CAN\STX \SOH(\tR\tprocessId\DC23\n\
       \\SYNcurrent_host_cpu_usage\CAN\ETX \SOH(\STXR\DC3currentHostCpuUsage\DC23\n\
@@ -1682,14 +1681,14 @@ instance Data.ProtoLens.Message WorkerHostInfo where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"hostName")) ::
               Data.ProtoLens.FieldDescriptor WorkerHostInfo
-        processKey__field_descriptor
+        workerGroupingKey__field_descriptor
           = Data.ProtoLens.FieldDescriptor
-              "process_key"
+              "worker_grouping_key"
               (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
                  Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
               (Data.ProtoLens.PlainField
                  Data.ProtoLens.Optional
-                 (Data.ProtoLens.Field.field @"processKey")) ::
+                 (Data.ProtoLens.Field.field @"workerGroupingKey")) ::
               Data.ProtoLens.FieldDescriptor WorkerHostInfo
         processId__field_descriptor
           = Data.ProtoLens.FieldDescriptor
@@ -1721,7 +1720,7 @@ instance Data.ProtoLens.Message WorkerHostInfo where
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, hostName__field_descriptor),
-           (Data.ProtoLens.Tag 5, processKey__field_descriptor),
+           (Data.ProtoLens.Tag 5, workerGroupingKey__field_descriptor),
            (Data.ProtoLens.Tag 2, processId__field_descriptor),
            (Data.ProtoLens.Tag 3, currentHostCpuUsage__field_descriptor),
            (Data.ProtoLens.Tag 4, currentHostMemUsage__field_descriptor)]
@@ -1732,7 +1731,7 @@ instance Data.ProtoLens.Message WorkerHostInfo where
   defMessage
     = WorkerHostInfo'_constructor
         {_WorkerHostInfo'hostName = Data.ProtoLens.fieldDefault,
-         _WorkerHostInfo'processKey = Data.ProtoLens.fieldDefault,
+         _WorkerHostInfo'workerGroupingKey = Data.ProtoLens.fieldDefault,
          _WorkerHostInfo'processId = Data.ProtoLens.fieldDefault,
          _WorkerHostInfo'currentHostCpuUsage = Data.ProtoLens.fieldDefault,
          _WorkerHostInfo'currentHostMemUsage = Data.ProtoLens.fieldDefault,
@@ -1773,9 +1772,10 @@ instance Data.ProtoLens.Message WorkerHostInfo where
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
                                            Data.ProtoLens.Encoding.Bytes.getText
                                              (Prelude.fromIntegral len))
-                                       "process_key"
+                                       "worker_grouping_key"
                                 loop
-                                  (Lens.Family2.set (Data.ProtoLens.Field.field @"processKey") y x)
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"workerGroupingKey") y x)
                         18
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -1832,7 +1832,8 @@ instance Data.ProtoLens.Message WorkerHostInfo where
              ((Data.Monoid.<>)
                 (let
                    _v
-                     = Lens.Family2.view (Data.ProtoLens.Field.field @"processKey") _x
+                     = Lens.Family2.view
+                         (Data.ProtoLens.Field.field @"workerGroupingKey") _x
                  in
                    if (Prelude.==) _v Data.ProtoLens.fieldDefault then
                        Data.Monoid.mempty
@@ -1900,7 +1901,7 @@ instance Control.DeepSeq.NFData WorkerHostInfo where
              (Control.DeepSeq.deepseq
                 (_WorkerHostInfo'hostName x__)
                 (Control.DeepSeq.deepseq
-                   (_WorkerHostInfo'processKey x__)
+                   (_WorkerHostInfo'workerGroupingKey x__)
                    (Control.DeepSeq.deepseq
                       (_WorkerHostInfo'processId x__)
                       (Control.DeepSeq.deepseq
@@ -2656,11 +2657,10 @@ packedFileDescriptor
     \\NAKtotal_processed_tasks\CAN\EOT \SOH(\ENQR\DC3totalProcessedTasks\DC2,\n\
     \\DC2total_failed_tasks\CAN\ENQ \SOH(\ENQR\DLEtotalFailedTasks\DC2A\n\
     \\GSlast_interval_processed_tasks\CAN\ACK \SOH(\ENQR\SUBlastIntervalProcessedTasks\DC2=\n\
-    \\ESClast_interval_failure_tasks\CAN\a \SOH(\ENQR\CANlastIntervalFailureTasks\"\215\SOH\n\
+    \\ESClast_interval_failure_tasks\CAN\a \SOH(\ENQR\CANlastIntervalFailureTasks\"\230\SOH\n\
     \\SOWorkerHostInfo\DC2\ESC\n\
-    \\thost_name\CAN\SOH \SOH(\tR\bhostName\DC2\US\n\
-    \\vprocess_key\CAN\ENQ \SOH(\tR\n\
-    \processKey\DC2\GS\n\
+    \\thost_name\CAN\SOH \SOH(\tR\bhostName\DC2.\n\
+    \\DC3worker_grouping_key\CAN\ENQ \SOH(\tR\DC1workerGroupingKey\DC2\GS\n\
     \\n\
     \process_id\CAN\STX \SOH(\tR\tprocessId\DC23\n\
     \\SYNcurrent_host_cpu_usage\CAN\ETX \SOH(\STXR\DC3currentHostCpuUsage\DC23\n\
@@ -2700,8 +2700,8 @@ packedFileDescriptor
     \PluginInfo\DC2\DC2\n\
     \\EOTname\CAN\SOH \SOH(\tR\EOTname\DC2\CAN\n\
     \\aversion\CAN\STX \SOH(\tR\aversionB\137\SOH\n\
-    \\EMio.temporal.api.worker.v1B\fMessageProtoP\SOHZ#go.temporal.io/api/worker/v1;worker\170\STX\CANTemporalio.Api.Worker.V1\234\STX\ESCTemporalio::Api::Worker::V1J\194,\n\
-    \\a\DC2\ENQ\NUL\NUL\143\SOH\SOH\n\
+    \\EMio.temporal.api.worker.v1B\fMessageProtoP\SOHZ#go.temporal.io/api/worker/v1;worker\170\STX\CANTemporalio.Api.Worker.V1\234\STX\ESCTemporalio::Api::Worker::V1J\237+\n\
+    \\a\DC2\ENQ\NUL\NUL\140\SOH\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -2846,7 +2846,7 @@ packedFileDescriptor
     \\f\n\
     \\ENQ\EOT\SOH\STX\ACK\ETX\DC2\ETX0&'\n\
     \Q\n\
-    \\STX\EOT\STX\DC2\EOT4\NULJ\SOH\SUBE Holds everything needed to identify the worker host/process context\n\
+    \\STX\EOT\STX\DC2\EOT4\NULG\SOH\SUBE Holds everything needed to identify the worker host/process context\n\
     \\n\
     \\n\
     \\n\
@@ -2860,298 +2860,296 @@ packedFileDescriptor
     \\ENQ\EOT\STX\STX\NUL\SOH\DC2\ETX6\t\DC2\n\
     \\f\n\
     \\ENQ\EOT\STX\STX\NUL\ETX\DC2\ETX6\NAK\SYN\n\
-    \\168\STX\n\
-    \\EOT\EOT\STX\STX\SOH\DC2\ETX>\STX\EM\SUB\154\STX Worker process identifier. This id should be unique for all _processes_\n\
-    \ running workers in the namespace, and should be shared by all workers\n\
-    \ in the same process.\n\
+    \\236\SOH\n\
+    \\EOT\EOT\STX\STX\SOH\DC2\ETX;\STX!\SUB\222\SOH Worker grouping identifier. A key to group workers that share the same client+namespace+process.\n\
     \ This will be used to build the worker command nexus task queue name:\n\
-    \ \"temporal-sys/worker-commands/{process_key}\"\n\
+    \ \"temporal-sys/worker-commands/{worker_grouping_key}\"\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\ENQ\DC2\ETX>\STX\b\n\
+    \\ENQ\EOT\STX\STX\SOH\ENQ\DC2\ETX;\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\ETX>\t\DC4\n\
+    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\ETX;\t\FS\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\ETX>\ETB\CAN\n\
-    \\160\SOH\n\
-    \\EOT\EOT\STX\STX\STX\DC2\ETXB\STX\CAN\SUB\146\SOH Worker process identifier. Unlike process_key, this id only needs to be unique\n\
+    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\ETX;\US \n\
+    \\139\SOH\n\
+    \\EOT\EOT\STX\STX\STX\DC2\ETX?\STX\CAN\SUB~ Worker process identifier. This id only needs to be unique\n\
     \ within one host (so using e.g. a unix pid would be appropriate).\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\STX\ENQ\DC2\ETXB\STX\b\n\
+    \\ENQ\EOT\STX\STX\STX\ENQ\DC2\ETX?\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\STX\SOH\DC2\ETXB\t\DC3\n\
+    \\ENQ\EOT\STX\STX\STX\SOH\DC2\ETX?\t\DC3\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\STX\ETX\DC2\ETXB\SYN\ETB\n\
+    \\ENQ\EOT\STX\STX\STX\ETX\DC2\ETX?\SYN\ETB\n\
     \x\n\
-    \\EOT\EOT\STX\STX\ETX\DC2\ETXF\STX#\SUBk System used CPU as a float in the range [0.0, 1.0] where 1.0 is defined as all\n\
+    \\EOT\EOT\STX\STX\ETX\DC2\ETXC\STX#\SUBk System used CPU as a float in the range [0.0, 1.0] where 1.0 is defined as all\n\
     \ cores on the host pegged.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\ETX\ENQ\DC2\ETXF\STX\a\n\
+    \\ENQ\EOT\STX\STX\ETX\ENQ\DC2\ETXC\STX\a\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\ETX\SOH\DC2\ETXF\b\RS\n\
+    \\ENQ\EOT\STX\STX\ETX\SOH\DC2\ETXC\b\RS\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\ETX\ETX\DC2\ETXF!\"\n\
+    \\ENQ\EOT\STX\STX\ETX\ETX\DC2\ETXC!\"\n\
     \\135\SOH\n\
-    \\EOT\EOT\STX\STX\EOT\DC2\ETXI\STX#\SUBz System used memory as a float in the range [0.0, 1.0] where 1.0 is defined as\n\
+    \\EOT\EOT\STX\STX\EOT\DC2\ETXF\STX#\SUBz System used memory as a float in the range [0.0, 1.0] where 1.0 is defined as\n\
     \ all available memory on the host is used.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\EOT\ENQ\DC2\ETXI\STX\a\n\
+    \\ENQ\EOT\STX\STX\EOT\ENQ\DC2\ETXF\STX\a\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\EOT\SOH\DC2\ETXI\b\RS\n\
+    \\ENQ\EOT\STX\STX\EOT\SOH\DC2\ETXF\b\RS\n\
     \\f\n\
-    \\ENQ\EOT\STX\STX\EOT\ETX\DC2\ETXI!\"\n\
+    \\ENQ\EOT\STX\STX\EOT\ETX\DC2\ETXF!\"\n\
     \\147\STX\n\
-    \\STX\EOT\ETX\DC2\ENQP\NUL\132\SOH\SOH\SUB\133\STX Worker info message, contains information about the worker and its current state.\n\
+    \\STX\EOT\ETX\DC2\ENQM\NUL\129\SOH\SOH\SUB\133\STX Worker info message, contains information about the worker and its current state.\n\
     \ All information is provided by the worker itself.\n\
     \ (-- api-linter: core::0140::prepositions=disabled\n\
     \     aip.dev/not-precedent: Removing those words make names less clear. --)\n\
     \\n\
     \\n\
     \\n\
-    \\ETX\EOT\ETX\SOH\DC2\ETXP\b\ETB\n\
+    \\ETX\EOT\ETX\SOH\DC2\ETXM\b\ETB\n\
     \\151\SOH\n\
-    \\EOT\EOT\ETX\STX\NUL\DC2\ETXS\STX!\SUB\137\SOH Worker identifier, should be unique for the namespace.\n\
+    \\EOT\EOT\ETX\STX\NUL\DC2\ETXP\STX!\SUB\137\SOH Worker identifier, should be unique for the namespace.\n\
     \ It is distinct from worker identity, which is not necessarily namespace-unique.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\ETXS\STX\b\n\
+    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\ETXP\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\ETXS\t\FS\n\
+    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\ETXP\t\FS\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\ETXS\US \n\
+    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\ETXP\US \n\
     \\155\SOH\n\
-    \\EOT\EOT\ETX\STX\SOH\DC2\ETXW\STX\GS\SUB\141\SOH Worker identity, set by the client, may not be unique.\n\
+    \\EOT\EOT\ETX\STX\SOH\DC2\ETXT\STX\GS\SUB\141\SOH Worker identity, set by the client, may not be unique.\n\
     \ Usually host_name+(user group name)+process_id, but can be overwritten by the user.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\ENQ\DC2\ETXW\STX\b\n\
+    \\ENQ\EOT\ETX\STX\SOH\ENQ\DC2\ETXT\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\SOH\DC2\ETXW\t\CAN\n\
+    \\ENQ\EOT\ETX\STX\SOH\SOH\DC2\ETXT\t\CAN\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SOH\ETX\DC2\ETXW\ESC\FS\n\
+    \\ENQ\EOT\ETX\STX\SOH\ETX\DC2\ETXT\ESC\FS\n\
     \'\n\
-    \\EOT\EOT\ETX\STX\STX\DC2\ETXZ\STX\US\SUB\SUB Worker host information.\n\
+    \\EOT\EOT\ETX\STX\STX\DC2\ETXW\STX\US\SUB\SUB Worker host information.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\STX\ACK\DC2\ETXZ\STX\DLE\n\
+    \\ENQ\EOT\ETX\STX\STX\ACK\DC2\ETXW\STX\DLE\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\STX\SOH\DC2\ETXZ\DC1\SUB\n\
+    \\ENQ\EOT\ETX\STX\STX\SOH\DC2\ETXW\DC1\SUB\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\STX\ETX\DC2\ETXZ\GS\RS\n\
+    \\ENQ\EOT\ETX\STX\STX\ETX\DC2\ETXW\GS\RS\n\
     \;\n\
-    \\EOT\EOT\ETX\STX\ETX\DC2\ETX]\STX\CAN\SUB. Task queue this worker is polling for tasks.\n\
+    \\EOT\EOT\ETX\STX\ETX\DC2\ETXZ\STX\CAN\SUB. Task queue this worker is polling for tasks.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ETX\ENQ\DC2\ETX]\STX\b\n\
+    \\ENQ\EOT\ETX\STX\ETX\ENQ\DC2\ETXZ\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ETX\SOH\DC2\ETX]\t\DC3\n\
+    \\ENQ\EOT\ETX\STX\ETX\SOH\DC2\ETXZ\t\DC3\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ETX\ETX\DC2\ETX]\SYN\ETB\n\
+    \\ENQ\EOT\ETX\STX\ETX\ETX\DC2\ETXZ\SYN\ETB\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\EOT\DC2\ETX_\STXL\n\
+    \\EOT\EOT\ETX\STX\EOT\DC2\ETX\\\STXL\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\EOT\ACK\DC2\ETX_\STX4\n\
+    \\ENQ\EOT\ETX\STX\EOT\ACK\DC2\ETX\\\STX4\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\EOT\SOH\DC2\ETX_5G\n\
+    \\ENQ\EOT\ETX\STX\EOT\SOH\DC2\ETX\\5G\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\EOT\ETX\DC2\ETX_JK\n\
+    \\ENQ\EOT\ETX\STX\EOT\ETX\DC2\ETX\\JK\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\ENQ\DC2\ETXa\STX\SYN\n\
+    \\EOT\EOT\ETX\STX\ENQ\DC2\ETX^\STX\SYN\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ENQ\ENQ\DC2\ETXa\STX\b\n\
+    \\ENQ\EOT\ETX\STX\ENQ\ENQ\DC2\ETX^\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ENQ\SOH\DC2\ETXa\t\DC1\n\
+    \\ENQ\EOT\ETX\STX\ENQ\SOH\DC2\ETX^\t\DC1\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ENQ\ETX\DC2\ETXa\DC4\NAK\n\
+    \\ENQ\EOT\ETX\STX\ENQ\ETX\DC2\ETX^\DC4\NAK\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\ACK\DC2\ETXb\STX\EM\n\
+    \\EOT\EOT\ETX\STX\ACK\DC2\ETX_\STX\EM\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ACK\ENQ\DC2\ETXb\STX\b\n\
+    \\ENQ\EOT\ETX\STX\ACK\ENQ\DC2\ETX_\STX\b\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ACK\SOH\DC2\ETXb\t\DC4\n\
+    \\ENQ\EOT\ETX\STX\ACK\SOH\DC2\ETX_\t\DC4\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\ACK\ETX\DC2\ETXb\ETB\CAN\n\
+    \\ENQ\EOT\ETX\STX\ACK\ETX\DC2\ETX_\ETB\CAN\n\
     \-\n\
-    \\EOT\EOT\ETX\STX\a\DC2\ETXe\STX0\SUB  Worker status. Defined by SDK.\n\
+    \\EOT\EOT\ETX\STX\a\DC2\ETXb\STX0\SUB  Worker status. Defined by SDK.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\a\ACK\DC2\ETXe\STX$\n\
+    \\ENQ\EOT\ETX\STX\a\ACK\DC2\ETXb\STX$\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\a\SOH\DC2\ETXe%+\n\
+    \\ENQ\EOT\ETX\STX\a\SOH\DC2\ETXb%+\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\a\ETX\DC2\ETXe./\n\
+    \\ENQ\EOT\ETX\STX\a\ETX\DC2\ETXb./\n\
     \i\n\
-    \\EOT\EOT\ETX\STX\b\DC2\ETXi\STX+\SUB\\ Worker start time.\n\
+    \\EOT\EOT\ETX\STX\b\DC2\ETXf\STX+\SUB\\ Worker start time.\n\
     \ It can be used to determine worker uptime. (current time - start time)\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\b\ACK\DC2\ETXi\STX\ESC\n\
+    \\ENQ\EOT\ETX\STX\b\ACK\DC2\ETXf\STX\ESC\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\b\SOH\DC2\ETXi\FS&\n\
+    \\ENQ\EOT\ETX\STX\b\SOH\DC2\ETXf\FS&\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\b\ETX\DC2\ETXi)*\n\
+    \\ENQ\EOT\ETX\STX\b\ETX\DC2\ETXf)*\n\
     \\195\SOH\n\
-    \\EOT\EOT\ETX\STX\t\DC2\ETXm\STX0\SUB\181\SOH Timestamp of this heartbeat, coming from the worker. Worker should set it to \"now\".\n\
+    \\EOT\EOT\ETX\STX\t\DC2\ETXj\STX0\SUB\181\SOH Timestamp of this heartbeat, coming from the worker. Worker should set it to \"now\".\n\
     \ Note that this timestamp comes directly from the worker and is subject to workers' clock skew.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\t\ACK\DC2\ETXm\STX\ESC\n\
+    \\ENQ\EOT\ETX\STX\t\ACK\DC2\ETXj\STX\ESC\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\t\SOH\DC2\ETXm\FS*\n\
+    \\ENQ\EOT\ETX\STX\t\SOH\DC2\ETXj\FS*\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\t\ETX\DC2\ETXm-/\n\
+    \\ENQ\EOT\ETX\STX\t\ETX\DC2\ETXj-/\n\
     \E\n\
     \\EOT\EOT\ETX\STX\n\
-    \\DC2\ETXo\STX=\SUB8 Elapsed time since the last heartbeat from the worker.\n\
+    \\DC2\ETXl\STX=\SUB8 Elapsed time since the last heartbeat from the worker.\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\ETX\STX\n\
-    \\ACK\DC2\ETXo\STX\SUB\n\
+    \\ACK\DC2\ETXl\STX\SUB\n\
     \\f\n\
     \\ENQ\EOT\ETX\STX\n\
-    \\SOH\DC2\ETXo\ESC7\n\
+    \\SOH\DC2\ETXl\ESC7\n\
     \\f\n\
     \\ENQ\EOT\ETX\STX\n\
-    \\ETX\DC2\ETXo:<\n\
+    \\ETX\DC2\ETXl:<\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\v\DC2\ETXq\STX0\n\
+    \\EOT\EOT\ETX\STX\v\DC2\ETXn\STX0\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\v\ACK\DC2\ETXq\STX\DC1\n\
+    \\ENQ\EOT\ETX\STX\v\ACK\DC2\ETXn\STX\DC1\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\v\SOH\DC2\ETXq\DC2*\n\
+    \\ENQ\EOT\ETX\STX\v\SOH\DC2\ETXn\DC2*\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\v\ETX\DC2\ETXq-/\n\
+    \\ENQ\EOT\ETX\STX\v\ETX\DC2\ETXn-/\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\f\DC2\ETXr\STX0\n\
+    \\EOT\EOT\ETX\STX\f\DC2\ETXo\STX0\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\f\ACK\DC2\ETXr\STX\DC1\n\
+    \\ENQ\EOT\ETX\STX\f\ACK\DC2\ETXo\STX\DC1\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\f\SOH\DC2\ETXr\DC2*\n\
+    \\ENQ\EOT\ETX\STX\f\SOH\DC2\ETXo\DC2*\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\f\ETX\DC2\ETXr-/\n\
+    \\ENQ\EOT\ETX\STX\f\ETX\DC2\ETXo-/\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\r\DC2\ETXs\STX-\n\
+    \\EOT\EOT\ETX\STX\r\DC2\ETXp\STX-\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\r\ACK\DC2\ETXs\STX\DC1\n\
+    \\ENQ\EOT\ETX\STX\r\ACK\DC2\ETXp\STX\DC1\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\r\SOH\DC2\ETXs\DC2'\n\
+    \\ENQ\EOT\ETX\STX\r\SOH\DC2\ETXp\DC2'\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\r\ETX\DC2\ETXs*,\n\
+    \\ENQ\EOT\ETX\STX\r\ETX\DC2\ETXp*,\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\SO\DC2\ETXt\STX1\n\
+    \\EOT\EOT\ETX\STX\SO\DC2\ETXq\STX1\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SO\ACK\DC2\ETXt\STX\DC1\n\
+    \\ENQ\EOT\ETX\STX\SO\ACK\DC2\ETXq\STX\DC1\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SO\SOH\DC2\ETXt\DC2+\n\
+    \\ENQ\EOT\ETX\STX\SO\SOH\DC2\ETXq\DC2+\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SO\ETX\DC2\ETXt.0\n\
+    \\ENQ\EOT\ETX\STX\SO\ETX\DC2\ETXq.0\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\SI\DC2\ETXv\STX-\n\
+    \\EOT\EOT\ETX\STX\SI\DC2\ETXs\STX-\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SI\ACK\DC2\ETXv\STX\DC2\n\
+    \\ENQ\EOT\ETX\STX\SI\ACK\DC2\ETXs\STX\DC2\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SI\SOH\DC2\ETXv\DC3'\n\
+    \\ENQ\EOT\ETX\STX\SI\SOH\DC2\ETXs\DC3'\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\SI\ETX\DC2\ETXv*,\n\
+    \\ENQ\EOT\ETX\STX\SI\ETX\DC2\ETXs*,\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\DLE\DC2\ETXw\STX4\n\
+    \\EOT\EOT\ETX\STX\DLE\DC2\ETXt\STX4\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DLE\ACK\DC2\ETXw\STX\DC2\n\
+    \\ENQ\EOT\ETX\STX\DLE\ACK\DC2\ETXt\STX\DC2\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DLE\SOH\DC2\ETXw\DC3.\n\
+    \\ENQ\EOT\ETX\STX\DLE\SOH\DC2\ETXt\DC3.\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DLE\ETX\DC2\ETXw13\n\
+    \\ENQ\EOT\ETX\STX\DLE\ETX\DC2\ETXt13\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\DC1\DC2\ETXx\STX-\n\
+    \\EOT\EOT\ETX\STX\DC1\DC2\ETXu\STX-\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC1\ACK\DC2\ETXx\STX\DC2\n\
+    \\ENQ\EOT\ETX\STX\DC1\ACK\DC2\ETXu\STX\DC2\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC1\SOH\DC2\ETXx\DC3'\n\
+    \\ENQ\EOT\ETX\STX\DC1\SOH\DC2\ETXu\DC3'\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC1\ETX\DC2\ETXx*,\n\
+    \\ENQ\EOT\ETX\STX\DC1\ETX\DC2\ETXu*,\n\
     \\v\n\
-    \\EOT\EOT\ETX\STX\DC2\DC2\ETXy\STX*\n\
+    \\EOT\EOT\ETX\STX\DC2\DC2\ETXv\STX*\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC2\ACK\DC2\ETXy\STX\DC2\n\
+    \\ENQ\EOT\ETX\STX\DC2\ACK\DC2\ETXv\STX\DC2\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC2\SOH\DC2\ETXy\DC3$\n\
+    \\ENQ\EOT\ETX\STX\DC2\SOH\DC2\ETXv\DC3$\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC2\ETX\DC2\ETXy')\n\
+    \\ENQ\EOT\ETX\STX\DC2\ETX\DC2\ETXv')\n\
     \P\n\
-    \\EOT\EOT\ETX\STX\DC3\DC2\ETX|\STX$\SUBC A Workflow Task found a cached Workflow Execution to run against.\n\
+    \\EOT\EOT\ETX\STX\DC3\DC2\ETXy\STX$\SUBC A Workflow Task found a cached Workflow Execution to run against.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC3\ENQ\DC2\ETX|\STX\a\n\
+    \\ENQ\EOT\ETX\STX\DC3\ENQ\DC2\ETXy\STX\a\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC3\SOH\DC2\ETX|\b\RS\n\
+    \\ENQ\EOT\ETX\STX\DC3\SOH\DC2\ETXy\b\RS\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC3\ETX\DC2\ETX|!#\n\
+    \\ENQ\EOT\ETX\STX\DC3\ETX\DC2\ETXy!#\n\
     \W\n\
-    \\EOT\EOT\ETX\STX\DC4\DC2\ETX~\STX%\SUBJ A Workflow Task did not find a cached Workflow execution to run against.\n\
+    \\EOT\EOT\ETX\STX\DC4\DC2\ETX{\STX%\SUBJ A Workflow Task did not find a cached Workflow execution to run against.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC4\ENQ\DC2\ETX~\STX\a\n\
+    \\ENQ\EOT\ETX\STX\DC4\ENQ\DC2\ETX{\STX\a\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC4\SOH\DC2\ETX~\b\US\n\
+    \\ENQ\EOT\ETX\STX\DC4\SOH\DC2\ETX{\b\US\n\
     \\f\n\
-    \\ENQ\EOT\ETX\STX\DC4\ETX\DC2\ETX~\"$\n\
-    \O\n\
-    \\EOT\EOT\ETX\STX\NAK\DC2\EOT\128\SOH\STX'\SUBA Current cache size, expressed in number of Workflow Executions.\n\
+    \\ENQ\EOT\ETX\STX\DC4\ETX\DC2\ETX{\"$\n\
+    \N\n\
+    \\EOT\EOT\ETX\STX\NAK\DC2\ETX}\STX'\SUBA Current cache size, expressed in number of Workflow Executions.\n\
     \\n\
-    \\r\n\
-    \\ENQ\EOT\ETX\STX\NAK\ENQ\DC2\EOT\128\SOH\STX\a\n\
-    \\r\n\
-    \\ENQ\EOT\ETX\STX\NAK\SOH\DC2\EOT\128\SOH\b!\n\
-    \\r\n\
-    \\ENQ\EOT\ETX\STX\NAK\ETX\DC2\EOT\128\SOH$&\n\
+    \\f\n\
+    \\ENQ\EOT\ETX\STX\NAK\ENQ\DC2\ETX}\STX\a\n\
+    \\f\n\
+    \\ENQ\EOT\ETX\STX\NAK\SOH\DC2\ETX}\b!\n\
+    \\f\n\
+    \\ENQ\EOT\ETX\STX\NAK\ETX\DC2\ETX}$&\n\
     \5\n\
-    \\EOT\EOT\ETX\STX\SYN\DC2\EOT\131\SOH\STX#\SUB' Plugins currently in use by this SDK.\n\
+    \\EOT\EOT\ETX\STX\SYN\DC2\EOT\128\SOH\STX#\SUB' Plugins currently in use by this SDK.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\SYN\EOT\DC2\EOT\131\SOH\STX\n\
+    \\ENQ\EOT\ETX\STX\SYN\EOT\DC2\EOT\128\SOH\STX\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\SYN\ACK\DC2\EOT\131\SOH\v\NAK\n\
+    \\ENQ\EOT\ETX\STX\SYN\ACK\DC2\EOT\128\SOH\v\NAK\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\SYN\SOH\DC2\EOT\131\SOH\SYN\GS\n\
+    \\ENQ\EOT\ETX\STX\SYN\SOH\DC2\EOT\128\SOH\SYN\GS\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\SYN\ETX\DC2\EOT\131\SOH \"\n\
+    \\ENQ\EOT\ETX\STX\SYN\ETX\DC2\EOT\128\SOH \"\n\
     \\f\n\
-    \\STX\EOT\EOT\DC2\ACK\134\SOH\NUL\136\SOH\SOH\n\
+    \\STX\EOT\EOT\DC2\ACK\131\SOH\NUL\133\SOH\SOH\n\
     \\v\n\
-    \\ETX\EOT\EOT\SOH\DC2\EOT\134\SOH\b\DC2\n\
+    \\ETX\EOT\EOT\SOH\DC2\EOT\131\SOH\b\DC2\n\
     \\f\n\
-    \\EOT\EOT\EOT\STX\NUL\DC2\EOT\135\SOH\STX'\n\
+    \\EOT\EOT\EOT\STX\NUL\DC2\EOT\132\SOH\STX'\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\ACK\DC2\EOT\135\SOH\STX\DC1\n\
+    \\ENQ\EOT\EOT\STX\NUL\ACK\DC2\EOT\132\SOH\STX\DC1\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\EOT\135\SOH\DC2\"\n\
+    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\EOT\132\SOH\DC2\"\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\EOT\135\SOH%&\n\
+    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\EOT\132\SOH%&\n\
     \\f\n\
-    \\STX\EOT\ENQ\DC2\ACK\138\SOH\NUL\143\SOH\SOH\n\
+    \\STX\EOT\ENQ\DC2\ACK\135\SOH\NUL\140\SOH\SOH\n\
     \\v\n\
-    \\ETX\EOT\ENQ\SOH\DC2\EOT\138\SOH\b\DC2\n\
+    \\ETX\EOT\ENQ\SOH\DC2\EOT\135\SOH\b\DC2\n\
     \1\n\
-    \\EOT\EOT\ENQ\STX\NUL\DC2\EOT\140\SOH\EOT\DC4\SUB# The name of the plugin, required.\n\
+    \\EOT\EOT\ENQ\STX\NUL\DC2\EOT\137\SOH\EOT\DC4\SUB# The name of the plugin, required.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ENQ\DC2\EOT\140\SOH\EOT\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ENQ\DC2\EOT\137\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\EOT\140\SOH\v\SI\n\
+    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\EOT\137\SOH\v\SI\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\EOT\140\SOH\DC2\DC3\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\EOT\137\SOH\DC2\DC3\n\
     \8\n\
-    \\EOT\EOT\ENQ\STX\SOH\DC2\EOT\142\SOH\EOT\ETB\SUB* The version of the plugin, may be empty.\n\
+    \\EOT\EOT\ENQ\STX\SOH\DC2\EOT\139\SOH\EOT\ETB\SUB* The version of the plugin, may be empty.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ENQ\DC2\EOT\142\SOH\EOT\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ENQ\DC2\EOT\139\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\EOT\142\SOH\v\DC2\n\
+    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\EOT\139\SOH\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\EOT\142\SOH\NAK\SYNb\ACKproto3"
+    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\EOT\139\SOH\NAK\SYNb\ACKproto3"
