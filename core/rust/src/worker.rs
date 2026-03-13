@@ -10,7 +10,7 @@ use temporalio_common::errors::{PollError, WorkflowErrorType};
 use temporalio_common::protos::coresdk::workflow_completion::WorkflowActivationCompletion;
 use temporalio_common::protos::coresdk::{ActivityHeartbeat, ActivityTaskCompletion};
 use temporalio_common::protos::temporal::api::history::v1::History;
-use temporalio_common::worker::{PollerBehavior, WorkerVersioningStrategy};
+use temporalio_common::worker::{PollerBehavior, WorkerTaskTypes, WorkerVersioningStrategy};
 use temporalio_sdk_core::replay::{HistoryForReplay, ReplayWorkerInput};
 use tokio::sync::mpsc::{Sender, channel};
 use tokio_stream::wrappers::ReceiverStream;
@@ -38,6 +38,10 @@ pub struct WorkerConfig {
     nonsticky_to_sticky_poll_ratio: f32,
     max_concurrent_activity_task_polls: usize,
     no_remote_activities: bool,
+    enable_workflows: Option<bool>,
+    enable_local_activities: Option<bool>,
+    enable_remote_activities: Option<bool>,
+    enable_nexus: Option<bool>,
     sticky_queue_schedule_to_start_timeout_millis: u64,
     max_heartbeat_throttle_interval_millis: u64,
     default_heartbeat_throttle_interval_millis: u64,
@@ -52,17 +56,17 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
     type Error = WorkerError;
 
     fn try_from(conf: WorkerConfig) -> Result<Self, WorkerError> {
-        temporalio_sdk_core::WorkerConfigBuilder::default()
+        temporalio_sdk_core::WorkerConfig::builder()
             .namespace(conf.namespace)
             .task_queue(conf.task_queue)
             .versioning_strategy(WorkerVersioningStrategy::None {
                 build_id: conf.build_id,
             })
-            .client_identity_override(conf.identity_override)
+            .maybe_client_identity_override(conf.identity_override)
             .max_cached_workflows(conf.max_cached_workflows)
-            .max_outstanding_workflow_tasks(conf.max_outstanding_workflow_tasks)
-            .max_outstanding_activities(conf.max_outstanding_activities)
-            .max_outstanding_local_activities(conf.max_outstanding_local_activities)
+            .maybe_max_outstanding_workflow_tasks(Some(conf.max_outstanding_workflow_tasks))
+            .maybe_max_outstanding_activities(Some(conf.max_outstanding_activities))
+            .maybe_max_outstanding_local_activities(Some(conf.max_outstanding_local_activities))
             .workflow_task_poller_behavior(PollerBehavior::SimpleMaximum(
                 conf.max_concurrent_workflow_task_polls,
             ))
@@ -70,7 +74,12 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
             .activity_task_poller_behavior(PollerBehavior::SimpleMaximum(
                 conf.max_concurrent_activity_task_polls,
             ))
-            .no_remote_activities(conf.no_remote_activities)
+            .task_types(WorkerTaskTypes {
+                enable_workflows: conf.enable_workflows.unwrap_or(true),
+                enable_local_activities: conf.enable_local_activities.unwrap_or(!conf.no_remote_activities),
+                enable_remote_activities: conf.enable_remote_activities.unwrap_or(!conf.no_remote_activities),
+                enable_nexus: conf.enable_nexus.unwrap_or(false),
+            })
             .sticky_queue_schedule_to_start_timeout(Duration::from_millis(
                 conf.sticky_queue_schedule_to_start_timeout_millis,
             ))
@@ -80,11 +89,8 @@ impl TryFrom<WorkerConfig> for temporalio_sdk_core::WorkerConfig {
             .default_heartbeat_throttle_interval(Duration::from_millis(
                 conf.default_heartbeat_throttle_interval_millis,
             ))
-            .max_worker_activities_per_second(conf.max_activities_per_second)
-            .max_task_queue_activities_per_second(conf.max_task_queue_activities_per_second)
-            // Even though grace period is optional, if it is not set then the
-            // auto-cancel-activity behavior of shutdown will not occur, so we
-            // always set it even if 0.
+            .maybe_max_worker_activities_per_second(conf.max_activities_per_second)
+            .maybe_max_task_queue_activities_per_second(conf.max_task_queue_activities_per_second)
             .graceful_shutdown_period(Duration::from_millis(conf.graceful_shutdown_period_millis))
             .workflow_failure_errors(if conf.nondeterminism_as_workflow_fail {
                 HashSet::from([WorkflowErrorType::Nondeterminism])
