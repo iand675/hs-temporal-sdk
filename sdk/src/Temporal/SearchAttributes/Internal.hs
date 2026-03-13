@@ -5,7 +5,7 @@ import Data.Coerce
 import qualified Data.Map.Strict as Map
 import Data.ProtoLens (defMessage)
 import Data.Text (Text)
-import Lens.Family2 ((.~))
+import Lens.Family2 ((&), (.~))
 import qualified Proto.Temporal.Api.Common.V1.Message as Message
 import qualified Proto.Temporal.Api.Common.V1.Message_Fields as MessageFields
 import Temporal.Payload
