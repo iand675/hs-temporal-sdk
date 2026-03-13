@@ -6154,7 +6154,11 @@ instance Control.DeepSeq.NFData UpdateRandomSeed where
          * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.historySizeBytes' @:: Lens' WorkflowActivation Data.Word.Word64@
          * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.continueAsNewSuggested' @:: Lens' WorkflowActivation Prelude.Bool@
          * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.deploymentVersionForCurrentTask' @:: Lens' WorkflowActivation Proto.Temporal.Sdk.Core.Common.Common.WorkerDeploymentVersion@
-         * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.maybe'deploymentVersionForCurrentTask' @:: Lens' WorkflowActivation (Prelude.Maybe Proto.Temporal.Sdk.Core.Common.Common.WorkerDeploymentVersion)@ -}
+         * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.maybe'deploymentVersionForCurrentTask' @:: Lens' WorkflowActivation (Prelude.Maybe Proto.Temporal.Sdk.Core.Common.Common.WorkerDeploymentVersion)@
+         * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.lastSdkVersion' @:: Lens' WorkflowActivation Data.Text.Text@
+         * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.suggestContinueAsNewReasons' @:: Lens' WorkflowActivation [Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason]@
+         * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.vec'suggestContinueAsNewReasons' @:: Lens' WorkflowActivation (Data.Vector.Vector Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason)@
+         * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.targetWorkerDeploymentVersionChanged' @:: Lens' WorkflowActivation Prelude.Bool@ -}
 data WorkflowActivation
   = WorkflowActivation'_constructor {_WorkflowActivation'runId :: !Data.Text.Text,
                                      _WorkflowActivation'timestamp :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
@@ -6165,6 +6169,9 @@ data WorkflowActivation
                                      _WorkflowActivation'historySizeBytes :: !Data.Word.Word64,
                                      _WorkflowActivation'continueAsNewSuggested :: !Prelude.Bool,
                                      _WorkflowActivation'deploymentVersionForCurrentTask :: !(Prelude.Maybe Proto.Temporal.Sdk.Core.Common.Common.WorkerDeploymentVersion),
+                                     _WorkflowActivation'lastSdkVersion :: !Data.Text.Text,
+                                     _WorkflowActivation'suggestContinueAsNewReasons :: !(Data.Vector.Vector Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason),
+                                     _WorkflowActivation'targetWorkerDeploymentVersionChanged :: !Prelude.Bool,
                                      _WorkflowActivation'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show WorkflowActivation where
@@ -6275,6 +6282,40 @@ instance Data.ProtoLens.Field.HasField WorkflowActivation "maybe'deploymentVersi
               -> x__
                    {_WorkflowActivation'deploymentVersionForCurrentTask = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowActivation "lastSdkVersion" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowActivation'lastSdkVersion
+           (\ x__ y__ -> x__ {_WorkflowActivation'lastSdkVersion = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowActivation "suggestContinueAsNewReasons" [Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason] where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowActivation'suggestContinueAsNewReasons
+           (\ x__ y__
+              -> x__ {_WorkflowActivation'suggestContinueAsNewReasons = y__}))
+        (Lens.Family2.Unchecked.lens
+           Data.Vector.Generic.toList
+           (\ _ y__ -> Data.Vector.Generic.fromList y__))
+instance Data.ProtoLens.Field.HasField WorkflowActivation "vec'suggestContinueAsNewReasons" (Data.Vector.Vector Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowActivation'suggestContinueAsNewReasons
+           (\ x__ y__
+              -> x__ {_WorkflowActivation'suggestContinueAsNewReasons = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField WorkflowActivation "targetWorkerDeploymentVersionChanged" Prelude.Bool where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkflowActivation'targetWorkerDeploymentVersionChanged
+           (\ x__ y__
+              -> x__
+                   {_WorkflowActivation'targetWorkerDeploymentVersionChanged = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message WorkflowActivation where
   messageName _
     = Data.Text.pack "coresdk.workflow_activation.WorkflowActivation"
@@ -6289,7 +6330,11 @@ instance Data.ProtoLens.Message WorkflowActivation where
       \\CANavailable_internal_flags\CAN\ACK \ETX(\rR\SYNavailableInternalFlags\DC2,\n\
       \\DC2history_size_bytes\CAN\a \SOH(\EOTR\DLEhistorySizeBytes\DC29\n\
       \\EMcontinue_as_new_suggested\CAN\b \SOH(\bR\SYNcontinueAsNewSuggested\DC2u\n\
-      \#deployment_version_for_current_task\CAN\t \SOH(\v2'.coresdk.common.WorkerDeploymentVersionR\USdeploymentVersionForCurrentTask"
+      \#deployment_version_for_current_task\CAN\t \SOH(\v2'.coresdk.common.WorkerDeploymentVersionR\USdeploymentVersionForCurrentTask\DC2(\n\
+      \\DLElast_sdk_version\CAN\n\
+      \ \SOH(\tR\SOlastSdkVersion\DC2w\n\
+      \\USsuggest_continue_as_new_reasons\CAN\v \ETX(\SO21.temporal.api.enums.v1.SuggestContinueAsNewReasonR\ESCsuggestContinueAsNewReasons\DC2V\n\
+      \(target_worker_deployment_version_changed\CAN\f \SOH(\bR$targetWorkerDeploymentVersionChanged"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -6371,6 +6416,34 @@ instance Data.ProtoLens.Message WorkflowActivation where
                  (Data.ProtoLens.Field.field
                     @"maybe'deploymentVersionForCurrentTask")) ::
               Data.ProtoLens.FieldDescriptor WorkflowActivation
+        lastSdkVersion__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "last_sdk_version"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"lastSdkVersion")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowActivation
+        suggestContinueAsNewReasons__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "suggest_continue_as_new_reasons"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.EnumField ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason)
+              (Data.ProtoLens.RepeatedField
+                 Data.ProtoLens.Packed
+                 (Data.ProtoLens.Field.field @"suggestContinueAsNewReasons")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowActivation
+        targetWorkerDeploymentVersionChanged__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "target_worker_deployment_version_changed"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.BoolField ::
+                 Data.ProtoLens.FieldTypeDescriptor Prelude.Bool)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field
+                    @"targetWorkerDeploymentVersionChanged")) ::
+              Data.ProtoLens.FieldDescriptor WorkflowActivation
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, runId__field_descriptor),
@@ -6382,7 +6455,12 @@ instance Data.ProtoLens.Message WorkflowActivation where
            (Data.ProtoLens.Tag 7, historySizeBytes__field_descriptor),
            (Data.ProtoLens.Tag 8, continueAsNewSuggested__field_descriptor),
            (Data.ProtoLens.Tag 9, 
-            deploymentVersionForCurrentTask__field_descriptor)]
+            deploymentVersionForCurrentTask__field_descriptor),
+           (Data.ProtoLens.Tag 10, lastSdkVersion__field_descriptor),
+           (Data.ProtoLens.Tag 11, 
+            suggestContinueAsNewReasons__field_descriptor),
+           (Data.ProtoLens.Tag 12, 
+            targetWorkerDeploymentVersionChanged__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _WorkflowActivation'_unknownFields
@@ -6398,6 +6476,9 @@ instance Data.ProtoLens.Message WorkflowActivation where
          _WorkflowActivation'historySizeBytes = Data.ProtoLens.fieldDefault,
          _WorkflowActivation'continueAsNewSuggested = Data.ProtoLens.fieldDefault,
          _WorkflowActivation'deploymentVersionForCurrentTask = Prelude.Nothing,
+         _WorkflowActivation'lastSdkVersion = Data.ProtoLens.fieldDefault,
+         _WorkflowActivation'suggestContinueAsNewReasons = Data.Vector.Generic.empty,
+         _WorkflowActivation'targetWorkerDeploymentVersionChanged = Data.ProtoLens.fieldDefault,
          _WorkflowActivation'_unknownFields = []}
   parseMessage
     = let
@@ -6405,8 +6486,13 @@ instance Data.ProtoLens.Message WorkflowActivation where
           WorkflowActivation
           -> Data.ProtoLens.Encoding.Growing.Growing Data.Vector.Unboxed.Vector Data.ProtoLens.Encoding.Growing.RealWorld Data.Word.Word32
              -> Data.ProtoLens.Encoding.Growing.Growing Data.Vector.Vector Data.ProtoLens.Encoding.Growing.RealWorld WorkflowActivationJob
-                -> Data.ProtoLens.Encoding.Bytes.Parser WorkflowActivation
-        loop x mutable'availableInternalFlags mutable'jobs
+                -> Data.ProtoLens.Encoding.Growing.Growing Data.Vector.Vector Data.ProtoLens.Encoding.Growing.RealWorld Proto.Temporal.Api.Enums.V1.Workflow.SuggestContinueAsNewReason
+                   -> Data.ProtoLens.Encoding.Bytes.Parser WorkflowActivation
+        loop
+          x
+          mutable'availableInternalFlags
+          mutable'jobs
+          mutable'suggestContinueAsNewReasons
           = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
                if end then
                    do frozen'availableInternalFlags <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
@@ -6414,6 +6500,9 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                                             mutable'availableInternalFlags)
                       frozen'jobs <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
                                        (Data.ProtoLens.Encoding.Growing.unsafeFreeze mutable'jobs)
+                      frozen'suggestContinueAsNewReasons <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
+                                                              (Data.ProtoLens.Encoding.Growing.unsafeFreeze
+                                                                 mutable'suggestContinueAsNewReasons)
                       (let missing = []
                        in
                          if Prelude.null missing then
@@ -6430,7 +6519,10 @@ instance Data.ProtoLens.Message WorkflowActivation where
                               (Data.ProtoLens.Field.field @"vec'availableInternalFlags")
                               frozen'availableInternalFlags
                               (Lens.Family2.set
-                                 (Data.ProtoLens.Field.field @"vec'jobs") frozen'jobs x)))
+                                 (Data.ProtoLens.Field.field @"vec'jobs") frozen'jobs
+                                 (Lens.Family2.set
+                                    (Data.ProtoLens.Field.field @"vec'suggestContinueAsNewReasons")
+                                    frozen'suggestContinueAsNewReasons x))))
                else
                    do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
                       case tag of
@@ -6443,6 +6535,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                 loop
                                   (Lens.Family2.set (Data.ProtoLens.Field.field @"runId") y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         18
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -6452,6 +6545,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                 loop
                                   (Lens.Family2.set (Data.ProtoLens.Field.field @"timestamp") y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         24
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (Prelude.fmap
@@ -6460,6 +6554,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                 loop
                                   (Lens.Family2.set (Data.ProtoLens.Field.field @"isReplaying") y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         32
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (Prelude.fmap
@@ -6470,6 +6565,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"historyLength") y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         42
                           -> do !y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                         (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -6479,7 +6575,9 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                         "jobs"
                                 v <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
                                        (Data.ProtoLens.Encoding.Growing.append mutable'jobs y)
-                                loop x mutable'availableInternalFlags v
+                                loop
+                                  x mutable'availableInternalFlags v
+                                  mutable'suggestContinueAsNewReasons
                         48
                           -> do !y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                         (Prelude.fmap
@@ -6489,7 +6587,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                 v <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
                                        (Data.ProtoLens.Encoding.Growing.append
                                           mutable'availableInternalFlags y)
-                                loop x v mutable'jobs
+                                loop x v mutable'jobs mutable'suggestContinueAsNewReasons
                         50
                           -> do y <- do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
                                         Data.ProtoLens.Encoding.Bytes.isolate
@@ -6511,7 +6609,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                                             ploop qs'
                                             in ploop)
                                              mutable'availableInternalFlags)
-                                loop x y mutable'jobs
+                                loop x y mutable'jobs mutable'suggestContinueAsNewReasons
                         56
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        Data.ProtoLens.Encoding.Bytes.getVarInt "history_size_bytes"
@@ -6519,6 +6617,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"historySizeBytes") y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         64
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (Prelude.fmap
@@ -6528,6 +6627,7 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"continueAsNewSuggested") y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         74
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -6539,6 +6639,66 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                      (Data.ProtoLens.Field.field @"deploymentVersionForCurrentTask")
                                      y x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
+                        82
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "last_sdk_version"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"lastSdkVersion") y x)
+                                  mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
+                        88
+                          -> do !y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                        (Prelude.fmap
+                                           Prelude.toEnum
+                                           (Prelude.fmap
+                                              Prelude.fromIntegral
+                                              Data.ProtoLens.Encoding.Bytes.getVarInt))
+                                        "suggest_continue_as_new_reasons"
+                                v <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
+                                       (Data.ProtoLens.Encoding.Growing.append
+                                          mutable'suggestContinueAsNewReasons y)
+                                loop x mutable'availableInternalFlags mutable'jobs v
+                        90
+                          -> do y <- do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                        Data.ProtoLens.Encoding.Bytes.isolate
+                                          (Prelude.fromIntegral len)
+                                          ((let
+                                              ploop qs
+                                                = do packedEnd <- Data.ProtoLens.Encoding.Bytes.atEnd
+                                                     if packedEnd then
+                                                         Prelude.return qs
+                                                     else
+                                                         do !q <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                                                    (Prelude.fmap
+                                                                       Prelude.toEnum
+                                                                       (Prelude.fmap
+                                                                          Prelude.fromIntegral
+                                                                          Data.ProtoLens.Encoding.Bytes.getVarInt))
+                                                                    "suggest_continue_as_new_reasons"
+                                                            qs' <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
+                                                                     (Data.ProtoLens.Encoding.Growing.append
+                                                                        qs q)
+                                                            ploop qs'
+                                            in ploop)
+                                             mutable'suggestContinueAsNewReasons)
+                                loop x mutable'availableInternalFlags mutable'jobs y
+                        96
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          ((Prelude./=) 0) Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "target_worker_deployment_version_changed"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field
+                                        @"targetWorkerDeploymentVersionChanged")
+                                     y x)
+                                  mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -6546,15 +6706,18 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                   (Lens.Family2.over
                                      Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
                                   mutable'availableInternalFlags mutable'jobs
+                                  mutable'suggestContinueAsNewReasons
       in
         (Data.ProtoLens.Encoding.Bytes.<?>)
           (do mutable'availableInternalFlags <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
                                                   Data.ProtoLens.Encoding.Growing.new
               mutable'jobs <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
                                 Data.ProtoLens.Encoding.Growing.new
+              mutable'suggestContinueAsNewReasons <- Data.ProtoLens.Encoding.Parser.Unsafe.unsafeLiftIO
+                                                       Data.ProtoLens.Encoding.Growing.new
               loop
                 Data.ProtoLens.defMessage mutable'availableInternalFlags
-                mutable'jobs)
+                mutable'jobs mutable'suggestContinueAsNewReasons)
           "WorkflowActivation"
   buildMessage
     = \ _x
@@ -6697,8 +6860,72 @@ instance Data.ProtoLens.Message WorkflowActivation where
                                                           (Data.ProtoLens.Encoding.Bytes.putBytes
                                                              bs))
                                                   Data.ProtoLens.encodeMessage _v))
-                                     (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                        (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))))))
+                                     ((Data.Monoid.<>)
+                                        (let
+                                           _v
+                                             = Lens.Family2.view
+                                                 (Data.ProtoLens.Field.field @"lastSdkVersion") _x
+                                         in
+                                           if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                               Data.Monoid.mempty
+                                           else
+                                               (Data.Monoid.<>)
+                                                 (Data.ProtoLens.Encoding.Bytes.putVarInt 82)
+                                                 ((Prelude..)
+                                                    (\ bs
+                                                       -> (Data.Monoid.<>)
+                                                            (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                               (Prelude.fromIntegral
+                                                                  (Data.ByteString.length bs)))
+                                                            (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                               bs))
+                                                    Data.Text.Encoding.encodeUtf8 _v))
+                                        ((Data.Monoid.<>)
+                                           (let
+                                              p = Lens.Family2.view
+                                                    (Data.ProtoLens.Field.field
+                                                       @"vec'suggestContinueAsNewReasons")
+                                                    _x
+                                            in
+                                              if Data.Vector.Generic.null p then
+                                                  Data.Monoid.mempty
+                                              else
+                                                  (Data.Monoid.<>)
+                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt 90)
+                                                    ((\ bs
+                                                        -> (Data.Monoid.<>)
+                                                             (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                (Prelude.fromIntegral
+                                                                   (Data.ByteString.length bs)))
+                                                             (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                bs))
+                                                       (Data.ProtoLens.Encoding.Bytes.runBuilder
+                                                          (Data.ProtoLens.Encoding.Bytes.foldMapBuilder
+                                                             ((Prelude..)
+                                                                ((Prelude..)
+                                                                   Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                   Prelude.fromIntegral)
+                                                                Prelude.fromEnum)
+                                                             p))))
+                                           ((Data.Monoid.<>)
+                                              (let
+                                                 _v
+                                                   = Lens.Family2.view
+                                                       (Data.ProtoLens.Field.field
+                                                          @"targetWorkerDeploymentVersionChanged")
+                                                       _x
+                                               in
+                                                 if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                                     Data.Monoid.mempty
+                                                 else
+                                                     (Data.Monoid.<>)
+                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt 96)
+                                                       ((Prelude..)
+                                                          Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                          (\ b -> if b then 1 else 0) _v))
+                                              (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                                 (Lens.Family2.view
+                                                    Data.ProtoLens.unknownFields _x)))))))))))))
 instance Control.DeepSeq.NFData WorkflowActivation where
   rnf
     = \ x__
@@ -6722,7 +6949,14 @@ instance Control.DeepSeq.NFData WorkflowActivation where
                                      (_WorkflowActivation'continueAsNewSuggested x__)
                                      (Control.DeepSeq.deepseq
                                         (_WorkflowActivation'deploymentVersionForCurrentTask x__)
-                                        ())))))))))
+                                        (Control.DeepSeq.deepseq
+                                           (_WorkflowActivation'lastSdkVersion x__)
+                                           (Control.DeepSeq.deepseq
+                                              (_WorkflowActivation'suggestContinueAsNewReasons x__)
+                                              (Control.DeepSeq.deepseq
+                                                 (_WorkflowActivation'targetWorkerDeploymentVersionChanged
+                                                    x__)
+                                                 ()))))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Sdk.Core.WorkflowActivation.WorkflowActivation_Fields.maybe'variant' @:: Lens' WorkflowActivationJob (Prelude.Maybe WorkflowActivationJob'Variant)@
@@ -8011,7 +8245,7 @@ _WorkflowActivationJob'RemoveFromCache
 packedFileDescriptor :: Data.ByteString.ByteString
 packedFileDescriptor
   = "\n\
-    \?temporal/sdk/core/workflow_activation/workflow_activation.proto\DC2\ESCcoresdk.workflow_activation\SUB\USgoogle/protobuf/timestamp.proto\SUB\RSgoogle/protobuf/duration.proto\SUB\ESCgoogle/protobuf/empty.proto\SUB%temporal/api/failure/v1/message.proto\SUB$temporal/api/update/v1/message.proto\SUB$temporal/api/common/v1/message.proto\SUB$temporal/api/enums/v1/workflow.proto\SUB7temporal/sdk/core/activity_result/activity_result.proto\SUB5temporal/sdk/core/child_workflow/child_workflow.proto\SUB%temporal/sdk/core/common/common.proto\SUB#temporal/sdk/core/nexus/nexus.proto\"\145\EOT\n\
+    \?temporal/sdk/core/workflow_activation/workflow_activation.proto\DC2\ESCcoresdk.workflow_activation\SUB\USgoogle/protobuf/timestamp.proto\SUB\RSgoogle/protobuf/duration.proto\SUB\ESCgoogle/protobuf/empty.proto\SUB%temporal/api/failure/v1/message.proto\SUB$temporal/api/update/v1/message.proto\SUB$temporal/api/common/v1/message.proto\SUB$temporal/api/enums/v1/workflow.proto\SUB7temporal/sdk/core/activity_result/activity_result.proto\SUB5temporal/sdk/core/child_workflow/child_workflow.proto\SUB%temporal/sdk/core/common/common.proto\SUB#temporal/sdk/core/nexus/nexus.proto\"\140\ACK\n\
     \\DC2WorkflowActivation\DC2\NAK\n\
     \\ACKrun_id\CAN\SOH \SOH(\tR\ENQrunId\DC28\n\
     \\ttimestamp\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\ttimestamp\DC2!\n\
@@ -8021,7 +8255,11 @@ packedFileDescriptor
     \\CANavailable_internal_flags\CAN\ACK \ETX(\rR\SYNavailableInternalFlags\DC2,\n\
     \\DC2history_size_bytes\CAN\a \SOH(\EOTR\DLEhistorySizeBytes\DC29\n\
     \\EMcontinue_as_new_suggested\CAN\b \SOH(\bR\SYNcontinueAsNewSuggested\DC2u\n\
-    \#deployment_version_for_current_task\CAN\t \SOH(\v2'.coresdk.common.WorkerDeploymentVersionR\USdeploymentVersionForCurrentTask\"\187\r\n\
+    \#deployment_version_for_current_task\CAN\t \SOH(\v2'.coresdk.common.WorkerDeploymentVersionR\USdeploymentVersionForCurrentTask\DC2(\n\
+    \\DLElast_sdk_version\CAN\n\
+    \ \SOH(\tR\SOlastSdkVersion\DC2w\n\
+    \\USsuggest_continue_as_new_reasons\CAN\v \ETX(\SO21.temporal.api.enums.v1.SuggestContinueAsNewReasonR\ESCsuggestContinueAsNewReasons\DC2V\n\
+    \(target_worker_deployment_version_changed\CAN\f \SOH(\bR$targetWorkerDeploymentVersionChanged\"\187\r\n\
     \\NAKWorkflowActivationJob\DC2b\n\
     \\DC3initialize_workflow\CAN\SOH \SOH(\v2/.coresdk.workflow_activation.InitializeWorkflowH\NULR\DC2initializeWorkflow\DC2G\n\
     \\n\
@@ -8165,8 +8403,8 @@ packedFileDescriptor
     \\ENQFATAL\DLE\b\DC2\US\n\
     \\ESCPAGINATION_OR_HISTORY_FETCH\DLE\t\DC2\GS\n\
     \\EMWORKFLOW_EXECUTION_ENDING\DLE\n\
-    \B8\234\STX5Temporalio::Internal::Bridge::Api::WorkflowActivationJ\242\151\SOH\n\
-    \\a\DC2\ENQ\NUL\NUL\141\ETX\SOH\n\
+    \B8\234\STX5Temporalio::Internal::Bridge::Api::WorkflowActivationJ\235\156\SOH\n\
+    \\a\DC2\ENQ\NUL\NUL\151\ETX\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\172\SOH\n\
@@ -8203,7 +8441,7 @@ packedFileDescriptor
     \\STX\ETX\n\
     \\DC2\ETX\DC3\NUL-\n\
     \\204\DC2\n\
-    \\STX\EOT\NUL\DC2\EOTA\NUL^\SOH\SUB\191\DC2 An instruction to the lang sdk to run some workflow code, whether for the first time or from\n\
+    \\STX\EOT\NUL\DC2\EOTA\NULh\SOH\SUB\191\DC2 An instruction to the lang sdk to run some workflow code, whether for the first time or from\n\
     \ a cached state.\n\
     \\n\
     \ ## Job ordering guarantees and semantics\n\
@@ -8349,401 +8587,440 @@ packedFileDescriptor
     \\ENQ\EOT\NUL\STX\b\SOH\DC2\ETX]#F\n\
     \\f\n\
     \\ENQ\EOT\NUL\STX\b\ETX\DC2\ETX]IJ\n\
-    \\v\n\
-    \\STX\EOT\SOH\DC2\ENQ`\NUL\136\SOH\SOH\n\
+    \Q\n\
+    \\EOT\EOT\NUL\STX\t\DC2\ETX_\EOT!\SUBD The last seen SDK version from the most recent WFT completed event\n\
     \\n\
-    \\n\
-    \\ETX\EOT\SOH\SOH\DC2\ETX`\b\GS\n\
-    \\r\n\
-    \\EOT\EOT\SOH\b\NUL\DC2\ENQa\EOT\135\SOH\ENQ\n\
     \\f\n\
-    \\ENQ\EOT\SOH\b\NUL\SOH\DC2\ETXa\n\
+    \\ENQ\EOT\NUL\STX\t\ENQ\DC2\ETX_\EOT\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\t\SOH\DC2\ETX_\v\ESC\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\t\ETX\DC2\ETX_\RS \n\
+    \\236\SOH\n\
+    \\EOT\EOT\NUL\STX\n\
+    \\DC2\ETXc\EOTc\SUB\222\SOH Experimental. Optionally decide the versioning behavior that the first task of the new run should use.\n\
+    \ For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version\n\
+    \ of the previous run.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\n\
+    \\EOT\DC2\ETXc\EOT\f\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\n\
+    \\ACK\DC2\ETXc\r=\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\n\
+    \\SOH\DC2\ETXc>]\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\n\
+    \\ETX\DC2\ETXc`b\n\
+    \\148\SOH\n\
+    \\EOT\EOT\NUL\STX\v\DC2\ETXg\EOT7\SUB\134\SOH True if Workflow's Target Worker Deployment Version is different from its Pinned Version and\n\
+    \ the workflow is Pinned.\n\
+    \ Experimental.\n\
+    \\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\v\ENQ\DC2\ETXg\EOT\b\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\v\SOH\DC2\ETXg\t1\n\
+    \\f\n\
+    \\ENQ\EOT\NUL\STX\v\ETX\DC2\ETXg46\n\
+    \\v\n\
+    \\STX\EOT\SOH\DC2\ENQj\NUL\146\SOH\SOH\n\
+    \\n\
+    \\n\
+    \\ETX\EOT\SOH\SOH\DC2\ETXj\b\GS\n\
+    \\r\n\
+    \\EOT\EOT\SOH\b\NUL\DC2\ENQk\EOT\145\SOH\ENQ\n\
+    \\f\n\
+    \\ENQ\EOT\SOH\b\NUL\SOH\DC2\ETXk\n\
     \\DC1\n\
     \Y\n\
-    \\EOT\EOT\SOH\STX\NUL\DC2\ETXc\b3\SUBL A workflow is starting, record all of the information from its start event\n\
+    \\EOT\EOT\SOH\STX\NUL\DC2\ETXm\b3\SUBL A workflow is starting, record all of the information from its start event\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ACK\DC2\ETXc\b\SUB\n\
+    \\ENQ\EOT\SOH\STX\NUL\ACK\DC2\ETXm\b\SUB\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETXc\ESC.\n\
+    \\ENQ\EOT\SOH\STX\NUL\SOH\DC2\ETXm\ESC.\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETXc12\n\
+    \\ENQ\EOT\SOH\STX\NUL\ETX\DC2\ETXm12\n\
     \^\n\
-    \\EOT\EOT\SOH\STX\SOH\DC2\ETXe\b!\SUBQ A timer has fired, allowing whatever was waiting on it (if anything) to proceed\n\
+    \\EOT\EOT\SOH\STX\SOH\DC2\ETXo\b!\SUBQ A timer has fired, allowing whatever was waiting on it (if anything) to proceed\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETXe\b\DC1\n\
+    \\ENQ\EOT\SOH\STX\SOH\ACK\DC2\ETXo\b\DC1\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETXe\DC2\FS\n\
+    \\ENQ\EOT\SOH\STX\SOH\SOH\DC2\ETXo\DC2\FS\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETXe\US \n\
+    \\ENQ\EOT\SOH\STX\SOH\ETX\DC2\ETXo\US \n\
     \G\n\
-    \\EOT\EOT\SOH\STX\STX\DC2\ETXg\b0\SUB: Workflow was reset. The randomness seed must be updated.\n\
+    \\EOT\EOT\SOH\STX\STX\DC2\ETXq\b0\SUB: Workflow was reset. The randomness seed must be updated.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ACK\DC2\ETXg\b\CAN\n\
+    \\ENQ\EOT\SOH\STX\STX\ACK\DC2\ETXq\b\CAN\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETXg\EM+\n\
+    \\ENQ\EOT\SOH\STX\STX\SOH\DC2\ETXq\EM+\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETXg./\n\
+    \\ENQ\EOT\SOH\STX\STX\ETX\DC2\ETXq./\n\
     \\169\SOH\n\
-    \\EOT\EOT\SOH\STX\ETX\DC2\ETXj\b)\SUB\155\SOH A request to query the workflow was received. It is guaranteed that queries (one or more)\n\
+    \\EOT\EOT\SOH\STX\ETX\DC2\ETXt\b)\SUB\155\SOH A request to query the workflow was received. It is guaranteed that queries (one or more)\n\
     \ always come in their own activation after other mutating jobs.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\ACK\DC2\ETXj\b\NAK\n\
+    \\ENQ\EOT\SOH\STX\ETX\ACK\DC2\ETXt\b\NAK\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\SOH\DC2\ETXj\SYN$\n\
+    \\ENQ\EOT\SOH\STX\ETX\SOH\DC2\ETXt\SYN$\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ETX\ETX\DC2\ETXj'(\n\
+    \\ENQ\EOT\SOH\STX\ETX\ETX\DC2\ETXt'(\n\
     \=\n\
-    \\EOT\EOT\SOH\STX\EOT\DC2\ETXl\b+\SUB0 A request to cancel the workflow was received.\n\
+    \\EOT\EOT\SOH\STX\EOT\DC2\ETXv\b+\SUB0 A request to cancel the workflow was received.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\EOT\ACK\DC2\ETXl\b\SYN\n\
+    \\ENQ\EOT\SOH\STX\EOT\ACK\DC2\ETXv\b\SYN\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\EOT\SOH\DC2\ETXl\ETB&\n\
+    \\ENQ\EOT\SOH\STX\EOT\SOH\DC2\ETXv\ETB&\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\EOT\ETX\DC2\ETXl)*\n\
+    \\ENQ\EOT\SOH\STX\EOT\ETX\DC2\ETXv)*\n\
     \=\n\
-    \\EOT\EOT\SOH\STX\ENQ\DC2\ETXn\b+\SUB0 A request to signal the workflow was received.\n\
+    \\EOT\EOT\SOH\STX\ENQ\DC2\ETXx\b+\SUB0 A request to signal the workflow was received.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ENQ\ACK\DC2\ETXn\b\SYN\n\
+    \\ENQ\EOT\SOH\STX\ENQ\ACK\DC2\ETXx\b\SYN\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ENQ\SOH\DC2\ETXn\ETB&\n\
+    \\ENQ\EOT\SOH\STX\ENQ\SOH\DC2\ETXx\ETB&\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ENQ\ETX\DC2\ETXn)*\n\
+    \\ENQ\EOT\SOH\STX\ENQ\ETX\DC2\ETXx)*\n\
     \W\n\
-    \\EOT\EOT\SOH\STX\ACK\DC2\ETXp\b-\SUBJ An activity was resolved, result could be completed, failed or cancelled\n\
+    \\EOT\EOT\SOH\STX\ACK\DC2\ETXz\b-\SUBJ An activity was resolved, result could be completed, failed or cancelled\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ACK\ACK\DC2\ETXp\b\ETB\n\
+    \\ENQ\EOT\SOH\STX\ACK\ACK\DC2\ETXz\b\ETB\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ACK\SOH\DC2\ETXp\CAN(\n\
+    \\ENQ\EOT\SOH\STX\ACK\SOH\DC2\ETXz\CAN(\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\ACK\ETX\DC2\ETXp+,\n\
+    \\ENQ\EOT\SOH\STX\ACK\ETX\DC2\ETXz+,\n\
     \\206\SOH\n\
-    \\EOT\EOT\SOH\STX\a\DC2\ETXt\b,\SUB\192\SOH A patch marker has been detected and lang is being told that change exists. This\n\
+    \\EOT\EOT\SOH\STX\a\DC2\ETX~\b,\SUB\192\SOH A patch marker has been detected and lang is being told that change exists. This\n\
     \ job is strange in that it is sent pre-emptively to lang without any corresponding\n\
     \ command being sent first.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\a\ACK\DC2\ETXt\b\SYN\n\
+    \\ENQ\EOT\SOH\STX\a\ACK\DC2\ETX~\b\SYN\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\a\SOH\DC2\ETXt\ETB'\n\
+    \\ENQ\EOT\SOH\STX\a\SOH\DC2\ETX~\ETB'\n\
     \\f\n\
-    \\ENQ\EOT\SOH\STX\a\ETX\DC2\ETXt*+\n\
-    \H\n\
-    \\EOT\EOT\SOH\STX\b\DC2\ETXv\bW\SUB; A child workflow execution has started or failed to start\n\
+    \\ENQ\EOT\SOH\STX\a\ETX\DC2\ETX~*+\n\
+    \I\n\
+    \\EOT\EOT\SOH\STX\b\DC2\EOT\128\SOH\bW\SUB; A child workflow execution has started or failed to start\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\b\ACK\DC2\ETXv\b*\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\b\SOH\DC2\ETXv+Q\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\b\ETX\DC2\ETXvTV\n\
-    \Q\n\
-    \\EOT\EOT\SOH\STX\t\DC2\ETXx\bL\SUBD A child workflow was resolved, result could be completed or failed\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\b\ACK\DC2\EOT\128\SOH\b*\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\b\SOH\DC2\EOT\128\SOH+Q\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\b\ETX\DC2\EOT\128\SOHTV\n\
+    \R\n\
+    \\EOT\EOT\SOH\STX\t\DC2\EOT\130\SOH\bL\SUBD A child workflow was resolved, result could be completed or failed\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\t\ACK\DC2\ETXx\b%\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\t\SOH\DC2\ETXx&F\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\t\ETX\DC2\ETXxIK\n\
-    \A\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\t\ACK\DC2\EOT\130\SOH\b%\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\t\SOH\DC2\EOT\130\SOH&F\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\t\ETX\DC2\EOT\130\SOHIK\n\
+    \B\n\
     \\EOT\EOT\SOH\STX\n\
-    \\DC2\ETXz\bL\SUB4 An attempt to signal an external workflow resolved\n\
+    \\DC2\EOT\132\SOH\bL\SUB4 An attempt to signal an external workflow resolved\n\
     \\n\
-    \\f\n\
+    \\r\n\
     \\ENQ\EOT\SOH\STX\n\
-    \\ACK\DC2\ETXz\b%\n\
-    \\f\n\
+    \\ACK\DC2\EOT\132\SOH\b%\n\
+    \\r\n\
     \\ENQ\EOT\SOH\STX\n\
-    \\SOH\DC2\ETXz&F\n\
-    \\f\n\
+    \\SOH\DC2\EOT\132\SOH&F\n\
+    \\r\n\
     \\ENQ\EOT\SOH\STX\n\
-    \\ETX\DC2\ETXzIK\n\
-    \A\n\
-    \\EOT\EOT\SOH\STX\v\DC2\ETX|\b[\SUB4 An attempt to cancel an external workflow resolved\n\
+    \\ETX\DC2\EOT\132\SOHIK\n\
+    \B\n\
+    \\EOT\EOT\SOH\STX\v\DC2\EOT\134\SOH\b[\SUB4 An attempt to cancel an external workflow resolved\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\v\ACK\DC2\ETX|\b,\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\v\SOH\DC2\ETX|-U\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\v\ETX\DC2\ETX|XZ\n\
-    \5\n\
-    \\EOT\EOT\SOH\STX\f\DC2\ETX~\b \SUB( A request to handle a workflow update.\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\v\ACK\DC2\EOT\134\SOH\b,\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\v\SOH\DC2\EOT\134\SOH-U\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\v\ETX\DC2\EOT\134\SOHXZ\n\
+    \6\n\
+    \\EOT\EOT\SOH\STX\f\DC2\EOT\136\SOH\b \SUB( A request to handle a workflow update.\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\f\ACK\DC2\ETX~\b\DLE\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\f\SOH\DC2\ETX~\DC1\SUB\n\
-    \\f\n\
-    \\ENQ\EOT\SOH\STX\f\ETX\DC2\ETX~\GS\US\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\f\ACK\DC2\EOT\136\SOH\b\DLE\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\f\SOH\DC2\EOT\136\SOH\DC1\SUB\n\
+    \\r\n\
+    \\ENQ\EOT\SOH\STX\f\ETX\DC2\EOT\136\SOH\GS\US\n\
     \*\n\
-    \\EOT\EOT\SOH\STX\r\DC2\EOT\128\SOH\bF\SUB\FS A nexus operation started.\n\
+    \\EOT\EOT\SOH\STX\r\DC2\EOT\138\SOH\bF\SUB\FS A nexus operation started.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\r\ACK\DC2\EOT\128\SOH\b\"\n\
+    \\ENQ\EOT\SOH\STX\r\ACK\DC2\EOT\138\SOH\b\"\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\r\SOH\DC2\EOT\128\SOH#@\n\
+    \\ENQ\EOT\SOH\STX\r\SOH\DC2\EOT\138\SOH#@\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\r\ETX\DC2\EOT\128\SOHCE\n\
+    \\ENQ\EOT\SOH\STX\r\ETX\DC2\EOT\138\SOHCE\n\
     \+\n\
-    \\EOT\EOT\SOH\STX\SO\DC2\EOT\130\SOH\b;\SUB\GS A nexus operation resolved.\n\
+    \\EOT\EOT\SOH\STX\SO\DC2\EOT\140\SOH\b;\SUB\GS A nexus operation resolved.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\SO\ACK\DC2\EOT\130\SOH\b\GS\n\
+    \\ENQ\EOT\SOH\STX\SO\ACK\DC2\EOT\140\SOH\b\GS\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\SO\SOH\DC2\EOT\130\SOH\RS5\n\
+    \\ENQ\EOT\SOH\STX\SO\SOH\DC2\EOT\140\SOH\RS5\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\SO\ETX\DC2\EOT\130\SOH8:\n\
+    \\ENQ\EOT\SOH\STX\SO\ETX\DC2\EOT\140\SOH8:\n\
     \\223\SOH\n\
-    \\EOT\EOT\SOH\STX\SI\DC2\EOT\134\SOH\b/\SUB\208\SOH Remove the workflow identified by the [WorkflowActivation] containing this job from the\n\
+    \\EOT\EOT\SOH\STX\SI\DC2\EOT\144\SOH\b/\SUB\208\SOH Remove the workflow identified by the [WorkflowActivation] containing this job from the\n\
     \ cache after performing the activation. It is guaranteed that this will be the only job\n\
     \ in the activation if present.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\SI\ACK\DC2\EOT\134\SOH\b\ETB\n\
+    \\ENQ\EOT\SOH\STX\SI\ACK\DC2\EOT\144\SOH\b\ETB\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\SI\SOH\DC2\EOT\134\SOH\CAN)\n\
+    \\ENQ\EOT\SOH\STX\SI\SOH\DC2\EOT\144\SOH\CAN)\n\
     \\r\n\
-    \\ENQ\EOT\SOH\STX\SI\ETX\DC2\EOT\134\SOH,.\n\
+    \\ENQ\EOT\SOH\STX\SI\ETX\DC2\EOT\144\SOH,.\n\
     \)\n\
-    \\STX\EOT\STX\DC2\ACK\139\SOH\NUL\203\SOH\SOH\SUB\ESC Initialize a new workflow\n\
+    \\STX\EOT\STX\DC2\ACK\149\SOH\NUL\213\SOH\SOH\SUB\ESC Initialize a new workflow\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\STX\SOH\DC2\EOT\139\SOH\b\SUB\n\
+    \\ETX\EOT\STX\SOH\DC2\EOT\149\SOH\b\SUB\n\
     \R\n\
-    \\EOT\EOT\STX\STX\NUL\DC2\EOT\141\SOH\EOT\GS\SUBD The identifier the lang-specific sdk uses to execute workflow code\n\
+    \\EOT\EOT\STX\STX\NUL\DC2\EOT\151\SOH\EOT\GS\SUBD The identifier the lang-specific sdk uses to execute workflow code\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NUL\ENQ\DC2\EOT\141\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\NUL\ENQ\DC2\EOT\151\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\EOT\141\SOH\v\CAN\n\
+    \\ENQ\EOT\STX\STX\NUL\SOH\DC2\EOT\151\SOH\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\EOT\141\SOH\ESC\FS\n\
+    \\ENQ\EOT\STX\STX\NUL\ETX\DC2\EOT\151\SOH\ESC\FS\n\
     \;\n\
-    \\EOT\EOT\STX\STX\SOH\DC2\EOT\143\SOH\EOT\ESC\SUB- The workflow id used on the temporal server\n\
+    \\EOT\EOT\STX\STX\SOH\DC2\EOT\153\SOH\EOT\ESC\SUB- The workflow id used on the temporal server\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\ENQ\DC2\EOT\143\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\SOH\ENQ\DC2\EOT\153\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\EOT\143\SOH\v\SYN\n\
+    \\ENQ\EOT\STX\STX\SOH\SOH\DC2\EOT\153\SOH\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\EOT\143\SOH\EM\SUB\n\
+    \\ENQ\EOT\STX\STX\SOH\ETX\DC2\EOT\153\SOH\EM\SUB\n\
     \+\n\
-    \\EOT\EOT\STX\STX\STX\DC2\EOT\145\SOH\EOT:\SUB\GS Inputs to the workflow code\n\
+    \\EOT\EOT\STX\STX\STX\DC2\EOT\155\SOH\EOT:\SUB\GS Inputs to the workflow code\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\EOT\DC2\EOT\145\SOH\EOT\f\n\
+    \\ENQ\EOT\STX\STX\STX\EOT\DC2\EOT\155\SOH\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\ACK\DC2\EOT\145\SOH\r+\n\
+    \\ENQ\EOT\STX\STX\STX\ACK\DC2\EOT\155\SOH\r+\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\SOH\DC2\EOT\145\SOH,5\n\
+    \\ENQ\EOT\STX\STX\STX\SOH\DC2\EOT\155\SOH,5\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\STX\ETX\DC2\EOT\145\SOH89\n\
+    \\ENQ\EOT\STX\STX\STX\ETX\DC2\EOT\155\SOH89\n\
     \\149\SOH\n\
-    \\EOT\EOT\STX\STX\ETX\DC2\EOT\148\SOH\EOT\US\SUB\134\SOH The seed must be used to initialize the random generator used by SDK.\n\
+    \\EOT\EOT\STX\STX\ETX\DC2\EOT\158\SOH\EOT\US\SUB\134\SOH The seed must be used to initialize the random generator used by SDK.\n\
     \ RandomSeedUpdatedAttributes are used to deliver seed updates.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETX\ENQ\DC2\EOT\148\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\ETX\ENQ\DC2\EOT\158\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETX\SOH\DC2\EOT\148\SOH\v\SUB\n\
+    \\ENQ\EOT\STX\STX\ETX\SOH\DC2\EOT\158\SOH\v\SUB\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETX\ETX\DC2\EOT\148\SOH\GS\RS\n\
+    \\ENQ\EOT\STX\STX\ETX\ETX\DC2\EOT\158\SOH\GS\RS\n\
     \p\n\
-    \\EOT\EOT\STX\STX\EOT\DC2\EOT\150\SOH\EOT<\SUBb Used to add metadata e.g. for tracing and auth, meant to be read and written to by interceptors.\n\
+    \\EOT\EOT\STX\STX\EOT\DC2\EOT\160\SOH\EOT<\SUBb Used to add metadata e.g. for tracing and auth, meant to be read and written to by interceptors.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\EOT\ACK\DC2\EOT\150\SOH\EOT/\n\
+    \\ENQ\EOT\STX\STX\EOT\ACK\DC2\EOT\160\SOH\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\EOT\SOH\DC2\EOT\150\SOH07\n\
+    \\ENQ\EOT\STX\STX\EOT\SOH\DC2\EOT\160\SOH07\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\EOT\ETX\DC2\EOT\150\SOH:;\n\
+    \\ENQ\EOT\STX\STX\EOT\ETX\DC2\EOT\160\SOH:;\n\
     \C\n\
-    \\EOT\EOT\STX\STX\ENQ\DC2\EOT\152\SOH\EOT\CAN\SUB5 Identity of the client who requested this execution\n\
+    \\EOT\EOT\STX\STX\ENQ\DC2\EOT\162\SOH\EOT\CAN\SUB5 Identity of the client who requested this execution\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\ENQ\DC2\EOT\152\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\ENQ\ENQ\DC2\EOT\162\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\SOH\DC2\EOT\152\SOH\v\DC3\n\
+    \\ENQ\EOT\STX\STX\ENQ\SOH\DC2\EOT\162\SOH\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ENQ\ETX\DC2\EOT\152\SOH\SYN\ETB\n\
+    \\ENQ\EOT\STX\STX\ENQ\ETX\DC2\EOT\162\SOH\SYN\ETB\n\
     \I\n\
-    \\EOT\EOT\STX\STX\ACK\DC2\EOT\154\SOH\EOT@\SUB; If this workflow is a child, information about the parent\n\
+    \\EOT\EOT\STX\STX\ACK\DC2\EOT\164\SOH\EOT@\SUB; If this workflow is a child, information about the parent\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ACK\ACK\DC2\EOT\154\SOH\EOT&\n\
+    \\ENQ\EOT\STX\STX\ACK\ACK\DC2\EOT\164\SOH\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ACK\SOH\DC2\EOT\154\SOH';\n\
+    \\ENQ\EOT\STX\STX\ACK\SOH\DC2\EOT\164\SOH';\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ACK\ETX\DC2\EOT\154\SOH>?\n\
+    \\ENQ\EOT\STX\STX\ACK\ETX\DC2\EOT\164\SOH>?\n\
     \W\n\
-    \\EOT\EOT\STX\STX\a\DC2\EOT\156\SOH\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
+    \\EOT\EOT\STX\STX\a\DC2\EOT\166\SOH\EOT<\SUBI Total workflow execution timeout including retries and continue as new.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\a\ACK\DC2\EOT\156\SOH\EOT\FS\n\
+    \\ENQ\EOT\STX\STX\a\ACK\DC2\EOT\166\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\a\SOH\DC2\EOT\156\SOH\GS7\n\
+    \\ENQ\EOT\STX\STX\a\SOH\DC2\EOT\166\SOH\GS7\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\a\ETX\DC2\EOT\156\SOH:;\n\
+    \\ENQ\EOT\STX\STX\a\ETX\DC2\EOT\166\SOH:;\n\
     \1\n\
-    \\EOT\EOT\STX\STX\b\DC2\EOT\158\SOH\EOT6\SUB# Timeout of a single workflow run.\n\
+    \\EOT\EOT\STX\STX\b\DC2\EOT\168\SOH\EOT6\SUB# Timeout of a single workflow run.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\b\ACK\DC2\EOT\158\SOH\EOT\FS\n\
+    \\ENQ\EOT\STX\STX\b\ACK\DC2\EOT\168\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\b\SOH\DC2\EOT\158\SOH\GS1\n\
+    \\ENQ\EOT\STX\STX\b\SOH\DC2\EOT\168\SOH\GS1\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\b\ETX\DC2\EOT\158\SOH45\n\
+    \\ENQ\EOT\STX\STX\b\ETX\DC2\EOT\168\SOH45\n\
     \2\n\
-    \\EOT\EOT\STX\STX\t\DC2\EOT\160\SOH\EOT8\SUB$ Timeout of a single workflow task.\n\
+    \\EOT\EOT\STX\STX\t\DC2\EOT\170\SOH\EOT8\SUB$ Timeout of a single workflow task.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\t\ACK\DC2\EOT\160\SOH\EOT\FS\n\
+    \\ENQ\EOT\STX\STX\t\ACK\DC2\EOT\170\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\t\SOH\DC2\EOT\160\SOH\GS2\n\
+    \\ENQ\EOT\STX\STX\t\SOH\DC2\EOT\170\SOH\GS2\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\t\ETX\DC2\EOT\160\SOH57\n\
+    \\ENQ\EOT\STX\STX\t\ETX\DC2\EOT\170\SOH57\n\
     \\DEL\n\
     \\EOT\EOT\STX\STX\n\
-    \\DC2\EOT\163\SOH\EOT0\SUBq Run id of the previous workflow which continued-as-new or retired or cron executed into this\n\
+    \\DC2\EOT\173\SOH\EOT0\SUBq Run id of the previous workflow which continued-as-new or retired or cron executed into this\n\
     \ workflow, if any.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\STX\STX\n\
-    \\ENQ\DC2\EOT\163\SOH\EOT\n\
+    \\ENQ\DC2\EOT\173\SOH\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\STX\STX\n\
-    \\SOH\DC2\EOT\163\SOH\v*\n\
+    \\SOH\DC2\EOT\173\SOH\v*\n\
     \\r\n\
     \\ENQ\EOT\STX\STX\n\
-    \\ETX\DC2\EOT\163\SOH-/\n\
+    \\ETX\DC2\EOT\173\SOH-/\n\
     \X\n\
-    \\EOT\EOT\STX\STX\v\DC2\EOT\165\SOH\EOTJ\SUBJ If this workflow was a continuation, indicates the type of continuation.\n\
+    \\EOT\EOT\STX\STX\v\DC2\EOT\175\SOH\EOTJ\SUBJ If this workflow was a continuation, indicates the type of continuation.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\v\ACK\DC2\EOT\165\SOH\EOT0\n\
+    \\ENQ\EOT\STX\STX\v\ACK\DC2\EOT\175\SOH\EOT0\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\v\SOH\DC2\EOT\165\SOH1D\n\
+    \\ENQ\EOT\STX\STX\v\SOH\DC2\EOT\175\SOH1D\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\v\ETX\DC2\EOT\165\SOHGI\n\
+    \\ENQ\EOT\STX\STX\v\ETX\DC2\EOT\175\SOHGI\n\
     \f\n\
-    \\EOT\EOT\STX\STX\f\DC2\EOT\167\SOH\EOT;\SUBX If this workflow was a continuation and that continuation failed, the details of that.\n\
+    \\EOT\EOT\STX\STX\f\DC2\EOT\177\SOH\EOT;\SUBX If this workflow was a continuation and that continuation failed, the details of that.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\f\ACK\DC2\EOT\167\SOH\EOT#\n\
+    \\ENQ\EOT\STX\STX\f\ACK\DC2\EOT\177\SOH\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\f\SOH\DC2\EOT\167\SOH$5\n\
+    \\ENQ\EOT\STX\STX\f\SOH\DC2\EOT\177\SOH$5\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\f\ETX\DC2\EOT\167\SOH8:\n\
+    \\ENQ\EOT\STX\STX\f\ETX\DC2\EOT\177\SOH8:\n\
     \i\n\
-    \\EOT\EOT\STX\STX\r\DC2\EOT\169\SOH\EOT@\SUB[ If this workflow was a continuation and that continuation completed, the details of that.\n\
+    \\EOT\EOT\STX\STX\r\DC2\EOT\179\SOH\EOT@\SUB[ If this workflow was a continuation and that continuation completed, the details of that.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\r\ACK\DC2\EOT\169\SOH\EOT#\n\
+    \\ENQ\EOT\STX\STX\r\ACK\DC2\EOT\179\SOH\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\r\SOH\DC2\EOT\169\SOH$:\n\
+    \\ENQ\EOT\STX\STX\r\SOH\DC2\EOT\179\SOH$:\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\r\ETX\DC2\EOT\169\SOH=?\n\
+    \\ENQ\EOT\STX\STX\r\ETX\DC2\EOT\179\SOH=?\n\
     \c\n\
-    \\EOT\EOT\STX\STX\SO\DC2\EOT\171\SOH\EOT'\SUBU This is the very first run id the workflow ever had, following continuation chains.\n\
+    \\EOT\EOT\STX\STX\SO\DC2\EOT\181\SOH\EOT'\SUBU This is the very first run id the workflow ever had, following continuation chains.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SO\ENQ\DC2\EOT\171\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\SO\ENQ\DC2\EOT\181\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SO\SOH\DC2\EOT\171\SOH\v!\n\
+    \\ENQ\EOT\STX\STX\SO\SOH\DC2\EOT\181\SOH\v!\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SO\ETX\DC2\EOT\171\SOH$&\n\
+    \\ENQ\EOT\STX\STX\SO\ETX\DC2\EOT\181\SOH$&\n\
     \,\n\
-    \\EOT\EOT\STX\STX\SI\DC2\EOT\173\SOH\EOT9\SUB\RS This workflow's retry policy\n\
+    \\EOT\EOT\STX\STX\SI\DC2\EOT\183\SOH\EOT9\SUB\RS This workflow's retry policy\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SI\ACK\DC2\EOT\173\SOH\EOT&\n\
+    \\ENQ\EOT\STX\STX\SI\ACK\DC2\EOT\183\SOH\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SI\SOH\DC2\EOT\173\SOH'3\n\
+    \\ENQ\EOT\STX\STX\SI\SOH\DC2\EOT\183\SOH'3\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SI\ETX\DC2\EOT\173\SOH68\n\
+    \\ENQ\EOT\STX\STX\SI\ETX\DC2\EOT\183\SOH68\n\
     \Y\n\
-    \\EOT\EOT\STX\STX\DLE\DC2\EOT\175\SOH\EOT\ETB\SUBK Starting at 1, the number of times we have tried to execute this workflow\n\
+    \\EOT\EOT\STX\STX\DLE\DC2\EOT\185\SOH\EOT\ETB\SUBK Starting at 1, the number of times we have tried to execute this workflow\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DLE\ENQ\DC2\EOT\175\SOH\EOT\t\n\
+    \\ENQ\EOT\STX\STX\DLE\ENQ\DC2\EOT\185\SOH\EOT\t\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DLE\SOH\DC2\EOT\175\SOH\n\
+    \\ENQ\EOT\STX\STX\DLE\SOH\DC2\EOT\185\SOH\n\
     \\DC1\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DLE\ETX\DC2\EOT\175\SOH\DC4\SYN\n\
+    \\ENQ\EOT\STX\STX\DLE\ETX\DC2\EOT\185\SOH\DC4\SYN\n\
     \M\n\
-    \\EOT\EOT\STX\STX\DC1\DC2\EOT\177\SOH\EOT\RS\SUB? If this workflow runs on a cron schedule, it will appear here\n\
+    \\EOT\EOT\STX\STX\DC1\DC2\EOT\187\SOH\EOT\RS\SUB? If this workflow runs on a cron schedule, it will appear here\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC1\ENQ\DC2\EOT\177\SOH\EOT\n\
+    \\ENQ\EOT\STX\STX\DC1\ENQ\DC2\EOT\187\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC1\SOH\DC2\EOT\177\SOH\v\CAN\n\
+    \\ENQ\EOT\STX\STX\DC1\SOH\DC2\EOT\187\SOH\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC1\ETX\DC2\EOT\177\SOH\ESC\GS\n\
+    \\ENQ\EOT\STX\STX\DC1\ETX\DC2\EOT\187\SOH\ESC\GS\n\
     \\143\SOH\n\
-    \\EOT\EOT\STX\STX\DC2\DC2\EOT\180\SOH\EOTF\SUB\128\SOH The absolute time at which the workflow will be timed out.\n\
+    \\EOT\EOT\STX\STX\DC2\DC2\EOT\190\SOH\EOTF\SUB\128\SOH The absolute time at which the workflow will be timed out.\n\
     \ This is passed without change to the next run/retry of a workflow.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC2\ACK\DC2\EOT\180\SOH\EOT\GS\n\
+    \\ENQ\EOT\STX\STX\DC2\ACK\DC2\EOT\190\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC2\SOH\DC2\EOT\180\SOH\RS@\n\
+    \\ENQ\EOT\STX\STX\DC2\SOH\DC2\EOT\190\SOH\RS@\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC2\ETX\DC2\EOT\180\SOHCE\n\
+    \\ENQ\EOT\STX\STX\DC2\ETX\DC2\EOT\190\SOHCE\n\
     \\185\SOH\n\
-    \\EOT\EOT\STX\STX\DC3\DC2\EOT\183\SOH\EOTE\SUB\170\SOH For a cron workflow, this contains the amount of time between when this iteration of\n\
+    \\EOT\EOT\STX\STX\DC3\DC2\EOT\193\SOH\EOTE\SUB\170\SOH For a cron workflow, this contains the amount of time between when this iteration of\n\
     \ the cron workflow was scheduled and when it should run next per its cron_schedule.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC3\ACK\DC2\EOT\183\SOH\EOT\FS\n\
+    \\ENQ\EOT\STX\STX\DC3\ACK\DC2\EOT\193\SOH\EOT\FS\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC3\SOH\DC2\EOT\183\SOH\GS?\n\
+    \\ENQ\EOT\STX\STX\DC3\SOH\DC2\EOT\193\SOH\GS?\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC3\ETX\DC2\EOT\183\SOHBD\n\
+    \\ENQ\EOT\STX\STX\DC3\ETX\DC2\EOT\193\SOHBD\n\
     \!\n\
-    \\EOT\EOT\STX\STX\DC4\DC2\EOT\185\SOH\EOT*\SUB\DC3 User-defined memo\n\
+    \\EOT\EOT\STX\STX\DC4\DC2\EOT\195\SOH\EOT*\SUB\DC3 User-defined memo\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC4\ACK\DC2\EOT\185\SOH\EOT\US\n\
+    \\ENQ\EOT\STX\STX\DC4\ACK\DC2\EOT\195\SOH\EOT\US\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC4\SOH\DC2\EOT\185\SOH $\n\
+    \\ENQ\EOT\STX\STX\DC4\SOH\DC2\EOT\195\SOH $\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\DC4\ETX\DC2\EOT\185\SOH')\n\
+    \\ENQ\EOT\STX\STX\DC4\ETX\DC2\EOT\195\SOH')\n\
     \P\n\
-    \\EOT\EOT\STX\STX\NAK\DC2\EOT\187\SOH\EOTC\SUBB Search attributes created/updated when this workflow was started\n\
+    \\EOT\EOT\STX\STX\NAK\DC2\EOT\197\SOH\EOTC\SUBB Search attributes created/updated when this workflow was started\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NAK\ACK\DC2\EOT\187\SOH\EOT+\n\
+    \\ENQ\EOT\STX\STX\NAK\ACK\DC2\EOT\197\SOH\EOT+\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NAK\SOH\DC2\EOT\187\SOH,=\n\
+    \\ENQ\EOT\STX\STX\NAK\SOH\DC2\EOT\197\SOH,=\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\NAK\ETX\DC2\EOT\187\SOH@B\n\
+    \\ENQ\EOT\STX\STX\NAK\ETX\DC2\EOT\197\SOH@B\n\
     \K\n\
-    \\EOT\EOT\STX\STX\SYN\DC2\EOT\189\SOH\EOT.\SUB= When the workflow execution started event was first written\n\
+    \\EOT\EOT\STX\STX\SYN\DC2\EOT\199\SOH\EOT.\SUB= When the workflow execution started event was first written\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SYN\ACK\DC2\EOT\189\SOH\EOT\GS\n\
+    \\ENQ\EOT\STX\STX\SYN\ACK\DC2\EOT\199\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SYN\SOH\DC2\EOT\189\SOH\RS(\n\
+    \\ENQ\EOT\STX\STX\SYN\SOH\DC2\EOT\199\SOH\RS(\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\SYN\ETX\DC2\EOT\189\SOH+-\n\
+    \\ENQ\EOT\STX\STX\SYN\ETX\DC2\EOT\199\SOH+-\n\
     \\182\EOT\n\
-    \\EOT\EOT\STX\STX\ETB\DC2\EOT\200\SOH\EOT@\SUB\167\EOT Contains information about the root workflow execution. It is possible for the namespace to\n\
+    \\EOT\EOT\STX\STX\ETB\DC2\EOT\210\SOH\EOT@\SUB\167\EOT Contains information about the root workflow execution. It is possible for the namespace to\n\
     \ be different than this workflow if using OSS and cross-namespace children, but this\n\
     \ information is not retained. Users should take care to track it by other means in such\n\
     \ situations.\n\
@@ -8755,643 +9032,643 @@ packedFileDescriptor
     \ See field in WorkflowExecutionStarted for more detail.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETB\ACK\DC2\EOT\200\SOH\EOT,\n\
+    \\ENQ\EOT\STX\STX\ETB\ACK\DC2\EOT\210\SOH\EOT,\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETB\SOH\DC2\EOT\200\SOH-:\n\
+    \\ENQ\EOT\STX\STX\ETB\SOH\DC2\EOT\210\SOH-:\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\ETB\ETX\DC2\EOT\200\SOH=?\n\
+    \\ENQ\EOT\STX\STX\ETB\ETX\DC2\EOT\210\SOH=?\n\
     \3\n\
-    \\EOT\EOT\STX\STX\CAN\DC2\EOT\202\SOH\EOT2\SUB% Priority of this workflow execution\n\
+    \\EOT\EOT\STX\STX\CAN\DC2\EOT\212\SOH\EOT2\SUB% Priority of this workflow execution\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\CAN\ACK\DC2\EOT\202\SOH\EOT#\n\
+    \\ENQ\EOT\STX\STX\CAN\ACK\DC2\EOT\212\SOH\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\CAN\SOH\DC2\EOT\202\SOH$,\n\
+    \\ENQ\EOT\STX\STX\CAN\SOH\DC2\EOT\212\SOH$,\n\
     \\r\n\
-    \\ENQ\EOT\STX\STX\CAN\ETX\DC2\EOT\202\SOH/1\n\
+    \\ENQ\EOT\STX\STX\CAN\ETX\DC2\EOT\212\SOH/1\n\
     \8\n\
-    \\STX\EOT\ETX\DC2\ACK\206\SOH\NUL\209\SOH\SOH\SUB* Notify a workflow that a timer has fired\n\
+    \\STX\EOT\ETX\DC2\ACK\216\SOH\NUL\219\SOH\SOH\SUB* Notify a workflow that a timer has fired\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\ETX\SOH\DC2\EOT\206\SOH\b\DC1\n\
+    \\ETX\EOT\ETX\SOH\DC2\EOT\216\SOH\b\DC1\n\
     \[\n\
-    \\EOT\EOT\ETX\STX\NUL\DC2\EOT\208\SOH\EOT\DC3\SUBM Sequence number as provided by lang in the corresponding StartTimer command\n\
+    \\EOT\EOT\ETX\STX\NUL\DC2\EOT\218\SOH\EOT\DC3\SUBM Sequence number as provided by lang in the corresponding StartTimer command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\EOT\208\SOH\EOT\n\
+    \\ENQ\EOT\ETX\STX\NUL\ENQ\DC2\EOT\218\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\EOT\208\SOH\v\SO\n\
+    \\ENQ\EOT\ETX\STX\NUL\SOH\DC2\EOT\218\SOH\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\EOT\208\SOH\DC1\DC2\n\
+    \\ENQ\EOT\ETX\STX\NUL\ETX\DC2\EOT\218\SOH\DC1\DC2\n\
     \D\n\
-    \\STX\EOT\EOT\DC2\ACK\212\SOH\NUL\219\SOH\SOH\SUB6 Notify a workflow that an activity has been resolved\n\
+    \\STX\EOT\EOT\DC2\ACK\222\SOH\NUL\229\SOH\SOH\SUB6 Notify a workflow that an activity has been resolved\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\EOT\SOH\DC2\EOT\212\SOH\b\ETB\n\
+    \\ETX\EOT\EOT\SOH\DC2\EOT\222\SOH\b\ETB\n\
     \a\n\
-    \\EOT\EOT\EOT\STX\NUL\DC2\EOT\214\SOH\EOT\DC3\SUBS Sequence number as provided by lang in the corresponding ScheduleActivity command\n\
+    \\EOT\EOT\EOT\STX\NUL\DC2\EOT\224\SOH\EOT\DC3\SUBS Sequence number as provided by lang in the corresponding ScheduleActivity command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\ENQ\DC2\EOT\214\SOH\EOT\n\
+    \\ENQ\EOT\EOT\STX\NUL\ENQ\DC2\EOT\224\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\EOT\214\SOH\v\SO\n\
+    \\ENQ\EOT\EOT\STX\NUL\SOH\DC2\EOT\224\SOH\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\EOT\214\SOH\DC1\DC2\n\
+    \\ENQ\EOT\EOT\STX\NUL\ETX\DC2\EOT\224\SOH\DC1\DC2\n\
     \\f\n\
-    \\EOT\EOT\EOT\STX\SOH\DC2\EOT\215\SOH\EOT2\n\
+    \\EOT\EOT\EOT\STX\SOH\DC2\EOT\225\SOH\EOT2\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\SOH\ACK\DC2\EOT\215\SOH\EOT&\n\
+    \\ENQ\EOT\EOT\STX\SOH\ACK\DC2\EOT\225\SOH\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\SOH\SOH\DC2\EOT\215\SOH'-\n\
+    \\ENQ\EOT\EOT\STX\SOH\SOH\DC2\EOT\225\SOH'-\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\SOH\ETX\DC2\EOT\215\SOH01\n\
+    \\ENQ\EOT\EOT\STX\SOH\ETX\DC2\EOT\225\SOH01\n\
     \\145\SOH\n\
-    \\EOT\EOT\EOT\STX\STX\DC2\EOT\218\SOH\EOT\SYN\SUB\130\SOH Set to true if the resolution is for a local activity. This is used internally by Core and\n\
+    \\EOT\EOT\EOT\STX\STX\DC2\EOT\228\SOH\EOT\SYN\SUB\130\SOH Set to true if the resolution is for a local activity. This is used internally by Core and\n\
     \ lang does not need to care about it.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\STX\ENQ\DC2\EOT\218\SOH\EOT\b\n\
+    \\ENQ\EOT\EOT\STX\STX\ENQ\DC2\EOT\228\SOH\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\STX\SOH\DC2\EOT\218\SOH\t\DC1\n\
+    \\ENQ\EOT\EOT\STX\STX\SOH\DC2\EOT\228\SOH\t\DC1\n\
     \\r\n\
-    \\ENQ\EOT\EOT\STX\STX\ETX\DC2\EOT\218\SOH\DC4\NAK\n\
+    \\ENQ\EOT\EOT\STX\STX\ETX\DC2\EOT\228\SOH\DC4\NAK\n\
     \x\n\
-    \\STX\EOT\ENQ\DC2\ACK\223\SOH\NUL\231\SOH\SOH\SUBj Notify a workflow that a start child workflow execution request has succeeded, failed or was\n\
+    \\STX\EOT\ENQ\DC2\ACK\233\SOH\NUL\241\SOH\SOH\SUBj Notify a workflow that a start child workflow execution request has succeeded, failed or was\n\
     \ cancelled.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\ENQ\SOH\DC2\EOT\223\SOH\b*\n\
+    \\ETX\EOT\ENQ\SOH\DC2\EOT\233\SOH\b*\n\
     \l\n\
-    \\EOT\EOT\ENQ\STX\NUL\DC2\EOT\225\SOH\EOT\DC3\SUB^ Sequence number as provided by lang in the corresponding StartChildWorkflowExecution command\n\
+    \\EOT\EOT\ENQ\STX\NUL\DC2\EOT\235\SOH\EOT\DC3\SUB^ Sequence number as provided by lang in the corresponding StartChildWorkflowExecution command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ENQ\DC2\EOT\225\SOH\EOT\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ENQ\DC2\EOT\235\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\EOT\225\SOH\v\SO\n\
+    \\ENQ\EOT\ENQ\STX\NUL\SOH\DC2\EOT\235\SOH\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\EOT\225\SOH\DC1\DC2\n\
+    \\ENQ\EOT\ENQ\STX\NUL\ETX\DC2\EOT\235\SOH\DC1\DC2\n\
     \\SO\n\
-    \\EOT\EOT\ENQ\b\NUL\DC2\ACK\226\SOH\EOT\230\SOH\ENQ\n\
+    \\EOT\EOT\ENQ\b\NUL\DC2\ACK\236\SOH\EOT\240\SOH\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\b\NUL\SOH\DC2\EOT\226\SOH\n\
+    \\ENQ\EOT\ENQ\b\NUL\SOH\DC2\EOT\236\SOH\n\
     \\DLE\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\SOH\DC2\EOT\227\SOH\b@\n\
+    \\EOT\EOT\ENQ\STX\SOH\DC2\EOT\237\SOH\b@\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ACK\DC2\EOT\227\SOH\b1\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ACK\DC2\EOT\237\SOH\b1\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\EOT\227\SOH2;\n\
+    \\ENQ\EOT\ENQ\STX\SOH\SOH\DC2\EOT\237\SOH2;\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\EOT\227\SOH>?\n\
+    \\ENQ\EOT\ENQ\STX\SOH\ETX\DC2\EOT\237\SOH>?\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\STX\DC2\EOT\228\SOH\b=\n\
+    \\EOT\EOT\ENQ\STX\STX\DC2\EOT\238\SOH\b=\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\STX\ACK\DC2\EOT\228\SOH\b1\n\
+    \\ENQ\EOT\ENQ\STX\STX\ACK\DC2\EOT\238\SOH\b1\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\STX\SOH\DC2\EOT\228\SOH28\n\
+    \\ENQ\EOT\ENQ\STX\STX\SOH\DC2\EOT\238\SOH28\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\STX\ETX\DC2\EOT\228\SOH;<\n\
+    \\ENQ\EOT\ENQ\STX\STX\ETX\DC2\EOT\238\SOH;<\n\
     \\f\n\
-    \\EOT\EOT\ENQ\STX\ETX\DC2\EOT\229\SOH\bB\n\
+    \\EOT\EOT\ENQ\STX\ETX\DC2\EOT\239\SOH\bB\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\ETX\ACK\DC2\EOT\229\SOH\b3\n\
+    \\ENQ\EOT\ENQ\STX\ETX\ACK\DC2\EOT\239\SOH\b3\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\ETX\SOH\DC2\EOT\229\SOH4=\n\
+    \\ENQ\EOT\ENQ\STX\ETX\SOH\DC2\EOT\239\SOH4=\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\ETX\ETX\DC2\EOT\229\SOH@A\n\
+    \\ENQ\EOT\ENQ\STX\ETX\ETX\DC2\EOT\239\SOH@A\n\
     \.\n\
-    \\STX\EOT\ACK\DC2\ACK\234\SOH\NUL\236\SOH\SOH\SUB  Simply pass the run_id to lang\n\
+    \\STX\EOT\ACK\DC2\ACK\244\SOH\NUL\246\SOH\SOH\SUB  Simply pass the run_id to lang\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\ACK\SOH\DC2\EOT\234\SOH\b1\n\
+    \\ETX\EOT\ACK\SOH\DC2\EOT\244\SOH\b1\n\
     \\f\n\
-    \\EOT\EOT\ACK\STX\NUL\DC2\EOT\235\SOH\EOT\SYN\n\
+    \\EOT\EOT\ACK\STX\NUL\DC2\EOT\245\SOH\EOT\SYN\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\ENQ\DC2\EOT\235\SOH\EOT\n\
+    \\ENQ\EOT\ACK\STX\NUL\ENQ\DC2\EOT\245\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\EOT\235\SOH\v\DC1\n\
+    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\EOT\245\SOH\v\DC1\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\EOT\235\SOH\DC4\NAK\n\
+    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\EOT\245\SOH\DC4\NAK\n\
     \1\n\
-    \\STX\EOT\a\DC2\ACK\239\SOH\NUL\245\SOH\SOH\SUB# Provide lang the cause of failure\n\
+    \\STX\EOT\a\DC2\ACK\249\SOH\NUL\255\SOH\SOH\SUB# Provide lang the cause of failure\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\a\SOH\DC2\EOT\239\SOH\b1\n\
+    \\ETX\EOT\a\SOH\DC2\EOT\249\SOH\b1\n\
     \\132\SOH\n\
-    \\EOT\EOT\a\STX\NUL\DC2\EOT\242\SOH\EOT\ESC\SUBv Lang should have this information but it's more convenient to pass it back\n\
+    \\EOT\EOT\a\STX\NUL\DC2\EOT\252\SOH\EOT\ESC\SUBv Lang should have this information but it's more convenient to pass it back\n\
     \ for error construction on the lang side.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\ENQ\DC2\EOT\242\SOH\EOT\n\
+    \\ENQ\EOT\a\STX\NUL\ENQ\DC2\EOT\252\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\SOH\DC2\EOT\242\SOH\v\SYN\n\
+    \\ENQ\EOT\a\STX\NUL\SOH\DC2\EOT\252\SOH\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\ETX\DC2\EOT\242\SOH\EM\SUB\n\
+    \\ENQ\EOT\a\STX\NUL\ETX\DC2\EOT\252\SOH\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\a\STX\SOH\DC2\EOT\243\SOH\EOT\GS\n\
+    \\EOT\EOT\a\STX\SOH\DC2\EOT\253\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\ENQ\DC2\EOT\243\SOH\EOT\n\
+    \\ENQ\EOT\a\STX\SOH\ENQ\DC2\EOT\253\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\243\SOH\v\CAN\n\
+    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\253\SOH\v\CAN\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\243\SOH\ESC\FS\n\
+    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\253\SOH\ESC\FS\n\
     \\f\n\
-    \\EOT\EOT\a\STX\STX\DC2\EOT\244\SOH\EOTD\n\
+    \\EOT\EOT\a\STX\STX\DC2\EOT\254\SOH\EOTD\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\ACK\DC2\EOT\244\SOH\EOT9\n\
+    \\ENQ\EOT\a\STX\STX\ACK\DC2\EOT\254\SOH\EOT9\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\244\SOH:?\n\
+    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\254\SOH:?\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\244\SOHBC\n\
+    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\254\SOHBC\n\
     \\153\SOH\n\
-    \\STX\EOT\b\DC2\ACK\249\SOH\NUL\251\SOH\SOH\SUB\138\SOH `failure` should be ChildWorkflowFailure with cause set to CancelledFailure.\n\
+    \\STX\EOT\b\DC2\ACK\131\STX\NUL\133\STX\SOH\SUB\138\SOH `failure` should be ChildWorkflowFailure with cause set to CancelledFailure.\n\
     \ The failure is constructed in core for lang's convenience.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\b\SOH\DC2\EOT\249\SOH\b3\n\
+    \\ETX\EOT\b\SOH\DC2\EOT\131\STX\b3\n\
     \\f\n\
-    \\EOT\EOT\b\STX\NUL\DC2\EOT\250\SOH\EOT0\n\
+    \\EOT\EOT\b\STX\NUL\DC2\EOT\132\STX\EOT0\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\ACK\DC2\EOT\250\SOH\EOT#\n\
+    \\ENQ\EOT\b\STX\NUL\ACK\DC2\EOT\132\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\SOH\DC2\EOT\250\SOH$+\n\
+    \\ENQ\EOT\b\STX\NUL\SOH\DC2\EOT\132\STX$+\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\ETX\DC2\EOT\250\SOH./\n\
+    \\ENQ\EOT\b\STX\NUL\ETX\DC2\EOT\132\STX./\n\
     \S\n\
-    \\STX\EOT\t\DC2\ACK\254\SOH\NUL\130\STX\SOH\SUBE Notify a workflow that a child workflow execution has been resolved\n\
+    \\STX\EOT\t\DC2\ACK\136\STX\NUL\140\STX\SOH\SUBE Notify a workflow that a child workflow execution has been resolved\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\t\SOH\DC2\EOT\254\SOH\b%\n\
+    \\ETX\EOT\t\SOH\DC2\EOT\136\STX\b%\n\
     \l\n\
-    \\EOT\EOT\t\STX\NUL\DC2\EOT\128\STX\EOT\DC3\SUB^ Sequence number as provided by lang in the corresponding StartChildWorkflowExecution command\n\
+    \\EOT\EOT\t\STX\NUL\DC2\EOT\138\STX\EOT\DC3\SUB^ Sequence number as provided by lang in the corresponding StartChildWorkflowExecution command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\ENQ\DC2\EOT\128\STX\EOT\n\
+    \\ENQ\EOT\t\STX\NUL\ENQ\DC2\EOT\138\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\128\STX\v\SO\n\
+    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\138\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\128\STX\DC1\DC2\n\
+    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\138\STX\DC1\DC2\n\
     \\f\n\
-    \\EOT\EOT\t\STX\SOH\DC2\EOT\129\STX\EOT2\n\
+    \\EOT\EOT\t\STX\SOH\DC2\EOT\139\STX\EOT2\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\SOH\ACK\DC2\EOT\129\STX\EOT&\n\
+    \\ENQ\EOT\t\STX\SOH\ACK\DC2\EOT\139\STX\EOT&\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\SOH\SOH\DC2\EOT\129\STX'-\n\
+    \\ENQ\EOT\t\STX\SOH\SOH\DC2\EOT\139\STX'-\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\SOH\ETX\DC2\EOT\129\STX01\n\
+    \\ENQ\EOT\t\STX\SOH\ETX\DC2\EOT\139\STX01\n\
     \1\n\
     \\STX\EOT\n\
-    \\DC2\ACK\133\STX\NUL\135\STX\SOH\SUB# Update the workflow's random seed\n\
+    \\DC2\ACK\143\STX\NUL\145\STX\SOH\SUB# Update the workflow's random seed\n\
     \\n\
     \\v\n\
     \\ETX\EOT\n\
-    \\SOH\DC2\EOT\133\STX\b\CAN\n\
+    \\SOH\DC2\EOT\143\STX\b\CAN\n\
     \\f\n\
     \\EOT\EOT\n\
-    \\STX\NUL\DC2\EOT\134\STX\EOT\US\n\
+    \\STX\NUL\DC2\EOT\144\STX\EOT\US\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ENQ\DC2\EOT\134\STX\EOT\n\
+    \\STX\NUL\ENQ\DC2\EOT\144\STX\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\SOH\DC2\EOT\134\STX\v\SUB\n\
+    \\STX\NUL\SOH\DC2\EOT\144\STX\v\SUB\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ETX\DC2\EOT\134\STX\GS\RS\n\
+    \\STX\NUL\ETX\DC2\EOT\144\STX\GS\RS\n\
     \ \n\
-    \\STX\EOT\v\DC2\ACK\138\STX\NUL\148\STX\SOH\SUB\DC2 Query a workflow\n\
+    \\STX\EOT\v\DC2\ACK\148\STX\NUL\158\STX\SOH\SUB\DC2 Query a workflow\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\v\SOH\DC2\EOT\138\STX\b\NAK\n\
+    \\ETX\EOT\v\SOH\DC2\EOT\148\STX\b\NAK\n\
     \\137\STX\n\
-    \\EOT\EOT\v\STX\NUL\DC2\EOT\142\STX\EOT\CAN\SUB\250\SOH For PollWFTResp `query` field, this will be set to the special value `legacy`. For the\n\
+    \\EOT\EOT\v\STX\NUL\DC2\EOT\152\STX\EOT\CAN\SUB\250\SOH For PollWFTResp `query` field, this will be set to the special value `legacy`. For the\n\
     \ `queries` field, the server provides a unique identifier. If it is a `legacy` query,\n\
     \ lang cannot issue any commands in response other than to answer the query.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\ENQ\DC2\EOT\142\STX\EOT\n\
+    \\ENQ\EOT\v\STX\NUL\ENQ\DC2\EOT\152\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\142\STX\v\DC3\n\
+    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\152\STX\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\142\STX\SYN\ETB\n\
+    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\152\STX\SYN\ETB\n\
     \4\n\
-    \\EOT\EOT\v\STX\SOH\DC2\EOT\144\STX\EOT\SUB\SUB& The query's function/method/etc name\n\
+    \\EOT\EOT\v\STX\SOH\DC2\EOT\154\STX\EOT\SUB\SUB& The query's function/method/etc name\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\ENQ\DC2\EOT\144\STX\EOT\n\
+    \\ENQ\EOT\v\STX\SOH\ENQ\DC2\EOT\154\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\144\STX\v\NAK\n\
+    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\154\STX\v\NAK\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\144\STX\CAN\EM\n\
+    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\154\STX\CAN\EM\n\
     \\f\n\
-    \\EOT\EOT\v\STX\STX\DC2\EOT\145\STX\EOT:\n\
+    \\EOT\EOT\v\STX\STX\DC2\EOT\155\STX\EOT:\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\EOT\DC2\EOT\145\STX\EOT\f\n\
+    \\ENQ\EOT\v\STX\STX\EOT\DC2\EOT\155\STX\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\ACK\DC2\EOT\145\STX\r+\n\
+    \\ENQ\EOT\v\STX\STX\ACK\DC2\EOT\155\STX\r+\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\SOH\DC2\EOT\145\STX,5\n\
+    \\ENQ\EOT\v\STX\STX\SOH\DC2\EOT\155\STX,5\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\STX\ETX\DC2\EOT\145\STX89\n\
+    \\ENQ\EOT\v\STX\STX\ETX\DC2\EOT\155\STX89\n\
     \-\n\
-    \\EOT\EOT\v\STX\ETX\DC2\EOT\147\STX\EOT<\SUB\US Headers attached to the query\n\
+    \\EOT\EOT\v\STX\ETX\DC2\EOT\157\STX\EOT<\SUB\US Headers attached to the query\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ETX\ACK\DC2\EOT\147\STX\EOT/\n\
+    \\ENQ\EOT\v\STX\ETX\ACK\DC2\EOT\157\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ETX\SOH\DC2\EOT\147\STX07\n\
+    \\ENQ\EOT\v\STX\ETX\SOH\DC2\EOT\157\STX07\n\
     \\r\n\
-    \\ENQ\EOT\v\STX\ETX\ETX\DC2\EOT\147\STX:;\n\
+    \\ENQ\EOT\v\STX\ETX\ETX\DC2\EOT\157\STX:;\n\
     \)\n\
-    \\STX\EOT\f\DC2\ACK\151\STX\NUL\154\STX\SOH\SUB\ESC Cancel a running workflow\n\
+    \\STX\EOT\f\DC2\ACK\161\STX\NUL\164\STX\SOH\SUB\ESC Cancel a running workflow\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\f\SOH\DC2\EOT\151\STX\b\SYN\n\
+    \\ETX\EOT\f\SOH\DC2\EOT\161\STX\b\SYN\n\
     \C\n\
-    \\EOT\EOT\f\STX\NUL\DC2\EOT\153\STX\EOT\SYN\SUB5 User-specified reason the cancel request was issued\n\
+    \\EOT\EOT\f\STX\NUL\DC2\EOT\163\STX\EOT\SYN\SUB5 User-specified reason the cancel request was issued\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\ENQ\DC2\EOT\153\STX\EOT\n\
+    \\ENQ\EOT\f\STX\NUL\ENQ\DC2\EOT\163\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\SOH\DC2\EOT\153\STX\v\DC1\n\
+    \\ENQ\EOT\f\STX\NUL\SOH\DC2\EOT\163\STX\v\DC1\n\
     \\r\n\
-    \\ENQ\EOT\f\STX\NUL\ETX\DC2\EOT\153\STX\DC4\NAK\n\
+    \\ENQ\EOT\f\STX\NUL\ETX\DC2\EOT\163\STX\DC4\NAK\n\
     \+\n\
-    \\STX\EOT\r\DC2\ACK\157\STX\NUL\164\STX\SOH\SUB\GS Send a signal to a workflow\n\
+    \\STX\EOT\r\DC2\ACK\167\STX\NUL\174\STX\SOH\SUB\GS Send a signal to a workflow\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\r\SOH\DC2\EOT\157\STX\b\SYN\n\
+    \\ETX\EOT\r\SOH\DC2\EOT\167\STX\b\SYN\n\
     \\f\n\
-    \\EOT\EOT\r\STX\NUL\DC2\EOT\158\STX\EOT\ESC\n\
+    \\EOT\EOT\r\STX\NUL\DC2\EOT\168\STX\EOT\ESC\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\158\STX\EOT\n\
+    \\ENQ\EOT\r\STX\NUL\ENQ\DC2\EOT\168\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\158\STX\v\SYN\n\
+    \\ENQ\EOT\r\STX\NUL\SOH\DC2\EOT\168\STX\v\SYN\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\158\STX\EM\SUB\n\
+    \\ENQ\EOT\r\STX\NUL\ETX\DC2\EOT\168\STX\EM\SUB\n\
     \\f\n\
-    \\EOT\EOT\r\STX\SOH\DC2\EOT\159\STX\EOT6\n\
+    \\EOT\EOT\r\STX\SOH\DC2\EOT\169\STX\EOT6\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\EOT\DC2\EOT\159\STX\EOT\f\n\
+    \\ENQ\EOT\r\STX\SOH\EOT\DC2\EOT\169\STX\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ACK\DC2\EOT\159\STX\r+\n\
+    \\ENQ\EOT\r\STX\SOH\ACK\DC2\EOT\169\STX\r+\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\159\STX,1\n\
+    \\ENQ\EOT\r\STX\SOH\SOH\DC2\EOT\169\STX,1\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\159\STX45\n\
+    \\ENQ\EOT\r\STX\SOH\ETX\DC2\EOT\169\STX45\n\
     \4\n\
-    \\EOT\EOT\r\STX\STX\DC2\EOT\161\STX\EOT\CAN\SUB& Identity of the sender of the signal\n\
+    \\EOT\EOT\r\STX\STX\DC2\EOT\171\STX\EOT\CAN\SUB& Identity of the sender of the signal\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\ENQ\DC2\EOT\161\STX\EOT\n\
+    \\ENQ\EOT\r\STX\STX\ENQ\DC2\EOT\171\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\SOH\DC2\EOT\161\STX\v\DC3\n\
+    \\ENQ\EOT\r\STX\STX\SOH\DC2\EOT\171\STX\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\STX\ETX\DC2\EOT\161\STX\SYN\ETB\n\
+    \\ENQ\EOT\r\STX\STX\ETX\DC2\EOT\171\STX\SYN\ETB\n\
     \.\n\
-    \\EOT\EOT\r\STX\ETX\DC2\EOT\163\STX\EOT<\SUB  Headers attached to the signal\n\
+    \\EOT\EOT\r\STX\ETX\DC2\EOT\173\STX\EOT<\SUB  Headers attached to the signal\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\ACK\DC2\EOT\163\STX\EOT/\n\
+    \\ENQ\EOT\r\STX\ETX\ACK\DC2\EOT\173\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\SOH\DC2\EOT\163\STX07\n\
+    \\ENQ\EOT\r\STX\ETX\SOH\DC2\EOT\173\STX07\n\
     \\r\n\
-    \\ENQ\EOT\r\STX\ETX\ETX\DC2\EOT\163\STX:;\n\
+    \\ENQ\EOT\r\STX\ETX\ETX\DC2\EOT\173\STX:;\n\
     \\176\SOH\n\
-    \\STX\EOT\SO\DC2\ACK\168\STX\NUL\170\STX\SOH\SUB\161\SOH Inform lang what the result of a call to `patched` or similar API should be -- this is always\n\
+    \\STX\EOT\SO\DC2\ACK\178\STX\NUL\180\STX\SOH\SUB\161\SOH Inform lang what the result of a call to `patched` or similar API should be -- this is always\n\
     \ sent pre-emptively, so any time it is sent the change is present\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\SO\SOH\DC2\EOT\168\STX\b\SYN\n\
+    \\ETX\EOT\SO\SOH\DC2\EOT\178\STX\b\SYN\n\
     \\f\n\
-    \\EOT\EOT\SO\STX\NUL\DC2\EOT\169\STX\EOT\CAN\n\
+    \\EOT\EOT\SO\STX\NUL\DC2\EOT\179\STX\EOT\CAN\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\EOT\169\STX\EOT\n\
+    \\ENQ\EOT\SO\STX\NUL\ENQ\DC2\EOT\179\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\169\STX\v\DC3\n\
+    \\ENQ\EOT\SO\STX\NUL\SOH\DC2\EOT\179\STX\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\169\STX\SYN\ETB\n\
+    \\ENQ\EOT\SO\STX\NUL\ETX\DC2\EOT\179\STX\SYN\ETB\n\
     \\f\n\
-    \\STX\EOT\SI\DC2\ACK\172\STX\NUL\179\STX\SOH\n\
+    \\STX\EOT\SI\DC2\ACK\182\STX\NUL\189\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\SI\SOH\DC2\EOT\172\STX\b%\n\
+    \\ETX\EOT\SI\SOH\DC2\EOT\182\STX\b%\n\
     \q\n\
-    \\EOT\EOT\SI\STX\NUL\DC2\EOT\175\STX\EOT\DC3\SUBc Sequence number as provided by lang in the corresponding SignalExternalWorkflowExecution\n\
+    \\EOT\EOT\SI\STX\NUL\DC2\EOT\185\STX\EOT\DC3\SUBc Sequence number as provided by lang in the corresponding SignalExternalWorkflowExecution\n\
     \ command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\EOT\175\STX\EOT\n\
+    \\ENQ\EOT\SI\STX\NUL\ENQ\DC2\EOT\185\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\175\STX\v\SO\n\
+    \\ENQ\EOT\SI\STX\NUL\SOH\DC2\EOT\185\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\175\STX\DC1\DC2\n\
+    \\ENQ\EOT\SI\STX\NUL\ETX\DC2\EOT\185\STX\DC1\DC2\n\
     \v\n\
-    \\EOT\EOT\SI\STX\SOH\DC2\EOT\178\STX\EOT0\SUBh If populated, this signal either failed to be sent or was cancelled depending on failure\n\
+    \\EOT\EOT\SI\STX\SOH\DC2\EOT\188\STX\EOT0\SUBh If populated, this signal either failed to be sent or was cancelled depending on failure\n\
     \ type / info.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\ACK\DC2\EOT\178\STX\EOT#\n\
+    \\ENQ\EOT\SI\STX\SOH\ACK\DC2\EOT\188\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\178\STX$+\n\
+    \\ENQ\EOT\SI\STX\SOH\SOH\DC2\EOT\188\STX$+\n\
     \\r\n\
-    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\178\STX./\n\
+    \\ENQ\EOT\SI\STX\SOH\ETX\DC2\EOT\188\STX./\n\
     \\f\n\
-    \\STX\EOT\DLE\DC2\ACK\181\STX\NUL\188\STX\SOH\n\
+    \\STX\EOT\DLE\DC2\ACK\191\STX\NUL\198\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DLE\SOH\DC2\EOT\181\STX\b,\n\
+    \\ETX\EOT\DLE\SOH\DC2\EOT\191\STX\b,\n\
     \x\n\
-    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\184\STX\EOT\DC3\SUBj Sequence number as provided by lang in the corresponding\n\
+    \\EOT\EOT\DLE\STX\NUL\DC2\EOT\194\STX\EOT\DC3\SUBj Sequence number as provided by lang in the corresponding\n\
     \ RequestCancelExternalWorkflowExecution command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ENQ\DC2\EOT\184\STX\EOT\n\
+    \\ENQ\EOT\DLE\STX\NUL\ENQ\DC2\EOT\194\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\184\STX\v\SO\n\
+    \\ENQ\EOT\DLE\STX\NUL\SOH\DC2\EOT\194\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\184\STX\DC1\DC2\n\
+    \\ENQ\EOT\DLE\STX\NUL\ETX\DC2\EOT\194\STX\DC1\DC2\n\
     \v\n\
-    \\EOT\EOT\DLE\STX\SOH\DC2\EOT\187\STX\EOT0\SUBh If populated, this signal either failed to be sent or was cancelled depending on failure\n\
+    \\EOT\EOT\DLE\STX\SOH\DC2\EOT\197\STX\EOT0\SUBh If populated, this signal either failed to be sent or was cancelled depending on failure\n\
     \ type / info.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\ACK\DC2\EOT\187\STX\EOT#\n\
+    \\ENQ\EOT\DLE\STX\SOH\ACK\DC2\EOT\197\STX\EOT#\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\SOH\DC2\EOT\187\STX$+\n\
+    \\ENQ\EOT\DLE\STX\SOH\SOH\DC2\EOT\197\STX$+\n\
     \\r\n\
-    \\ENQ\EOT\DLE\STX\SOH\ETX\DC2\EOT\187\STX./\n\
+    \\ENQ\EOT\DLE\STX\SOH\ETX\DC2\EOT\197\STX./\n\
     \\160\STX\n\
-    \\STX\EOT\DC1\DC2\ACK\193\STX\NUL\211\STX\SOH\SUB\145\STX Lang is requested to invoke an update handler on the workflow. Lang should invoke the update\n\
+    \\STX\EOT\DC1\DC2\ACK\203\STX\NUL\221\STX\SOH\SUB\145\STX Lang is requested to invoke an update handler on the workflow. Lang should invoke the update\n\
     \ validator first (if requested). If it accepts the update, immediately invoke the update handler.\n\
     \ Lang must reply to the activation containing this job with an `UpdateResponse`.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\DC1\SOH\DC2\EOT\193\STX\b\DLE\n\
+    \\ETX\EOT\DC1\SOH\DC2\EOT\203\STX\b\DLE\n\
     \<\n\
-    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\195\STX\EOT\DC2\SUB. A workflow-unique identifier for this update\n\
+    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\205\STX\EOT\DC2\SUB. A workflow-unique identifier for this update\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\195\STX\EOT\n\
+    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\205\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\195\STX\v\r\n\
+    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\205\STX\v\r\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\195\STX\DLE\DC1\n\
+    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\205\STX\DLE\DC1\n\
     \u\n\
-    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\198\STX\EOT$\SUBg The protocol message instance ID - this is used to uniquely track the ID server side and\n\
+    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\208\STX\EOT$\SUBg The protocol message instance ID - this is used to uniquely track the ID server side and\n\
     \ internally.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ENQ\DC2\EOT\198\STX\EOT\n\
+    \\ENQ\EOT\DC1\STX\SOH\ENQ\DC2\EOT\208\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\198\STX\v\US\n\
+    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\208\STX\v\US\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\198\STX\"#\n\
+    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\208\STX\"#\n\
     \.\n\
-    \\EOT\EOT\DC1\STX\STX\DC2\EOT\200\STX\EOT\DC4\SUB  The name of the update handler\n\
+    \\EOT\EOT\DC1\STX\STX\DC2\EOT\210\STX\EOT\DC4\SUB  The name of the update handler\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ENQ\DC2\EOT\200\STX\EOT\n\
+    \\ENQ\EOT\DC1\STX\STX\ENQ\DC2\EOT\210\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\200\STX\v\SI\n\
+    \\ENQ\EOT\DC1\STX\STX\SOH\DC2\EOT\210\STX\v\SI\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\200\STX\DC2\DC3\n\
+    \\ENQ\EOT\DC1\STX\STX\ETX\DC2\EOT\210\STX\DC2\DC3\n\
     \'\n\
-    \\EOT\EOT\DC1\STX\ETX\DC2\EOT\202\STX\EOT6\SUB\EM The input to the update\n\
+    \\EOT\EOT\DC1\STX\ETX\DC2\EOT\212\STX\EOT6\SUB\EM The input to the update\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\EOT\DC2\EOT\202\STX\EOT\f\n\
+    \\ENQ\EOT\DC1\STX\ETX\EOT\DC2\EOT\212\STX\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\ACK\DC2\EOT\202\STX\r+\n\
+    \\ENQ\EOT\DC1\STX\ETX\ACK\DC2\EOT\212\STX\r+\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\SOH\DC2\EOT\202\STX,1\n\
+    \\ENQ\EOT\DC1\STX\ETX\SOH\DC2\EOT\212\STX,1\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ETX\ETX\DC2\EOT\202\STX45\n\
+    \\ENQ\EOT\DC1\STX\ETX\ETX\DC2\EOT\212\STX45\n\
     \.\n\
-    \\EOT\EOT\DC1\STX\EOT\DC2\EOT\204\STX\EOT<\SUB  Headers attached to the update\n\
+    \\EOT\EOT\DC1\STX\EOT\DC2\EOT\214\STX\EOT<\SUB  Headers attached to the update\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\ACK\DC2\EOT\204\STX\EOT/\n\
+    \\ENQ\EOT\DC1\STX\EOT\ACK\DC2\EOT\214\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\SOH\DC2\EOT\204\STX07\n\
+    \\ENQ\EOT\DC1\STX\EOT\SOH\DC2\EOT\214\STX07\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\EOT\ETX\DC2\EOT\204\STX:;\n\
+    \\ENQ\EOT\DC1\STX\EOT\ETX\DC2\EOT\214\STX:;\n\
     \\165\SOH\n\
-    \\EOT\EOT\DC1\STX\ENQ\DC2\EOT\207\STX\EOT)\SUB\150\SOH Remaining metadata associated with the update. The `update_id` field is stripped from here\n\
+    \\EOT\EOT\DC1\STX\ENQ\DC2\EOT\217\STX\EOT)\SUB\150\SOH Remaining metadata associated with the update. The `update_id` field is stripped from here\n\
     \ and moved to `id`, since it is guaranteed to be present.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\ACK\DC2\EOT\207\STX\EOT\US\n\
+    \\ENQ\EOT\DC1\STX\ENQ\ACK\DC2\EOT\217\STX\EOT\US\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\SOH\DC2\EOT\207\STX $\n\
+    \\ENQ\EOT\DC1\STX\ENQ\SOH\DC2\EOT\217\STX $\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ENQ\ETX\DC2\EOT\207\STX'(\n\
+    \\ENQ\EOT\DC1\STX\ENQ\ETX\DC2\EOT\217\STX'(\n\
     \\179\SOH\n\
-    \\EOT\EOT\DC1\STX\ACK\DC2\EOT\210\STX\EOT\ESC\SUB\164\SOH If set true, lang must run the update's validator before running the handler. This will be\n\
+    \\EOT\EOT\DC1\STX\ACK\DC2\EOT\220\STX\EOT\ESC\SUB\164\SOH If set true, lang must run the update's validator before running the handler. This will be\n\
     \ set false during replay, since validation is not re-run during replay.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ACK\ENQ\DC2\EOT\210\STX\EOT\b\n\
+    \\ENQ\EOT\DC1\STX\ACK\ENQ\DC2\EOT\220\STX\EOT\b\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ACK\SOH\DC2\EOT\210\STX\t\SYN\n\
+    \\ENQ\EOT\DC1\STX\ACK\SOH\DC2\EOT\220\STX\t\SYN\n\
     \\r\n\
-    \\ENQ\EOT\DC1\STX\ACK\ETX\DC2\EOT\210\STX\EM\SUB\n\
+    \\ENQ\EOT\DC1\STX\ACK\ETX\DC2\EOT\220\STX\EM\SUB\n\
     \\f\n\
-    \\STX\EOT\DC2\DC2\ACK\213\STX\NUL\229\STX\SOH\n\
+    \\STX\EOT\DC2\DC2\ACK\223\STX\NUL\239\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DC2\SOH\DC2\EOT\213\STX\b\"\n\
+    \\ETX\EOT\DC2\SOH\DC2\EOT\223\STX\b\"\n\
     \g\n\
-    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\215\STX\EOT\DC3\SUBY Sequence number as provided by lang in the corresponding ScheduleNexusOperation command\n\
+    \\EOT\EOT\DC2\STX\NUL\DC2\EOT\225\STX\EOT\DC3\SUBY Sequence number as provided by lang in the corresponding ScheduleNexusOperation command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\ENQ\DC2\EOT\215\STX\EOT\n\
+    \\ENQ\EOT\DC2\STX\NUL\ENQ\DC2\EOT\225\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\215\STX\v\SO\n\
+    \\ENQ\EOT\DC2\STX\NUL\SOH\DC2\EOT\225\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\215\STX\DC1\DC2\n\
+    \\ENQ\EOT\DC2\STX\NUL\ETX\DC2\EOT\225\STX\DC1\DC2\n\
     \\SO\n\
-    \\EOT\EOT\DC2\b\NUL\DC2\ACK\216\STX\EOT\228\STX\ENQ\n\
+    \\EOT\EOT\DC2\b\NUL\DC2\ACK\226\STX\EOT\238\STX\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\DC2\b\NUL\SOH\DC2\EOT\216\STX\n\
+    \\ENQ\EOT\DC2\b\NUL\SOH\DC2\EOT\226\STX\n\
     \\DLE\n\
     \\211\SOH\n\
-    \\EOT\EOT\DC2\STX\SOH\DC2\EOT\220\STX\b#\SUB\196\SOH The operation started asynchronously. Contains a token that can be used to perform\n\
+    \\EOT\EOT\DC2\STX\SOH\DC2\EOT\230\STX\b#\SUB\196\SOH The operation started asynchronously. Contains a token that can be used to perform\n\
     \ operations on the started operation by, ex, clients. A `ResolveNexusOperation` job will\n\
     \ follow at some point.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\SOH\ENQ\DC2\EOT\220\STX\b\SO\n\
+    \\ENQ\EOT\DC2\STX\SOH\ENQ\DC2\EOT\230\STX\b\SO\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\SOH\SOH\DC2\EOT\220\STX\SI\RS\n\
+    \\ENQ\EOT\DC2\STX\SOH\SOH\DC2\EOT\230\STX\SI\RS\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\SOH\ETX\DC2\EOT\220\STX!\"\n\
+    \\ENQ\EOT\DC2\STX\SOH\ETX\DC2\EOT\230\STX!\"\n\
     \\156\SOH\n\
-    \\EOT\EOT\DC2\STX\STX\DC2\EOT\223\STX\b\RS\SUB\141\SOH If true the operation \"started\" but only because it's also already resolved. A\n\
+    \\EOT\EOT\DC2\STX\STX\DC2\EOT\233\STX\b\RS\SUB\141\SOH If true the operation \"started\" but only because it's also already resolved. A\n\
     \ `ResolveNexusOperation` job will be in the same activation.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\STX\ENQ\DC2\EOT\223\STX\b\f\n\
+    \\ENQ\EOT\DC2\STX\STX\ENQ\DC2\EOT\233\STX\b\f\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\STX\SOH\DC2\EOT\223\STX\r\EM\n\
+    \\ENQ\EOT\DC2\STX\STX\SOH\DC2\EOT\233\STX\r\EM\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\STX\ETX\DC2\EOT\223\STX\FS\GS\n\
+    \\ENQ\EOT\DC2\STX\STX\ETX\DC2\EOT\233\STX\FS\GS\n\
     \\237\SOH\n\
-    \\EOT\EOT\DC2\STX\ETX\DC2\EOT\227\STX\b3\SUB\222\SOH The operation either failed to start, was cancelled before it started, timed out, or\n\
+    \\EOT\EOT\DC2\STX\ETX\DC2\EOT\237\STX\b3\SUB\222\SOH The operation either failed to start, was cancelled before it started, timed out, or\n\
     \ failed synchronously. Details are included inside the message. In this case, the\n\
     \ subsequent ResolveNexusOperation will never be sent.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\ETX\ACK\DC2\EOT\227\STX\b'\n\
+    \\ENQ\EOT\DC2\STX\ETX\ACK\DC2\EOT\237\STX\b'\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\ETX\SOH\DC2\EOT\227\STX(.\n\
+    \\ENQ\EOT\DC2\STX\ETX\SOH\DC2\EOT\237\STX(.\n\
     \\r\n\
-    \\ENQ\EOT\DC2\STX\ETX\ETX\DC2\EOT\227\STX12\n\
+    \\ENQ\EOT\DC2\STX\ETX\ETX\DC2\EOT\237\STX12\n\
     \\f\n\
-    \\STX\EOT\DC3\DC2\ACK\231\STX\NUL\235\STX\SOH\n\
+    \\STX\EOT\DC3\DC2\ACK\241\STX\NUL\245\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DC3\SOH\DC2\EOT\231\STX\b\GS\n\
+    \\ETX\EOT\DC3\SOH\DC2\EOT\241\STX\b\GS\n\
     \g\n\
-    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\233\STX\EOT\DC3\SUBY Sequence number as provided by lang in the corresponding ScheduleNexusOperation command\n\
+    \\EOT\EOT\DC3\STX\NUL\DC2\EOT\243\STX\EOT\DC3\SUBY Sequence number as provided by lang in the corresponding ScheduleNexusOperation command\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ENQ\DC2\EOT\233\STX\EOT\n\
+    \\ENQ\EOT\DC3\STX\NUL\ENQ\DC2\EOT\243\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\233\STX\v\SO\n\
+    \\ENQ\EOT\DC3\STX\NUL\SOH\DC2\EOT\243\STX\v\SO\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\233\STX\DC1\DC2\n\
+    \\ENQ\EOT\DC3\STX\NUL\ETX\DC2\EOT\243\STX\DC1\DC2\n\
     \\f\n\
-    \\EOT\EOT\DC3\STX\SOH\DC2\EOT\234\STX\EOT*\n\
+    \\EOT\EOT\DC3\STX\SOH\DC2\EOT\244\STX\EOT*\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\ACK\DC2\EOT\234\STX\EOT\RS\n\
+    \\ENQ\EOT\DC3\STX\SOH\ACK\DC2\EOT\244\STX\EOT\RS\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\SOH\DC2\EOT\234\STX\US%\n\
+    \\ENQ\EOT\DC3\STX\SOH\SOH\DC2\EOT\244\STX\US%\n\
     \\r\n\
-    \\ENQ\EOT\DC3\STX\SOH\ETX\DC2\EOT\234\STX()\n\
+    \\ENQ\EOT\DC3\STX\SOH\ETX\DC2\EOT\244\STX()\n\
     \\f\n\
-    \\STX\EOT\DC4\DC2\ACK\237\STX\NUL\141\ETX\SOH\n\
+    \\STX\EOT\DC4\DC2\ACK\247\STX\NUL\151\ETX\SOH\n\
     \\v\n\
-    \\ETX\EOT\DC4\SOH\DC2\EOT\237\STX\b\ETB\n\
+    \\ETX\EOT\DC4\SOH\DC2\EOT\247\STX\b\ETB\n\
     \\f\n\
-    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\238\STX\EOT\ETB\n\
+    \\EOT\EOT\DC4\STX\NUL\DC2\EOT\248\STX\EOT\ETB\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\ENQ\DC2\EOT\238\STX\EOT\n\
+    \\ENQ\EOT\DC4\STX\NUL\ENQ\DC2\EOT\248\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\238\STX\v\DC2\n\
+    \\ENQ\EOT\DC4\STX\NUL\SOH\DC2\EOT\248\STX\v\DC2\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\238\STX\NAK\SYN\n\
+    \\ENQ\EOT\DC4\STX\NUL\ETX\DC2\EOT\248\STX\NAK\SYN\n\
     \\SO\n\
-    \\EOT\EOT\DC4\EOT\NUL\DC2\ACK\240\STX\EOT\139\ETX\ENQ\n\
+    \\EOT\EOT\DC4\EOT\NUL\DC2\ACK\250\STX\EOT\149\ETX\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\DC4\EOT\NUL\SOH\DC2\EOT\240\STX\t\ETB\n\
+    \\ENQ\EOT\DC4\EOT\NUL\SOH\DC2\EOT\250\STX\t\ETB\n\
     \\SO\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\NUL\DC2\EOT\241\STX\b\CAN\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\NUL\DC2\EOT\251\STX\b\CAN\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\NUL\SOH\DC2\EOT\241\STX\b\DC3\n\
+    \\a\EOT\DC4\EOT\NUL\STX\NUL\SOH\DC2\EOT\251\STX\b\DC3\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\NUL\STX\DC2\EOT\241\STX\SYN\ETB\n\
+    \\a\EOT\DC4\EOT\NUL\STX\NUL\STX\DC2\EOT\251\STX\SYN\ETB\n\
     \(\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\SOH\DC2\EOT\243\STX\b\ETB\SUB\CAN Workflow cache is full\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\SOH\DC2\EOT\253\STX\b\ETB\SUB\CAN Workflow cache is full\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\SOH\SOH\DC2\EOT\243\STX\b\DC2\n\
+    \\a\EOT\DC4\EOT\NUL\STX\SOH\SOH\DC2\EOT\253\STX\b\DC2\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\SOH\STX\DC2\EOT\243\STX\NAK\SYN\n\
+    \\a\EOT\DC4\EOT\NUL\STX\SOH\STX\DC2\EOT\253\STX\NAK\SYN\n\
     \\176\SOH\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\STX\DC2\EOT\246\STX\b\ETB\SUB\159\SOH Workflow received a partial task but was not in the cache. Typically it won't be in the\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\STX\DC2\EOT\128\ETX\b\ETB\SUB\159\SOH Workflow received a partial task but was not in the cache. Typically it won't be in the\n\
     \ lang cache either at this point, but we send an eviction to be sure.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\STX\SOH\DC2\EOT\246\STX\b\DC2\n\
+    \\a\EOT\DC4\EOT\NUL\STX\STX\SOH\DC2\EOT\128\ETX\b\DC2\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\STX\STX\DC2\EOT\246\STX\NAK\SYN\n\
+    \\a\EOT\DC4\EOT\NUL\STX\STX\STX\DC2\EOT\128\ETX\NAK\SYN\n\
     \J\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\ETX\DC2\EOT\248\STX\b\ESC\SUB: The workflow produced results inconsistent with history.\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\ETX\DC2\EOT\130\ETX\b\ESC\SUB: The workflow produced results inconsistent with history.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\ETX\SOH\DC2\EOT\248\STX\b\SYN\n\
+    \\a\EOT\DC4\EOT\NUL\STX\ETX\SOH\DC2\EOT\130\ETX\b\SYN\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\ETX\STX\DC2\EOT\248\STX\EM\SUB\n\
+    \\a\EOT\DC4\EOT\NUL\STX\ETX\STX\DC2\EOT\130\ETX\EM\SUB\n\
     \Q\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\EOT\DC2\EOT\250\STX\b\SYN\SUBA The lang side completed the workflow activation with a failure.\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\EOT\DC2\EOT\132\ETX\b\SYN\SUBA The lang side completed the workflow activation with a failure.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\EOT\SOH\DC2\EOT\250\STX\b\DC1\n\
+    \\a\EOT\DC4\EOT\NUL\STX\EOT\SOH\DC2\EOT\132\ETX\b\DC1\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\EOT\STX\DC2\EOT\250\STX\DC4\NAK\n\
+    \\a\EOT\DC4\EOT\NUL\STX\EOT\STX\DC2\EOT\132\ETX\DC4\NAK\n\
     \N\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\ENQ\DC2\EOT\252\STX\b\ESC\SUB> The lang side explicitly requested this workflow be evicted.\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\ENQ\DC2\EOT\134\ETX\b\ESC\SUB> The lang side explicitly requested this workflow be evicted.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\ENQ\SOH\DC2\EOT\252\STX\b\SYN\n\
+    \\a\EOT\DC4\EOT\NUL\STX\ENQ\SOH\DC2\EOT\134\ETX\b\SYN\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\ENQ\STX\DC2\EOT\252\STX\EM\SUB\n\
+    \\a\EOT\DC4\EOT\NUL\STX\ENQ\STX\DC2\EOT\134\ETX\EM\SUB\n\
     \\173\SOH\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\ACK\DC2\EOT\255\STX\b\ESC\SUB\156\SOH The workflow task we tried to respond to didn't exist. The workflow might have already\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\ACK\DC2\EOT\137\ETX\b\ESC\SUB\156\SOH The workflow task we tried to respond to didn't exist. The workflow might have already\n\
     \ finished, or the WFT timed out but we didn't learn about that yet.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\ACK\SOH\DC2\EOT\255\STX\b\SYN\n\
+    \\a\EOT\DC4\EOT\NUL\STX\ACK\SOH\DC2\EOT\137\ETX\b\SYN\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\ACK\STX\DC2\EOT\255\STX\EM\SUB\n\
+    \\a\EOT\DC4\EOT\NUL\STX\ACK\STX\DC2\EOT\137\ETX\EM\SUB\n\
     \\163\SOH\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\a\DC2\EOT\130\ETX\b\RS\SUB\146\SOH There was new work that must be handled while we attempted to complete the WFT. Ex:\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\a\DC2\EOT\140\ETX\b\RS\SUB\146\SOH There was new work that must be handled while we attempted to complete the WFT. Ex:\n\
     \ a new signal came in while trying to complete the workflow.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\a\SOH\DC2\EOT\130\ETX\b\EM\n\
+    \\a\EOT\DC4\EOT\NUL\STX\a\SOH\DC2\EOT\140\ETX\b\EM\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\a\STX\DC2\EOT\130\ETX\FS\GS\n\
+    \\a\EOT\DC4\EOT\NUL\STX\a\STX\DC2\EOT\140\ETX\FS\GS\n\
     \\186\SOH\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\b\DC2\EOT\133\ETX\b\DC2\SUB\169\SOH There was some fatal error processing the workflow, typically an internal error, but\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\b\DC2\EOT\143\ETX\b\DC2\SUB\169\SOH There was some fatal error processing the workflow, typically an internal error, but\n\
     \ can also happen if then network drops out while paginating. Check message string.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\b\SOH\DC2\EOT\133\ETX\b\r\n\
+    \\a\EOT\DC4\EOT\NUL\STX\b\SOH\DC2\EOT\143\ETX\b\r\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\b\STX\DC2\EOT\133\ETX\DLE\DC1\n\
+    \\a\EOT\DC4\EOT\NUL\STX\b\STX\DC2\EOT\143\ETX\DLE\DC1\n\
     \O\n\
-    \\ACK\EOT\DC4\EOT\NUL\STX\t\DC2\EOT\135\ETX\b(\SUB? Something went wrong attempting to fetch more history events.\n\
+    \\ACK\EOT\DC4\EOT\NUL\STX\t\DC2\EOT\145\ETX\b(\SUB? Something went wrong attempting to fetch more history events.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\t\SOH\DC2\EOT\135\ETX\b#\n\
+    \\a\EOT\DC4\EOT\NUL\STX\t\SOH\DC2\EOT\145\ETX\b#\n\
     \\SI\n\
-    \\a\EOT\DC4\EOT\NUL\STX\t\STX\DC2\EOT\135\ETX&'\n\
+    \\a\EOT\DC4\EOT\NUL\STX\t\STX\DC2\EOT\145\ETX&'\n\
     \\129\SOH\n\
     \\ACK\EOT\DC4\EOT\NUL\STX\n\
-    \\DC2\EOT\138\ETX\b'\SUBq The workflow is being completed with a terminal command and we sent the WFT completion\n\
+    \\DC2\EOT\148\ETX\b'\SUBq The workflow is being completed with a terminal command and we sent the WFT completion\n\
     \ to server successfully.\n\
     \\n\
     \\SI\n\
     \\a\EOT\DC4\EOT\NUL\STX\n\
-    \\SOH\DC2\EOT\138\ETX\b!\n\
+    \\SOH\DC2\EOT\148\ETX\b!\n\
     \\SI\n\
     \\a\EOT\DC4\EOT\NUL\STX\n\
-    \\STX\DC2\EOT\138\ETX$&\n\
+    \\STX\DC2\EOT\148\ETX$&\n\
     \\f\n\
-    \\EOT\EOT\DC4\STX\SOH\DC2\EOT\140\ETX\EOT\RS\n\
+    \\EOT\EOT\DC4\STX\SOH\DC2\EOT\150\ETX\EOT\RS\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\SOH\ACK\DC2\EOT\140\ETX\EOT\DC2\n\
+    \\ENQ\EOT\DC4\STX\SOH\ACK\DC2\EOT\150\ETX\EOT\DC2\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\SOH\SOH\DC2\EOT\140\ETX\DC3\EM\n\
+    \\ENQ\EOT\DC4\STX\SOH\SOH\DC2\EOT\150\ETX\DC3\EM\n\
     \\r\n\
-    \\ENQ\EOT\DC4\STX\SOH\ETX\DC2\EOT\140\ETX\FS\GSb\ACKproto3"
+    \\ENQ\EOT\DC4\STX\SOH\ETX\DC2\EOT\150\ETX\FS\GSb\ACKproto3"

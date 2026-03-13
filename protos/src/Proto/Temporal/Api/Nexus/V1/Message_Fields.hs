@@ -30,6 +30,7 @@ import qualified Data.ProtoLens.Runtime.Text.Read as Text.Read
 import qualified Proto.Google.Protobuf.Timestamp
 import qualified Proto.Temporal.Api.Common.V1.Message
 import qualified Proto.Temporal.Api.Enums.V1.Nexus
+import qualified Proto.Temporal.Api.Failure.V1.Message
 asyncSuccess ::
   forall f s a.
   (Prelude.Functor f,
@@ -54,6 +55,17 @@ cancelOperation ::
    Data.ProtoLens.Field.HasField s "cancelOperation" a) =>
   Lens.Family2.LensLike' f s a
 cancelOperation = Data.ProtoLens.Field.field @"cancelOperation"
+capabilities ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "capabilities" a) =>
+  Lens.Family2.LensLike' f s a
+capabilities = Data.ProtoLens.Field.field @"capabilities"
+cause ::
+  forall f s a.
+  (Prelude.Functor f, Data.ProtoLens.Field.HasField s "cause" a) =>
+  Lens.Family2.LensLike' f s a
+cause = Data.ProtoLens.Field.field @"cause"
 createdTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -71,6 +83,12 @@ details ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "details" a) =>
   Lens.Family2.LensLike' f s a
 details = Data.ProtoLens.Field.field @"details"
+endpoint ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "endpoint" a) =>
+  Lens.Family2.LensLike' f s a
+endpoint = Data.ProtoLens.Field.field @"endpoint"
 errorType ::
   forall f s a.
   (Prelude.Functor f,
@@ -128,6 +146,19 @@ maybe'cancelOperation ::
   Lens.Family2.LensLike' f s a
 maybe'cancelOperation
   = Data.ProtoLens.Field.field @"maybe'cancelOperation"
+maybe'capabilities ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'capabilities" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'capabilities
+  = Data.ProtoLens.Field.field @"maybe'capabilities"
+maybe'cause ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'cause" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'cause = Data.ProtoLens.Field.field @"maybe'cause"
 maybe'createdTime ::
   forall f s a.
   (Prelude.Functor f,
@@ -301,6 +332,12 @@ spec ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "spec" a) =>
   Lens.Family2.LensLike' f s a
 spec = Data.ProtoLens.Field.field @"spec"
+stackTrace ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "stackTrace" a) =>
+  Lens.Family2.LensLike' f s a
+stackTrace = Data.ProtoLens.Field.field @"stackTrace"
 startOperation ::
   forall f s a.
   (Prelude.Functor f,
@@ -324,6 +361,13 @@ taskQueue ::
    Data.ProtoLens.Field.HasField s "taskQueue" a) =>
   Lens.Family2.LensLike' f s a
 taskQueue = Data.ProtoLens.Field.field @"taskQueue"
+temporalFailureResponses ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "temporalFailureResponses" a) =>
+  Lens.Family2.LensLike' f s a
+temporalFailureResponses
+  = Data.ProtoLens.Field.field @"temporalFailureResponses"
 type' ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "type'" a) =>

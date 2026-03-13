@@ -4,6 +4,7 @@
 {-# OPTIONS_GHC -Wno-duplicate-exports#-}
 {-# OPTIONS_GHC -Wno-dodgy-exports#-}
 module Proto.Temporal.Api.Errordetails.V1.Message (
+        ActivityExecutionAlreadyStartedFailure(),
         CancellationAlreadyRequestedFailure(),
         ClientVersionNotSupportedFailure(),
         MultiOperationExecutionFailure(),
@@ -46,6 +47,178 @@ import qualified Proto.Temporal.Api.Common.V1.Message
 import qualified Proto.Temporal.Api.Enums.V1.FailedCause
 import qualified Proto.Temporal.Api.Enums.V1.Namespace
 import qualified Proto.Temporal.Api.Failure.V1.Message
+{- | Fields :
+     
+         * 'Proto.Temporal.Api.Errordetails.V1.Message_Fields.startRequestId' @:: Lens' ActivityExecutionAlreadyStartedFailure Data.Text.Text@
+         * 'Proto.Temporal.Api.Errordetails.V1.Message_Fields.runId' @:: Lens' ActivityExecutionAlreadyStartedFailure Data.Text.Text@ -}
+data ActivityExecutionAlreadyStartedFailure
+  = ActivityExecutionAlreadyStartedFailure'_constructor {_ActivityExecutionAlreadyStartedFailure'startRequestId :: !Data.Text.Text,
+                                                         _ActivityExecutionAlreadyStartedFailure'runId :: !Data.Text.Text,
+                                                         _ActivityExecutionAlreadyStartedFailure'_unknownFields :: !Data.ProtoLens.FieldSet}
+  deriving stock (Prelude.Eq, Prelude.Ord)
+instance Prelude.Show ActivityExecutionAlreadyStartedFailure where
+  showsPrec _ __x __s
+    = Prelude.showChar
+        '{'
+        (Prelude.showString
+           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
+instance Data.ProtoLens.Field.HasField ActivityExecutionAlreadyStartedFailure "startRequestId" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ActivityExecutionAlreadyStartedFailure'startRequestId
+           (\ x__ y__
+              -> x__
+                   {_ActivityExecutionAlreadyStartedFailure'startRequestId = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField ActivityExecutionAlreadyStartedFailure "runId" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _ActivityExecutionAlreadyStartedFailure'runId
+           (\ x__ y__
+              -> x__ {_ActivityExecutionAlreadyStartedFailure'runId = y__}))
+        Prelude.id
+instance Data.ProtoLens.Message ActivityExecutionAlreadyStartedFailure where
+  messageName _
+    = Data.Text.pack
+        "temporal.api.errordetails.v1.ActivityExecutionAlreadyStartedFailure"
+  packedMessageDescriptor _
+    = "\n\
+      \&ActivityExecutionAlreadyStartedFailure\DC2(\n\
+      \\DLEstart_request_id\CAN\SOH \SOH(\tR\SOstartRequestId\DC2\NAK\n\
+      \\ACKrun_id\CAN\STX \SOH(\tR\ENQrunId"
+  packedFileDescriptor _ = packedFileDescriptor
+  fieldsByTag
+    = let
+        startRequestId__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "start_request_id"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"startRequestId")) ::
+              Data.ProtoLens.FieldDescriptor ActivityExecutionAlreadyStartedFailure
+        runId__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "run_id"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional (Data.ProtoLens.Field.field @"runId")) ::
+              Data.ProtoLens.FieldDescriptor ActivityExecutionAlreadyStartedFailure
+      in
+        Data.Map.fromList
+          [(Data.ProtoLens.Tag 1, startRequestId__field_descriptor),
+           (Data.ProtoLens.Tag 2, runId__field_descriptor)]
+  unknownFields
+    = Lens.Family2.Unchecked.lens
+        _ActivityExecutionAlreadyStartedFailure'_unknownFields
+        (\ x__ y__
+           -> x__
+                {_ActivityExecutionAlreadyStartedFailure'_unknownFields = y__})
+  defMessage
+    = ActivityExecutionAlreadyStartedFailure'_constructor
+        {_ActivityExecutionAlreadyStartedFailure'startRequestId = Data.ProtoLens.fieldDefault,
+         _ActivityExecutionAlreadyStartedFailure'runId = Data.ProtoLens.fieldDefault,
+         _ActivityExecutionAlreadyStartedFailure'_unknownFields = []}
+  parseMessage
+    = let
+        loop ::
+          ActivityExecutionAlreadyStartedFailure
+          -> Data.ProtoLens.Encoding.Bytes.Parser ActivityExecutionAlreadyStartedFailure
+        loop x
+          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
+               if end then
+                   do (let missing = []
+                       in
+                         if Prelude.null missing then
+                             Prelude.return ()
+                         else
+                             Prelude.fail
+                               ((Prelude.++)
+                                  "Missing required fields: "
+                                  (Prelude.show (missing :: [Prelude.String]))))
+                      Prelude.return
+                        (Lens.Family2.over
+                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
+               else
+                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                      case tag of
+                        10
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "start_request_id"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"startRequestId") y x)
+                        18
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "run_id"
+                                loop (Lens.Family2.set (Data.ProtoLens.Field.field @"runId") y x)
+                        wire
+                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
+                                        wire
+                                loop
+                                  (Lens.Family2.over
+                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
+      in
+        (Data.ProtoLens.Encoding.Bytes.<?>)
+          (do loop Data.ProtoLens.defMessage)
+          "ActivityExecutionAlreadyStartedFailure"
+  buildMessage
+    = \ _x
+        -> (Data.Monoid.<>)
+             (let
+                _v
+                  = Lens.Family2.view
+                      (Data.ProtoLens.Field.field @"startRequestId") _x
+              in
+                if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                    Data.Monoid.mempty
+                else
+                    (Data.Monoid.<>)
+                      (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                      ((Prelude..)
+                         (\ bs
+                            -> (Data.Monoid.<>)
+                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                    (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                 (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                         Data.Text.Encoding.encodeUtf8 _v))
+             ((Data.Monoid.<>)
+                (let
+                   _v = Lens.Family2.view (Data.ProtoLens.Field.field @"runId") _x
+                 in
+                   if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                       Data.Monoid.mempty
+                   else
+                       (Data.Monoid.<>)
+                         (Data.ProtoLens.Encoding.Bytes.putVarInt 18)
+                         ((Prelude..)
+                            (\ bs
+                               -> (Data.Monoid.<>)
+                                    (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                       (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                    (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                            Data.Text.Encoding.encodeUtf8 _v))
+                (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
+instance Control.DeepSeq.NFData ActivityExecutionAlreadyStartedFailure where
+  rnf
+    = \ x__
+        -> Control.DeepSeq.deepseq
+             (_ActivityExecutionAlreadyStartedFailure'_unknownFields x__)
+             (Control.DeepSeq.deepseq
+                (_ActivityExecutionAlreadyStartedFailure'startRequestId x__)
+                (Control.DeepSeq.deepseq
+                   (_ActivityExecutionAlreadyStartedFailure'runId x__) ()))
 {- | Fields :
       -}
 data CancellationAlreadyRequestedFailure
@@ -2850,9 +3023,12 @@ packedFileDescriptor
     \\SIOperationStatus\DC2\DC2\n\
     \\EOTcode\CAN\SOH \SOH(\ENQR\EOTcode\DC2\CAN\n\
     \\amessage\CAN\STX \SOH(\tR\amessage\DC2.\n\
-    \\adetails\CAN\ETX \ETX(\v2\DC4.google.protobuf.AnyR\adetailsB\167\SOH\n\
-    \\USio.temporal.api.errordetails.v1B\fMessageProtoP\SOHZ/go.temporal.io/api/errordetails/v1;errordetails\170\STX\RSTemporalio.Api.ErrorDetails.V1\234\STX!Temporalio::Api::ErrorDetails::V1J\194 \n\
-    \\ACK\DC2\EOT\NUL\NULz\SOH\n\
+    \\adetails\CAN\ETX \ETX(\v2\DC4.google.protobuf.AnyR\adetails\"i\n\
+    \&ActivityExecutionAlreadyStartedFailure\DC2(\n\
+    \\DLEstart_request_id\CAN\SOH \SOH(\tR\SOstartRequestId\DC2\NAK\n\
+    \\ACKrun_id\CAN\STX \SOH(\tR\ENQrunIdB\167\SOH\n\
+    \\USio.temporal.api.errordetails.v1B\fMessageProtoP\SOHZ/go.temporal.io/api/errordetails/v1;errordetails\170\STX\RSTemporalio.Api.ErrorDetails.V1\234\STX!Temporalio::Api::ErrorDetails::V1J\208#\n\
+    \\a\DC2\ENQ\NUL\NUL\130\SOH\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\177\STX\n\
@@ -3275,4 +3451,30 @@ packedFileDescriptor
     \\SO\n\
     \\a\EOT\DLE\ETX\NUL\STX\STX\SOH\DC2\ETXx%,\n\
     \\SO\n\
-    \\a\EOT\DLE\ETX\NUL\STX\STX\ETX\DC2\ETXx/0b\ACKproto3"
+    \\a\EOT\DLE\ETX\NUL\STX\STX\ETX\DC2\ETXx/0\n\
+    \\136\STX\n\
+    \\STX\EOT\DC1\DC2\ENQ\DEL\NUL\130\SOH\SOH\SUB\250\SOH An error indicating that an activity execution failed to start. Returned when there is an existing activity with the\n\
+    \ given activity ID, and the given ID reuse and conflict policies do not permit starting a new one or attaching to an\n\
+    \ existing one.\n\
+    \\n\
+    \\n\
+    \\n\
+    \\ETX\EOT\DC1\SOH\DC2\ETX\DEL\b.\n\
+    \\f\n\
+    \\EOT\EOT\DC1\STX\NUL\DC2\EOT\128\SOH\EOT \n\
+    \\r\n\
+    \\ENQ\EOT\DC1\STX\NUL\ENQ\DC2\EOT\128\SOH\EOT\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC1\STX\NUL\SOH\DC2\EOT\128\SOH\v\ESC\n\
+    \\r\n\
+    \\ENQ\EOT\DC1\STX\NUL\ETX\DC2\EOT\128\SOH\RS\US\n\
+    \\f\n\
+    \\EOT\EOT\DC1\STX\SOH\DC2\EOT\129\SOH\EOT\SYN\n\
+    \\r\n\
+    \\ENQ\EOT\DC1\STX\SOH\ENQ\DC2\EOT\129\SOH\EOT\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\DC1\STX\SOH\SOH\DC2\EOT\129\SOH\v\DC1\n\
+    \\r\n\
+    \\ENQ\EOT\DC1\STX\SOH\ETX\DC2\EOT\129\SOH\DC4\NAKb\ACKproto3"

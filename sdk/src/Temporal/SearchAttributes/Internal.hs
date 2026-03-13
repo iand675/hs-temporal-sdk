@@ -3,8 +3,11 @@ module Temporal.SearchAttributes.Internal where
 import Control.Monad.Except
 import Data.Coerce
 import qualified Data.Map.Strict as Map
+import Data.ProtoLens (defMessage)
 import Data.Text (Text)
+import Lens.Family2 ((&), (.~))
 import qualified Proto.Temporal.Api.Common.V1.Message as Message
+import qualified Proto.Temporal.Api.Common.V1.Message_Fields as MessageFields
 import Temporal.Payload
 import Temporal.SearchAttributes
 import Unsafe.Coerce (unsafeCoerce)
@@ -23,8 +26,10 @@ wrappedKeys :: Map.Map Text a -> Map.Map SearchAttributeKey a
 wrappedKeys = unsafeCoerceMapKeys
 
 
-searchAttributesToProto :: Map.Map SearchAttributeKey SearchAttributeType -> IO (Map.Map Text Message.Payload)
-searchAttributesToProto = fmap rawKeys . traverse (fmap convertToProtoPayload . encode JSON)
+searchAttributesToProto :: Map.Map SearchAttributeKey SearchAttributeType -> IO Message.SearchAttributes
+searchAttributesToProto attrs = do
+  m <- rawKeys <$> traverse (fmap convertToProtoPayload . encode JSON) attrs
+  pure $ defMessage & MessageFields.indexedFields .~ m
 
 
 searchAttributesFromProto :: Map.Map Text Message.Payload -> IO (Either String (Map.Map SearchAttributeKey SearchAttributeType))

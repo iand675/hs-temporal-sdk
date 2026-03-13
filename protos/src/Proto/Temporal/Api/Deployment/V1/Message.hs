@@ -6,7 +6,8 @@
 module Proto.Temporal.Api.Deployment.V1.Message (
         Deployment(), DeploymentInfo(), DeploymentInfo'MetadataEntry(),
         DeploymentInfo'TaskQueueInfo(), DeploymentListInfo(),
-        RoutingConfig(), UpdateDeploymentMetadata(),
+        InheritedAutoUpgradeInfo(), RoutingConfig(),
+        UpdateDeploymentMetadata(),
         UpdateDeploymentMetadata'UpsertEntriesEntry(),
         VersionDrainageInfo(), VersionMetadata(),
         VersionMetadata'EntriesEntry(), WorkerDeploymentInfo(),
@@ -1182,6 +1183,183 @@ instance Control.DeepSeq.NFData DeploymentListInfo where
                    (Control.DeepSeq.deepseq (_DeploymentListInfo'isCurrent x__) ())))
 {- | Fields :
      
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.sourceDeploymentVersion' @:: Lens' InheritedAutoUpgradeInfo WorkerDeploymentVersion@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'sourceDeploymentVersion' @:: Lens' InheritedAutoUpgradeInfo (Prelude.Maybe WorkerDeploymentVersion)@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.sourceDeploymentRevisionNumber' @:: Lens' InheritedAutoUpgradeInfo Data.Int.Int64@ -}
+data InheritedAutoUpgradeInfo
+  = InheritedAutoUpgradeInfo'_constructor {_InheritedAutoUpgradeInfo'sourceDeploymentVersion :: !(Prelude.Maybe WorkerDeploymentVersion),
+                                           _InheritedAutoUpgradeInfo'sourceDeploymentRevisionNumber :: !Data.Int.Int64,
+                                           _InheritedAutoUpgradeInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
+  deriving stock (Prelude.Eq, Prelude.Ord)
+instance Prelude.Show InheritedAutoUpgradeInfo where
+  showsPrec _ __x __s
+    = Prelude.showChar
+        '{'
+        (Prelude.showString
+           (Data.ProtoLens.showMessageShort __x) (Prelude.showChar '}' __s))
+instance Data.ProtoLens.Field.HasField InheritedAutoUpgradeInfo "sourceDeploymentVersion" WorkerDeploymentVersion where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _InheritedAutoUpgradeInfo'sourceDeploymentVersion
+           (\ x__ y__
+              -> x__ {_InheritedAutoUpgradeInfo'sourceDeploymentVersion = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField InheritedAutoUpgradeInfo "maybe'sourceDeploymentVersion" (Prelude.Maybe WorkerDeploymentVersion) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _InheritedAutoUpgradeInfo'sourceDeploymentVersion
+           (\ x__ y__
+              -> x__ {_InheritedAutoUpgradeInfo'sourceDeploymentVersion = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField InheritedAutoUpgradeInfo "sourceDeploymentRevisionNumber" Data.Int.Int64 where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _InheritedAutoUpgradeInfo'sourceDeploymentRevisionNumber
+           (\ x__ y__
+              -> x__
+                   {_InheritedAutoUpgradeInfo'sourceDeploymentRevisionNumber = y__}))
+        Prelude.id
+instance Data.ProtoLens.Message InheritedAutoUpgradeInfo where
+  messageName _
+    = Data.Text.pack
+        "temporal.api.deployment.v1.InheritedAutoUpgradeInfo"
+  packedMessageDescriptor _
+    = "\n\
+      \\CANInheritedAutoUpgradeInfo\DC2o\n\
+      \\EMsource_deployment_version\CAN\SOH \SOH(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\ETBsourceDeploymentVersion\DC2I\n\
+      \!source_deployment_revision_number\CAN\STX \SOH(\ETXR\RSsourceDeploymentRevisionNumber"
+  packedFileDescriptor _ = packedFileDescriptor
+  fieldsByTag
+    = let
+        sourceDeploymentVersion__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "source_deployment_version"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor WorkerDeploymentVersion)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'sourceDeploymentVersion")) ::
+              Data.ProtoLens.FieldDescriptor InheritedAutoUpgradeInfo
+        sourceDeploymentRevisionNumber__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "source_deployment_revision_number"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.Int64Field ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Int.Int64)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"sourceDeploymentRevisionNumber")) ::
+              Data.ProtoLens.FieldDescriptor InheritedAutoUpgradeInfo
+      in
+        Data.Map.fromList
+          [(Data.ProtoLens.Tag 1, sourceDeploymentVersion__field_descriptor),
+           (Data.ProtoLens.Tag 2, 
+            sourceDeploymentRevisionNumber__field_descriptor)]
+  unknownFields
+    = Lens.Family2.Unchecked.lens
+        _InheritedAutoUpgradeInfo'_unknownFields
+        (\ x__ y__ -> x__ {_InheritedAutoUpgradeInfo'_unknownFields = y__})
+  defMessage
+    = InheritedAutoUpgradeInfo'_constructor
+        {_InheritedAutoUpgradeInfo'sourceDeploymentVersion = Prelude.Nothing,
+         _InheritedAutoUpgradeInfo'sourceDeploymentRevisionNumber = Data.ProtoLens.fieldDefault,
+         _InheritedAutoUpgradeInfo'_unknownFields = []}
+  parseMessage
+    = let
+        loop ::
+          InheritedAutoUpgradeInfo
+          -> Data.ProtoLens.Encoding.Bytes.Parser InheritedAutoUpgradeInfo
+        loop x
+          = do end <- Data.ProtoLens.Encoding.Bytes.atEnd
+               if end then
+                   do (let missing = []
+                       in
+                         if Prelude.null missing then
+                             Prelude.return ()
+                         else
+                             Prelude.fail
+                               ((Prelude.++)
+                                  "Missing required fields: "
+                                  (Prelude.show (missing :: [Prelude.String]))))
+                      Prelude.return
+                        (Lens.Family2.over
+                           Data.ProtoLens.unknownFields (\ !t -> Prelude.reverse t) x)
+               else
+                   do tag <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                      case tag of
+                        10
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "source_deployment_version"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"sourceDeploymentVersion") y x)
+                        16
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.fromIntegral
+                                          Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "source_deployment_revision_number"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"sourceDeploymentRevisionNumber")
+                                     y x)
+                        wire
+                          -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
+                                        wire
+                                loop
+                                  (Lens.Family2.over
+                                     Data.ProtoLens.unknownFields (\ !t -> (:) y t) x)
+      in
+        (Data.ProtoLens.Encoding.Bytes.<?>)
+          (do loop Data.ProtoLens.defMessage) "InheritedAutoUpgradeInfo"
+  buildMessage
+    = \ _x
+        -> (Data.Monoid.<>)
+             (case
+                  Lens.Family2.view
+                    (Data.ProtoLens.Field.field @"maybe'sourceDeploymentVersion") _x
+              of
+                Prelude.Nothing -> Data.Monoid.mempty
+                (Prelude.Just _v)
+                  -> (Data.Monoid.<>)
+                       (Data.ProtoLens.Encoding.Bytes.putVarInt 10)
+                       ((Prelude..)
+                          (\ bs
+                             -> (Data.Monoid.<>)
+                                  (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                     (Prelude.fromIntegral (Data.ByteString.length bs)))
+                                  (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                          Data.ProtoLens.encodeMessage _v))
+             ((Data.Monoid.<>)
+                (let
+                   _v
+                     = Lens.Family2.view
+                         (Data.ProtoLens.Field.field @"sourceDeploymentRevisionNumber") _x
+                 in
+                   if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                       Data.Monoid.mempty
+                   else
+                       (Data.Monoid.<>)
+                         (Data.ProtoLens.Encoding.Bytes.putVarInt 16)
+                         ((Prelude..)
+                            Data.ProtoLens.Encoding.Bytes.putVarInt Prelude.fromIntegral _v))
+                (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                   (Lens.Family2.view Data.ProtoLens.unknownFields _x)))
+instance Control.DeepSeq.NFData InheritedAutoUpgradeInfo where
+  rnf
+    = \ x__
+        -> Control.DeepSeq.deepseq
+             (_InheritedAutoUpgradeInfo'_unknownFields x__)
+             (Control.DeepSeq.deepseq
+                (_InheritedAutoUpgradeInfo'sourceDeploymentVersion x__)
+                (Control.DeepSeq.deepseq
+                   (_InheritedAutoUpgradeInfo'sourceDeploymentRevisionNumber x__) ()))
+{- | Fields :
+     
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.currentDeploymentVersion' @:: Lens' RoutingConfig WorkerDeploymentVersion@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'currentDeploymentVersion' @:: Lens' RoutingConfig (Prelude.Maybe WorkerDeploymentVersion)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.currentVersion' @:: Lens' RoutingConfig Data.Text.Text@
@@ -1194,7 +1372,8 @@ instance Control.DeepSeq.NFData DeploymentListInfo where
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.rampingVersionChangedTime' @:: Lens' RoutingConfig Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'rampingVersionChangedTime' @:: Lens' RoutingConfig (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.rampingVersionPercentageChangedTime' @:: Lens' RoutingConfig Proto.Google.Protobuf.Timestamp.Timestamp@
-         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'rampingVersionPercentageChangedTime' @:: Lens' RoutingConfig (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@ -}
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'rampingVersionPercentageChangedTime' @:: Lens' RoutingConfig (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.revisionNumber' @:: Lens' RoutingConfig Data.Int.Int64@ -}
 data RoutingConfig
   = RoutingConfig'_constructor {_RoutingConfig'currentDeploymentVersion :: !(Prelude.Maybe WorkerDeploymentVersion),
                                 _RoutingConfig'currentVersion :: !Data.Text.Text,
@@ -1204,6 +1383,7 @@ data RoutingConfig
                                 _RoutingConfig'currentVersionChangedTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                 _RoutingConfig'rampingVersionChangedTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                 _RoutingConfig'rampingVersionPercentageChangedTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
+                                _RoutingConfig'revisionNumber :: !Data.Int.Int64,
                                 _RoutingConfig'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show RoutingConfig where
@@ -1309,6 +1489,13 @@ instance Data.ProtoLens.Field.HasField RoutingConfig "maybe'rampingVersionPercen
            (\ x__ y__
               -> x__ {_RoutingConfig'rampingVersionPercentageChangedTime = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField RoutingConfig "revisionNumber" Data.Int.Int64 where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _RoutingConfig'revisionNumber
+           (\ x__ y__ -> x__ {_RoutingConfig'revisionNumber = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message RoutingConfig where
   messageName _
     = Data.Text.pack "temporal.api.deployment.v1.RoutingConfig"
@@ -1322,7 +1509,9 @@ instance Data.ProtoLens.Message RoutingConfig where
       \\SUBramping_version_percentage\CAN\ETX \SOH(\STXR\CANrampingVersionPercentage\DC2[\n\
       \\FScurrent_version_changed_time\CAN\EOT \SOH(\v2\SUB.google.protobuf.TimestampR\EMcurrentVersionChangedTime\DC2[\n\
       \\FSramping_version_changed_time\CAN\ENQ \SOH(\v2\SUB.google.protobuf.TimestampR\EMrampingVersionChangedTime\DC2p\n\
-      \'ramping_version_percentage_changed_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR#rampingVersionPercentageChangedTime"
+      \'ramping_version_percentage_changed_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR#rampingVersionPercentageChangedTime\DC2'\n\
+      \\SIrevision_number\CAN\n\
+      \ \SOH(\ETXR\SOrevisionNumber"
   packedFileDescriptor _ = packedFileDescriptor
   fieldsByTag
     = let
@@ -1394,6 +1583,15 @@ instance Data.ProtoLens.Message RoutingConfig where
                  (Data.ProtoLens.Field.field
                     @"maybe'rampingVersionPercentageChangedTime")) ::
               Data.ProtoLens.FieldDescriptor RoutingConfig
+        revisionNumber__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "revision_number"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.Int64Field ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Int.Int64)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"revisionNumber")) ::
+              Data.ProtoLens.FieldDescriptor RoutingConfig
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 7, 
@@ -1407,7 +1605,8 @@ instance Data.ProtoLens.Message RoutingConfig where
            (Data.ProtoLens.Tag 5, 
             rampingVersionChangedTime__field_descriptor),
            (Data.ProtoLens.Tag 6, 
-            rampingVersionPercentageChangedTime__field_descriptor)]
+            rampingVersionPercentageChangedTime__field_descriptor),
+           (Data.ProtoLens.Tag 10, revisionNumber__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _RoutingConfig'_unknownFields
@@ -1422,6 +1621,7 @@ instance Data.ProtoLens.Message RoutingConfig where
          _RoutingConfig'currentVersionChangedTime = Prelude.Nothing,
          _RoutingConfig'rampingVersionChangedTime = Prelude.Nothing,
          _RoutingConfig'rampingVersionPercentageChangedTime = Prelude.Nothing,
+         _RoutingConfig'revisionNumber = Data.ProtoLens.fieldDefault,
          _RoutingConfig'_unknownFields = []}
   parseMessage
     = let
@@ -1519,6 +1719,15 @@ instance Data.ProtoLens.Message RoutingConfig where
                                      (Data.ProtoLens.Field.field
                                         @"rampingVersionPercentageChangedTime")
                                      y x)
+                        80
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.fromIntegral
+                                          Data.ProtoLens.Encoding.Bytes.getVarInt)
+                                       "revision_number"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"revisionNumber") y x)
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
                                         wire
@@ -1668,8 +1877,22 @@ instance Data.ProtoLens.Message RoutingConfig where
                                                              (Data.ByteString.length bs)))
                                                        (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                                                Data.ProtoLens.encodeMessage _v))
-                                  (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                     (Lens.Family2.view Data.ProtoLens.unknownFields _x)))))))))
+                                  ((Data.Monoid.<>)
+                                     (let
+                                        _v
+                                          = Lens.Family2.view
+                                              (Data.ProtoLens.Field.field @"revisionNumber") _x
+                                      in
+                                        if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                            Data.Monoid.mempty
+                                        else
+                                            (Data.Monoid.<>)
+                                              (Data.ProtoLens.Encoding.Bytes.putVarInt 80)
+                                              ((Prelude..)
+                                                 Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                 Prelude.fromIntegral _v))
+                                     (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                        (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))))))
 instance Control.DeepSeq.NFData RoutingConfig where
   rnf
     = \ x__
@@ -1691,7 +1914,8 @@ instance Control.DeepSeq.NFData RoutingConfig where
                                   (_RoutingConfig'rampingVersionChangedTime x__)
                                   (Control.DeepSeq.deepseq
                                      (_RoutingConfig'rampingVersionPercentageChangedTime x__)
-                                     ()))))))))
+                                     (Control.DeepSeq.deepseq
+                                        (_RoutingConfig'revisionNumber x__) ())))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.upsertEntries' @:: Lens' UpdateDeploymentMetadata (Data.Map.Map Data.Text.Text Proto.Temporal.Api.Common.V1.Message.Payload)@
@@ -2603,13 +2827,17 @@ instance Control.DeepSeq.NFData VersionMetadata'EntriesEntry where
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'createTime' @:: Lens' WorkerDeploymentInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.routingConfig' @:: Lens' WorkerDeploymentInfo RoutingConfig@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'routingConfig' @:: Lens' WorkerDeploymentInfo (Prelude.Maybe RoutingConfig)@
-         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.lastModifierIdentity' @:: Lens' WorkerDeploymentInfo Data.Text.Text@ -}
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.lastModifierIdentity' @:: Lens' WorkerDeploymentInfo Data.Text.Text@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.managerIdentity' @:: Lens' WorkerDeploymentInfo Data.Text.Text@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.routingConfigUpdateState' @:: Lens' WorkerDeploymentInfo Proto.Temporal.Api.Enums.V1.TaskQueue.RoutingConfigUpdateState@ -}
 data WorkerDeploymentInfo
   = WorkerDeploymentInfo'_constructor {_WorkerDeploymentInfo'name :: !Data.Text.Text,
                                        _WorkerDeploymentInfo'versionSummaries :: !(Data.Vector.Vector WorkerDeploymentInfo'WorkerDeploymentVersionSummary),
                                        _WorkerDeploymentInfo'createTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                        _WorkerDeploymentInfo'routingConfig :: !(Prelude.Maybe RoutingConfig),
                                        _WorkerDeploymentInfo'lastModifierIdentity :: !Data.Text.Text,
+                                       _WorkerDeploymentInfo'managerIdentity :: !Data.Text.Text,
+                                       _WorkerDeploymentInfo'routingConfigUpdateState :: !Proto.Temporal.Api.Enums.V1.TaskQueue.RoutingConfigUpdateState,
                                        _WorkerDeploymentInfo'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
 instance Prelude.Show WorkerDeploymentInfo where
@@ -2677,6 +2905,21 @@ instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo "lastModifierIdentit
            (\ x__ y__
               -> x__ {_WorkerDeploymentInfo'lastModifierIdentity = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo "managerIdentity" Data.Text.Text where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkerDeploymentInfo'managerIdentity
+           (\ x__ y__ -> x__ {_WorkerDeploymentInfo'managerIdentity = y__}))
+        Prelude.id
+instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo "routingConfigUpdateState" Proto.Temporal.Api.Enums.V1.TaskQueue.RoutingConfigUpdateState where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkerDeploymentInfo'routingConfigUpdateState
+           (\ x__ y__
+              -> x__ {_WorkerDeploymentInfo'routingConfigUpdateState = y__}))
+        Prelude.id
 instance Data.ProtoLens.Message WorkerDeploymentInfo where
   messageName _
     = Data.Text.pack "temporal.api.deployment.v1.WorkerDeploymentInfo"
@@ -2688,7 +2931,9 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo where
       \\vcreate_time\CAN\ETX \SOH(\v2\SUB.google.protobuf.TimestampR\n\
       \createTime\DC2P\n\
       \\SOrouting_config\CAN\EOT \SOH(\v2).temporal.api.deployment.v1.RoutingConfigR\rroutingConfig\DC24\n\
-      \\SYNlast_modifier_identity\CAN\ENQ \SOH(\tR\DC4lastModifierIdentity\SUB\220\ACK\n\
+      \\SYNlast_modifier_identity\CAN\ENQ \SOH(\tR\DC4lastModifierIdentity\DC2)\n\
+      \\DLEmanager_identity\CAN\ACK \SOH(\tR\SImanagerIdentity\DC2n\n\
+      \\ESCrouting_config_update_state\CAN\a \SOH(\SO2/.temporal.api.enums.v1.RoutingConfigUpdateStateR\CANroutingConfigUpdateState\SUB\164\a\n\
       \\RSWorkerDeploymentVersionSummary\DC2\FS\n\
       \\aversion\CAN\SOH \SOH(\tR\aversionB\STX\CAN\SOH\DC2L\n\
       \\ACKstatus\CAN\v \SOH(\SO24.temporal.api.enums.v1.WorkerDeploymentVersionStatusR\ACKstatus\DC2b\n\
@@ -2700,7 +2945,8 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo where
       \\DC2current_since_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR\DLEcurrentSinceTime\DC2H\n\
       \\DC2ramping_since_time\CAN\a \SOH(\v2\SUB.google.protobuf.TimestampR\DLErampingSinceTime\DC2J\n\
       \\DC3routing_update_time\CAN\b \SOH(\v2\SUB.google.protobuf.TimestampR\DC1routingUpdateTime\DC2N\n\
-      \\NAKfirst_activation_time\CAN\t \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2P\n\
+      \\NAKfirst_activation_time\CAN\t \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2F\n\
+      \\DC1last_current_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCurrentTime\DC2P\n\
       \\SYNlast_deactivation_time\CAN\n\
       \ \SOH(\v2\SUB.google.protobuf.TimestampR\DC4lastDeactivationTime"
   packedFileDescriptor _ = packedFileDescriptor
@@ -2748,13 +2994,33 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo where
                  Data.ProtoLens.Optional
                  (Data.ProtoLens.Field.field @"lastModifierIdentity")) ::
               Data.ProtoLens.FieldDescriptor WorkerDeploymentInfo
+        managerIdentity__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "manager_identity"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.StringField ::
+                 Data.ProtoLens.FieldTypeDescriptor Data.Text.Text)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"managerIdentity")) ::
+              Data.ProtoLens.FieldDescriptor WorkerDeploymentInfo
+        routingConfigUpdateState__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "routing_config_update_state"
+              (Data.ProtoLens.ScalarField Data.ProtoLens.EnumField ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Temporal.Api.Enums.V1.TaskQueue.RoutingConfigUpdateState)
+              (Data.ProtoLens.PlainField
+                 Data.ProtoLens.Optional
+                 (Data.ProtoLens.Field.field @"routingConfigUpdateState")) ::
+              Data.ProtoLens.FieldDescriptor WorkerDeploymentInfo
       in
         Data.Map.fromList
           [(Data.ProtoLens.Tag 1, name__field_descriptor),
            (Data.ProtoLens.Tag 2, versionSummaries__field_descriptor),
            (Data.ProtoLens.Tag 3, createTime__field_descriptor),
            (Data.ProtoLens.Tag 4, routingConfig__field_descriptor),
-           (Data.ProtoLens.Tag 5, lastModifierIdentity__field_descriptor)]
+           (Data.ProtoLens.Tag 5, lastModifierIdentity__field_descriptor),
+           (Data.ProtoLens.Tag 6, managerIdentity__field_descriptor),
+           (Data.ProtoLens.Tag 7, routingConfigUpdateState__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
         _WorkerDeploymentInfo'_unknownFields
@@ -2766,6 +3032,8 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo where
          _WorkerDeploymentInfo'createTime = Prelude.Nothing,
          _WorkerDeploymentInfo'routingConfig = Prelude.Nothing,
          _WorkerDeploymentInfo'lastModifierIdentity = Data.ProtoLens.fieldDefault,
+         _WorkerDeploymentInfo'managerIdentity = Data.ProtoLens.fieldDefault,
+         _WorkerDeploymentInfo'routingConfigUpdateState = Data.ProtoLens.fieldDefault,
          _WorkerDeploymentInfo'_unknownFields = []}
   parseMessage
     = let
@@ -2845,6 +3113,28 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"lastModifierIdentity") y x)
+                                  mutable'versionSummaries
+                        50
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.getText
+                                             (Prelude.fromIntegral len))
+                                       "manager_identity"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"managerIdentity") y x)
+                                  mutable'versionSummaries
+                        56
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (Prelude.fmap
+                                          Prelude.toEnum
+                                          (Prelude.fmap
+                                             Prelude.fromIntegral
+                                             Data.ProtoLens.Encoding.Bytes.getVarInt))
+                                       "routing_config_update_state"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"routingConfigUpdateState") y x)
                                   mutable'versionSummaries
                         wire
                           -> do !y <- Data.ProtoLens.Encoding.Wire.parseTaggedValueFromWire
@@ -2940,8 +3230,43 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo where
                                                 (Prelude.fromIntegral (Data.ByteString.length bs)))
                                              (Data.ProtoLens.Encoding.Bytes.putBytes bs))
                                      Data.Text.Encoding.encodeUtf8 _v))
-                         (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                            (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))
+                         ((Data.Monoid.<>)
+                            (let
+                               _v
+                                 = Lens.Family2.view
+                                     (Data.ProtoLens.Field.field @"managerIdentity") _x
+                             in
+                               if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                   Data.Monoid.mempty
+                               else
+                                   (Data.Monoid.<>)
+                                     (Data.ProtoLens.Encoding.Bytes.putVarInt 50)
+                                     ((Prelude..)
+                                        (\ bs
+                                           -> (Data.Monoid.<>)
+                                                (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                   (Prelude.fromIntegral
+                                                      (Data.ByteString.length bs)))
+                                                (Data.ProtoLens.Encoding.Bytes.putBytes bs))
+                                        Data.Text.Encoding.encodeUtf8 _v))
+                            ((Data.Monoid.<>)
+                               (let
+                                  _v
+                                    = Lens.Family2.view
+                                        (Data.ProtoLens.Field.field @"routingConfigUpdateState") _x
+                                in
+                                  if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                      Data.Monoid.mempty
+                                  else
+                                      (Data.Monoid.<>)
+                                        (Data.ProtoLens.Encoding.Bytes.putVarInt 56)
+                                        ((Prelude..)
+                                           ((Prelude..)
+                                              Data.ProtoLens.Encoding.Bytes.putVarInt
+                                              Prelude.fromIntegral)
+                                           Prelude.fromEnum _v))
+                               (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                  (Lens.Family2.view Data.ProtoLens.unknownFields _x))))))))
 instance Control.DeepSeq.NFData WorkerDeploymentInfo where
   rnf
     = \ x__
@@ -2956,7 +3281,11 @@ instance Control.DeepSeq.NFData WorkerDeploymentInfo where
                       (Control.DeepSeq.deepseq
                          (_WorkerDeploymentInfo'routingConfig x__)
                          (Control.DeepSeq.deepseq
-                            (_WorkerDeploymentInfo'lastModifierIdentity x__) ())))))
+                            (_WorkerDeploymentInfo'lastModifierIdentity x__)
+                            (Control.DeepSeq.deepseq
+                               (_WorkerDeploymentInfo'managerIdentity x__)
+                               (Control.DeepSeq.deepseq
+                                  (_WorkerDeploymentInfo'routingConfigUpdateState x__) ())))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.version' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary Data.Text.Text@
@@ -2976,6 +3305,8 @@ instance Control.DeepSeq.NFData WorkerDeploymentInfo where
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'routingUpdateTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.firstActivationTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'firstActivationTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.lastCurrentTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary Proto.Google.Protobuf.Timestamp.Timestamp@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'lastCurrentTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.lastDeactivationTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'lastDeactivationTime' @:: Lens' WorkerDeploymentInfo'WorkerDeploymentVersionSummary (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@ -}
 data WorkerDeploymentInfo'WorkerDeploymentVersionSummary
@@ -2989,6 +3320,7 @@ data WorkerDeploymentInfo'WorkerDeploymentVersionSummary
                                                                       _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'rampingSinceTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                                                       _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'routingUpdateTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                                                       _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'firstActivationTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
+                                                                      _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                                                       _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastDeactivationTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                                                       _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'_unknownFields :: !Data.ProtoLens.FieldSet}
   deriving stock (Prelude.Eq, Prelude.Ord)
@@ -3151,6 +3483,24 @@ instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo'WorkerDeploymentVers
               -> x__
                    {_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'firstActivationTime = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo'WorkerDeploymentVersionSummary "lastCurrentTime" Proto.Google.Protobuf.Timestamp.Timestamp where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime
+           (\ x__ y__
+              -> x__
+                   {_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo'WorkerDeploymentVersionSummary "maybe'lastCurrentTime" (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime
+           (\ x__ y__
+              -> x__
+                   {_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime = y__}))
+        Prelude.id
 instance Data.ProtoLens.Field.HasField WorkerDeploymentInfo'WorkerDeploymentVersionSummary "lastDeactivationTime" Proto.Google.Protobuf.Timestamp.Timestamp where
   fieldOf _
     = (Prelude..)
@@ -3186,7 +3536,8 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
       \\DC2current_since_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR\DLEcurrentSinceTime\DC2H\n\
       \\DC2ramping_since_time\CAN\a \SOH(\v2\SUB.google.protobuf.TimestampR\DLErampingSinceTime\DC2J\n\
       \\DC3routing_update_time\CAN\b \SOH(\v2\SUB.google.protobuf.TimestampR\DC1routingUpdateTime\DC2N\n\
-      \\NAKfirst_activation_time\CAN\t \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2P\n\
+      \\NAKfirst_activation_time\CAN\t \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2F\n\
+      \\DC1last_current_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCurrentTime\DC2P\n\
       \\SYNlast_deactivation_time\CAN\n\
       \ \SOH(\v2\SUB.google.protobuf.TimestampR\DC4lastDeactivationTime"
   packedFileDescriptor _ = packedFileDescriptor
@@ -3273,6 +3624,14 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'firstActivationTime")) ::
               Data.ProtoLens.FieldDescriptor WorkerDeploymentInfo'WorkerDeploymentVersionSummary
+        lastCurrentTime__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "last_current_time"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Timestamp.Timestamp)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'lastCurrentTime")) ::
+              Data.ProtoLens.FieldDescriptor WorkerDeploymentInfo'WorkerDeploymentVersionSummary
         lastDeactivationTime__field_descriptor
           = Data.ProtoLens.FieldDescriptor
               "last_deactivation_time"
@@ -3293,6 +3652,7 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
            (Data.ProtoLens.Tag 7, rampingSinceTime__field_descriptor),
            (Data.ProtoLens.Tag 8, routingUpdateTime__field_descriptor),
            (Data.ProtoLens.Tag 9, firstActivationTime__field_descriptor),
+           (Data.ProtoLens.Tag 12, lastCurrentTime__field_descriptor),
            (Data.ProtoLens.Tag 10, lastDeactivationTime__field_descriptor)]
   unknownFields
     = Lens.Family2.Unchecked.lens
@@ -3312,6 +3672,7 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
          _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'rampingSinceTime = Prelude.Nothing,
          _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'routingUpdateTime = Prelude.Nothing,
          _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'firstActivationTime = Prelude.Nothing,
+         _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime = Prelude.Nothing,
          _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastDeactivationTime = Prelude.Nothing,
          _WorkerDeploymentInfo'WorkerDeploymentVersionSummary'_unknownFields = []}
   parseMessage
@@ -3426,6 +3787,15 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"firstActivationTime") y x)
+                        98
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "last_current_time"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"lastCurrentTime") y x)
                         82
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
                                        (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
@@ -3618,13 +3988,13 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
                                            (case
                                                 Lens.Family2.view
                                                   (Data.ProtoLens.Field.field
-                                                     @"maybe'lastDeactivationTime")
+                                                     @"maybe'lastCurrentTime")
                                                   _x
                                             of
                                               Prelude.Nothing -> Data.Monoid.mempty
                                               (Prelude.Just _v)
                                                 -> (Data.Monoid.<>)
-                                                     (Data.ProtoLens.Encoding.Bytes.putVarInt 82)
+                                                     (Data.ProtoLens.Encoding.Bytes.putVarInt 98)
                                                      ((Prelude..)
                                                         (\ bs
                                                            -> (Data.Monoid.<>)
@@ -3634,9 +4004,30 @@ instance Data.ProtoLens.Message WorkerDeploymentInfo'WorkerDeploymentVersionSumm
                                                                 (Data.ProtoLens.Encoding.Bytes.putBytes
                                                                    bs))
                                                         Data.ProtoLens.encodeMessage _v))
-                                           (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                              (Lens.Family2.view
-                                                 Data.ProtoLens.unknownFields _x))))))))))))
+                                           ((Data.Monoid.<>)
+                                              (case
+                                                   Lens.Family2.view
+                                                     (Data.ProtoLens.Field.field
+                                                        @"maybe'lastDeactivationTime")
+                                                     _x
+                                               of
+                                                 Prelude.Nothing -> Data.Monoid.mempty
+                                                 (Prelude.Just _v)
+                                                   -> (Data.Monoid.<>)
+                                                        (Data.ProtoLens.Encoding.Bytes.putVarInt 82)
+                                                        ((Prelude..)
+                                                           (\ bs
+                                                              -> (Data.Monoid.<>)
+                                                                   (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                      (Prelude.fromIntegral
+                                                                         (Data.ByteString.length
+                                                                            bs)))
+                                                                   (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                      bs))
+                                                           Data.ProtoLens.encodeMessage _v))
+                                              (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                                 (Lens.Family2.view
+                                                    Data.ProtoLens.unknownFields _x)))))))))))))
 instance Control.DeepSeq.NFData WorkerDeploymentInfo'WorkerDeploymentVersionSummary where
   rnf
     = \ x__
@@ -3672,9 +4063,12 @@ instance Control.DeepSeq.NFData WorkerDeploymentInfo'WorkerDeploymentVersionSumm
                                            (_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'firstActivationTime
                                               x__)
                                            (Control.DeepSeq.deepseq
-                                              (_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastDeactivationTime
+                                              (_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastCurrentTime
                                                  x__)
-                                              ())))))))))))
+                                              (Control.DeepSeq.deepseq
+                                                 (_WorkerDeploymentInfo'WorkerDeploymentVersionSummary'lastDeactivationTime
+                                                    x__)
+                                                 ()))))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.deploymentName' @:: Lens' WorkerDeploymentOptions Data.Text.Text@
@@ -4074,6 +4468,8 @@ instance Control.DeepSeq.NFData WorkerDeploymentVersion where
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'rampingSinceTime' @:: Lens' WorkerDeploymentVersionInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.firstActivationTime' @:: Lens' WorkerDeploymentVersionInfo Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'firstActivationTime' @:: Lens' WorkerDeploymentVersionInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.lastCurrentTime' @:: Lens' WorkerDeploymentVersionInfo Proto.Google.Protobuf.Timestamp.Timestamp@
+         * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'lastCurrentTime' @:: Lens' WorkerDeploymentVersionInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.lastDeactivationTime' @:: Lens' WorkerDeploymentVersionInfo Proto.Google.Protobuf.Timestamp.Timestamp@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.maybe'lastDeactivationTime' @:: Lens' WorkerDeploymentVersionInfo (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp)@
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.rampPercentage' @:: Lens' WorkerDeploymentVersionInfo Prelude.Float@
@@ -4093,6 +4489,7 @@ data WorkerDeploymentVersionInfo
                                               _WorkerDeploymentVersionInfo'currentSinceTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                               _WorkerDeploymentVersionInfo'rampingSinceTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                               _WorkerDeploymentVersionInfo'firstActivationTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
+                                              _WorkerDeploymentVersionInfo'lastCurrentTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                               _WorkerDeploymentVersionInfo'lastDeactivationTime :: !(Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp),
                                               _WorkerDeploymentVersionInfo'rampPercentage :: !Prelude.Float,
                                               _WorkerDeploymentVersionInfo'taskQueueInfos :: !(Data.Vector.Vector WorkerDeploymentVersionInfo'VersionTaskQueueInfo),
@@ -4222,6 +4619,22 @@ instance Data.ProtoLens.Field.HasField WorkerDeploymentVersionInfo "maybe'firstA
            (\ x__ y__
               -> x__ {_WorkerDeploymentVersionInfo'firstActivationTime = y__}))
         Prelude.id
+instance Data.ProtoLens.Field.HasField WorkerDeploymentVersionInfo "lastCurrentTime" Proto.Google.Protobuf.Timestamp.Timestamp where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkerDeploymentVersionInfo'lastCurrentTime
+           (\ x__ y__
+              -> x__ {_WorkerDeploymentVersionInfo'lastCurrentTime = y__}))
+        (Data.ProtoLens.maybeLens Data.ProtoLens.defMessage)
+instance Data.ProtoLens.Field.HasField WorkerDeploymentVersionInfo "maybe'lastCurrentTime" (Prelude.Maybe Proto.Google.Protobuf.Timestamp.Timestamp) where
+  fieldOf _
+    = (Prelude..)
+        (Lens.Family2.Unchecked.lens
+           _WorkerDeploymentVersionInfo'lastCurrentTime
+           (\ x__ y__
+              -> x__ {_WorkerDeploymentVersionInfo'lastCurrentTime = y__}))
+        Prelude.id
 instance Data.ProtoLens.Field.HasField WorkerDeploymentVersionInfo "lastDeactivationTime" Proto.Google.Protobuf.Timestamp.Timestamp where
   fieldOf _
     = (Prelude..)
@@ -4310,7 +4723,8 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
       \\DC4routing_changed_time\CAN\EOT \SOH(\v2\SUB.google.protobuf.TimestampR\DC2routingChangedTime\DC2H\n\
       \\DC2current_since_time\CAN\ENQ \SOH(\v2\SUB.google.protobuf.TimestampR\DLEcurrentSinceTime\DC2H\n\
       \\DC2ramping_since_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR\DLErampingSinceTime\DC2N\n\
-      \\NAKfirst_activation_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2P\n\
+      \\NAKfirst_activation_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2F\n\
+      \\DC1last_current_time\CAN\SI \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCurrentTime\DC2P\n\
       \\SYNlast_deactivation_time\CAN\r \SOH(\v2\SUB.google.protobuf.TimestampR\DC4lastDeactivationTime\DC2'\n\
       \\SIramp_percentage\CAN\a \SOH(\STXR\SOrampPercentage\DC2v\n\
       \\DLEtask_queue_infos\CAN\b \ETX(\v2L.temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfoR\SOtaskQueueInfos\DC2T\n\
@@ -4396,6 +4810,14 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
               (Data.ProtoLens.OptionalField
                  (Data.ProtoLens.Field.field @"maybe'firstActivationTime")) ::
               Data.ProtoLens.FieldDescriptor WorkerDeploymentVersionInfo
+        lastCurrentTime__field_descriptor
+          = Data.ProtoLens.FieldDescriptor
+              "last_current_time"
+              (Data.ProtoLens.MessageField Data.ProtoLens.MessageType ::
+                 Data.ProtoLens.FieldTypeDescriptor Proto.Google.Protobuf.Timestamp.Timestamp)
+              (Data.ProtoLens.OptionalField
+                 (Data.ProtoLens.Field.field @"maybe'lastCurrentTime")) ::
+              Data.ProtoLens.FieldDescriptor WorkerDeploymentVersionInfo
         lastDeactivationTime__field_descriptor
           = Data.ProtoLens.FieldDescriptor
               "last_deactivation_time"
@@ -4449,6 +4871,7 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
            (Data.ProtoLens.Tag 5, currentSinceTime__field_descriptor),
            (Data.ProtoLens.Tag 6, rampingSinceTime__field_descriptor),
            (Data.ProtoLens.Tag 12, firstActivationTime__field_descriptor),
+           (Data.ProtoLens.Tag 15, lastCurrentTime__field_descriptor),
            (Data.ProtoLens.Tag 13, lastDeactivationTime__field_descriptor),
            (Data.ProtoLens.Tag 7, rampPercentage__field_descriptor),
            (Data.ProtoLens.Tag 8, taskQueueInfos__field_descriptor),
@@ -4470,6 +4893,7 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
          _WorkerDeploymentVersionInfo'currentSinceTime = Prelude.Nothing,
          _WorkerDeploymentVersionInfo'rampingSinceTime = Prelude.Nothing,
          _WorkerDeploymentVersionInfo'firstActivationTime = Prelude.Nothing,
+         _WorkerDeploymentVersionInfo'lastCurrentTime = Prelude.Nothing,
          _WorkerDeploymentVersionInfo'lastDeactivationTime = Prelude.Nothing,
          _WorkerDeploymentVersionInfo'rampPercentage = Data.ProtoLens.fieldDefault,
          _WorkerDeploymentVersionInfo'taskQueueInfos = Data.Vector.Generic.empty,
@@ -4594,6 +5018,16 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
                                 loop
                                   (Lens.Family2.set
                                      (Data.ProtoLens.Field.field @"firstActivationTime") y x)
+                                  mutable'taskQueueInfos
+                        122
+                          -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
+                                       (do len <- Data.ProtoLens.Encoding.Bytes.getVarInt
+                                           Data.ProtoLens.Encoding.Bytes.isolate
+                                             (Prelude.fromIntegral len) Data.ProtoLens.parseMessage)
+                                       "last_current_time"
+                                loop
+                                  (Lens.Family2.set
+                                     (Data.ProtoLens.Field.field @"lastCurrentTime") y x)
                                   mutable'taskQueueInfos
                         106
                           -> do y <- (Data.ProtoLens.Encoding.Bytes.<?>)
@@ -4813,14 +5247,13 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
                                      ((Data.Monoid.<>)
                                         (case
                                              Lens.Family2.view
-                                               (Data.ProtoLens.Field.field
-                                                  @"maybe'lastDeactivationTime")
+                                               (Data.ProtoLens.Field.field @"maybe'lastCurrentTime")
                                                _x
                                          of
                                            Prelude.Nothing -> Data.Monoid.mempty
                                            (Prelude.Just _v)
                                              -> (Data.Monoid.<>)
-                                                  (Data.ProtoLens.Encoding.Bytes.putVarInt 106)
+                                                  (Data.ProtoLens.Encoding.Bytes.putVarInt 122)
                                                   ((Prelude..)
                                                      (\ bs
                                                         -> (Data.Monoid.<>)
@@ -4831,75 +5264,74 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
                                                                 bs))
                                                      Data.ProtoLens.encodeMessage _v))
                                         ((Data.Monoid.<>)
-                                           (let
-                                              _v
-                                                = Lens.Family2.view
-                                                    (Data.ProtoLens.Field.field @"rampPercentage")
-                                                    _x
-                                            in
-                                              if (Prelude.==) _v Data.ProtoLens.fieldDefault then
-                                                  Data.Monoid.mempty
-                                              else
-                                                  (Data.Monoid.<>)
-                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt 61)
-                                                    ((Prelude..)
-                                                       Data.ProtoLens.Encoding.Bytes.putFixed32
-                                                       Data.ProtoLens.Encoding.Bytes.floatToWord
-                                                       _v))
+                                           (case
+                                                Lens.Family2.view
+                                                  (Data.ProtoLens.Field.field
+                                                     @"maybe'lastDeactivationTime")
+                                                  _x
+                                            of
+                                              Prelude.Nothing -> Data.Monoid.mempty
+                                              (Prelude.Just _v)
+                                                -> (Data.Monoid.<>)
+                                                     (Data.ProtoLens.Encoding.Bytes.putVarInt 106)
+                                                     ((Prelude..)
+                                                        (\ bs
+                                                           -> (Data.Monoid.<>)
+                                                                (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                   (Prelude.fromIntegral
+                                                                      (Data.ByteString.length bs)))
+                                                                (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                   bs))
+                                                        Data.ProtoLens.encodeMessage _v))
                                            ((Data.Monoid.<>)
-                                              (Data.ProtoLens.Encoding.Bytes.foldMapBuilder
-                                                 (\ _v
-                                                    -> (Data.Monoid.<>)
-                                                         (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                            66)
-                                                         ((Prelude..)
-                                                            (\ bs
-                                                               -> (Data.Monoid.<>)
-                                                                    (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                                       (Prelude.fromIntegral
-                                                                          (Data.ByteString.length
-                                                                             bs)))
-                                                                    (Data.ProtoLens.Encoding.Bytes.putBytes
-                                                                       bs))
-                                                            Data.ProtoLens.encodeMessage _v))
-                                                 (Lens.Family2.view
-                                                    (Data.ProtoLens.Field.field
-                                                       @"vec'taskQueueInfos")
-                                                    _x))
+                                              (let
+                                                 _v
+                                                   = Lens.Family2.view
+                                                       (Data.ProtoLens.Field.field
+                                                          @"rampPercentage")
+                                                       _x
+                                               in
+                                                 if (Prelude.==) _v Data.ProtoLens.fieldDefault then
+                                                     Data.Monoid.mempty
+                                                 else
+                                                     (Data.Monoid.<>)
+                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt 61)
+                                                       ((Prelude..)
+                                                          Data.ProtoLens.Encoding.Bytes.putFixed32
+                                                          Data.ProtoLens.Encoding.Bytes.floatToWord
+                                                          _v))
                                               ((Data.Monoid.<>)
-                                                 (case
-                                                      Lens.Family2.view
-                                                        (Data.ProtoLens.Field.field
-                                                           @"maybe'drainageInfo")
-                                                        _x
-                                                  of
-                                                    Prelude.Nothing -> Data.Monoid.mempty
-                                                    (Prelude.Just _v)
-                                                      -> (Data.Monoid.<>)
-                                                           (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                              74)
-                                                           ((Prelude..)
-                                                              (\ bs
-                                                                 -> (Data.Monoid.<>)
-                                                                      (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                                         (Prelude.fromIntegral
-                                                                            (Data.ByteString.length
-                                                                               bs)))
-                                                                      (Data.ProtoLens.Encoding.Bytes.putBytes
-                                                                         bs))
-                                                              Data.ProtoLens.encodeMessage _v))
+                                                 (Data.ProtoLens.Encoding.Bytes.foldMapBuilder
+                                                    (\ _v
+                                                       -> (Data.Monoid.<>)
+                                                            (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                               66)
+                                                            ((Prelude..)
+                                                               (\ bs
+                                                                  -> (Data.Monoid.<>)
+                                                                       (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                          (Prelude.fromIntegral
+                                                                             (Data.ByteString.length
+                                                                                bs)))
+                                                                       (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                          bs))
+                                                               Data.ProtoLens.encodeMessage _v))
+                                                    (Lens.Family2.view
+                                                       (Data.ProtoLens.Field.field
+                                                          @"vec'taskQueueInfos")
+                                                       _x))
                                                  ((Data.Monoid.<>)
                                                     (case
                                                          Lens.Family2.view
                                                            (Data.ProtoLens.Field.field
-                                                              @"maybe'metadata")
+                                                              @"maybe'drainageInfo")
                                                            _x
                                                      of
                                                        Prelude.Nothing -> Data.Monoid.mempty
                                                        (Prelude.Just _v)
                                                          -> (Data.Monoid.<>)
                                                               (Data.ProtoLens.Encoding.Bytes.putVarInt
-                                                                 82)
+                                                                 74)
                                                               ((Prelude..)
                                                                  (\ bs
                                                                     -> (Data.Monoid.<>)
@@ -4910,10 +5342,33 @@ instance Data.ProtoLens.Message WorkerDeploymentVersionInfo where
                                                                          (Data.ProtoLens.Encoding.Bytes.putBytes
                                                                             bs))
                                                                  Data.ProtoLens.encodeMessage _v))
-                                                    (Data.ProtoLens.Encoding.Wire.buildFieldSet
-                                                       (Lens.Family2.view
-                                                          Data.ProtoLens.unknownFields
-                                                          _x)))))))))))))))
+                                                    ((Data.Monoid.<>)
+                                                       (case
+                                                            Lens.Family2.view
+                                                              (Data.ProtoLens.Field.field
+                                                                 @"maybe'metadata")
+                                                              _x
+                                                        of
+                                                          Prelude.Nothing -> Data.Monoid.mempty
+                                                          (Prelude.Just _v)
+                                                            -> (Data.Monoid.<>)
+                                                                 (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                    82)
+                                                                 ((Prelude..)
+                                                                    (\ bs
+                                                                       -> (Data.Monoid.<>)
+                                                                            (Data.ProtoLens.Encoding.Bytes.putVarInt
+                                                                               (Prelude.fromIntegral
+                                                                                  (Data.ByteString.length
+                                                                                     bs)))
+                                                                            (Data.ProtoLens.Encoding.Bytes.putBytes
+                                                                               bs))
+                                                                    Data.ProtoLens.encodeMessage
+                                                                    _v))
+                                                       (Data.ProtoLens.Encoding.Wire.buildFieldSet
+                                                          (Lens.Family2.view
+                                                             Data.ProtoLens.unknownFields
+                                                             _x))))))))))))))))
 instance Control.DeepSeq.NFData WorkerDeploymentVersionInfo where
   rnf
     = \ x__
@@ -4938,16 +5393,22 @@ instance Control.DeepSeq.NFData WorkerDeploymentVersionInfo where
                                      (Control.DeepSeq.deepseq
                                         (_WorkerDeploymentVersionInfo'firstActivationTime x__)
                                         (Control.DeepSeq.deepseq
-                                           (_WorkerDeploymentVersionInfo'lastDeactivationTime x__)
+                                           (_WorkerDeploymentVersionInfo'lastCurrentTime x__)
                                            (Control.DeepSeq.deepseq
-                                              (_WorkerDeploymentVersionInfo'rampPercentage x__)
+                                              (_WorkerDeploymentVersionInfo'lastDeactivationTime
+                                                 x__)
                                               (Control.DeepSeq.deepseq
-                                                 (_WorkerDeploymentVersionInfo'taskQueueInfos x__)
+                                                 (_WorkerDeploymentVersionInfo'rampPercentage x__)
                                                  (Control.DeepSeq.deepseq
-                                                    (_WorkerDeploymentVersionInfo'drainageInfo x__)
+                                                    (_WorkerDeploymentVersionInfo'taskQueueInfos
+                                                       x__)
                                                     (Control.DeepSeq.deepseq
-                                                       (_WorkerDeploymentVersionInfo'metadata x__)
-                                                       ()))))))))))))))
+                                                       (_WorkerDeploymentVersionInfo'drainageInfo
+                                                          x__)
+                                                       (Control.DeepSeq.deepseq
+                                                          (_WorkerDeploymentVersionInfo'metadata
+                                                             x__)
+                                                          ())))))))))))))))
 {- | Fields :
      
          * 'Proto.Temporal.Api.Deployment.V1.Message_Fields.name' @:: Lens' WorkerDeploymentVersionInfo'VersionTaskQueueInfo Data.Text.Text@
@@ -5157,7 +5618,7 @@ packedFileDescriptor
     \\vcreate_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\n\
     \createTime\DC2\GS\n\
     \\n\
-    \is_current\CAN\ETX \SOH(\bR\tisCurrent\"\253\b\n\
+    \is_current\CAN\ETX \SOH(\bR\tisCurrent\"\197\t\n\
     \\ESCWorkerDeploymentVersionInfo\DC2\FS\n\
     \\aversion\CAN\SOH \SOH(\tR\aversionB\STX\CAN\SOH\DC2L\n\
     \\ACKstatus\CAN\SO \SOH(\SO24.temporal.api.enums.v1.WorkerDeploymentVersionStatusR\ACKstatus\DC2b\n\
@@ -5168,7 +5629,8 @@ packedFileDescriptor
     \\DC4routing_changed_time\CAN\EOT \SOH(\v2\SUB.google.protobuf.TimestampR\DC2routingChangedTime\DC2H\n\
     \\DC2current_since_time\CAN\ENQ \SOH(\v2\SUB.google.protobuf.TimestampR\DLEcurrentSinceTime\DC2H\n\
     \\DC2ramping_since_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR\DLErampingSinceTime\DC2N\n\
-    \\NAKfirst_activation_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2P\n\
+    \\NAKfirst_activation_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2F\n\
+    \\DC1last_current_time\CAN\SI \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCurrentTime\DC2P\n\
     \\SYNlast_deactivation_time\CAN\r \SOH(\v2\SUB.google.protobuf.TimestampR\DC4lastDeactivationTime\DC2'\n\
     \\SIramp_percentage\CAN\a \SOH(\STXR\SOrampPercentage\DC2v\n\
     \\DLEtask_queue_infos\CAN\b \ETX(\v2L.temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfoR\SOtaskQueueInfos\DC2T\n\
@@ -5181,14 +5643,16 @@ packedFileDescriptor
     \\DC3VersionDrainageInfo\DC2D\n\
     \\ACKstatus\CAN\SOH \SOH(\SO2,.temporal.api.enums.v1.VersionDrainageStatusR\ACKstatus\DC2F\n\
     \\DC1last_changed_time\CAN\STX \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastChangedTime\DC2F\n\
-    \\DC1last_checked_time\CAN\ETX \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCheckedTime\"\204\t\n\
+    \\DC1last_checked_time\CAN\ETX \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCheckedTime\"\175\v\n\
     \\DC4WorkerDeploymentInfo\DC2\DC2\n\
     \\EOTname\CAN\SOH \SOH(\tR\EOTname\DC2|\n\
     \\DC1version_summaries\CAN\STX \ETX(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\DLEversionSummaries\DC2;\n\
     \\vcreate_time\CAN\ETX \SOH(\v2\SUB.google.protobuf.TimestampR\n\
     \createTime\DC2P\n\
     \\SOrouting_config\CAN\EOT \SOH(\v2).temporal.api.deployment.v1.RoutingConfigR\rroutingConfig\DC24\n\
-    \\SYNlast_modifier_identity\CAN\ENQ \SOH(\tR\DC4lastModifierIdentity\SUB\220\ACK\n\
+    \\SYNlast_modifier_identity\CAN\ENQ \SOH(\tR\DC4lastModifierIdentity\DC2)\n\
+    \\DLEmanager_identity\CAN\ACK \SOH(\tR\SImanagerIdentity\DC2n\n\
+    \\ESCrouting_config_update_state\CAN\a \SOH(\SO2/.temporal.api.enums.v1.RoutingConfigUpdateStateR\CANroutingConfigUpdateState\SUB\164\a\n\
     \\RSWorkerDeploymentVersionSummary\DC2\FS\n\
     \\aversion\CAN\SOH \SOH(\tR\aversionB\STX\CAN\SOH\DC2L\n\
     \\ACKstatus\CAN\v \SOH(\SO24.temporal.api.enums.v1.WorkerDeploymentVersionStatusR\ACKstatus\DC2b\n\
@@ -5200,7 +5664,8 @@ packedFileDescriptor
     \\DC2current_since_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR\DLEcurrentSinceTime\DC2H\n\
     \\DC2ramping_since_time\CAN\a \SOH(\v2\SUB.google.protobuf.TimestampR\DLErampingSinceTime\DC2J\n\
     \\DC3routing_update_time\CAN\b \SOH(\v2\SUB.google.protobuf.TimestampR\DC1routingUpdateTime\DC2N\n\
-    \\NAKfirst_activation_time\CAN\t \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2P\n\
+    \\NAKfirst_activation_time\CAN\t \SOH(\v2\SUB.google.protobuf.TimestampR\DC3firstActivationTime\DC2F\n\
+    \\DC1last_current_time\CAN\f \SOH(\v2\SUB.google.protobuf.TimestampR\SIlastCurrentTime\DC2P\n\
     \\SYNlast_deactivation_time\CAN\n\
     \ \SOH(\v2\SUB.google.protobuf.TimestampR\DC4lastDeactivationTime\"]\n\
     \\ETBWorkerDeploymentVersion\DC2\EM\n\
@@ -5210,7 +5675,7 @@ packedFileDescriptor
     \\aentries\CAN\SOH \ETX(\v28.temporal.api.deployment.v1.VersionMetadata.EntriesEntryR\aentries\SUB[\n\
     \\fEntriesEntry\DC2\DLE\n\
     \\ETXkey\CAN\SOH \SOH(\tR\ETXkey\DC25\n\
-    \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\"\185\ENQ\n\
+    \\ENQvalue\CAN\STX \SOH(\v2\US.temporal.api.common.v1.PayloadR\ENQvalue:\STX8\SOH\"\226\ENQ\n\
     \\rRoutingConfig\DC2q\n\
     \\SUBcurrent_deployment_version\CAN\a \SOH(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\CANcurrentDeploymentVersion\DC2+\n\
     \\SIcurrent_version\CAN\SOH \SOH(\tR\SOcurrentVersionB\STX\CAN\SOH\DC2q\n\
@@ -5219,9 +5684,14 @@ packedFileDescriptor
     \\SUBramping_version_percentage\CAN\ETX \SOH(\STXR\CANrampingVersionPercentage\DC2[\n\
     \\FScurrent_version_changed_time\CAN\EOT \SOH(\v2\SUB.google.protobuf.TimestampR\EMcurrentVersionChangedTime\DC2[\n\
     \\FSramping_version_changed_time\CAN\ENQ \SOH(\v2\SUB.google.protobuf.TimestampR\EMrampingVersionChangedTime\DC2p\n\
-    \'ramping_version_percentage_changed_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR#rampingVersionPercentageChangedTimeB\157\SOH\n\
-    \\GSio.temporal.api.deployment.v1B\fMessageProtoP\SOHZ+go.temporal.io/api/deployment/v1;deployment\170\STX\FSTemporalio.Api.Deployment.V1\234\STX\USTemporalio::Api::Deployment::V1J\182q\n\
-    \\a\DC2\ENQ\NUL\NUL\153\STX\SOH\n\
+    \'ramping_version_percentage_changed_time\CAN\ACK \SOH(\v2\SUB.google.protobuf.TimestampR#rampingVersionPercentageChangedTime\DC2'\n\
+    \\SIrevision_number\CAN\n\
+    \ \SOH(\ETXR\SOrevisionNumber\"\214\SOH\n\
+    \\CANInheritedAutoUpgradeInfo\DC2o\n\
+    \\EMsource_deployment_version\CAN\SOH \SOH(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\ETBsourceDeploymentVersion\DC2I\n\
+    \!source_deployment_revision_number\CAN\STX \SOH(\ETXR\RSsourceDeploymentRevisionNumberB\157\SOH\n\
+    \\GSio.temporal.api.deployment.v1B\fMessageProtoP\SOHZ+go.temporal.io/api/deployment/v1;deployment\170\STX\FSTemporalio.Api.Deployment.V1\234\STX\USTemporalio::Api::Deployment::V1J\224\DEL\n\
+    \\a\DC2\ENQ\NUL\NUL\185\STX\SOH\n\
     \\b\n\
     \\SOH\f\DC2\ETX\NUL\NUL\DC2\n\
     \\b\n\
@@ -5266,8 +5736,8 @@ packedFileDescriptor
     \\n\
     \\n\
     \\ETX\EOT\NUL\SOH\DC2\ETX\DC3\b\US\n\
-    \0\n\
-    \\EOT\EOT\NUL\STX\NUL\DC2\ETX\NAK\EOT\US\SUB# Required. Worker Deployment name.\n\
+    \A\n\
+    \\EOT\EOT\NUL\STX\NUL\DC2\ETX\NAK\EOT\US\SUB4 Required when `worker_versioning_mode==VERSIONED`.\n\
     \\n\
     \\f\n\
     \\ENQ\EOT\NUL\STX\NUL\ENQ\DC2\ETX\NAK\EOT\n\
@@ -5475,7 +5945,7 @@ packedFileDescriptor
     \\f\n\
     \\ENQ\EOT\EOT\STX\STX\ETX\DC2\ETXT\SYN\ETB\n\
     \\247\ETX\n\
-    \\STX\EOT\ENQ\DC2\ENQ_\NUL\154\SOH\SOH\SUB\233\ETX A Worker Deployment Version (Version, for short) represents all workers of the same \n\
+    \\STX\EOT\ENQ\DC2\ENQ_\NUL\160\SOH\SOH\SUB\233\ETX A Worker Deployment Version (Version, for short) represents all workers of the same \n\
     \ code and config within a Deployment. Workers of the same Version are expected to \n\
     \ behave exactly the same so when executions move between them there are no \n\
     \ non-determinism issues.\n\
@@ -5575,64 +6045,75 @@ packedFileDescriptor
     \\ENQ\EOT\ENQ\STX\b\SOH\DC2\ETXy\RS3\n\
     \\f\n\
     \\ENQ\EOT\ENQ\STX\b\ETX\DC2\ETXy68\n\
-    \Q\n\
-    \\EOT\EOT\ENQ\STX\t\DC2\ETX{\EOT:\SUBD Timestamp when this version last stopped being current or ramping.\n\
+    \\130\SOH\n\
+    \\EOT\EOT\ENQ\STX\t\DC2\ETX}\EOT5\SUBu Timestamp when this version last became current.\n\
+    \ Can be used to determine whether a version has ever been Current.\n\
     \\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\t\ACK\DC2\ETX{\EOT\GS\n\
+    \\ENQ\EOT\ENQ\STX\t\ACK\DC2\ETX}\EOT\GS\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\t\SOH\DC2\ETX{\RS4\n\
+    \\ENQ\EOT\ENQ\STX\t\SOH\DC2\ETX}\RS/\n\
     \\f\n\
-    \\ENQ\EOT\ENQ\STX\t\ETX\DC2\ETX{79\n\
-    \\168\SOH\n\
+    \\ENQ\EOT\ENQ\STX\t\ETX\DC2\ETX}24\n\
+    \\140\SOH\n\
     \\EOT\EOT\ENQ\STX\n\
-    \\DC2\ETX\DEL\EOT\RS\SUB\154\SOH Range: [0, 100]. Must be zero if the version is not ramping (i.e. `ramping_since_time` is nil).\n\
+    \\DC2\EOT\129\SOH\EOT:\SUB~ Timestamp when this version last stopped being current or ramping.\n\
+    \ Cleared if the version becomes current or ramping again.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\ENQ\STX\n\
+    \\ACK\DC2\EOT\129\SOH\EOT\GS\n\
+    \\r\n\
+    \\ENQ\EOT\ENQ\STX\n\
+    \\SOH\DC2\EOT\129\SOH\RS4\n\
+    \\r\n\
+    \\ENQ\EOT\ENQ\STX\n\
+    \\ETX\DC2\EOT\129\SOH79\n\
+    \\169\SOH\n\
+    \\EOT\EOT\ENQ\STX\v\DC2\EOT\133\SOH\EOT\RS\SUB\154\SOH Range: [0, 100]. Must be zero if the version is not ramping (i.e. `ramping_since_time` is nil).\n\
     \ Can be in the range [0, 100] if the version is ramping.\n\
     \\n\
-    \\f\n\
-    \\ENQ\EOT\ENQ\STX\n\
-    \\ENQ\DC2\ETX\DEL\EOT\t\n\
-    \\f\n\
-    \\ENQ\EOT\ENQ\STX\n\
-    \\SOH\DC2\ETX\DEL\n\
+    \\r\n\
+    \\ENQ\EOT\ENQ\STX\v\ENQ\DC2\EOT\133\SOH\EOT\t\n\
+    \\r\n\
+    \\ENQ\EOT\ENQ\STX\v\SOH\DC2\EOT\133\SOH\n\
     \\EM\n\
-    \\f\n\
-    \\ENQ\EOT\ENQ\STX\n\
-    \\ETX\DC2\ETX\DEL\FS\GS\n\
+    \\r\n\
+    \\ENQ\EOT\ENQ\STX\v\ETX\DC2\EOT\133\SOH\FS\GS\n\
     \\179\SOH\n\
-    \\EOT\EOT\ENQ\STX\v\DC2\EOT\131\SOH\EOT7\SUB\164\SOH All the Task Queues that have ever polled from this Deployment version.\n\
+    \\EOT\EOT\ENQ\STX\f\DC2\EOT\137\SOH\EOT7\SUB\164\SOH All the Task Queues that have ever polled from this Deployment version.\n\
     \ Deprecated. Use `version_task_queues` in DescribeWorkerDeploymentVersionResponse instead.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\v\EOT\DC2\EOT\131\SOH\EOT\f\n\
+    \\ENQ\EOT\ENQ\STX\f\EOT\DC2\EOT\137\SOH\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\v\ACK\DC2\EOT\131\SOH\r!\n\
+    \\ENQ\EOT\ENQ\STX\f\ACK\DC2\EOT\137\SOH\r!\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\v\SOH\DC2\EOT\131\SOH\"2\n\
+    \\ENQ\EOT\ENQ\STX\f\SOH\DC2\EOT\137\SOH\"2\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\v\ETX\DC2\EOT\131\SOH56\n\
+    \\ENQ\EOT\ENQ\STX\f\ETX\DC2\EOT\137\SOH56\n\
     \\SO\n\
-    \\EOT\EOT\ENQ\ETX\NUL\DC2\ACK\132\SOH\EOT\135\SOH\ENQ\n\
+    \\EOT\EOT\ENQ\ETX\NUL\DC2\ACK\138\SOH\EOT\141\SOH\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\ETX\NUL\SOH\DC2\EOT\132\SOH\f \n\
+    \\ENQ\EOT\ENQ\ETX\NUL\SOH\DC2\EOT\138\SOH\f \n\
     \\SO\n\
-    \\ACK\EOT\ENQ\ETX\NUL\STX\NUL\DC2\EOT\133\SOH\b\CAN\n\
+    \\ACK\EOT\ENQ\ETX\NUL\STX\NUL\DC2\EOT\139\SOH\b\CAN\n\
     \\SI\n\
-    \\a\EOT\ENQ\ETX\NUL\STX\NUL\ENQ\DC2\EOT\133\SOH\b\SO\n\
+    \\a\EOT\ENQ\ETX\NUL\STX\NUL\ENQ\DC2\EOT\139\SOH\b\SO\n\
     \\SI\n\
-    \\a\EOT\ENQ\ETX\NUL\STX\NUL\SOH\DC2\EOT\133\SOH\SI\DC3\n\
+    \\a\EOT\ENQ\ETX\NUL\STX\NUL\SOH\DC2\EOT\139\SOH\SI\DC3\n\
     \\SI\n\
-    \\a\EOT\ENQ\ETX\NUL\STX\NUL\ETX\DC2\EOT\133\SOH\SYN\ETB\n\
+    \\a\EOT\ENQ\ETX\NUL\STX\NUL\ETX\DC2\EOT\139\SOH\SYN\ETB\n\
     \\SO\n\
-    \\ACK\EOT\ENQ\ETX\NUL\STX\SOH\DC2\EOT\134\SOH\b5\n\
+    \\ACK\EOT\ENQ\ETX\NUL\STX\SOH\DC2\EOT\140\SOH\b5\n\
     \\SI\n\
-    \\a\EOT\ENQ\ETX\NUL\STX\SOH\ACK\DC2\EOT\134\SOH\b+\n\
+    \\a\EOT\ENQ\ETX\NUL\STX\SOH\ACK\DC2\EOT\140\SOH\b+\n\
     \\SI\n\
-    \\a\EOT\ENQ\ETX\NUL\STX\SOH\SOH\DC2\EOT\134\SOH,0\n\
+    \\a\EOT\ENQ\ETX\NUL\STX\SOH\SOH\DC2\EOT\140\SOH,0\n\
     \\SI\n\
-    \\a\EOT\ENQ\ETX\NUL\STX\SOH\ETX\DC2\EOT\134\SOH34\n\
+    \\a\EOT\ENQ\ETX\NUL\STX\SOH\ETX\DC2\EOT\140\SOH34\n\
     \\130\ACK\n\
-    \\EOT\EOT\ENQ\STX\f\DC2\EOT\150\SOH\EOT*\SUB\243\ENQ Helps user determine when it is safe to decommission the workers of this\n\
+    \\EOT\EOT\ENQ\STX\r\DC2\EOT\156\SOH\EOT*\SUB\243\ENQ Helps user determine when it is safe to decommission the workers of this\n\
     \ Version. Not present when version is current or ramping.\n\
     \ Current limitations:\n\
     \ - Not supported for Unversioned mode.\n\
@@ -5647,57 +6128,57 @@ packedFileDescriptor
     \   executions and remains \"drained\".\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\f\ACK\DC2\EOT\150\SOH\EOT\ETB\n\
+    \\ENQ\EOT\ENQ\STX\r\ACK\DC2\EOT\156\SOH\EOT\ETB\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\f\SOH\DC2\EOT\150\SOH\CAN%\n\
+    \\ENQ\EOT\ENQ\STX\r\SOH\DC2\EOT\156\SOH\CAN%\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\f\ETX\DC2\EOT\150\SOH()\n\
+    \\ENQ\EOT\ENQ\STX\r\ETX\DC2\EOT\156\SOH()\n\
     \J\n\
-    \\EOT\EOT\ENQ\STX\r\DC2\EOT\153\SOH\EOT\"\SUB< Arbitrary user-provided metadata attached to this version.\n\
+    \\EOT\EOT\ENQ\STX\SO\DC2\EOT\159\SOH\EOT\"\SUB< Arbitrary user-provided metadata attached to this version.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\r\ACK\DC2\EOT\153\SOH\EOT\DC3\n\
+    \\ENQ\EOT\ENQ\STX\SO\ACK\DC2\EOT\159\SOH\EOT\DC3\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\r\SOH\DC2\EOT\153\SOH\DC4\FS\n\
+    \\ENQ\EOT\ENQ\STX\SO\SOH\DC2\EOT\159\SOH\DC4\FS\n\
     \\r\n\
-    \\ENQ\EOT\ENQ\STX\r\ETX\DC2\EOT\153\SOH\US!\n\
+    \\ENQ\EOT\ENQ\STX\SO\ETX\DC2\EOT\159\SOH\US!\n\
     \\141\STX\n\
-    \\STX\EOT\ACK\DC2\ACK\159\SOH\NUL\167\SOH\SOH\SUB\254\SOH Information about workflow drainage to help the user determine when it is safe\n\
+    \\STX\EOT\ACK\DC2\ACK\165\SOH\NUL\173\SOH\SOH\SUB\254\SOH Information about workflow drainage to help the user determine when it is safe\n\
     \ to decommission a Version. Not present while version is current or ramping.\n\
     \ Experimental. Worker Deployments are experimental and might significantly change in the future.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\ACK\SOH\DC2\EOT\159\SOH\b\ESC\n\
+    \\ETX\EOT\ACK\SOH\DC2\EOT\165\SOH\b\ESC\n\
     \\195\SOH\n\
-    \\EOT\EOT\ACK\STX\NUL\DC2\EOT\162\SOH\EOT.\SUB\180\SOH Set to DRAINING when the version first stops accepting new executions (is no longer current or ramping).\n\
+    \\EOT\EOT\ACK\STX\NUL\DC2\EOT\168\SOH\EOT.\SUB\180\SOH Set to DRAINING when the version first stops accepting new executions (is no longer current or ramping).\n\
     \ Set to DRAINED when no more open pinned workflows exist on this version.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\ACK\DC2\EOT\162\SOH\EOT\"\n\
+    \\ENQ\EOT\ACK\STX\NUL\ACK\DC2\EOT\168\SOH\EOT\"\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\EOT\162\SOH#)\n\
+    \\ENQ\EOT\ACK\STX\NUL\SOH\DC2\EOT\168\SOH#)\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\EOT\162\SOH,-\n\
+    \\ENQ\EOT\ACK\STX\NUL\ETX\DC2\EOT\168\SOH,-\n\
     \6\n\
-    \\EOT\EOT\ACK\STX\SOH\DC2\EOT\164\SOH\EOT4\SUB( Last time the drainage status changed.\n\
+    \\EOT\EOT\ACK\STX\SOH\DC2\EOT\170\SOH\EOT4\SUB( Last time the drainage status changed.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SOH\ACK\DC2\EOT\164\SOH\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\SOH\ACK\DC2\EOT\170\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SOH\SOH\DC2\EOT\164\SOH\RS/\n\
+    \\ENQ\EOT\ACK\STX\SOH\SOH\DC2\EOT\170\SOH\RS/\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\SOH\ETX\DC2\EOT\164\SOH23\n\
+    \\ENQ\EOT\ACK\STX\SOH\ETX\DC2\EOT\170\SOH23\n\
     \J\n\
-    \\EOT\EOT\ACK\STX\STX\DC2\EOT\166\SOH\EOT4\SUB< Last time the system checked for drainage of this version.\n\
+    \\EOT\EOT\ACK\STX\STX\DC2\EOT\172\SOH\EOT4\SUB< Last time the system checked for drainage of this version.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\STX\ACK\DC2\EOT\166\SOH\EOT\GS\n\
+    \\ENQ\EOT\ACK\STX\STX\ACK\DC2\EOT\172\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\STX\SOH\DC2\EOT\166\SOH\RS/\n\
+    \\ENQ\EOT\ACK\STX\STX\SOH\DC2\EOT\172\SOH\RS/\n\
     \\r\n\
-    \\ENQ\EOT\ACK\STX\STX\ETX\DC2\EOT\166\SOH23\n\
+    \\ENQ\EOT\ACK\STX\STX\ETX\DC2\EOT\172\SOH23\n\
     \\169\EOT\n\
-    \\STX\EOT\a\DC2\ACK\177\SOH\NUL\227\SOH\SOH\SUB\154\EOT A Worker Deployment (Deployment, for short) represents all workers serving \n\
+    \\STX\EOT\a\DC2\ACK\183\SOH\NUL\247\SOH\SOH\SUB\154\EOT A Worker Deployment (Deployment, for short) represents all workers serving \n\
     \ a shared set of Task Queues. Typically, a Deployment represents one service or \n\
     \ application.\n\
     \ A Deployment contains multiple Deployment Versions, each representing a different \n\
@@ -5707,229 +6188,263 @@ packedFileDescriptor
     \ Experimental. Worker Deployments are experimental and might significantly change in the future.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\a\SOH\DC2\EOT\177\SOH\b\FS\n\
+    \\ETX\EOT\a\SOH\DC2\EOT\183\SOH\b\FS\n\
     \T\n\
-    \\EOT\EOT\a\STX\NUL\DC2\EOT\179\SOH\EOT\DC4\SUBF Identifies a Worker Deployment. Must be unique within the namespace.\n\
+    \\EOT\EOT\a\STX\NUL\DC2\EOT\185\SOH\EOT\DC4\SUBF Identifies a Worker Deployment. Must be unique within the namespace.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\ENQ\DC2\EOT\179\SOH\EOT\n\
+    \\ENQ\EOT\a\STX\NUL\ENQ\DC2\EOT\185\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\SOH\DC2\EOT\179\SOH\v\SI\n\
+    \\ENQ\EOT\a\STX\NUL\SOH\DC2\EOT\185\SOH\v\SI\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\NUL\ETX\DC2\EOT\179\SOH\DC2\DC3\n\
+    \\ENQ\EOT\a\STX\NUL\ETX\DC2\EOT\185\SOH\DC2\DC3\n\
     \\131\ETX\n\
-    \\EOT\EOT\a\STX\SOH\DC2\EOT\186\SOH\EOTB\SUB\244\STX Deployment Versions that are currently tracked in this Deployment. A DeploymentVersion will be\n\
+    \\EOT\EOT\a\STX\SOH\DC2\EOT\192\SOH\EOTB\SUB\244\STX Deployment Versions that are currently tracked in this Deployment. A DeploymentVersion will be\n\
     \ cleaned up automatically if all the following conditions meet:\n\
     \ - It does not receive new executions (is not current or ramping)\n\
     \ - It has no active pollers (see WorkerDeploymentVersionInfo.pollers_status) \n\
     \ - It is drained (see WorkerDeploymentVersionInfo.drainage_status) \n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\EOT\DC2\EOT\186\SOH\EOT\f\n\
+    \\ENQ\EOT\a\STX\SOH\EOT\DC2\EOT\192\SOH\EOT\f\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\ACK\DC2\EOT\186\SOH\r+\n\
+    \\ENQ\EOT\a\STX\SOH\ACK\DC2\EOT\192\SOH\r+\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\186\SOH,=\n\
+    \\ENQ\EOT\a\STX\SOH\SOH\DC2\EOT\192\SOH,=\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\186\SOH@A\n\
+    \\ENQ\EOT\a\STX\SOH\ETX\DC2\EOT\192\SOH@A\n\
     \\f\n\
-    \\EOT\EOT\a\STX\STX\DC2\EOT\188\SOH\EOT.\n\
+    \\EOT\EOT\a\STX\STX\DC2\EOT\194\SOH\EOT.\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\ACK\DC2\EOT\188\SOH\EOT\GS\n\
+    \\ENQ\EOT\a\STX\STX\ACK\DC2\EOT\194\SOH\EOT\GS\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\188\SOH\RS)\n\
+    \\ENQ\EOT\a\STX\STX\SOH\DC2\EOT\194\SOH\RS)\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\188\SOH,-\n\
+    \\ENQ\EOT\a\STX\STX\ETX\DC2\EOT\194\SOH,-\n\
     \\f\n\
-    \\EOT\EOT\a\STX\ETX\DC2\EOT\190\SOH\EOT%\n\
+    \\EOT\EOT\a\STX\ETX\DC2\EOT\196\SOH\EOT%\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\ETX\ACK\DC2\EOT\190\SOH\EOT\DC1\n\
+    \\ENQ\EOT\a\STX\ETX\ACK\DC2\EOT\196\SOH\EOT\DC1\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\ETX\SOH\DC2\EOT\190\SOH\DC2 \n\
+    \\ENQ\EOT\a\STX\ETX\SOH\DC2\EOT\196\SOH\DC2 \n\
     \\r\n\
-    \\ENQ\EOT\a\STX\ETX\ETX\DC2\EOT\190\SOH#$\n\
+    \\ENQ\EOT\a\STX\ETX\ETX\DC2\EOT\196\SOH#$\n\
     \\223\SOH\n\
-    \\EOT\EOT\a\STX\EOT\DC2\EOT\195\SOH\EOT&\SUB\208\SOH Identity of the last client who modified the configuration of this Deployment. Set to the\n\
+    \\EOT\EOT\a\STX\EOT\DC2\EOT\201\SOH\EOT&\SUB\208\SOH Identity of the last client who modified the configuration of this Deployment. Set to the\n\
     \ `identity` value sent by APIs such as `SetWorkerDeploymentCurrentVersion` and\n\
     \ `SetWorkerDeploymentRampingVersion`.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\EOT\ENQ\DC2\EOT\195\SOH\EOT\n\
+    \\ENQ\EOT\a\STX\EOT\ENQ\DC2\EOT\201\SOH\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\EOT\SOH\DC2\EOT\195\SOH\v!\n\
+    \\ENQ\EOT\a\STX\EOT\SOH\DC2\EOT\201\SOH\v!\n\
     \\r\n\
-    \\ENQ\EOT\a\STX\EOT\ETX\DC2\EOT\195\SOH$%\n\
+    \\ENQ\EOT\a\STX\EOT\ETX\DC2\EOT\201\SOH$%\n\
+    \\222\STX\n\
+    \\EOT\EOT\a\STX\ENQ\DC2\EOT\207\SOH\EOT \SUB\207\STX Identity of the client that has the exclusive right to make changes to this Worker Deployment.\n\
+    \ Empty by default.\n\
+    \ If this is set, clients whose identity does not match `manager_identity` will not be able to make changes\n\
+    \ to this Worker Deployment. They can either set their own identity as the manager or unset the field to proceed.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ENQ\ENQ\DC2\EOT\207\SOH\EOT\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ENQ\SOH\DC2\EOT\207\SOH\v\ESC\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ENQ\ETX\DC2\EOT\207\SOH\RS\US\n\
+    \\129\SOH\n\
+    \\EOT\EOT\a\STX\ACK\DC2\EOT\211\SOH\EOTS\SUBs Indicates whether the routing_config has been fully propagated to all\n\
+    \ relevant task queues and their partitions.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ACK\ACK\DC2\EOT\211\SOH\EOT2\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ACK\SOH\DC2\EOT\211\SOH3N\n\
+    \\r\n\
+    \\ENQ\EOT\a\STX\ACK\ETX\DC2\EOT\211\SOHQR\n\
     \\SO\n\
-    \\EOT\EOT\a\ETX\NUL\DC2\ACK\197\SOH\EOT\226\SOH\ENQ\n\
+    \\EOT\EOT\a\ETX\NUL\DC2\ACK\213\SOH\EOT\246\SOH\ENQ\n\
     \\r\n\
-    \\ENQ\EOT\a\ETX\NUL\SOH\DC2\EOT\197\SOH\f*\n\
+    \\ENQ\EOT\a\ETX\NUL\SOH\DC2\EOT\213\SOH\f*\n\
     \7\n\
-    \\ACK\EOT\a\ETX\NUL\STX\NUL\DC2\EOT\199\SOH\b/\SUB' Deprecated. Use `deployment_version`.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\NUL\DC2\EOT\215\SOH\b/\SUB' Deprecated. Use `deployment_version`.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\ENQ\DC2\EOT\199\SOH\b\SO\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\ENQ\DC2\EOT\215\SOH\b\SO\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\SOH\DC2\EOT\199\SOH\SI\SYN\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\SOH\DC2\EOT\215\SOH\SI\SYN\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\ETX\DC2\EOT\199\SOH\EM\SUB\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\ETX\DC2\EOT\215\SOH\EM\SUB\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\NUL\b\DC2\EOT\199\SOH\ESC.\n\
+    \\a\EOT\a\ETX\NUL\STX\NUL\b\DC2\EOT\215\SOH\ESC.\n\
     \\DLE\n\
-    \\b\EOT\a\ETX\NUL\STX\NUL\b\ETX\DC2\EOT\199\SOH\FS-\n\
+    \\b\EOT\a\ETX\NUL\STX\NUL\b\ETX\DC2\EOT\215\SOH\FS-\n\
     \>\n\
-    \\ACK\EOT\a\ETX\NUL\STX\SOH\DC2\EOT\202\SOH\bH\SUB. The status of the Worker Deployment Version.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\SOH\DC2\EOT\218\SOH\bH\SUB. The status of the Worker Deployment Version.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\ACK\DC2\EOT\202\SOH\b;\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\ACK\DC2\EOT\218\SOH\b;\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\SOH\DC2\EOT\202\SOH<B\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\SOH\DC2\EOT\218\SOH<B\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\SOH\ETX\DC2\EOT\202\SOHEG\n\
+    \\a\EOT\a\ETX\NUL\STX\SOH\ETX\DC2\EOT\218\SOHEG\n\
     \\ESC\n\
-    \\ACK\EOT\a\ETX\NUL\STX\STX\DC2\EOT\205\SOH\b7\SUB\v Required.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\STX\DC2\EOT\221\SOH\b7\SUB\v Required.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\STX\ACK\DC2\EOT\205\SOH\b\US\n\
+    \\a\EOT\a\ETX\NUL\STX\STX\ACK\DC2\EOT\221\SOH\b\US\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\STX\SOH\DC2\EOT\205\SOH 2\n\
+    \\a\EOT\a\ETX\NUL\STX\STX\SOH\DC2\EOT\221\SOH 2\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\STX\ETX\DC2\EOT\205\SOH56\n\
+    \\a\EOT\a\ETX\NUL\STX\STX\ETX\DC2\EOT\221\SOH56\n\
     \\SO\n\
-    \\ACK\EOT\a\ETX\NUL\STX\ETX\DC2\EOT\206\SOH\b2\n\
+    \\ACK\EOT\a\ETX\NUL\STX\ETX\DC2\EOT\222\SOH\b2\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ETX\ACK\DC2\EOT\206\SOH\b!\n\
+    \\a\EOT\a\ETX\NUL\STX\ETX\ACK\DC2\EOT\222\SOH\b!\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ETX\SOH\DC2\EOT\206\SOH\"-\n\
+    \\a\EOT\a\ETX\NUL\STX\ETX\SOH\DC2\EOT\222\SOH\"-\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ETX\ETX\DC2\EOT\206\SOH01\n\
+    \\a\EOT\a\ETX\NUL\STX\ETX\ETX\DC2\EOT\222\SOH01\n\
     \:\n\
-    \\ACK\EOT\a\ETX\NUL\STX\EOT\DC2\EOT\208\SOH\b;\SUB* Deprecated. Use `drainage_info` instead.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\EOT\DC2\EOT\224\SOH\b;\SUB* Deprecated. Use `drainage_info` instead.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\EOT\ACK\DC2\EOT\208\SOH\b&\n\
+    \\a\EOT\a\ETX\NUL\STX\EOT\ACK\DC2\EOT\224\SOH\b&\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\EOT\SOH\DC2\EOT\208\SOH'6\n\
+    \\a\EOT\a\ETX\NUL\STX\EOT\SOH\DC2\EOT\224\SOH'6\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\EOT\ETX\DC2\EOT\208\SOH9:\n\
+    \\a\EOT\a\ETX\NUL\STX\EOT\ETX\DC2\EOT\224\SOH9:\n\
     \\173\SOH\n\
-    \\ACK\EOT\a\ETX\NUL\STX\ENQ\DC2\EOT\211\SOH\b.\SUB\156\SOH Information about workflow drainage to help the user determine when it is safe\n\
+    \\ACK\EOT\a\ETX\NUL\STX\ENQ\DC2\EOT\227\SOH\b.\SUB\156\SOH Information about workflow drainage to help the user determine when it is safe\n\
     \ to decommission a Version. Not present while version is current or ramping\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ENQ\ACK\DC2\EOT\211\SOH\b\ESC\n\
+    \\a\EOT\a\ETX\NUL\STX\ENQ\ACK\DC2\EOT\227\SOH\b\ESC\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ENQ\SOH\DC2\EOT\211\SOH\FS)\n\
+    \\a\EOT\a\ETX\NUL\STX\ENQ\SOH\DC2\EOT\227\SOH\FS)\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ENQ\ETX\DC2\EOT\211\SOH,-\n\
+    \\a\EOT\a\ETX\NUL\STX\ENQ\ETX\DC2\EOT\227\SOH,-\n\
     \\189\SOH\n\
-    \\ACK\EOT\a\ETX\NUL\STX\ACK\DC2\EOT\215\SOH\b9\SUB\172\SOH Unset if not current.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\ACK\DC2\EOT\231\SOH\b9\SUB\172\SOH Unset if not current.\n\
     \ (-- api-linter: core::0140::prepositions=disabled\n\
     \     aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ACK\ACK\DC2\EOT\215\SOH\b!\n\
+    \\a\EOT\a\ETX\NUL\STX\ACK\ACK\DC2\EOT\231\SOH\b!\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ACK\SOH\DC2\EOT\215\SOH\"4\n\
+    \\a\EOT\a\ETX\NUL\STX\ACK\SOH\DC2\EOT\231\SOH\"4\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\ACK\ETX\DC2\EOT\215\SOH78\n\
+    \\a\EOT\a\ETX\NUL\STX\ACK\ETX\DC2\EOT\231\SOH78\n\
     \\133\STX\n\
-    \\ACK\EOT\a\ETX\NUL\STX\a\DC2\EOT\219\SOH\b9\SUB\244\SOH Unset if not ramping. Updated when the version first starts ramping, not on each ramp change.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\a\DC2\EOT\235\SOH\b9\SUB\244\SOH Unset if not ramping. Updated when the version first starts ramping, not on each ramp change.\n\
     \ (-- api-linter: core::0140::prepositions=disabled\n\
     \     aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\a\ACK\DC2\EOT\219\SOH\b!\n\
+    \\a\EOT\a\ETX\NUL\STX\a\ACK\DC2\EOT\235\SOH\b!\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\a\SOH\DC2\EOT\219\SOH\"4\n\
+    \\a\EOT\a\ETX\NUL\STX\a\SOH\DC2\EOT\235\SOH\"4\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\a\ETX\DC2\EOT\219\SOH78\n\
+    \\a\EOT\a\ETX\NUL\STX\a\ETX\DC2\EOT\235\SOH78\n\
     \t\n\
-    \\ACK\EOT\a\ETX\NUL\STX\b\DC2\EOT\221\SOH\b:\SUBd Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\b\DC2\EOT\237\SOH\b:\SUBd Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\b\ACK\DC2\EOT\221\SOH\b!\n\
+    \\a\EOT\a\ETX\NUL\STX\b\ACK\DC2\EOT\237\SOH\b!\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\b\SOH\DC2\EOT\221\SOH\"5\n\
+    \\a\EOT\a\ETX\NUL\STX\b\SOH\DC2\EOT\237\SOH\"5\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\b\ETX\DC2\EOT\221\SOH89\n\
+    \\a\EOT\a\ETX\NUL\STX\b\ETX\DC2\EOT\237\SOH89\n\
     \N\n\
-    \\ACK\EOT\a\ETX\NUL\STX\t\DC2\EOT\223\SOH\b<\SUB> Timestamp when this version first became current or ramping.\n\
+    \\ACK\EOT\a\ETX\NUL\STX\t\DC2\EOT\239\SOH\b<\SUB> Timestamp when this version first became current or ramping.\n\
     \\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\t\ACK\DC2\EOT\223\SOH\b!\n\
+    \\a\EOT\a\ETX\NUL\STX\t\ACK\DC2\EOT\239\SOH\b!\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\t\SOH\DC2\EOT\223\SOH\"7\n\
+    \\a\EOT\a\ETX\NUL\STX\t\SOH\DC2\EOT\239\SOH\"7\n\
     \\SI\n\
-    \\a\EOT\a\ETX\NUL\STX\t\ETX\DC2\EOT\223\SOH:;\n\
-    \T\n\
+    \\a\EOT\a\ETX\NUL\STX\t\ETX\DC2\EOT\239\SOH:;\n\
+    \\133\SOH\n\
     \\ACK\EOT\a\ETX\NUL\STX\n\
-    \\DC2\EOT\225\SOH\b>\SUBD Timestamp when this version last stopped being current or ramping.\n\
+    \\DC2\EOT\242\SOH\b9\SUBu Timestamp when this version last became current.\n\
+    \ Can be used to determine whether a version has ever been Current.\n\
     \\n\
     \\SI\n\
     \\a\EOT\a\ETX\NUL\STX\n\
-    \\ACK\DC2\EOT\225\SOH\b!\n\
+    \\ACK\DC2\EOT\242\SOH\b!\n\
     \\SI\n\
     \\a\EOT\a\ETX\NUL\STX\n\
-    \\SOH\DC2\EOT\225\SOH\"8\n\
+    \\SOH\DC2\EOT\242\SOH\"3\n\
     \\SI\n\
     \\a\EOT\a\ETX\NUL\STX\n\
-    \\ETX\DC2\EOT\225\SOH;=\n\
+    \\ETX\DC2\EOT\242\SOH68\n\
+    \\142\SOH\n\
+    \\ACK\EOT\a\ETX\NUL\STX\v\DC2\EOT\245\SOH\b>\SUB~ Timestamp when this version last stopped being current or ramping.\n\
+    \ Cleared if the version becomes current or ramping again.\n\
+    \\n\
+    \\SI\n\
+    \\a\EOT\a\ETX\NUL\STX\v\ACK\DC2\EOT\245\SOH\b!\n\
+    \\SI\n\
+    \\a\EOT\a\ETX\NUL\STX\v\SOH\DC2\EOT\245\SOH\"8\n\
+    \\SI\n\
+    \\a\EOT\a\ETX\NUL\STX\v\ETX\DC2\EOT\245\SOH;=\n\
     \\136\ETX\n\
-    \\STX\EOT\b\DC2\ACK\234\SOH\NUL\243\SOH\SOH\SUB\249\STX A Worker Deployment Version (Version, for short) represents a\n\
+    \\STX\EOT\b\DC2\ACK\254\SOH\NUL\135\STX\SOH\SUB\249\STX A Worker Deployment Version (Version, for short) represents a\n\
     \ version of workers within a Worker Deployment. (see documentation of WorkerDeploymentVersionInfo)\n\
     \ Version records are created in Temporal server automatically when their\n\
     \ first poller arrives to the server.\n\
     \ Experimental. Worker Deployment Versions are experimental and might significantly change in the future.\n\
     \\n\
     \\v\n\
-    \\ETX\EOT\b\SOH\DC2\EOT\234\SOH\b\US\n\
+    \\ETX\EOT\b\SOH\DC2\EOT\254\SOH\b\US\n\
     \\175\STX\n\
-    \\EOT\EOT\b\STX\NUL\DC2\EOT\239\SOH\EOT\CAN\SUB\160\STX A unique identifier for this Version within the Deployment it is a part of.\n\
+    \\EOT\EOT\b\STX\NUL\DC2\EOT\131\STX\EOT\CAN\SUB\160\STX A unique identifier for this Version within the Deployment it is a part of.\n\
     \ Not necessarily unique within the namespace.\n\
     \ The combination of `deployment_name` and `build_id` uniquely identifies this\n\
     \ Version within the namespace, because Deployment names are unique within a namespace.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\ENQ\DC2\EOT\239\SOH\EOT\n\
+    \\ENQ\EOT\b\STX\NUL\ENQ\DC2\EOT\131\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\SOH\DC2\EOT\239\SOH\v\DC3\n\
+    \\ENQ\EOT\b\STX\NUL\SOH\DC2\EOT\131\STX\v\DC3\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\NUL\ETX\DC2\EOT\239\SOH\SYN\ETB\n\
+    \\ENQ\EOT\b\STX\NUL\ETX\DC2\EOT\131\STX\SYN\ETB\n\
     \I\n\
-    \\EOT\EOT\b\STX\SOH\DC2\EOT\242\SOH\EOT\US\SUB; Identifies the Worker Deployment this Version is part of.\n\
+    \\EOT\EOT\b\STX\SOH\DC2\EOT\134\STX\EOT\US\SUB; Identifies the Worker Deployment this Version is part of.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\SOH\ENQ\DC2\EOT\242\SOH\EOT\n\
+    \\ENQ\EOT\b\STX\SOH\ENQ\DC2\EOT\134\STX\EOT\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\SOH\SOH\DC2\EOT\242\SOH\v\SUB\n\
+    \\ENQ\EOT\b\STX\SOH\SOH\DC2\EOT\134\STX\v\SUB\n\
     \\r\n\
-    \\ENQ\EOT\b\STX\SOH\ETX\DC2\EOT\242\SOH\GS\RS\n\
+    \\ENQ\EOT\b\STX\SOH\ETX\DC2\EOT\134\STX\GS\RS\n\
     \\f\n\
-    \\STX\EOT\t\DC2\ACK\245\SOH\NUL\248\SOH\SOH\n\
+    \\STX\EOT\t\DC2\ACK\137\STX\NUL\140\STX\SOH\n\
     \\v\n\
-    \\ETX\EOT\t\SOH\DC2\EOT\245\SOH\b\ETB\n\
+    \\ETX\EOT\t\SOH\DC2\EOT\137\STX\b\ETB\n\
     \%\n\
-    \\EOT\EOT\t\STX\NUL\DC2\EOT\247\SOH\EOT<\SUB\ETB Arbitrary key-values.\n\
+    \\EOT\EOT\t\STX\NUL\DC2\EOT\139\STX\EOT<\SUB\ETB Arbitrary key-values.\n\
     \\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\ACK\DC2\EOT\247\SOH\EOT/\n\
+    \\ENQ\EOT\t\STX\NUL\ACK\DC2\EOT\139\STX\EOT/\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\247\SOH07\n\
+    \\ENQ\EOT\t\STX\NUL\SOH\DC2\EOT\139\STX07\n\
     \\r\n\
-    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\247\SOH:;\n\
+    \\ENQ\EOT\t\STX\NUL\ETX\DC2\EOT\139\STX:;\n\
     \\f\n\
     \\STX\EOT\n\
-    \\DC2\ACK\250\SOH\NUL\153\STX\SOH\n\
+    \\DC2\ACK\142\STX\NUL\176\STX\SOH\n\
     \\v\n\
     \\ETX\EOT\n\
-    \\SOH\DC2\EOT\250\SOH\b\NAK\n\
+    \\SOH\DC2\EOT\142\STX\b\NAK\n\
     \\151\ENQ\n\
     \\EOT\EOT\n\
-    \\STX\NUL\DC2\EOT\128\STX\EOTV\SUB\136\ENQ Specifies which Deployment Version should receive new workflow executions and tasks of\n\
+    \\STX\NUL\DC2\EOT\148\STX\EOTV\SUB\136\ENQ Specifies which Deployment Version should receive new workflow executions and tasks of\n\
     \ existing unversioned or AutoUpgrade workflows.\n\
     \ Nil value means no Version in this Deployment (except Ramping Version, if present) receives traffic other than tasks of previously Pinned workflows. In absence of a Current Version, remaining traffic after any ramp (if set)  goes to unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.). \n\
     \ Note: Current Version is overridden by the Ramping Version for a portion of traffic when ramp percentage\n\
@@ -5937,36 +6452,36 @@ packedFileDescriptor
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ACK\DC2\EOT\128\STX\EOT6\n\
+    \\STX\NUL\ACK\DC2\EOT\148\STX\EOT6\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\SOH\DC2\EOT\128\STX7Q\n\
+    \\STX\NUL\SOH\DC2\EOT\148\STX7Q\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\NUL\ETX\DC2\EOT\128\STXTU\n\
+    \\STX\NUL\ETX\DC2\EOT\148\STXTU\n\
     \=\n\
     \\EOT\EOT\n\
-    \\STX\SOH\DC2\EOT\130\STX\EOT3\SUB/ Deprecated. Use `current_deployment_version`.\n\
+    \\STX\SOH\DC2\EOT\150\STX\EOT3\SUB/ Deprecated. Use `current_deployment_version`.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ENQ\DC2\EOT\130\STX\EOT\n\
+    \\STX\SOH\ENQ\DC2\EOT\150\STX\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\SOH\DC2\EOT\130\STX\v\SUB\n\
+    \\STX\SOH\SOH\DC2\EOT\150\STX\v\SUB\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\ETX\DC2\EOT\130\STX\GS\RS\n\
+    \\STX\SOH\ETX\DC2\EOT\150\STX\GS\RS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\SOH\b\DC2\EOT\130\STX\US2\n\
+    \\STX\SOH\b\DC2\EOT\150\STX\US2\n\
     \\SO\n\
     \\ACK\EOT\n\
-    \\STX\SOH\b\ETX\DC2\EOT\130\STX 1\n\
+    \\STX\SOH\b\ETX\DC2\EOT\150\STX 1\n\
     \\255\ETX\n\
     \\EOT\EOT\n\
-    \\STX\STX\DC2\EOT\137\STX\EOTV\SUB\240\ETX When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version.\n\
+    \\STX\STX\DC2\EOT\157\STX\EOTV\SUB\240\ETX When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version.\n\
     \ Must always be different from `current_deployment_version` unless both are nil.\n\
     \ Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)\n\
     \ Note that it is possible to ramp from one Version to another Version, or from unversioned\n\
@@ -5974,87 +6489,127 @@ packedFileDescriptor
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ACK\DC2\EOT\137\STX\EOT6\n\
+    \\STX\STX\ACK\DC2\EOT\157\STX\EOT6\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\SOH\DC2\EOT\137\STX7Q\n\
+    \\STX\STX\SOH\DC2\EOT\157\STX7Q\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\STX\ETX\DC2\EOT\137\STXTU\n\
+    \\STX\STX\ETX\DC2\EOT\157\STXTU\n\
     \=\n\
     \\EOT\EOT\n\
-    \\STX\ETX\DC2\EOT\139\STX\EOT3\SUB/ Deprecated. Use `ramping_deployment_version`.\n\
+    \\STX\ETX\DC2\EOT\159\STX\EOT3\SUB/ Deprecated. Use `ramping_deployment_version`.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ENQ\DC2\EOT\139\STX\EOT\n\
+    \\STX\ETX\ENQ\DC2\EOT\159\STX\EOT\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\SOH\DC2\EOT\139\STX\v\SUB\n\
+    \\STX\ETX\SOH\DC2\EOT\159\STX\v\SUB\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\ETX\DC2\EOT\139\STX\GS\RS\n\
+    \\STX\ETX\ETX\DC2\EOT\159\STX\GS\RS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ETX\b\DC2\EOT\139\STX\US2\n\
+    \\STX\ETX\b\DC2\EOT\159\STX\US2\n\
     \\SO\n\
     \\ACK\EOT\n\
-    \\STX\ETX\b\ETX\DC2\EOT\139\STX 1\n\
+    \\STX\ETX\b\ETX\DC2\EOT\159\STX 1\n\
     \\217\STX\n\
     \\EOT\EOT\n\
-    \\STX\EOT\DC2\EOT\145\STX\EOT)\SUB\202\STX Percentage of tasks that are routed to the Ramping Version instead of the Current Version.\n\
+    \\STX\EOT\DC2\EOT\165\STX\EOT)\SUB\202\STX Percentage of tasks that are routed to the Ramping Version instead of the Current Version.\n\
     \ Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but\n\
     \ not yet \"promoted\" to be the Current Version, likely due to pending validations.\n\
     \ A 0% value means the Ramping Version is receiving no traffic.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ENQ\DC2\EOT\145\STX\EOT\t\n\
+    \\STX\EOT\ENQ\DC2\EOT\165\STX\EOT\t\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\SOH\DC2\EOT\145\STX\n\
+    \\STX\EOT\SOH\DC2\EOT\165\STX\n\
     \$\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\EOT\ETX\DC2\EOT\145\STX'(\n\
+    \\STX\EOT\ETX\DC2\EOT\165\STX'(\n\
     \6\n\
     \\EOT\EOT\n\
-    \\STX\ENQ\DC2\EOT\147\STX\EOT?\SUB( Last time current version was changed.\n\
+    \\STX\ENQ\DC2\EOT\167\STX\EOT?\SUB( Last time current version was changed.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ACK\DC2\EOT\147\STX\EOT\GS\n\
+    \\STX\ENQ\ACK\DC2\EOT\167\STX\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\SOH\DC2\EOT\147\STX\RS:\n\
+    \\STX\ENQ\SOH\DC2\EOT\167\STX\RS:\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ENQ\ETX\DC2\EOT\147\STX=>\n\
+    \\STX\ENQ\ETX\DC2\EOT\167\STX=>\n\
     \g\n\
     \\EOT\EOT\n\
-    \\STX\ACK\DC2\EOT\149\STX\EOT?\SUBY Last time ramping version was changed. Not updated if only the ramp percentage changes.\n\
+    \\STX\ACK\DC2\EOT\169\STX\EOT?\SUBY Last time ramping version was changed. Not updated if only the ramp percentage changes.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\ACK\DC2\EOT\149\STX\EOT\GS\n\
+    \\STX\ACK\ACK\DC2\EOT\169\STX\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\SOH\DC2\EOT\149\STX\RS:\n\
+    \\STX\ACK\SOH\DC2\EOT\169\STX\RS:\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\ACK\ETX\DC2\EOT\149\STX=>\n\
+    \\STX\ACK\ETX\DC2\EOT\169\STX=>\n\
     \\159\SOH\n\
     \\EOT\EOT\n\
-    \\STX\a\DC2\EOT\152\STX\EOTJ\SUB\144\SOH Last time ramping version percentage was changed.\n\
+    \\STX\a\DC2\EOT\172\STX\EOTJ\SUB\144\SOH Last time ramping version percentage was changed.\n\
     \ If ramping version is changed, this is also updated, even if the percentage stays the same.\n\
     \\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\a\ACK\DC2\EOT\152\STX\EOT\GS\n\
+    \\STX\a\ACK\DC2\EOT\172\STX\EOT\GS\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\a\SOH\DC2\EOT\152\STX\RSE\n\
+    \\STX\a\SOH\DC2\EOT\172\STX\RSE\n\
     \\r\n\
     \\ENQ\EOT\n\
-    \\STX\a\ETX\DC2\EOT\152\STXHIb\ACKproto3"
+    \\STX\a\ETX\DC2\EOT\172\STXHI\n\
+    \\191\SOH\n\
+    \\EOT\EOT\n\
+    \\STX\b\DC2\EOT\175\STX\EOT\US\SUB\176\SOH Monotonically increasing value which is incremented on every mutation \n\
+    \ to any field of this message to achieve eventual consistency between task queues and their partitions.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\n\
+    \\STX\b\ENQ\DC2\EOT\175\STX\EOT\t\n\
+    \\r\n\
+    \\ENQ\EOT\n\
+    \\STX\b\SOH\DC2\EOT\175\STX\n\
+    \\EM\n\
+    \\r\n\
+    \\ENQ\EOT\n\
+    \\STX\b\ETX\DC2\EOT\175\STX\FS\RS\n\
+    \\226\SOH\n\
+    \\STX\EOT\v\DC2\ACK\180\STX\NUL\185\STX\SOH\SUB\211\SOH Used as part of WorkflowExecutionStartedEventAttributes to pass down the AutoUpgrade behavior and source deployment version \n\
+    \ to a workflow execution whose parent/previous workflow has an AutoUpgrade behavior.\n\
+    \\n\
+    \\v\n\
+    \\ETX\EOT\v\SOH\DC2\EOT\180\STX\b \n\
+    \N\n\
+    \\EOT\EOT\v\STX\NUL\DC2\EOT\182\STX\EOTU\SUB@ The source deployment version of the parent/previous workflow.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\NUL\ACK\DC2\EOT\182\STX\EOT6\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\NUL\SOH\DC2\EOT\182\STX7P\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\NUL\ETX\DC2\EOT\182\STXST\n\
+    \e\n\
+    \\EOT\EOT\v\STX\SOH\DC2\EOT\184\STX\EOT0\SUBW The revision number of the source deployment version of the parent/previous workflow.\n\
+    \\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\SOH\ENQ\DC2\EOT\184\STX\EOT\t\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\SOH\SOH\DC2\EOT\184\STX\n\
+    \+\n\
+    \\r\n\
+    \\ENQ\EOT\v\STX\SOH\ETX\DC2\EOT\184\STX./b\ACKproto3"

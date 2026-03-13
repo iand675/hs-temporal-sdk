@@ -48,6 +48,13 @@ binaries ::
    Data.ProtoLens.Field.HasField s "binaries" a) =>
   Lens.Family2.LensLike' f s a
 binaries = Data.ProtoLens.Field.field @"binaries"
+blobSizeLimitError ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "blobSizeLimitError" a) =>
+  Lens.Family2.LensLike' f s a
+blobSizeLimitError
+  = Data.ProtoLens.Field.field @"blobSizeLimitError"
 capabilities ::
   forall f s a.
   (Prelude.Functor f,
@@ -115,6 +122,11 @@ key ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "key" a) =>
   Lens.Family2.LensLike' f s a
 key = Data.ProtoLens.Field.field @"key"
+limits ::
+  forall f s a.
+  (Prelude.Functor f, Data.ProtoLens.Field.HasField s "limits" a) =>
+  Lens.Family2.LensLike' f s a
+limits = Data.ProtoLens.Field.field @"limits"
 maybe'badBinaries ::
   forall f s a.
   (Prelude.Functor f,
@@ -134,6 +146,12 @@ maybe'createTime ::
    Data.ProtoLens.Field.HasField s "maybe'createTime" a) =>
   Lens.Family2.LensLike' f s a
 maybe'createTime = Data.ProtoLens.Field.field @"maybe'createTime"
+maybe'limits ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "maybe'limits" a) =>
+  Lens.Family2.LensLike' f s a
+maybe'limits = Data.ProtoLens.Field.field @"maybe'limits"
 maybe'value ::
   forall f s a.
   (Prelude.Functor f,
@@ -147,6 +165,13 @@ maybe'workflowExecutionRetentionTtl ::
   Lens.Family2.LensLike' f s a
 maybe'workflowExecutionRetentionTtl
   = Data.ProtoLens.Field.field @"maybe'workflowExecutionRetentionTtl"
+memoSizeLimitError ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "memoSizeLimitError" a) =>
+  Lens.Family2.LensLike' f s a
+memoSizeLimitError
+  = Data.ProtoLens.Field.field @"memoSizeLimitError"
 name ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "name" a) =>
@@ -169,6 +194,20 @@ reason ::
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "reason" a) =>
   Lens.Family2.LensLike' f s a
 reason = Data.ProtoLens.Field.field @"reason"
+reportedProblemsSearchAttribute ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "reportedProblemsSearchAttribute" a) =>
+  Lens.Family2.LensLike' f s a
+reportedProblemsSearchAttribute
+  = Data.ProtoLens.Field.field @"reportedProblemsSearchAttribute"
+standaloneActivities ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "standaloneActivities" a) =>
+  Lens.Family2.LensLike' f s a
+standaloneActivities
+  = Data.ProtoLens.Field.field @"standaloneActivities"
 state ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "state" a) =>
@@ -205,6 +244,19 @@ visibilityArchivalUri ::
   Lens.Family2.LensLike' f s a
 visibilityArchivalUri
   = Data.ProtoLens.Field.field @"visibilityArchivalUri"
+workerHeartbeats ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "workerHeartbeats" a) =>
+  Lens.Family2.LensLike' f s a
+workerHeartbeats = Data.ProtoLens.Field.field @"workerHeartbeats"
+workerPollCompleteOnShutdown ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "workerPollCompleteOnShutdown" a) =>
+  Lens.Family2.LensLike' f s a
+workerPollCompleteOnShutdown
+  = Data.ProtoLens.Field.field @"workerPollCompleteOnShutdown"
 workflowExecutionRetentionTtl ::
   forall f s a.
   (Prelude.Functor f,
@@ -212,3 +264,9 @@ workflowExecutionRetentionTtl ::
   Lens.Family2.LensLike' f s a
 workflowExecutionRetentionTtl
   = Data.ProtoLens.Field.field @"workflowExecutionRetentionTtl"
+workflowPause ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "workflowPause" a) =>
+  Lens.Family2.LensLike' f s a
+workflowPause = Data.ProtoLens.Field.field @"workflowPause"

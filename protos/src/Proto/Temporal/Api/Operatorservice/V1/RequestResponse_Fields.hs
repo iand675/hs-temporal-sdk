@@ -72,6 +72,12 @@ enableRemoteClusterConnection ::
   Lens.Family2.LensLike' f s a
 enableRemoteClusterConnection
   = Data.ProtoLens.Field.field @"enableRemoteClusterConnection"
+enableReplication ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "enableReplication" a) =>
+  Lens.Family2.LensLike' f s a
+enableReplication = Data.ProtoLens.Field.field @"enableReplication"
 endpoint ::
   forall f s a.
   (Prelude.Functor f,
@@ -128,6 +134,13 @@ isConnectionEnabled ::
   Lens.Family2.LensLike' f s a
 isConnectionEnabled
   = Data.ProtoLens.Field.field @"isConnectionEnabled"
+isReplicationEnabled ::
+  forall f s a.
+  (Prelude.Functor f,
+   Data.ProtoLens.Field.HasField s "isReplicationEnabled" a) =>
+  Lens.Family2.LensLike' f s a
+isReplicationEnabled
+  = Data.ProtoLens.Field.field @"isReplicationEnabled"
 key ::
   forall f s a.
   (Prelude.Functor f, Data.ProtoLens.Field.HasField s "key" a) =>
