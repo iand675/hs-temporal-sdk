@@ -8,7 +8,6 @@ use std::time::Duration;
 use temporalio_client::{
     ClientTlsOptions, Connection, ConnectionOptions, RetryOptions, TlsOptions,
 };
-use temporalio_client::grpc::{OperatorService, TestService, WorkflowService};
 use tonic::metadata::{MetadataKey, errors::InvalidMetadataValue};
 use url::Url;
 
@@ -69,28 +68,22 @@ fn client_config_to_options(
         max_retries: rc.max_retries,
     });
 
-    let mut builder = ConnectionOptions::new(Url::parse(&client_config.target_url).unwrap())
+    let headers = if client_config.metadata.is_empty() {
+        None
+    } else {
+        Some(client_config.metadata)
+    };
+
+    ConnectionOptions::new(Url::parse(&client_config.target_url).unwrap())
         .client_name(client_config.client_name)
         .client_version(client_config.client_version)
-        .identity(client_config.identity);
-
-    if let Some(tls) = tls_options {
-        builder = builder.tls_options(tls);
-    }
-    if let Some(retry) = retry_options {
-        builder = builder.retry_options(retry);
-    }
-    if let Some(key) = client_config.api_key {
-        builder = builder.api_key(key);
-    }
-    if let Some(meter) = metrics_meter {
-        builder = builder.metrics_meter(meter);
-    }
-    if !client_config.metadata.is_empty() {
-        builder = builder.headers(client_config.metadata);
-    }
-
-    builder.build()
+        .identity(client_config.identity)
+        .maybe_tls_options(tls_options)
+        .maybe_retry_options(retry_options)
+        .maybe_api_key(client_config.api_key)
+        .maybe_metrics_meter(metrics_meter)
+        .maybe_headers(headers)
+        .build()
 }
 
 #[repr(C)]
@@ -144,6 +137,7 @@ pub struct RpcCall {
 
 pub(crate) struct TemporalCall {
     pub(crate) req: Vec<u8>,
+    #[allow(dead_code)]
     pub(crate) retry: bool,
     pub(crate) metadata: HashMap<String, String>,
     pub(crate) timeout_millis: Option<u64>,
