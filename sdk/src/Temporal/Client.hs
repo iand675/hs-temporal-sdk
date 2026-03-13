@@ -609,7 +609,7 @@ startFromPayloads k@(KnownWorkflow codec _) wfId opts payloads = do
             & WF.maybe'retryPolicy .~ (retryPolicyToProto <$> opts'.retryPolicy)
             & WF.cronSchedule .~ fromMaybe "" opts'.cronSchedule
             & WF.memo .~ convertToProtoMemo memo'
-            & WF.searchAttributes .~ (defMessage & Common.indexedFields .~ searchAttrs)
+            & WF.searchAttributes .~ searchAttrs
             --     TODO Not sure how to use these yet
             & WF.header .~ headerToProto (fmap convertToProtoPayload hdrs)
             & WF.requestEagerExecution .~ opts'.requestEagerExecution
@@ -703,7 +703,7 @@ signalWithStartFromPayloads (KnownSignal sigName _) w@(KnownWorkflow codec _) wf
             & RR.workflowType
               .~ (defMessage & Common.name .~ rawWorkflowType opts'.signalWithStartWorkflowType)
             & WF.requestId .~ UUID.toText reqId
-            & RR.searchAttributes .~ (defMessage & Common.indexedFields .~ searchAttrs)
+            & RR.searchAttributes .~ searchAttrs
             & RR.taskQueue
               .~ ( defMessage
                     & Common.name .~ tq
